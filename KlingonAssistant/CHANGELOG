@@ -1,0 +1,57 @@
+CHANGELOG
+
+2012-09-10: Patched TextView to work around JellyBean layout bug.
+
+2012-09-02: Added new hardware words from Qov; -Ha' adverbials from qep'a' 2012.  Also new idiom.
+
+2012-08-05: Added some more example sentences, fixed typos, added one new word {la'SIv}.
+
+2012-07-18: Added some examples from {paq'batlh}.
+
+2012-07-06: Work around a bug with {'o'megh} (only Android JB?).
+
+2012-06-06: Fixed some typos.
+2012-06-01: Fixed some typos.
+2012-05-25: Fixed some typos.
+
+2012-05-14: Enabled "ch" and "gh" shortcuts for "xifan hol". Added verb transitivity and prefix antonyms.  Added archaic slang.
+
+2012-05-01: Fixed some typos.
+
+2012-04-19: Fixed db errors for some HTC devices.  Enabled analyses for more example sentences.
+
+2012-04-16: Enabled analyses for more example sentences.
+
+2012-04-14: Moved API 7 (Android 2.1.x) from backport to regular version.  Fixed a race condition and some db exceptions on API 8.
+
+2012-04-12: Enabled "xifan hol" typing by popular request.  Added canon from "Star Trek Constellations".  Enabled analyses for some similes.  Show help on startup.  (If your database version doesn't match your app version after this update, you may have to clear your database.)
+
+2012-04-07: Major update of data.  Numbered all sources, added dates and page numbers to sources of many entries.
+
+2012-03-27: Added some notes.  Moved API 10 (Android 2.3.3) from backport to regular version.
+
+2012-03-22: Fixed some typos, added notes to some entries.  Added ability to link to URL.  Added scrolling to backport.
+
+2012-03-19b: Removed ActionBarSherlock from backport version due to crashing on some devices.
+
+2012-03-19: Added extended canon vocabulary (mostly from DeCandido novels) by request. Fixed backport bug with ActionBarSherlock themes.
+
+2012-03-16: Added some idioms, clarified sources of some words.  Added search bar to backport using ActionBarSherlock.
+
+2012-03-09: Added some new canon from Klingon Monopoly.
+
+2012-02-28: Annotations completed.  Added some more phrases.
+
+2012-02-19: Backport to pre-Honeycomb versions of Android.  Minor bug fixes.  Enabled sentence grammar analysis.
+
+2012-02-14: Analysis of compound nouns and plurals enabled.
+
+TODO
+
+Spell out numbers.
+Recognise -DIch, -logh.
+Don't indent all affixes.
+Pick correct verb based on transitivity in analysis (e.g., lutamlu', lutamlu'moH).
+case-insensitive in definition search, except for alt definitions (e.g., search for {qoy} returns {rep yIper} because of {'arlogh Qoylu'pu'})
+Line wrap and spacing: cha'pujqut (line wrap), pa' [room] (spacing), tlhej (line break), botjan (doubled line)
+Fix the bug with {'o'megh}.
