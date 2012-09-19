@@ -46,12 +46,3 @@ CHANGELOG
 
 2012-02-14: Analysis of compound nouns and plurals enabled.
 
-TODO
-
-Spell out numbers.
-Recognise -DIch, -logh.
-Don't indent all affixes.
-Pick correct verb based on transitivity in analysis (e.g., lutamlu', lutamlu'moH).
-case-insensitive in definition search, except for alt definitions (e.g., search for {qoy} returns {rep yIper} because of {'arlogh Qoylu'pu'})
-Line wrap and spacing: cha'pujqut (line wrap), pa' [room] (spacing), tlhej (line break), botjan (doubled line)
-Fix the bug with {'o'megh}.
