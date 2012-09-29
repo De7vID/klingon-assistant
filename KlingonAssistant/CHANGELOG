@@ -1,5 +1,9 @@
 CHANGELOG
 
+2012-09-29: Catch some db exceptions.
+
+2012-09-28: Minor edits to database. Open sourced.
+
 2012-09-10: Patched TextView to work around JellyBean layout bug.
 
 2012-09-02: Added new hardware words from Qov; -Ha' adverbials from qep'a' 2012.  Also new idiom.
