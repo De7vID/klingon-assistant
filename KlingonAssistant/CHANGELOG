@@ -1,5 +1,11 @@
 CHANGELOG
 
+2012-11-20: Added stuff learned from qepHom, German definitions experiment, split xml file.
+
+2012-11-06: Added notes to a bunch of entries.
+
+2012-10-15: More minor edits to database.
+
 2012-09-29: Catch some db exceptions.
 
 2012-09-28: Minor edits to database. Open sourced.
