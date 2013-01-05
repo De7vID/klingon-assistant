@@ -1,6 +1,10 @@
 CHANGELOG
 
-2012-12-31: Edited a few entries.
+2012-01-05: Added "useful phrases" to menu.
+
+2012-01-03: Fixed a bug with "xifan hol" mode causing some entries not to be found. Added localised German UI.
+
+2012-12-31: Edited a few entries.  Backport.
 
 2012-12-22: New icons.  Fixed a few typos.
 
