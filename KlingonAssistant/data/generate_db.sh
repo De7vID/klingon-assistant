@@ -12,6 +12,11 @@ grep "ARRAY" mem.sql
 # Create db binary.
 if [ -f ../assets/qawHaq.db ];
 then
+    # If the db already exists, show a diff.
+    sqlite3 ../assets/qawHaq.db .dump > old-mem.sql
+    vimdiff old-mem.sql mem.sql
+    read -n1 -r -p "Press any key to generate new db..."
+    echo
     mv ../assets/qawHaq.db ../assets/qawHaq.db~
 fi
 sqlite3 ../assets/qawHaq.db < mem.sql
@@ -21,11 +26,11 @@ sqlite3 ../assets/qawHaq.db .dump > sanity.sql
 diff mem.sql sanity.sql
 
 # Pause (in case of error).
-read -n1 -r -p "Press any key to continue..." key
+read -n1 -r -p "Press any key to delete temporary files..."
 echo
 
 # Clean up temporary files.
 rm mem.xml
 rm mem.sql
 rm sanity.sql
-
+rm -f old-mem.sql
