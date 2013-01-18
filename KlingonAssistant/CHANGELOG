@@ -1,5 +1,13 @@
 CHANGELOG
 
+2012-01-15: Share button enabled.
+
+2012-01-14: Added code for integration with social networks (only Google+ enabled for now).
+
+2012-01-12: Added more Useful Phrases.
+
+2012-01-09: Added links from useful phrases back to their category.
+
 2012-01-05: Added "useful phrases" to menu.
 
 2012-01-03: Fixed a bug with "xifan hol" mode causing some entries not to be found. Added localised German UI.
