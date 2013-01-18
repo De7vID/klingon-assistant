@@ -34,3 +34,4 @@ rm mem.xml
 rm mem.sql
 rm sanity.sql
 rm -f old-mem.sql
+rm -f ../assets/qawHaq.db~
