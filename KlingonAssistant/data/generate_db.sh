@@ -10,6 +10,7 @@ cat mem-00-header.xml mem-01-b.xml mem-02-ch.xml mem-03-D.xml mem-04-gh.xml mem-
 grep "ARRAY" mem.sql
 
 # Create db binary.
+git checkout ../assets/qawHaq.db
 if [ -f ../assets/qawHaq.db ];
 then
     # If the db already exists, show a diff.
