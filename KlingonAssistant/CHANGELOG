@@ -1,5 +1,7 @@
 CHANGELOG
 
+2012-01-22: Use components in analysis of sentences. Fixed bug with suffix ordering.
+
 2012-01-20: Added links to YouTube videos showing pronunciation. Parses numbers correctly.
 
 2012-01-15: Share button enabled.
