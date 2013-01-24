@@ -1,20 +1,22 @@
 CHANGELOG
 
-2012-01-22: Use components in analysis of sentences. Fixed bug with suffix ordering.
+2013-01-23: Updated many entries, added parsing of numbers, fixed some bugs, added a Klingon font.
 
-2012-01-20: Added links to YouTube videos showing pronunciation. Parses numbers correctly.
+2013-01-22: Use components in analysis of sentences. Fixed bug with suffix ordering.
 
-2012-01-15: Share button enabled.
+2013-01-20: Added links to YouTube videos showing pronunciation. Parses numbers correctly.
 
-2012-01-14: Added code for integration with social networks (only Google+ enabled for now).
+2013-01-15: Share button enabled.
 
-2012-01-12: Added more Useful Phrases.
+2013-01-14: Added code for integration with social networks (only Google+ enabled for now).
 
-2012-01-09: Added links from useful phrases back to their category.
+2013-01-12: Added more Useful Phrases.
 
-2012-01-05: Added "useful phrases" to menu.
+2013-01-09: Added links from useful phrases back to their category.
 
-2012-01-03: Fixed a bug with "xifan hol" mode causing some entries not to be found. Added localised German UI.
+2013-01-05: Added "useful phrases" to menu.
+
+2013-01-03: Fixed a bug with "xifan hol" mode causing some entries not to be found. Added localised German UI.
 
 2012-12-31: Edited a few entries.  Backport.
 
