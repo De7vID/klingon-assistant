@@ -1,6 +1,6 @@
 CHANGELOG
 
-2013-01-23: Updated many entries, added parsing of numbers, fixed some bugs, added a Klingon font.
+2013-01-23: Updated many entries, added parsing of numbers, fixed some bugs, added ability to display entries in Klingon font.
 
 2013-01-22: Use components in analysis of sentences. Fixed bug with suffix ordering.
 
