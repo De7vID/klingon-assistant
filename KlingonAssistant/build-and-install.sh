@@ -15,6 +15,7 @@ then
 
     # Push to device.
     adb install -r bin/KlingonAssistant-debug.apk
+    adb push bin/KlingonAssistant-debug.apk /sdcard/
 else
     echo ERROR: Failed to compile.
 fi
