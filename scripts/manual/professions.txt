@@ -1,0 +1,4 @@
+# Professions for which we don't know the Klingon terms.
+
+journalist=De' chu' ja'wI'
+journalists=De' chu' ja'wI'pu'

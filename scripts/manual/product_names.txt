@@ -1,0 +1,5 @@
+# Product names which should not be machine translated.
+
+Google=Google
+Google Glass=Google mIn QanwI'
+iPhone='ay'ghoghHablI'
