@@ -1,6 +1,6 @@
 CHANGELOG
 
-2013-08-25: Add prefix charts.
+2013-08-25: Added prefix charts. Revert Android support library to v4.
 
 2013-08-21: Updated to latest Android support library.
 2013-08-14: Added some common phrases. Minor edits.
