@@ -1,6 +1,6 @@
 CHANGELOG
 
-2013-09-06: Edits to notes and examples.
+2013-09-06: Edits to notes and examples. Fix bug with display of the city name Saarbrücken.
 2013-08-25: Added prefix charts. Revert Android support library to v4. Minor edits.
 
 2013-08-21: Updated to latest Android support library.
