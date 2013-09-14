@@ -21,16 +21,21 @@ $sm_export =~ s/<column name="(.*?)">(.*?)<\/column>/<\1>\2<\/\1>/sg;
 # convert processed xml file to xml
 $data = $xml->XMLin($sm_export, suppressempty => '');
 
+# Declare the output files.
+my $generated_verbatim="generated/verbatim.txt";
+my $GV;
+open $GV, '>', $generated_verbatim;
+
 # Now we have all the data in an xml object. Cycle through and process.
 foreach $e (@{$data->{database}->{mem}})
 {
-  # First, save entries which are just full sentences.
-  if ($e->{part_of_speech} =~ m/^sen:/) {
-    print $e->{definition}, "=", $e->{entry_name}, "\n";
+  # First, save entries which are just full sentences, except for certain special ones.
+  if (($e->{part_of_speech} =~ m/^sen:/) && ($e->{definition} !~ m/\.\.\.|\(|\{/)) {
+    print {$GV} $e->{definition}, "=", $e->{entry_name}, "\n";
   }
 
   # Next, process verbs.
   if ($e->{part_of_speech} =~ m/^v:/) {
-
+    print $e->{definition}, "=", $e->{entry_name}, "\n";
   }
 }
