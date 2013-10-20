@@ -1,0 +1,23 @@
+{tlhIngan Hol boQwI'} / Klingon Language Assistant
+==================================================
+(or: {boQwI'} for short)
+
+This is a lexicon dictionary, canon search tool, and grammar analyser for the Klingon language ({tlhIngan Hol}) devised by Marc Okrand for Star Trek's warrior race. It can parse Klingon grammar and serve as an aid in Klingon-to-English translation. However, it is NOT a general-purpose English-to-Klingon translator. You will need to know some Klingon already to make use of it for that purpose.
+
+If you encounter any problems, or have any suggestions, please send me an email. Please describe the steps to reproduce your problem, along with your device's model and the Android version (both found under Settings -> About), your app version (Settings -> Apps -> boQwI'), and the version of the database (search for {boQwI'} inside the app). There is a link to send me email directly from the menu under "Help".
+
+Note: To get started, try pressing the "Search" key (or the "Menu" key on some devices).
+
+Pro-tip: Enable boQwI' as a searchable item under "Google Search settings" to allow searching from the Google Search bar.
+
+This project is open sourced: http://code.google.com/p/klingon-assistant/
+
+Please support the Klingon language by purchasing "The Klingon Dictionary", "Klingon for the Galactic Traveler", "The Klingon Way", "Conversational Klingon", "Power Klingon", and other Klingon- and Star Trek-related products from Pocket Books, Simon & Schuster, and Paramount/Viacom/CBS Entertainment.
+
+Klingon, Star Trek, and related marks are trademarks of CBS Studios, Inc., and are used under "fair use" guidelines.
+
+Libraries used:
+---------------
+https://github.com/JakeWharton/ActionBarSherlock
+https://github.com/SimonVT/android-menudrawer
+https://github.com/pingpongboss/StandOut
