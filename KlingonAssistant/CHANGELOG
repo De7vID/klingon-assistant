@@ -1,6 +1,6 @@
 CHANGELOG
 
-2013-10-21: Added "float" mode.
+2013-10-21: Added "float" mode. This requires permission to "draw over other apps".
 2013-10-20: Add README file. Add dependency on StandOut library.
 2013-10-15: German entries for {'a}, {'e}, {'I}, {'o}, and {y}. Miscellaneous edits.
 
