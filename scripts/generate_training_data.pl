@@ -3,6 +3,7 @@
 # use modules
 use File::Slurp;
 use XML::Simple;
+# use Data::Dumper;
 
 # output Unicode
 binmode(STDOUT, ":utf8");
@@ -21,13 +22,15 @@ $sm_export =~ s/<column name="(.*?)">(.*?)<\/column>/<\1>\2<\/\1>/sg;
 # convert processed xml file to xml
 $data = $xml->XMLin($sm_export, suppressempty => '');
 
+# print Dumper($sm_export);
+
 # Declare the output files.
 my $generated_verbatim="generated/verbatim.txt";
 my $GV;
-open $GV, '>', $generated_verbatim;
+open($GV, '>', $generated_verbatim);
 
 # Now we have all the data in an xml object. Cycle through and process.
-foreach $e (@{$data->{database}->{mem}})
+foreach my $e (@{$data->{database}->{mem}})
 {
   # First, save entries which are just full sentences, except for certain special ones.
   if (($e->{part_of_speech} =~ m/^sen:/) && ($e->{definition} !~ m/\.\.\.|\(|\{/)) {
@@ -39,3 +42,4 @@ foreach $e (@{$data->{database}->{mem}})
     print $e->{definition}, "=", $e->{entry_name}, "\n";
   }
 }
+close($GV);
