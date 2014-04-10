@@ -1,5 +1,12 @@
 CHANGELOG
 
+2014-04-10: Remove tutorial and Google Play Services. Size increase was unacceptable.
+APK size...
+Before any changes:          1329806
+After adding ShowcaseView:   2526186 (+1.2M)
+Adding Google Play Services: 3472526 (+950k)
+           or Froyo version: 2885537 (+360k)
+
 2014-04-08: Added a tutorial.
 2014-04-06: Added "Request translation" menu item, re-arranged menus, updated icons.
 2014-03-31: Fixed some sources.
