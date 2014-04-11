@@ -1,5 +1,20 @@
 CHANGELOG
 
+2014-04-10: Current installs by Android version
+
+API
+19  Android 4.4              618   10.77%  KitKat
+18  Android 4.3            1,024   17.85%  J
+17  Android 4.2              601   10.48%  J
+16  Android 4.1            1,435   25.02%  Jelly Bean
+15  Android 4.0.3 - 4.0.4    878   15.31%  Ice Cream Sandwich
+13  Android 3.2               30    0.52%  H
+12  Android 3.1                9    0.16%  Honeycomb
+10  Android 2.3.3 - 2.3.7    971   16.93%  Gingerbread
+ 8  Android 2.2              132    2.30%  Froyo
+ 7  Android 2.1               31    0.54%  Eclair
+    Others                     7    0.12%
+
 2014-04-10: Remove tutorial and Google Play Services. Size increase was unacceptable.
 APK size...
 Before any changes:          1329806
