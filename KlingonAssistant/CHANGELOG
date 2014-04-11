@@ -1,5 +1,7 @@
 CHANGELOG
 
+2014-04-11: Split into backport (Honeycomb and below) and regular versions again (Android version 4+/API 14+).
+
 2014-04-10: Current installs by Android version
 
 API
