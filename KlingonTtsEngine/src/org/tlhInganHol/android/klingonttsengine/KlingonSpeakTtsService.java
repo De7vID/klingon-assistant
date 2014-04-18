@@ -74,7 +74,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         // required though, it can always be loaded lazily on the first call to
         // onLoadLanguage or onSynthesizeText. This a tradeoff between memory usage
         // and the latency of the first call.
-        onLoadLanguage("tlh", "usa", "");
+        onLoadLanguage("tlh", "CAN", "");
     }
 
     @Override
@@ -263,25 +263,6 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                     .replaceAll("'", "z");
     }
 
-    /*
-     * Normalizes a given character to the range 'a' - 'z' (inclusive). Our
-     * frequency mappings contain frequencies for each of these characters.
-     */
-    private static char normalize(char input) {
-        if (input == ' ') {
-            return input;
-        }
-
-        if (input < 'a') {
-            return 'a';
-        }
-        if (input > 'z') {
-            return 'z';
-        }
-
-        return input;
-    }
-
     private Map<Character, Integer> buildFrequencyMap(InputStream is) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         String line = null;
@@ -303,6 +284,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
     private void playNextCharOfRemainingText() {
         for (int i = 0; i < mRemainingText.length(); ++i) {
+            // TODO: Instead of reading one character at a time, match longer chunks such as verb prefixes or verb/noun suffixes.
             int resId = getResourceIdForChar(mRemainingText.charAt(i));
             if (resId != 0) {
                 // Play the audio file.
