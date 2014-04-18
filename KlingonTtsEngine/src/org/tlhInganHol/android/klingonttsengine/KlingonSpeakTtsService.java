@@ -58,6 +58,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
     // The media player object used to play the sounds.
     private MediaPlayer mMediaPlayer = null;
+    private String mRemainingText = null;
 
     private Map<Character, Integer> mFrequenciesMap;
     private volatile String[] mCurrentLanguage = null;
@@ -182,25 +183,8 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
         // We then scan through each character of the request string and
         // generate audio for it.
-        final String text = condenseKlingonDiTrigraphs(request.getText());
-        for (int i = 0; i < text.length(); ++i) {
-            char value = text.charAt(i);
-            int resId = getResourceIdForChar(value);
-            if (resId != 0) {
-                // Play the audio file.
-                // Alternatively: mMediaPlayer = new MediaPlayer(); mMediaPlayer.setDataSource(filename); mMediaPlayer.prepare();
-                mMediaPlayer = MediaPlayer.create(this, resId);
-                mMediaPlayer.setOnCompletionListener(this);
-                mMediaPlayer.start();
-            } else {
-                // It is crucial to call either of callback.error() or callback.done() to ensure
-                // that audio / other resources are released as soon as possible.
-                if (!generateOneSecondOfAudio(normalize(value), callback)) {
-                    callback.error();
-                    return;
-                }
-            }
-        }
+        mRemainingText = condenseKlingonDiTrigraphs(request.getText());
+        playNextCharOfRemainingText();
 
         // Alright, we're done with our synthesis - yay!
         callback.done();
@@ -317,69 +301,26 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         }
     }
 
-    private boolean generateOneSecondOfAudio(char alphabet, SynthesisCallback cb) {
-        ByteBuffer buffer = ByteBuffer.wrap(mAudioBuffer).order(ByteOrder.LITTLE_ENDIAN);
-
-        // Someone called onStop, end the current synthesis and return.
-        // The mStopRequested variable will be reset at the beginning of the
-        // next synthesis.
-        //
-        // In general, a call to onStop( ) should make a best effort attempt
-        // to stop all processing for the *current* onSynthesizeText request (if
-        // one is active).
-        if (mStopRequested) {
-            return false;
-        }
-
-
-        if (mFrequenciesMap == null || !mFrequenciesMap.containsKey(alphabet)) {
-            return false;
-        }
-
-        final int frequency = mFrequenciesMap.get(alphabet);
-
-        if (frequency > 0) {
-            // This is the wavelength in samples. The frequency is chosen so that the
-            // waveLength is always a multiple of two and frequency divides the
-            // SAMPLING_RATE exactly.
-            final int waveLength = SAMPLING_RATE_HZ / frequency;
-            final int times = SAMPLING_RATE_HZ / waveLength;
-
-            for (int j = 0; j < times; ++j) {
-                // For a square curve, half of the values will be at Short.MIN_VALUE
-                // and the other half will be Short.MAX_VALUE.
-                for (int i = 0; i < waveLength / 2; ++i) {
-                    buffer.putShort((short)(getAmplitude() * -1));
-                }
-                for (int i = 0; i < waveLength / 2; ++i) {
-                    buffer.putShort(getAmplitude());
-                }
-            }
-        } else {
-            // Play a second of silence.
-            for (int i = 0; i < mAudioBuffer.length / 2; ++i) {
-                buffer.putShort((short) 0);
+    private void playNextCharOfRemainingText() {
+        for (int i = 0; i < mRemainingText.length(); ++i) {
+            int resId = getResourceIdForChar(mRemainingText.charAt(i));
+            if (resId != 0) {
+                // Play the audio file.
+                // Alternatively: mMediaPlayer = new MediaPlayer(); mMediaPlayer.setDataSource(filename); mMediaPlayer.prepare();
+                mMediaPlayer = MediaPlayer.create(this, resId);
+                mMediaPlayer.setOnCompletionListener(this);
+                mMediaPlayer.start();
+                mRemainingText = mRemainingText.substring(i + 1);
+                break;
             }
         }
-
-        // Get the maximum allowed size of data we can send across in audioAvailable.
-        final int maxBufferSize = cb.getMaxBufferSize();
-        int offset = 0;
-        while (offset < mAudioBuffer.length) {
-            int bytesToWrite = Math.min(maxBufferSize, mAudioBuffer.length - offset);
-            cb.audioAvailable(mAudioBuffer, offset, bytesToWrite);
-            offset += bytesToWrite;
-        }
-        return true;
-    }
-
-    private short getAmplitude() {
-        boolean whisper = mSharedPrefs.getBoolean(GeneralSettingsFragment.WHISPER_KEY, false);
-        return (short) (whisper ? 2048 : 8192);
     }
 
     public void onCompletion(MediaPlayer mp) {
         // Be sure to release the audio resources when playback is completed.
         mp.release();
+
+        // Play the next character.
+        playNextCharOfRemainingText();
     }
 }
