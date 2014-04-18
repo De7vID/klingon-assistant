@@ -182,19 +182,20 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
         // We then scan through each character of the request string and
         // generate audio for it.
-        final String text = request.getText().toLowerCase();
+        final String text = condenseKlingonDiTrigraphs(request.getText());
         for (int i = 0; i < text.length(); ++i) {
-            char value = normalize(text.charAt(i));
-            if (value == 'a') {
-                // Play the 'a' file.
+            char value = text.charAt(i);
+            int resId = getResourceIdForChar(value);
+            if (resId != 0) {
+                // Play the audio file.
                 // Alternatively: mMediaPlayer = new MediaPlayer(); mMediaPlayer.setDataSource(filename); mMediaPlayer.prepare();
-                mMediaPlayer = MediaPlayer.create(this, R.raw.audio_a);
+                mMediaPlayer = MediaPlayer.create(this, resId);
                 mMediaPlayer.setOnCompletionListener(this);
                 mMediaPlayer.start();
             } else {
                 // It is crucial to call either of callback.error() or callback.done() to ensure
                 // that audio / other resources are released as soon as possible.
-                if (!generateOneSecondOfAudio(value, callback)) {
+                if (!generateOneSecondOfAudio(normalize(value), callback)) {
                     callback.error();
                     return;
                 }
@@ -203,6 +204,79 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
         // Alright, we're done with our synthesis - yay!
         callback.done();
+    }
+
+    private static int getResourceIdForChar(char value) {
+        switch(value) {
+          case 'a':
+            return R.raw.audio_a;
+          case 'b':
+            return R.raw.audio_b;
+          case 'C': // {ch}
+            return R.raw.audio_c_;
+          case 'D':
+            return R.raw.audio_d_;
+          case 'e':
+            return R.raw.audio_e;
+          case 'G': // {gh}
+            return R.raw.audio_g_;
+          case 'H':
+            return R.raw.audio_h_;
+          case 'I':
+            return R.raw.audio_i_;
+          case 'j':
+            return R.raw.audio_j;
+          case 'l':
+            return R.raw.audio_l;
+          case 'm':
+            return R.raw.audio_m;
+          case 'n':
+            return R.raw.audio_n;
+          case 'F': // {ng}
+            return R.raw.audio_f_;
+          case 'o':
+            return R.raw.audio_o;
+          case 'p':
+            return R.raw.audio_p;
+          case 'k':
+            return R.raw.audio_k;
+          case 'Q':
+            return R.raw.audio_q_;
+          case 'r':
+            return R.raw.audio_r;
+          case 'S':
+            return R.raw.audio_s_;
+          case 't':
+            return R.raw.audio_t;
+          case 'x': // {tlh}
+            return R.raw.audio_x;
+          case 'u':
+            return R.raw.audio_u;
+          case 'v':
+            return R.raw.audio_v;
+          case 'w':
+            return R.raw.audio_w;
+          case 'y':
+            return R.raw.audio_y;
+          case 'z': // {'}
+            return R.raw.audio_z;
+          default:
+            // Note that 0 denotes an invalid resource ID in Android.
+            return 0;
+        }
+    }
+
+    /*
+     * Condense {tlhIngan Hol} with a mapping that represents diagraphs and trigraphs as single characters.
+     * Also replace {'} with "z" for ease of processing. The input is assumed to be proper Klingon orthography.
+     */
+    private static String condenseKlingonDiTrigraphs(String input) {
+        return input.replaceAll("ch", "C")
+                    .replaceAll("gh", "G")   // {gh} has to be done before {ng} so that {ngh} -> "nG" and not "Fh".
+                    .replaceAll("ng", "F")
+                    .replaceAll("q", "k")    // file system is case-insensitive, force {q} to map to "k".
+                    .replaceAll("tlh", "x")
+                    .replaceAll("'", "z");
     }
 
     /*
