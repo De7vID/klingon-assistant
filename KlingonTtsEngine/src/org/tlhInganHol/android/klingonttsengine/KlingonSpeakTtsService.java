@@ -18,6 +18,7 @@ package org.tlhInganHol.android.klingonttsengine;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.AudioFormat;
+import android.media.MediaPlayer;
 import android.speech.tts.SynthesisCallback;
 import android.speech.tts.SynthesisRequest;
 import android.speech.tts.TextToSpeech;
@@ -41,7 +42,7 @@ import java.util.Map;
  * It exercises all aspects of the Text to speech engine API
  * {@link android.speech.tts.TextToSpeechService}.
  */
-public class KlingonSpeakTtsService extends TextToSpeechService {
+public class KlingonSpeakTtsService extends TextToSpeechService implements android.media.MediaPlayer.OnCompletionListener {
     private static final String TAG = "ExampleTtsService";
 
     /*
@@ -54,6 +55,9 @@ public class KlingonSpeakTtsService extends TextToSpeechService {
      * We multiply by a factor of two since each sample contains 16 bits (2 bytes).
      */
     private final byte[] mAudioBuffer = new byte[SAMPLING_RATE_HZ * 2];
+
+    // The media player object used to play the sounds.
+    private MediaPlayer mMediaPlayer = null;
 
     private Map<Character, Integer> mFrequenciesMap;
     private volatile String[] mCurrentLanguage = null;
@@ -181,11 +185,19 @@ public class KlingonSpeakTtsService extends TextToSpeechService {
         final String text = request.getText().toLowerCase();
         for (int i = 0; i < text.length(); ++i) {
             char value = normalize(text.charAt(i));
-            // It is crucial to call either of callback.error() or callback.done() to ensure
-            // that audio / other resources are released as soon as possible.
-            if (!generateOneSecondOfAudio(value, callback)) {
-                callback.error();
-                return;
+            if (value == 'a') {
+                // Play the 'a' file.
+                // Alternatively: mMediaPlayer = new MediaPlayer(); mMediaPlayer.setDataSource(filename); mMediaPlayer.prepare();
+                mMediaPlayer = MediaPlayer.create(this, R.raw.audio_a);
+                mMediaPlayer.setOnCompletionListener(this);
+                mMediaPlayer.start();
+            } else {
+                // It is crucial to call either of callback.error() or callback.done() to ensure
+                // that audio / other resources are released as soon as possible.
+                if (!generateOneSecondOfAudio(value, callback)) {
+                    callback.error();
+                    return;
+                }
             }
         }
 
@@ -290,5 +302,10 @@ public class KlingonSpeakTtsService extends TextToSpeechService {
     private short getAmplitude() {
         boolean whisper = mSharedPrefs.getBoolean(GeneralSettingsFragment.WHISPER_KEY, false);
         return (short) (whisper ? 2048 : 8192);
+    }
+
+    public void onCompletion(MediaPlayer mp) {
+        // Be sure to release the audio resources when playback is completed.
+        mp.release();
     }
 }
