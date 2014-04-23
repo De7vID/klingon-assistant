@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,7 +44,7 @@ import java.util.Map;
  * {@link android.speech.tts.TextToSpeechService}.
  */
 public class KlingonSpeakTtsService extends TextToSpeechService implements android.media.MediaPlayer.OnCompletionListener {
-    private static final String TAG = "ExampleTtsService";
+    private static final String TAG = "KlingonSpeakTtsService";
 
     /*
      * This is the sampling rate of our output audio. This engine outputs
@@ -64,6 +65,76 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     private volatile String[] mCurrentLanguage = null;
     private volatile boolean mStopRequested = false;
     private SharedPreferences mSharedPrefs = null;
+
+    private static final Map<String, Integer> syllableToAudioMap;
+    static {
+        // TODO: Initialise this in a nicer way.
+        Map<String, Integer> initMap = new HashMap<String, Integer>();
+
+        // --- Verb suffixes ---
+        initMap.put("zeG", R.raw.audio_e);   // 'egh
+        initMap.put("Cuq", R.raw.audio_c_);  // chuq
+        initMap.put("nIS", R.raw.audio_n);
+        initMap.put("qaF", R.raw.audio_q);   // qang
+        initMap.put("rup", R.raw.audio_r);
+        initMap.put("beH", R.raw.audio_b);
+        initMap.put("vIp", R.raw.audio_v);
+        initMap.put("CoH", R.raw.audio_c_);  // choH
+        initMap.put("qaz", R.raw.audio_q);   // qa'
+        initMap.put("moH", R.raw.audio_m);
+        initMap.put("luz", R.raw.audio_l);   // lu'
+        initMap.put("laH", R.raw.audio_l);
+        initMap.put("Cuz", R.raw.audio_c_);  // chu'
+        initMap.put("bej", R.raw.audio_b);
+        initMap.put("lawz", R.raw.audio_l);  // law'
+        initMap.put("baz", R.raw.audio_b);   // ba'
+        initMap.put("puz", R.raw.audio_p);   // pu'
+        initMap.put("taz", R.raw.audio_t);   // ta'
+        initMap.put("taH", R.raw.audio_t);
+        initMap.put("lIz", R.raw.audio_l);   // lI'
+        initMap.put("neS", R.raw.audio_n);   // neS
+        initMap.put("DIz", R.raw.audio_d_);  // DI'
+        initMap.put("CuG", R.raw.audio_c_);  // chugh
+        initMap.put("paz", R.raw.audio_p);   // pa'
+        initMap.put("vIS", R.raw.audio_v);
+        initMap.put("boG", R.raw.audio_b);   // bogh
+        initMap.put("meH", R.raw.audio_a);
+        initMap.put("zaz", R.raw.audio_a);
+        initMap.put("wIz", R.raw.audio_a);   // wI'
+        initMap.put("moz", R.raw.audio_a);   // mo'
+        initMap.put("jaj", R.raw.audio_a);
+        initMap.put("GaC", R.raw.audio_a);   // ghach
+        initMap.put("bez", R.raw.audio_a);   // be'
+        initMap.put("Qoz", R.raw.audio_a);   // Qo'
+        initMap.put("Haz", R.raw.audio_a);   // Ha'
+        initMap.put("quz", R.raw.audio_a);   // qu'
+
+        // --- Noun suffixes ---
+        // Note: {'a'}, {pu'}, {wI'}, {lI'}, and {mo'} are already in the verb suffixes.
+        // Also, {oy} requires special handling since it doesn't start with a consonant.
+        initMap.put("Hom", R.raw.audio_a);
+        initMap.put("Duz", R.raw.audio_a);   // Du'
+        initMap.put("mey", R.raw.audio_a);
+        initMap.put("qoq", R.raw.audio_a);
+        initMap.put("Hey", R.raw.audio_a);
+        initMap.put("naz", R.raw.audio_a);   // na'
+        initMap.put("wIj", R.raw.audio_a);
+        initMap.put("lIj", R.raw.audio_a);
+        initMap.put("maj", R.raw.audio_a);
+        initMap.put("maz", R.raw.audio_a);   // ma'
+        initMap.put("raj", R.raw.audio_a);
+        initMap.put("raz", R.raw.audio_a);   // ra'
+        initMap.put("Daj", R.raw.audio_a);
+        initMap.put("Caj", R.raw.audio_a);   // chaj
+        initMap.put("vam", R.raw.audio_a);
+        initMap.put("vex", R.raw.audio_a);   // vetlh
+        initMap.put("Daq", R.raw.audio_a);
+        initMap.put("voz", R.raw.audio_a);   // vo'
+        initMap.put("vaD", R.raw.audio_a);
+        initMap.put("zez", R.raw.audio_a);   // 'e'
+
+        syllableToAudioMap = Collections.unmodifiableMap(initMap);
+    }
 
     @Override
     public void onCreate() {
@@ -285,6 +356,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         if (mStopRequested) {
             return;
         }
+        Log.i(TAG, "Remaining text: " + mRemainingText);
         for (int i = 0; i < mRemainingText.length(); ++i) {
             // TODO: Instead of reading one character at a time, match longer chunks such as verb prefixes or verb/noun suffixes.
             int resId = getResourceIdForChar(mRemainingText.charAt(i));
