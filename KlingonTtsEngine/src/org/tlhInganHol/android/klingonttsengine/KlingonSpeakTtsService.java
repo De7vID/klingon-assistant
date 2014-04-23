@@ -471,7 +471,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
           case 'z': // {'}
             return R.raw.audio_z;
           case ' ':
-            return R.raw.audio_z;  // Silence
+            return R.raw.audio_silence;
           default:
             // Note that 0 denotes an invalid resource ID in Android.
             return 0;
@@ -511,6 +511,13 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     }
 
     private void playNextSyllableOfRemainingText() {
+        // Someone called onStop, end the current synthesis and return.
+        // The mStopRequested variable will be reset at the beginning of the
+        // next synthesis.
+        //
+        // In general, a call to onStop( ) should make a best effort attempt
+        // to stop all processing for the *current* onSynthesizeText request (if
+        // one is active).
         if (mStopRequested) {
             return;
         }
