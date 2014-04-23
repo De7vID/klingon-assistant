@@ -297,8 +297,9 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                 if (!syllable.equals("")) {
                     mSyllableList.addFirst(R.raw.audio_a);
                     condensedText = condensedText.substring(0, condensedText.length() - syllable.length());
+                    String vowel = getSyllableVowel(syllable);
                     matched = true;
-                    Log.d(TAG, "Matched syllable: " + syllable);
+                    Log.d(TAG, "Matched syllable: " + syllable + " with vowel: " + vowel);
                 }
             }
             if (!matched) {
@@ -315,7 +316,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         callback.done();
     }
 
-    private static boolean isKlingonVowel(char value) {
+    private static boolean isSimpleVowel(char value) {
         final String aeIou = "aeIou";
         return aeIou.indexOf(value) != -1;
     }
@@ -337,8 +338,8 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         // Deal with the ending.
         if (remainingText.length() > 3 && remainingText.endsWith("wz")) {
             // Ends in {w'}. Peak at the preceding vowel.
-            char vowel = remainingText.charAt(remainingText.length() - 3);
-            if (vowel == 'o' || vowel == 'u') {
+            char value = remainingText.charAt(remainingText.length() - 3);
+            if (value == 'o' || value == 'u') {
                 // Drop the "w".
                 tail = "z";
             } else {
@@ -348,8 +349,8 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
             remainingText = remainingText.substring(0, remainingText.length() - 2);
         } else if (remainingText.length() > 2 && remainingText.endsWith("w")) {
             // Ends in {w}. Peak at the preceding vowel.
-            char vowel = remainingText.charAt(remainingText.length() - 2);
-            if (vowel == 'o' || vowel == 'u') {
+            char value = remainingText.charAt(remainingText.length() - 2);
+            if (value == 'o' || value == 'u') {
                 // Drop the "w".
                 tail = "";
             } else {
@@ -357,11 +358,15 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
             }
             // Remove the "w", but leave the vowel.
             remainingText = remainingText.substring(0, remainingText.length() - 1);
+        } else if (remainingText.length() > 3 && remainingText.endsWith("yz")) {
+            // Ends in {y'}.
+            tail = "yz";
+            remainingText = remainingText.substring(0, remainingText.length() - 2);
         } else if (remainingText.length() > 3 && remainingText.endsWith("rG")) {
             // Ends in {rgh}.
             tail = "rG";
             remainingText = remainingText.substring(0, remainingText.length() - 2);
-        } else if (remainingText.length() > 2 && !isKlingonVowel(remainingText.charAt(remainingText.length() - 1))) {
+        } else if (remainingText.length() > 2 && !isSimpleVowel(remainingText.charAt(remainingText.length() - 1))) {
             // Ends in something other than a vowel. Assume it's a consonant.
             tail = remainingText.substring(remainingText.length() - 1);
             remainingText = remainingText.substring(0, remainingText.length() - 1);
@@ -370,7 +375,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
         // Look for the vowel.
         if (remainingText.length() < 2 ||
-            !isKlingonVowel(remainingText.charAt(remainingText.length() - 1))) {
+            !isSimpleVowel(remainingText.charAt(remainingText.length() - 1))) {
             // Failed to extract a syllable from the tail.
             return "";
         }
@@ -380,7 +385,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
         // Look for the initial consonant.
         if (remainingText.length() < 1 ||
-            isKlingonVowel(remainingText.charAt(remainingText.length() - 1))) {
+            isSimpleVowel(remainingText.charAt(remainingText.length() - 1))) {
             // Also a failure.
             return "";
         }
@@ -389,6 +394,18 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         // Log.d(TAG, "After beginning: " + remainingText + " / " + tail);
 
         return tail;
+    }
+
+    private static String getSyllableVowel(String syllable) {
+        // Given a legitimate Klingon syllable, return its (possibly complex) vowel.
+        // Note that "ow" and "uw" are not possible.
+        String[] possibleVowels = {"aw", "ew", "Iw", "ay", "ey", "Iy", "oy", "uy", "a", "e", "I", "o", "u"};
+        for (int i = 0; i < possibleVowels.length; ++i) {
+            if (syllable.indexOf(possibleVowels[i]) != -1) {
+                return possibleVowels[i];
+            }
+        }
+        return "";
     }
 
     private static int getResourceIdForChar(char value) {
