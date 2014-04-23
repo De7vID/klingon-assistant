@@ -298,8 +298,14 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                     mSyllableList.addFirst(R.raw.audio_a);
                     condensedText = condensedText.substring(0, condensedText.length() - syllable.length());
                     String vowel = getSyllableVowel(syllable);
+                    int vowelIndex = syllable.indexOf(vowel);
+                    String syllableFront = syllable.substring(0, vowelIndex + vowel.length());
+                    String syllableBack = syllable.substring(vowelIndex);
+                    if (syllableBack.equals(vowel)) {
+                        syllableBack = "";
+                    }
                     matched = true;
-                    Log.d(TAG, "Matched syllable: " + syllable + " with vowel: " + vowel);
+                    Log.d(TAG, "Matched syllable: " + syllableFront + " " + syllableBack);
                 }
             }
             if (!matched) {
