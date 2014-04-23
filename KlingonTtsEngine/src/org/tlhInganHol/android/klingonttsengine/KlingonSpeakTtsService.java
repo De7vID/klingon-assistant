@@ -33,6 +33,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 /**
@@ -59,14 +60,14 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
     // The media player object used to play the sounds.
     private MediaPlayer mMediaPlayer = null;
-    private String mRemainingText = null;
+    private LinkedList<Integer> mSyllableList = null;
 
     private Map<Character, Integer> mFrequenciesMap;
     private volatile String[] mCurrentLanguage = null;
     private volatile boolean mStopRequested = false;
     private SharedPreferences mSharedPrefs = null;
 
-    private static final Map<String, Integer> syllableToAudioMap;
+    private static final Map<String, Integer> SYLLABLE_TO_AUDIO_MAP;
     static {
         // TODO: Initialise this in a nicer way.
         Map<String, Integer> initMap = new HashMap<String, Integer>();
@@ -133,7 +134,11 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("vaD", R.raw.audio_a);
         initMap.put("zez", R.raw.audio_a);   // 'e'
 
-        syllableToAudioMap = Collections.unmodifiableMap(initMap);
+        // --- Non-standard phonology ---
+        initMap.put("qarD", R.raw.audio_q);  // From {pIqarD}.
+        initMap.put("qIrq", R.raw.audio_q);  // From {qIrq}.
+
+        SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
 
     @Override
@@ -252,10 +257,36 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         callback.start(SAMPLING_RATE_HZ,
                 AudioFormat.ENCODING_PCM_16BIT, 1 /* Number of channels. */);
 
-        // We then scan through each character of the request string and
-        // generate audio for it.
-        mRemainingText = condenseKlingonDiTrigraphs(request.getText());
-        playNextCharOfRemainingText();
+        // We construct a list of syllables to be played.
+        mSyllableList = new LinkedList<Integer>();
+        String condensedText = condenseKlingonDiTrigraphs(request.getText());
+        while (!condensedText.equals("")) {
+            // Syllables must have length 3 or 4.
+            boolean matched = false;
+            for (int len = 3; len <= 4; len++) {
+                if (condensedText.length() < len) {
+                    // Remaining text is too short to have a complete syllable.
+                    break;
+                }
+                String tail = condensedText.substring(condensedText.length() - len);
+                Integer resId = SYLLABLE_TO_AUDIO_MAP.get(tail);
+                if (resId != null) {
+                    mSyllableList.addFirst(resId);
+                    condensedText = condensedText.substring(0, condensedText.length() - len);
+                    matched = true;
+                    Log.d(TAG, "Matched tail: " + tail);
+                    break;
+                }
+            }
+            if (!matched) {
+                // No match for a complete syllable.
+                char value = condensedText.charAt(condensedText.length() - 1);
+                condensedText = condensedText.substring(0, condensedText.length() - 1);
+                mSyllableList.addFirst(getResourceIdForChar(value));
+                Log.d(TAG, "Stripped char: " + value);
+            }
+        }
+        playNextSyllableOfRemainingText();
 
         // Alright, we're done with our synthesis - yay!
         callback.done();
@@ -315,6 +346,8 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
             return R.raw.audio_y;
           case 'z': // {'}
             return R.raw.audio_z;
+          case ' ':
+            return R.raw.audio_z;  // Silence
           default:
             // Note that 0 denotes an invalid resource ID in Android.
             return 0;
@@ -352,22 +385,19 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         }
     }
 
-    private void playNextCharOfRemainingText() {
+    private void playNextSyllableOfRemainingText() {
         if (mStopRequested) {
             return;
         }
-        Log.i(TAG, "Remaining text: " + mRemainingText);
-        for (int i = 0; i < mRemainingText.length(); ++i) {
-            // TODO: Instead of reading one character at a time, match longer chunks such as verb prefixes or verb/noun suffixes.
-            int resId = getResourceIdForChar(mRemainingText.charAt(i));
-            if (resId != 0) {
+        if (!mSyllableList.isEmpty()) {
+            Integer resId = mSyllableList.pop();
+            if (resId.intValue() != 0) {
                 // Play the audio file.
                 // Alternatively: mMediaPlayer = new MediaPlayer(); mMediaPlayer.setDataSource(filename); mMediaPlayer.prepare();
-                mMediaPlayer = MediaPlayer.create(this, resId);
+                mMediaPlayer = MediaPlayer.create(this, resId.intValue());
                 mMediaPlayer.setOnCompletionListener(this);
                 mMediaPlayer.start();
-                mRemainingText = mRemainingText.substring(i + 1);
-                break;
+                Log.d(TAG, "Playing: " + resId);
             }
         }
     }
@@ -377,6 +407,6 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         mp.release();
 
         // Play the next character.
-        playNextCharOfRemainingText();
+        playNextSyllableOfRemainingText();
     }
 }
