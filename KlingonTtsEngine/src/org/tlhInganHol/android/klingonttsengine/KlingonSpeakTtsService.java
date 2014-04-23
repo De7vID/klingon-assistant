@@ -67,9 +67,22 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     private volatile boolean mStopRequested = false;
     private SharedPreferences mSharedPrefs = null;
 
+    private static final Map<String, Integer> FRONT_HALF_SYLLABLE_TO_AUDIO_MAP;
+    static {
+        Map<String, Integer> initMap = new HashMap<String, Integer>();
+
+        FRONT_HALF_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
+    }
+
+    private static final Map<String, Integer> BACK_HALF_SYLLABLE_TO_AUDIO_MAP;
+    static {
+        Map<String, Integer> initMap = new HashMap<String, Integer>();
+
+        BACK_HALF_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
+    }
+
     private static final Map<String, Integer> SYLLABLE_TO_AUDIO_MAP;
     static {
-        // TODO: Initialise this in a nicer way.
         Map<String, Integer> initMap = new HashMap<String, Integer>();
 
         // --- Verb suffixes ---
@@ -260,6 +273,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         // We construct a list of syllables to be played.
         mSyllableList = new LinkedList<Integer>();
         String condensedText = condenseKlingonDiTrigraphs(request.getText());
+        Log.d(TAG, "condensedText: " + condensedText);
         while (!condensedText.equals("")) {
             // Syllables must have length 3 or 4.
             boolean matched = false;
@@ -279,6 +293,15 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                 }
             }
             if (!matched) {
+                String syllable = removeTailSyllable(condensedText);
+                if (!syllable.equals("")) {
+                    mSyllableList.addFirst(R.raw.audio_a);
+                    condensedText = condensedText.substring(0, condensedText.length() - syllable.length());
+                    matched = true;
+                    Log.d(TAG, "Matched syllable: " + syllable);
+                }
+            }
+            if (!matched) {
                 // No match for a complete syllable.
                 char value = condensedText.charAt(condensedText.length() - 1);
                 condensedText = condensedText.substring(0, condensedText.length() - 1);
@@ -290,6 +313,82 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
         // Alright, we're done with our synthesis - yay!
         callback.done();
+    }
+
+    private static boolean isKlingonVowel(char value) {
+        final String aeIou = "aeIou";
+        return aeIou.indexOf(value) != -1;
+    }
+
+    // Attempt to remove a syllable from the end of a given text and return it. Return empty string
+    // if unsuccessful. Both input and output are in condensed format.
+    private static String removeTailSyllable(String input) {
+        // Syllables can have the following forms, where C is a consonant, and V is a vowel:
+        //   CV
+        //   CVC   (excluding {ow} and {uw})
+        //   CVrgh
+        //   CVw'  (excluding {ow'} and {uw'})
+        //   CVy'
+        // Log.d(TAG, "removeTailSyllable from: " + input);
+
+        String remainingText = input;
+        String tail = "";
+
+        // Deal with the ending.
+        if (remainingText.length() > 3 && remainingText.endsWith("wz")) {
+            // Ends in {w'}. Peak at the preceding vowel.
+            char vowel = remainingText.charAt(remainingText.length() - 3);
+            if (vowel == 'o' || vowel == 'u') {
+                // Drop the "w".
+                tail = "z";
+            } else {
+                tail = "wz";
+            }
+            // Remove the "wz", but leave the vowel.
+            remainingText = remainingText.substring(0, remainingText.length() - 2);
+        } else if (remainingText.length() > 2 && remainingText.endsWith("w")) {
+            // Ends in {w}. Peak at the preceding vowel.
+            char vowel = remainingText.charAt(remainingText.length() - 2);
+            if (vowel == 'o' || vowel == 'u') {
+                // Drop the "w".
+                tail = "";
+            } else {
+                tail = "w";
+            }
+            // Remove the "w", but leave the vowel.
+            remainingText = remainingText.substring(0, remainingText.length() - 1);
+        } else if (remainingText.length() > 3 && remainingText.endsWith("rG")) {
+            // Ends in {rgh}.
+            tail = "rG";
+            remainingText = remainingText.substring(0, remainingText.length() - 2);
+        } else if (remainingText.length() > 2 && !isKlingonVowel(remainingText.charAt(remainingText.length() - 1))) {
+            // Ends in something other than a vowel. Assume it's a consonant.
+            tail = remainingText.substring(remainingText.length() - 1);
+            remainingText = remainingText.substring(0, remainingText.length() - 1);
+        }
+        // Log.d(TAG, "After ending: " + remainingText + " / " + tail);
+
+        // Look for the vowel.
+        if (remainingText.length() < 2 ||
+            !isKlingonVowel(remainingText.charAt(remainingText.length() - 1))) {
+            // Failed to extract a syllable from the tail.
+            return "";
+        }
+        tail = remainingText.substring(remainingText.length() - 1) + tail;
+        remainingText = remainingText.substring(0, remainingText.length() - 1);
+        // Log.d(TAG, "After middle: " + remainingText + " / " + tail);
+
+        // Look for the initial consonant.
+        if (remainingText.length() < 1 ||
+            isKlingonVowel(remainingText.charAt(remainingText.length() - 1))) {
+            // Also a failure.
+            return "";
+        }
+        tail = remainingText.substring(remainingText.length() - 1) + tail;
+        remainingText = remainingText.substring(0, remainingText.length() - 1);
+        // Log.d(TAG, "After beginning: " + remainingText + " / " + tail);
+
+        return tail;
     }
 
     private static int getResourceIdForChar(char value) {
@@ -359,7 +458,8 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
      * Also replace {'} with "z" for ease of processing. The input is assumed to be proper Klingon orthography.
      */
     private static String condenseKlingonDiTrigraphs(String input) {
-        return input.replaceAll("ch", "C")
+        return input.replaceAll("[^A-Za-z']+", " ")  // Strip all non-alphabetical characters.
+                    .replaceAll("ch", "C")
                     .replaceAll("gh", "G")   // {gh} has to be done before {ng} so that {ngh} -> "nG" and not "Fh".
                     .replaceAll("ng", "F")
                     .replaceAll("tlh", "x")
