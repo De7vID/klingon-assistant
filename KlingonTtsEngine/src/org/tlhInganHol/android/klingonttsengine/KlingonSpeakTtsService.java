@@ -149,7 +149,9 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
         // --- Non-standard phonology ---
         initMap.put("qarD", R.raw.audio_q);  // From {pIqarD}.
-        initMap.put("qIrq", R.raw.audio_q);  // From {qIrq}.
+        initMap.put("qIrq", R.raw.audio_q);  // From {jemS tIy qIrq}
+        initMap.put("jemS", R.raw.audio_q);  // From {jemS tIy qIrq}.
+        initMap.put("turn", R.raw.audio_q);  // From {Saturn}.
 
         SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
