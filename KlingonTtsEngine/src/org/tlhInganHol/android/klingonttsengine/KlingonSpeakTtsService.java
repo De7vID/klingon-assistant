@@ -25,12 +25,6 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeechService;
 import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -38,8 +32,7 @@ import java.util.Map;
 
 /**
  * A text to speech engine that generates "speech" that a robot might understand.
- * The engine supports two different "languages", each with their own frequency
- * mappings.
+ * The engine supports two different Klingon voices.
  *
  * It exercises all aspects of the Text to speech engine API
  * {@link android.speech.tts.TextToSpeechService}.
@@ -47,22 +40,10 @@ import java.util.Map;
 public class KlingonSpeakTtsService extends TextToSpeechService implements android.media.MediaPlayer.OnCompletionListener {
     private static final String TAG = "KlingonSpeakTtsService";
 
-    /*
-     * This is the sampling rate of our output audio. This engine outputs
-     * audio at 16khz 16bits per sample PCM audio.
-     */
-    private static final int SAMPLING_RATE_HZ = 16000;
-
-    /*
-     * We multiply by a factor of two since each sample contains 16 bits (2 bytes).
-     */
-    private final byte[] mAudioBuffer = new byte[SAMPLING_RATE_HZ * 2];
-
     // The media player object used to play the sounds.
     private MediaPlayer mMediaPlayer = null;
     private LinkedList<Integer> mSyllableList = null;
 
-    private Map<Character, Integer> mFrequenciesMap;
     private volatile String[] mCurrentLanguage = null;
     private volatile boolean mStopRequested = false;
     private SharedPreferences mSharedPrefs = null;
@@ -228,16 +209,6 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
             }
         }
 
-        Map<Character, Integer> newFrequenciesMap = null;
-        try {
-            InputStream file = getAssets().open(lang + "-" + loadCountry + ".freq");
-            newFrequenciesMap = buildFrequencyMap(file);
-            file.close();
-        } catch (IOException e) {
-            Log.e(TAG, "Error loading data for : " + lang + "-" + country);
-        }
-
-        mFrequenciesMap = newFrequenciesMap;
         mCurrentLanguage = new String[] { lang, loadCountry, "" };
 
         return isLanguageAvailable;
@@ -265,12 +236,6 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
         // At this point, we have loaded the language we need for synthesis and
         // it is guaranteed that we support it so we proceed with synthesis.
-
-        // We denote that we are ready to start sending audio across to the
-        // framework. We use a fixed sampling rate (16khz), and send data across
-        // in 16bit PCM mono.
-        callback.start(SAMPLING_RATE_HZ,
-                AudioFormat.ENCODING_PCM_16BIT, 1 /* Number of channels. */);
 
         // We construct a list of syllables to be played.
         mSyllableList = new LinkedList<Integer>();
@@ -489,25 +454,6 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                     .replaceAll("ng", "F")
                     .replaceAll("tlh", "x")
                     .replaceAll("'", "z");
-    }
-
-    private Map<Character, Integer> buildFrequencyMap(InputStream is) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        String line = null;
-        Map<Character, Integer> map = new HashMap<Character, Integer>();
-        try {
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(":");
-                if (parts.length != 2) {
-                    throw new IOException("Invalid line encountered: " + line);
-                }
-                map.put(parts[0].charAt(0), Integer.parseInt(parts[1]));
-            }
-            map.put(' ', 0);
-            return map;
-        } finally {
-            is.close();
-        }
     }
 
     private void playNextSyllableOfRemainingText() {

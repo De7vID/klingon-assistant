@@ -22,8 +22,6 @@ import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
 import android.util.Log;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -132,21 +130,6 @@ public class CheckVoiceData extends Activity {
      * this check would make much more sense.
      */
     private boolean isDataInstalled(String lang) {
-        try {
-            InputStream is = getAssets().open(lang + ".freq");
-
-            if (is != null) {
-                is.close();
-            } else {
-                return false;
-            }
-        } catch (IOException e) {
-            Log.w(TAG, "Unable to find data for: " + lang + ", exception: " + e);
-            return false;
-        }
-
-        // The asset InputStream was non null, and therefore this
-        // data file is available.
         return true;
     }
 }

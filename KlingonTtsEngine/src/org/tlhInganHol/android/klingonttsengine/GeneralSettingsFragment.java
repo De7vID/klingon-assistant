@@ -20,7 +20,7 @@ import android.preference.PreferenceFragment;
 
 public class GeneralSettingsFragment extends PreferenceFragment {
     static final String SHARED_PREFS_NAME = "KlingonSpeakSettings";
-    static final String WHISPER_KEY = "robot_speak_whisper";
+    static final String WHISPER_KEY = "klingon_speak_whisper";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
