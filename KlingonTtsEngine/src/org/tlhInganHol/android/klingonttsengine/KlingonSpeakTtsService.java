@@ -147,7 +147,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         }
 
         mFrequenciesMap = newFrequenciesMap;
-        mCurrentLanguage = new String[] { lang, loadCountry, ""};
+        mCurrentLanguage = new String[] { lang, loadCountry, "" };
 
         return isLanguageAvailable;
     }
@@ -222,8 +222,8 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
             return R.raw.audio_o;
           case 'p':
             return R.raw.audio_p;
-          case 'k':
-            return R.raw.audio_k;
+          case 'q':
+            return R.raw.audio_q;
           case 'Q':
             return R.raw.audio_q_;
           case 'r':
@@ -258,7 +258,6 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         return input.replaceAll("ch", "C")
                     .replaceAll("gh", "G")   // {gh} has to be done before {ng} so that {ngh} -> "nG" and not "Fh".
                     .replaceAll("ng", "F")
-                    .replaceAll("q", "k")    // file system is case-insensitive, force {q} to map to "k".
                     .replaceAll("tlh", "x")
                     .replaceAll("'", "z");
     }
@@ -283,6 +282,9 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     }
 
     private void playNextCharOfRemainingText() {
+        if (mStopRequested) {
+            return;
+        }
         for (int i = 0; i < mRemainingText.length(); ++i) {
             // TODO: Instead of reading one character at a time, match longer chunks such as verb prefixes or verb/noun suffixes.
             int resId = getResourceIdForChar(mRemainingText.charAt(i));
