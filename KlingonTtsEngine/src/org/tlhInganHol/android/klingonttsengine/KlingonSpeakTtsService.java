@@ -54,6 +54,10 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("ba", R.raw.audio_ba);
         initMap.put("xa", R.raw.audio_xa);
 
+        // --- Verb prefixes ---
+        initMap.put("jI", R.raw.audio_ji_);
+        initMap.put("bI", R.raw.audio_bi_);
+
         FRONT_HALF_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
 
@@ -137,6 +141,10 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("qIrq", R.raw.audio_silence);  // From {jemS tIy qIrq}
         initMap.put("jemS", R.raw.audio_silence);  // From {jemS tIy qIrq}.
         initMap.put("turn", R.raw.audio_silence);  // From {Saturn}.
+
+        // --- Common verbs ---
+        initMap.put("jeG", R.raw.audio_jeg_);   // jegh
+        initMap.put("HeG", R.raw.audio_h_eg_);   // jegh
 
         SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
@@ -246,7 +254,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         String condensedText = condenseKlingonDiTrigraphs(request.getText());
         Log.d(TAG, "condensedText: " + condensedText);
         while (!condensedText.equals("")) {
-            // Syllables must have length 3 or 4.
+            // Syllables in the main syllable map must have length 3 or 4.
             boolean matched = false;
             for (int len = 3; len <= 4; len++) {
                 if (condensedText.length() < len) {
