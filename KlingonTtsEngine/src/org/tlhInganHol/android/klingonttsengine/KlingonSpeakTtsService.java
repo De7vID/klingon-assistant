@@ -91,18 +91,18 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("taz", R.raw.audio_taz);   // ta'
         initMap.put("taH", R.raw.audio_tah_);
         initMap.put("lIz", R.raw.audio_li_z);   // lI'
-        initMap.put("neS", R.raw.audio_silence);   // neS
-        initMap.put("DIz", R.raw.audio_silence);  // DI'
-        initMap.put("CuG", R.raw.audio_silence);  // chugh
-        initMap.put("paz", R.raw.audio_silence);   // pa'
-        initMap.put("vIS", R.raw.audio_silence);
-        initMap.put("boG", R.raw.audio_silence);   // bogh
-        initMap.put("meH", R.raw.audio_silence);
+        initMap.put("neS", R.raw.audio_nes_);   // neS
+        initMap.put("DIz", R.raw.audio_d_i_z);  // DI'
+        initMap.put("CuG", R.raw.audio_c_u_g_);  // chugh
+        initMap.put("paz", R.raw.audio_paz);   // pa'
+        initMap.put("vIS", R.raw.audio_vi_s_);
+        initMap.put("boG", R.raw.audio_bog_);   // bogh
+        initMap.put("meH", R.raw.audio_meh_);
         initMap.put("zaz", R.raw.audio_zaz);
         initMap.put("wIz", R.raw.audio_wi_z);   // wI'
         initMap.put("moz", R.raw.audio_moz);   // mo'
-        initMap.put("jaj", R.raw.audio_silence);
-        initMap.put("GaC", R.raw.audio_silence);   // ghach
+        initMap.put("jaj", R.raw.audio_jaj);
+        initMap.put("GaC", R.raw.audio_g_ac_);   // ghach
         initMap.put("bez", R.raw.audio_silence);   // be'
         initMap.put("Qoz", R.raw.audio_silence);   // Qo'
         initMap.put("Haz", R.raw.audio_silence);   // Ha'
