@@ -100,7 +100,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("meH", R.raw.audio_silence);
         initMap.put("zaz", R.raw.audio_zaz);
         initMap.put("wIz", R.raw.audio_wi_z);   // wI'
-        initMap.put("moz", R.raw.audio_silence);   // mo'
+        initMap.put("moz", R.raw.audio_moz);   // mo'
         initMap.put("jaj", R.raw.audio_silence);
         initMap.put("GaC", R.raw.audio_silence);   // ghach
         initMap.put("bez", R.raw.audio_silence);   // be'
@@ -127,10 +127,10 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("Caj", R.raw.audio_c_aj);   // chaj
         initMap.put("vam", R.raw.audio_vam);
         initMap.put("vex", R.raw.audio_vex);   // vetlh
-        initMap.put("Daq", R.raw.audio_silence);
-        initMap.put("voz", R.raw.audio_silence);   // vo'
-        initMap.put("vaD", R.raw.audio_silence);
-        initMap.put("zez", R.raw.audio_silence);   // 'e'
+        initMap.put("Daq", R.raw.audio_d_aq);
+        initMap.put("voz", R.raw.audio_voz);   // vo'
+        initMap.put("vaD", R.raw.audio_vad_);
+        initMap.put("zez", R.raw.audio_zez);   // 'e'
 
         // --- Non-standard phonology ---
         initMap.put("qarD", R.raw.audio_silence);  // From {pIqarD}.
