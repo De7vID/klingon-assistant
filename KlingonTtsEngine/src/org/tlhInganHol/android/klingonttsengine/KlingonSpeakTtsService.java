@@ -103,10 +103,10 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("moz", R.raw.audio_moz);   // mo'
         initMap.put("jaj", R.raw.audio_jaj);
         initMap.put("GaC", R.raw.audio_g_ac_);   // ghach
-        initMap.put("bez", R.raw.audio_silence);   // be'
-        initMap.put("Qoz", R.raw.audio_silence);   // Qo'
-        initMap.put("Haz", R.raw.audio_silence);   // Ha'
-        initMap.put("quz", R.raw.audio_silence);   // qu'
+        initMap.put("bez", R.raw.audio_bez);   // be'
+        initMap.put("Qoz", R.raw.audio_q_oz);   // Qo'
+        initMap.put("Haz", R.raw.audio_h_az);   // Ha'
+        initMap.put("quz", R.raw.audio_quz);   // qu'
 
         // --- Noun suffixes ---
         // Note: {'a'}, {pu'}, {wI'}, {lI'}, and {mo'} are already in the verb suffixes.
