@@ -71,25 +71,25 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         Map<String, Integer> initMap = new HashMap<String, Integer>();
 
         // --- Verb suffixes ---
-        initMap.put("zeG", R.raw.audio_silence);   // 'egh
-        initMap.put("Cuq", R.raw.audio_silence);  // chuq
-        initMap.put("nIS", R.raw.audio_silence);
-        initMap.put("qaF", R.raw.audio_silence);   // qang
-        initMap.put("rup", R.raw.audio_silence);
-        initMap.put("beH", R.raw.audio_silence);
-        initMap.put("vIp", R.raw.audio_silence);
-        initMap.put("CoH", R.raw.audio_silence);  // choH
-        initMap.put("qaz", R.raw.audio_silence);   // qa'
-        initMap.put("moH", R.raw.audio_silence);
-        initMap.put("luz", R.raw.audio_silence);   // lu'
-        initMap.put("laH", R.raw.audio_silence);
-        initMap.put("Cuz", R.raw.audio_silence);  // chu'
-        initMap.put("bej", R.raw.audio_silence);
-        initMap.put("lawz", R.raw.audio_silence);  // law'
-        initMap.put("baz", R.raw.audio_silence);   // ba'
+        initMap.put("zeG", R.raw.audio_zeg_);   // 'egh
+        initMap.put("Cuq", R.raw.audio_c_uq);  // chuq
+        initMap.put("nIS", R.raw.audio_ni_s_);
+        initMap.put("qaF", R.raw.audio_qaf_);   // qang
+        initMap.put("rup", R.raw.audio_rup);
+        initMap.put("beH", R.raw.audio_beh_);
+        initMap.put("vIp", R.raw.audio_vi_p);
+        initMap.put("CoH", R.raw.audio_c_oh_);  // choH
+        initMap.put("qaz", R.raw.audio_qaz);   // qa'
+        initMap.put("moH", R.raw.audio_moh_);
+        initMap.put("luz", R.raw.audio_luz);   // lu'
+        initMap.put("laH", R.raw.audio_lah_);
+        initMap.put("Cuz", R.raw.audio_c_uz);  // chu'
+        initMap.put("bej", R.raw.audio_bej);
+        initMap.put("lawz", R.raw.audio_lawz);  // law'
+        initMap.put("baz", R.raw.audio_baz);   // ba'
         initMap.put("puz", R.raw.audio_puz);   // pu'
-        initMap.put("taz", R.raw.audio_silence);   // ta'
-        initMap.put("taH", R.raw.audio_silence);
+        initMap.put("taz", R.raw.audio_taz);   // ta'
+        initMap.put("taH", R.raw.audio_tah_);
         initMap.put("lIz", R.raw.audio_li_z);   // lI'
         initMap.put("neS", R.raw.audio_silence);   // neS
         initMap.put("DIz", R.raw.audio_silence);  // DI'
