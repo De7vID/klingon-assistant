@@ -51,6 +51,8 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     private static final Map<String, Integer> FRONT_HALF_SYLLABLE_TO_AUDIO_MAP;
     static {
         Map<String, Integer> initMap = new HashMap<String, Integer>();
+        initMap.put("ba", R.raw.audio_ba);
+        initMap.put("xa", R.raw.audio_xa);
 
         FRONT_HALF_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
@@ -58,6 +60,8 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     private static final Map<String, Integer> BACK_HALF_SYLLABLE_TO_AUDIO_MAP;
     static {
         Map<String, Integer> initMap = new HashMap<String, Integer>();
+        initMap.put("ab", R.raw.audio_ab);
+        initMap.put("ax", R.raw.audio_ax);
 
         BACK_HALF_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
@@ -67,72 +71,72 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         Map<String, Integer> initMap = new HashMap<String, Integer>();
 
         // --- Verb suffixes ---
-        initMap.put("zeG", R.raw.audio_e);   // 'egh
-        initMap.put("Cuq", R.raw.audio_c_);  // chuq
-        initMap.put("nIS", R.raw.audio_n);
-        initMap.put("qaF", R.raw.audio_q);   // qang
-        initMap.put("rup", R.raw.audio_r);
-        initMap.put("beH", R.raw.audio_b);
-        initMap.put("vIp", R.raw.audio_v);
-        initMap.put("CoH", R.raw.audio_c_);  // choH
-        initMap.put("qaz", R.raw.audio_q);   // qa'
-        initMap.put("moH", R.raw.audio_m);
-        initMap.put("luz", R.raw.audio_l);   // lu'
-        initMap.put("laH", R.raw.audio_l);
-        initMap.put("Cuz", R.raw.audio_c_);  // chu'
-        initMap.put("bej", R.raw.audio_b);
-        initMap.put("lawz", R.raw.audio_l);  // law'
-        initMap.put("baz", R.raw.audio_b);   // ba'
-        initMap.put("puz", R.raw.audio_p);   // pu'
-        initMap.put("taz", R.raw.audio_t);   // ta'
-        initMap.put("taH", R.raw.audio_t);
-        initMap.put("lIz", R.raw.audio_l);   // lI'
-        initMap.put("neS", R.raw.audio_n);   // neS
-        initMap.put("DIz", R.raw.audio_d_);  // DI'
-        initMap.put("CuG", R.raw.audio_c_);  // chugh
-        initMap.put("paz", R.raw.audio_p);   // pa'
-        initMap.put("vIS", R.raw.audio_v);
-        initMap.put("boG", R.raw.audio_b);   // bogh
-        initMap.put("meH", R.raw.audio_a);
-        initMap.put("zaz", R.raw.audio_a);
-        initMap.put("wIz", R.raw.audio_a);   // wI'
-        initMap.put("moz", R.raw.audio_a);   // mo'
-        initMap.put("jaj", R.raw.audio_a);
-        initMap.put("GaC", R.raw.audio_a);   // ghach
-        initMap.put("bez", R.raw.audio_a);   // be'
-        initMap.put("Qoz", R.raw.audio_a);   // Qo'
-        initMap.put("Haz", R.raw.audio_a);   // Ha'
-        initMap.put("quz", R.raw.audio_a);   // qu'
+        initMap.put("zeG", R.raw.audio_silence);   // 'egh
+        initMap.put("Cuq", R.raw.audio_silence);  // chuq
+        initMap.put("nIS", R.raw.audio_silence);
+        initMap.put("qaF", R.raw.audio_silence);   // qang
+        initMap.put("rup", R.raw.audio_silence);
+        initMap.put("beH", R.raw.audio_silence);
+        initMap.put("vIp", R.raw.audio_silence);
+        initMap.put("CoH", R.raw.audio_silence);  // choH
+        initMap.put("qaz", R.raw.audio_silence);   // qa'
+        initMap.put("moH", R.raw.audio_silence);
+        initMap.put("luz", R.raw.audio_silence);   // lu'
+        initMap.put("laH", R.raw.audio_silence);
+        initMap.put("Cuz", R.raw.audio_silence);  // chu'
+        initMap.put("bej", R.raw.audio_silence);
+        initMap.put("lawz", R.raw.audio_silence);  // law'
+        initMap.put("baz", R.raw.audio_silence);   // ba'
+        initMap.put("puz", R.raw.audio_puz);   // pu'
+        initMap.put("taz", R.raw.audio_silence);   // ta'
+        initMap.put("taH", R.raw.audio_silence);
+        initMap.put("lIz", R.raw.audio_li_z);   // lI'
+        initMap.put("neS", R.raw.audio_silence);   // neS
+        initMap.put("DIz", R.raw.audio_silence);  // DI'
+        initMap.put("CuG", R.raw.audio_silence);  // chugh
+        initMap.put("paz", R.raw.audio_silence);   // pa'
+        initMap.put("vIS", R.raw.audio_silence);
+        initMap.put("boG", R.raw.audio_silence);   // bogh
+        initMap.put("meH", R.raw.audio_silence);
+        initMap.put("zaz", R.raw.audio_zaz);
+        initMap.put("wIz", R.raw.audio_wi_z);   // wI'
+        initMap.put("moz", R.raw.audio_silence);   // mo'
+        initMap.put("jaj", R.raw.audio_silence);
+        initMap.put("GaC", R.raw.audio_silence);   // ghach
+        initMap.put("bez", R.raw.audio_silence);   // be'
+        initMap.put("Qoz", R.raw.audio_silence);   // Qo'
+        initMap.put("Haz", R.raw.audio_silence);   // Ha'
+        initMap.put("quz", R.raw.audio_silence);   // qu'
 
         // --- Noun suffixes ---
         // Note: {'a'}, {pu'}, {wI'}, {lI'}, and {mo'} are already in the verb suffixes.
         // Also, {oy} requires special handling since it doesn't start with a consonant.
-        initMap.put("Hom", R.raw.audio_a);
-        initMap.put("Duz", R.raw.audio_a);   // Du'
-        initMap.put("mey", R.raw.audio_a);
-        initMap.put("qoq", R.raw.audio_a);
-        initMap.put("Hey", R.raw.audio_a);
-        initMap.put("naz", R.raw.audio_a);   // na'
-        initMap.put("wIj", R.raw.audio_a);
-        initMap.put("lIj", R.raw.audio_a);
-        initMap.put("maj", R.raw.audio_a);
-        initMap.put("maz", R.raw.audio_a);   // ma'
-        initMap.put("raj", R.raw.audio_a);
-        initMap.put("raz", R.raw.audio_a);   // ra'
-        initMap.put("Daj", R.raw.audio_a);
-        initMap.put("Caj", R.raw.audio_a);   // chaj
-        initMap.put("vam", R.raw.audio_a);
-        initMap.put("vex", R.raw.audio_a);   // vetlh
-        initMap.put("Daq", R.raw.audio_a);
-        initMap.put("voz", R.raw.audio_a);   // vo'
-        initMap.put("vaD", R.raw.audio_a);
-        initMap.put("zez", R.raw.audio_a);   // 'e'
+        initMap.put("Hom", R.raw.audio_h_om);
+        initMap.put("Duz", R.raw.audio_d_uz);   // Du'
+        initMap.put("mey", R.raw.audio_mey);
+        initMap.put("qoq", R.raw.audio_qoq);
+        initMap.put("Hey", R.raw.audio_h_ey);
+        initMap.put("naz", R.raw.audio_naz);   // na'
+        initMap.put("wIj", R.raw.audio_wi_j);
+        initMap.put("lIj", R.raw.audio_li_j);
+        initMap.put("maj", R.raw.audio_maj);
+        initMap.put("maz", R.raw.audio_maz);   // ma'
+        initMap.put("raj", R.raw.audio_raj);
+        initMap.put("raz", R.raw.audio_raz);   // ra'
+        initMap.put("Daj", R.raw.audio_d_aj);
+        initMap.put("Caj", R.raw.audio_c_aj);   // chaj
+        initMap.put("vam", R.raw.audio_vam);
+        initMap.put("vex", R.raw.audio_vex);   // vetlh
+        initMap.put("Daq", R.raw.audio_silence);
+        initMap.put("voz", R.raw.audio_silence);   // vo'
+        initMap.put("vaD", R.raw.audio_silence);
+        initMap.put("zez", R.raw.audio_silence);   // 'e'
 
         // --- Non-standard phonology ---
-        initMap.put("qarD", R.raw.audio_q);  // From {pIqarD}.
-        initMap.put("qIrq", R.raw.audio_q);  // From {jemS tIy qIrq}
-        initMap.put("jemS", R.raw.audio_q);  // From {jemS tIy qIrq}.
-        initMap.put("turn", R.raw.audio_q);  // From {Saturn}.
+        initMap.put("qarD", R.raw.audio_silence);  // From {pIqarD}.
+        initMap.put("qIrq", R.raw.audio_silence);  // From {jemS tIy qIrq}
+        initMap.put("jemS", R.raw.audio_silence);  // From {jemS tIy qIrq}.
+        initMap.put("turn", R.raw.audio_silence);  // From {Saturn}.
 
         SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
@@ -262,15 +266,27 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
             if (!matched) {
                 String syllable = removeTailSyllable(condensedText);
                 if (!syllable.equals("")) {
-                    mSyllableList.addFirst(R.raw.audio_a);
                     condensedText = condensedText.substring(0, condensedText.length() - syllable.length());
                     String vowel = getSyllableVowel(syllable);
                     int vowelIndex = syllable.indexOf(vowel);
-                    String syllableFront = syllable.substring(0, vowelIndex + vowel.length());
+
+                    // Process the back half of the syllable.
                     String syllableBack = syllable.substring(vowelIndex);
+                    Integer backResId = BACK_HALF_SYLLABLE_TO_AUDIO_MAP.get(syllableBack);
+                    if (backResId != null) {
+                        mSyllableList.addFirst(backResId);
+                    }
                     if (syllableBack.equals(vowel)) {
                         syllableBack = "";
                     }
+
+                    // Process the front half of the syllable.
+                    String syllableFront = syllable.substring(0, vowelIndex + vowel.length());
+                    Integer frontResId = FRONT_HALF_SYLLABLE_TO_AUDIO_MAP.get(syllableFront);
+                    if (frontResId != null) {
+                        mSyllableList.addFirst(frontResId);
+                    }
+
                     matched = true;
                     Log.d(TAG, "Matched syllable: " + syllableFront + " " + syllableBack);
                 }
@@ -384,57 +400,57 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     private static int getResourceIdForChar(char value) {
         switch(value) {
           case 'a':
-            return R.raw.audio_a;
+            return R.raw.audio_silence;
           case 'b':
-            return R.raw.audio_b;
+            return R.raw.audio_silence;
           case 'C': // {ch}
-            return R.raw.audio_c_;
+            return R.raw.audio_silence;
           case 'D':
-            return R.raw.audio_d_;
+            return R.raw.audio_silence;
           case 'e':
-            return R.raw.audio_e;
+            return R.raw.audio_silence;
           case 'G': // {gh}
-            return R.raw.audio_g_;
+            return R.raw.audio_silence;
           case 'H':
-            return R.raw.audio_h_;
+            return R.raw.audio_silence;
           case 'I':
-            return R.raw.audio_i_;
+            return R.raw.audio_silence;
           case 'j':
-            return R.raw.audio_j;
+            return R.raw.audio_silence;
           case 'l':
-            return R.raw.audio_l;
+            return R.raw.audio_silence;
           case 'm':
-            return R.raw.audio_m;
+            return R.raw.audio_silence;
           case 'n':
-            return R.raw.audio_n;
+            return R.raw.audio_silence;
           case 'F': // {ng}
-            return R.raw.audio_f_;
+            return R.raw.audio_silence;
           case 'o':
-            return R.raw.audio_o;
+            return R.raw.audio_silence;
           case 'p':
-            return R.raw.audio_p;
+            return R.raw.audio_silence;
           case 'q':
-            return R.raw.audio_q;
+            return R.raw.audio_silence;
           case 'Q':
-            return R.raw.audio_q_;
+            return R.raw.audio_silence;
           case 'r':
-            return R.raw.audio_r;
+            return R.raw.audio_silence;
           case 'S':
-            return R.raw.audio_s_;
+            return R.raw.audio_silence;
           case 't':
-            return R.raw.audio_t;
+            return R.raw.audio_silence;
           case 'x': // {tlh}
-            return R.raw.audio_x;
+            return R.raw.audio_silence;
           case 'u':
-            return R.raw.audio_u;
+            return R.raw.audio_silence;
           case 'v':
-            return R.raw.audio_v;
+            return R.raw.audio_silence;
           case 'w':
-            return R.raw.audio_w;
+            return R.raw.audio_silence;
           case 'y':
-            return R.raw.audio_y;
+            return R.raw.audio_silence;
           case 'z': // {'}
-            return R.raw.audio_z;
+            return R.raw.audio_silence;
           case ' ':
             return R.raw.audio_silence;
           default:
