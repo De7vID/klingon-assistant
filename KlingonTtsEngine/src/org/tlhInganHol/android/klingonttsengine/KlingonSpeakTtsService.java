@@ -68,6 +68,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     private static final Map<String, Integer> SHORT_SYLLABLE_TO_AUDIO_MAP;
     static {
         Map<String, Integer> initMap = new HashMap<String, Integer>();
+        // bo, cha, Da, DI, Do, gho, ghu, He, Hu, ja, je, jo, lu, 'o, po, QI, ra, ro, So, ta, tI, va, ya, yu, 'a
         // initMap.put("Da", R.raw.audio_d_a);
 
         SHORT_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
