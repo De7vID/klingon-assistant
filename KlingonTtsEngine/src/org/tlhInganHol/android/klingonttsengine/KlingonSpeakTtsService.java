@@ -25,8 +25,6 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeechService;
 import android.util.Log;
 
-import java.lang.IllegalStateException;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -39,7 +37,7 @@ import java.util.Map;
  * It exercises all aspects of the Text to speech engine API
  * {@link android.speech.tts.TextToSpeechService}.
  */
-public class KlingonSpeakTtsService extends TextToSpeechService implements android.media.MediaPlayer.OnCompletionListener, android.media.MediaPlayer.OnInfoListener {
+public class KlingonSpeakTtsService extends TextToSpeechService implements android.media.MediaPlayer.OnCompletionListener {
     private static final String TAG = "KlingonSpeakTtsService";
 
     // The media player object used to play the sounds.
@@ -258,17 +256,9 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
             MediaPlayer mp = MediaPlayer.create(this, resId.intValue());
 
             // Chain this MediaPlayer to the front of the existing one (if any).
-            try {
-                mp.setNextMediaPlayer(mMediaPlayer);
-            } catch (IllegalStateException e) {
-                mp = null;
-                e.printStackTrace();
-            }
-            if (mp != null) {
-                mp.setOnCompletionListener(this);
-                mp.setOnInfoListener(this);
-                mMediaPlayer = mp;
-            }
+            mp.setNextMediaPlayer(mMediaPlayer);
+            mp.setOnCompletionListener(this);
+            mMediaPlayer = mp;
         }
     }
 
@@ -528,29 +518,23 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         // In general, a call to onStop() should make a best effort attempt
         // to stop all processing for the *current* onSynthesizeText request (if
         // one is active).
-        // TODO: if mStopRequested is true, release all the players.
-        if (mMediaPlayer == null) {
+        if (mStopRequested || mMediaPlayer == null) {
             return;
         }
-        try {
-            mMediaPlayer.start();
-            mMediaPlayer = null;
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        }
+
+        // This starts the chain of playback.
+        mMediaPlayer.start();
+
+        // It is important to set this to null here, since if onSynthesizeText
+        // is called again, we don't want to chain the currently playing
+        // syllables to the end of the new chain.
+        mMediaPlayer = null;
     }
 
     public void onCompletion(MediaPlayer mp) {
         // Be sure to release the audio resources when playback is completed.
-        Log.d(TAG, "onCompletion called");
-        mp.reset();
+        // Log.d(TAG, "onCompletion called");
+        // mp.reset();
         mp.release();
-    }
-
-    public boolean onInfo(MediaPlayer mp, int what, int extra) {
-        Log.d(TAG, "mp: " + mp);
-        Log.d(TAG, "what: " + what);
-        Log.d(TAG, "extra: " + extra);
-        return true;
     }
 }
