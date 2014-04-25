@@ -42,7 +42,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
     // The media player object used to play the sounds.
     private MediaPlayer mMediaPlayer = null;
-    private LinkedList<Integer> mSyllableList = null;
+    private LinkedList<MediaPlayer> mSyllableList = null;
 
     private volatile String[] mCurrentLanguage = null;
     private volatile boolean mStopRequested = false;
@@ -231,6 +231,19 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         mStopRequested = true;
     }
 
+    // Helper method to prepare a MediaPlayer with the audio and add it to the
+    // front of the play list. Preparing this way helps to reduce any audio gap.
+    private void prependSyllableToList(Integer resId) {
+        if (resId.intValue() != 0) {
+            MediaPlayer mp = MediaPlayer.create(this, resId.intValue());
+            // Alternatively:
+            //   mMediaPlayer = new MediaPlayer();
+            //   mMediaPlayer.setDataSource(filename);
+            //   mMediaPlayer.prepare();
+            mSyllableList.addFirst(mp);
+        }
+    }
+
     @Override
     protected synchronized void onSynthesizeText(SynthesisRequest request,
             SynthesisCallback callback) {
@@ -250,7 +263,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         // it is guaranteed that we support it so we proceed with synthesis.
 
         // We construct a list of syllables to be played.
-        mSyllableList = new LinkedList<Integer>();
+        mSyllableList = new LinkedList<MediaPlayer>();
         String condensedText = condenseKlingonDiTrigraphs(request.getText());
         Log.d(TAG, "condensedText: " + condensedText);
         while (!condensedText.equals("")) {
@@ -264,7 +277,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                 String tail = condensedText.substring(condensedText.length() - len);
                 Integer resId = SYLLABLE_TO_AUDIO_MAP.get(tail);
                 if (resId != null) {
-                    mSyllableList.addFirst(resId);
+                    prependSyllableToList(resId);
                     condensedText = condensedText.substring(0, condensedText.length() - len);
                     matched = true;
                     Log.d(TAG, "Matched tail: " + tail);
@@ -282,7 +295,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                     String syllableBack = syllable.substring(vowelIndex);
                     Integer backResId = BACK_HALF_SYLLABLE_TO_AUDIO_MAP.get(syllableBack);
                     if (backResId != null) {
-                        mSyllableList.addFirst(backResId);
+                        prependSyllableToList(backResId);
                     }
                     if (syllableBack.equals(vowel)) {
                         syllableBack = "";
@@ -292,7 +305,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                     String syllableFront = syllable.substring(0, vowelIndex + vowel.length());
                     Integer frontResId = FRONT_HALF_SYLLABLE_TO_AUDIO_MAP.get(syllableFront);
                     if (frontResId != null) {
-                        mSyllableList.addFirst(frontResId);
+                        prependSyllableToList(frontResId);
                     }
 
                     matched = true;
@@ -303,7 +316,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                 // No match for a complete syllable.
                 char value = condensedText.charAt(condensedText.length() - 1);
                 condensedText = condensedText.substring(0, condensedText.length() - 1);
-                mSyllableList.addFirst(getResourceIdForChar(value));
+                prependSyllableToList(getResourceIdForChar(value));
                 Log.d(TAG, "Stripped char: " + value);
             }
         }
@@ -485,22 +498,18 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         // The mStopRequested variable will be reset at the beginning of the
         // next synthesis.
         //
-        // In general, a call to onStop( ) should make a best effort attempt
+        // In general, a call to onStop() should make a best effort attempt
         // to stop all processing for the *current* onSynthesizeText request (if
         // one is active).
         if (mStopRequested) {
             return;
         }
         if (!mSyllableList.isEmpty()) {
-            Integer resId = mSyllableList.pop();
-            if (resId.intValue() != 0) {
-                // Play the audio file.
-                // Alternatively: mMediaPlayer = new MediaPlayer(); mMediaPlayer.setDataSource(filename); mMediaPlayer.prepare();
-                mMediaPlayer = MediaPlayer.create(this, resId.intValue());
-                mMediaPlayer.setOnCompletionListener(this);
-                mMediaPlayer.start();
-                Log.d(TAG, "Playing: " + resId);
-            }
+            // Play the audio file.
+            mMediaPlayer = mSyllableList.pop();
+            mMediaPlayer.setOnCompletionListener(this);
+            mMediaPlayer.start();
+            // Log.d(TAG, "Playing: " + resId);
         }
     }
 
