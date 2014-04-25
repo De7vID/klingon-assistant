@@ -144,7 +144,9 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
         // --- Common verbs ---
         initMap.put("jeG", R.raw.audio_jeg_);   // jegh
-        initMap.put("HeG", R.raw.audio_h_eg_);   // jegh
+        initMap.put("HeG", R.raw.audio_h_eg_);   // Hegh
+        initMap.put("yaj", R.raw.audio_yaj);
+        initMap.put("SaH", R.raw.audio_s_ah_);
 
         SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
