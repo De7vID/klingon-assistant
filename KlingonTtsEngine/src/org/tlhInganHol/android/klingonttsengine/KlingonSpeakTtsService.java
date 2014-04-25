@@ -47,6 +47,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     private volatile boolean mStopRequested = false;
     private SharedPreferences mSharedPrefs = null;
 
+    // This map contains the front half of full syllables.
     private static final Map<String, Integer> FRONT_HALF_SYLLABLE_TO_AUDIO_MAP;
     static {
         Map<String, Integer> initMap = new HashMap<String, Integer>();
@@ -60,6 +61,19 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         FRONT_HALF_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
 
+    // This map contains short syllables, i.e., those of the form CV.
+    // Unlike for the corresponding front half of a full syllable, the audio for a short syllable
+    // doesn't end abruptly. For example, "Da-" (a front half syllable) is the prefix for "you-it",
+    // whereas "Da" (a short syllable) is the verb for "behave as".
+    private static final Map<String, Integer> SHORT_SYLLABLE_TO_AUDIO_MAP;
+    static {
+        Map<String, Integer> initMap = new HashMap<String, Integer>();
+        // initMap.put("Da", R.raw.audio_d_a);
+
+        SHORT_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
+    }
+
+    // This map contains the back half of full syllables.
     private static final Map<String, Integer> BACK_HALF_SYLLABLE_TO_AUDIO_MAP;
     static {
         Map<String, Integer> initMap = new HashMap<String, Integer>();
@@ -69,7 +83,8 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         BACK_HALF_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
 
-    private static final Map<String, Integer> SYLLABLE_TO_AUDIO_MAP;
+    // This map contains full syllables, i.e., those of the form CVC, CVrgh, or CV[wy]'.
+    private static final Map<String, Integer> MAIN_SYLLABLE_TO_AUDIO_MAP;
     static {
         Map<String, Integer> initMap = new HashMap<String, Integer>();
 
@@ -160,7 +175,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         // --- Common adverbials ---
         initMap.put("vaj", R.raw.audio_vaj);
 
-        SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
+        MAIN_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
 
     @Override
@@ -292,7 +307,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                     break;
                 }
                 String tail = condensedText.substring(condensedText.length() - len);
-                Integer resId = SYLLABLE_TO_AUDIO_MAP.get(tail);
+                Integer resId = MAIN_SYLLABLE_TO_AUDIO_MAP.get(tail);
                 if (resId != null) {
                     prependSyllableToList(resId);
                     condensedText = condensedText.substring(0, condensedText.length() - len);
@@ -320,6 +335,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
                     // Process the front half of the syllable.
                     String syllableFront = syllable.substring(0, vowelIndex + vowel.length());
+                    // TODO: Determine whether to use SHORT_SYLLABLE_TO_AUDIO_MAP here.
                     Integer frontResId = FRONT_HALF_SYLLABLE_TO_AUDIO_MAP.get(syllableFront + "-");
                     if (frontResId != null) {
                         prependSyllableToList(frontResId);
