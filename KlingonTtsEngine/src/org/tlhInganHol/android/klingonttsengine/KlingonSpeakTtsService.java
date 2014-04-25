@@ -153,6 +153,10 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         // --- Conjunctions ---
         initMap.put("zej", R.raw.audio_zej);   // 'ej
         initMap.put("je", R.raw.audio_je);
+        initMap.put("qoj", R.raw.audio_qoj);
+        initMap.put("joq", R.raw.audio_joq);
+        initMap.put("paG", R.raw.audio_pag_);   // pagh
+        initMap.put("Gap", R.raw.audio_g_ap);   // ghap
 
         // --- Common adverbials ---
         initMap.put("vaj", R.raw.audio_vaj);
