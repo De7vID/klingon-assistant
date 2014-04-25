@@ -51,12 +51,12 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     private static final Map<String, Integer> FRONT_HALF_SYLLABLE_TO_AUDIO_MAP;
     static {
         Map<String, Integer> initMap = new HashMap<String, Integer>();
-        initMap.put("ba", R.raw.audio_ba);
-        initMap.put("xa", R.raw.audio_xa);
+        initMap.put("ba-", R.raw.audio_ba0);
+        initMap.put("xa-", R.raw.audio_xa0);
 
         // --- Verb prefixes ---
-        initMap.put("jI", R.raw.audio_ji_);
-        initMap.put("bI", R.raw.audio_bi_);
+        initMap.put("jI-", R.raw.audio_ji_0);
+        initMap.put("bI-", R.raw.audio_bi_0);
 
         FRONT_HALF_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
@@ -64,8 +64,8 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     private static final Map<String, Integer> BACK_HALF_SYLLABLE_TO_AUDIO_MAP;
     static {
         Map<String, Integer> initMap = new HashMap<String, Integer>();
-        initMap.put("ab", R.raw.audio_ab);
-        initMap.put("ax", R.raw.audio_ax);
+        initMap.put("-ab", R.raw.audio_0ab);
+        initMap.put("-ax", R.raw.audio_0ax);
 
         BACK_HALF_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
@@ -147,6 +147,15 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("HeG", R.raw.audio_h_eg_);   // Hegh
         initMap.put("yaj", R.raw.audio_yaj);
         initMap.put("SaH", R.raw.audio_s_ah_);
+
+        // --- Common nouns ---
+
+        // --- Conjunctions ---
+        initMap.put("zej", R.raw.audio_zej);   // 'ej
+        initMap.put("je", R.raw.audio_je);
+
+        // --- Common adverbials ---
+        initMap.put("vaj", R.raw.audio_vaj);
 
         SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
@@ -295,7 +304,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
                     // Process the back half of the syllable.
                     String syllableBack = syllable.substring(vowelIndex);
-                    Integer backResId = BACK_HALF_SYLLABLE_TO_AUDIO_MAP.get(syllableBack);
+                    Integer backResId = BACK_HALF_SYLLABLE_TO_AUDIO_MAP.get("-" + syllableBack);
                     if (backResId != null) {
                         prependSyllableToList(backResId);
                     }
@@ -305,7 +314,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
                     // Process the front half of the syllable.
                     String syllableFront = syllable.substring(0, vowelIndex + vowel.length());
-                    Integer frontResId = FRONT_HALF_SYLLABLE_TO_AUDIO_MAP.get(syllableFront);
+                    Integer frontResId = FRONT_HALF_SYLLABLE_TO_AUDIO_MAP.get(syllableFront + "-");
                     if (frontResId != null) {
                         prependSyllableToList(frontResId);
                     }
