@@ -299,9 +299,10 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         // We construct a list of syllables to be played.
         String condensedText = condenseKlingonDiTrigraphs(request.getText());
         Log.d(TAG, "condensedText: " + condensedText);
+        boolean isFinalSyllable = true;
         while (!condensedText.equals("")) {
             // Syllables in the main syllable map must have length 3 or 4.
-            boolean matched = false;
+            boolean foundMatch = false;
             for (int len = 3; len <= 4; len++) {
                 if (condensedText.length() < len) {
                     // Remaining text is too short to have a complete syllable.
@@ -312,46 +313,70 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                 if (resId != null) {
                     prependSyllableToList(resId);
                     condensedText = condensedText.substring(0, condensedText.length() - len);
-                    matched = true;
+
+                    // The next match won't be the final syllable in a word.
+                    isFinalSyllable = false;
+                    foundMatch = true;
                     Log.d(TAG, "Matched tail: " + tail);
                     break;
                 }
             }
-            if (!matched) {
+            if (!foundMatch) {
                 String syllable = removeTailSyllable(condensedText);
                 if (!syllable.equals("")) {
                     condensedText = condensedText.substring(0, condensedText.length() - syllable.length());
                     String vowel = getSyllableVowel(syllable);
                     int vowelIndex = syllable.indexOf(vowel);
 
-                    // Process the back half of the syllable.
+                    // Split the syllable into front and back.
                     String syllableBack = syllable.substring(vowelIndex);
-                    Integer backResId = BACK_HALF_SYLLABLE_TO_AUDIO_MAP.get("-" + syllableBack);
-                    if (backResId != null) {
-                        prependSyllableToList(backResId);
-                    }
-                    if (syllableBack.equals(vowel)) {
-                        syllableBack = "";
-                    }
-
-                    // Process the front half of the syllable.
                     String syllableFront = syllable.substring(0, vowelIndex + vowel.length());
-                    // TODO: Determine whether to use SHORT_SYLLABLE_TO_AUDIO_MAP here.
+                    Integer backResId = BACK_HALF_SYLLABLE_TO_AUDIO_MAP.get("-" + syllableBack);
                     Integer frontResId = FRONT_HALF_SYLLABLE_TO_AUDIO_MAP.get(syllableFront + "-");
-                    if (frontResId != null) {
-                        prependSyllableToList(frontResId);
+
+                    // If the syllable is CV, then it is a short syllable.
+                    boolean isShortSyllable = syllableBack.equals(vowel);
+                    if (isShortSyllable && !isFinalSyllable) {
+                        // If it's a short syllable but not the final syllable, then truncate the vowel.
+                        if (frontResId != null) {
+                            prependSyllableToList(frontResId);
+                        }
+                    } else {
+                        // Either it's not short, or it's short and final. So play audio for the
+                        // whole syllable.
+                        Integer resId = null;
+                        if (isShortSyllable) {
+                            // Try to get audio of the full short syllable in the map of short syllables.
+                            resId = SHORT_SYLLABLE_TO_AUDIO_MAP.get(syllable);
+                        }
+                        if (resId == null) {
+                            // If the syllable isn't short, or it is short and we've failed to get
+                            // audio for the full short syllable, then add both the front and the
+                            // back.
+                            if (backResId != null) {
+                                prependSyllableToList(backResId);
+                            }
+                            if (frontResId != null) {
+                                prependSyllableToList(frontResId);
+                            }
+                        }
                     }
 
-                    matched = true;
+                    // Now the next match won't be the final syllable in a word.
+                    isFinalSyllable = false;
+                    foundMatch = true;
                     Log.d(TAG, "Matched syllable: " + syllableFront + " " + syllableBack);
                 }
             }
-            if (!matched) {
+            if (!foundMatch) {
                 // No match for a complete syllable.
                 char value = condensedText.charAt(condensedText.length() - 1);
                 condensedText = condensedText.substring(0, condensedText.length() - 1);
                 prependSyllableToList(getResourceIdForChar(value));
                 Log.d(TAG, "Stripped char: " + value);
+
+                // The next match will be considered the final syllable in a new word.
+                isFinalSyllable = true;
             }
         }
         beginPlayback();
