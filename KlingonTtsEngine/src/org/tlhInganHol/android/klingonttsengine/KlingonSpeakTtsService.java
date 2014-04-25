@@ -25,6 +25,8 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeechService;
 import android.util.Log;
 
+import java.lang.IllegalStateException;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -37,12 +39,11 @@ import java.util.Map;
  * It exercises all aspects of the Text to speech engine API
  * {@link android.speech.tts.TextToSpeechService}.
  */
-public class KlingonSpeakTtsService extends TextToSpeechService implements android.media.MediaPlayer.OnCompletionListener {
+public class KlingonSpeakTtsService extends TextToSpeechService implements android.media.MediaPlayer.OnCompletionListener, android.media.MediaPlayer.OnInfoListener {
     private static final String TAG = "KlingonSpeakTtsService";
 
     // The media player object used to play the sounds.
     private MediaPlayer mMediaPlayer = null;
-    private LinkedList<MediaPlayer> mSyllableList = null;
 
     private volatile String[] mCurrentLanguage = null;
     private volatile boolean mStopRequested = false;
@@ -250,12 +251,24 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     // front of the play list. Preparing this way helps to reduce any audio gap.
     private void prependSyllableToList(Integer resId) {
         if (resId.intValue() != 0) {
-            MediaPlayer mp = MediaPlayer.create(this, resId.intValue());
             // Alternatively:
-            //   mMediaPlayer = new MediaPlayer();
-            //   mMediaPlayer.setDataSource(filename);
-            //   mMediaPlayer.prepare();
-            mSyllableList.addFirst(mp);
+            //   MediaPlayer mp = new MediaPlayer();
+            //   mp.setDataSource(filename);
+            //   mp.prepare();
+            MediaPlayer mp = MediaPlayer.create(this, resId.intValue());
+
+            // Chain this MediaPlayer to the front of the existing one (if any).
+            try {
+                mp.setNextMediaPlayer(mMediaPlayer);
+            } catch (IllegalStateException e) {
+                mp = null;
+                e.printStackTrace();
+            }
+            if (mp != null) {
+                mp.setOnCompletionListener(this);
+                mp.setOnInfoListener(this);
+                mMediaPlayer = mp;
+            }
         }
     }
 
@@ -278,7 +291,6 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         // it is guaranteed that we support it so we proceed with synthesis.
 
         // We construct a list of syllables to be played.
-        mSyllableList = new LinkedList<MediaPlayer>();
         String condensedText = condenseKlingonDiTrigraphs(request.getText());
         Log.d(TAG, "condensedText: " + condensedText);
         while (!condensedText.equals("")) {
@@ -335,7 +347,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                 Log.d(TAG, "Stripped char: " + value);
             }
         }
-        playNextSyllableOfRemainingText();
+        beginPlayback();
 
         // Alright, we're done with our synthesis - yay!
         callback.done();
@@ -508,7 +520,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                     .replaceAll("'", "z");
     }
 
-    private void playNextSyllableOfRemainingText() {
+    private void beginPlayback() {
         // Someone called onStop, end the current synthesis and return.
         // The mStopRequested variable will be reset at the beginning of the
         // next synthesis.
@@ -516,23 +528,29 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         // In general, a call to onStop() should make a best effort attempt
         // to stop all processing for the *current* onSynthesizeText request (if
         // one is active).
-        if (mStopRequested) {
+        // TODO: if mStopRequested is true, release all the players.
+        if (mMediaPlayer == null) {
             return;
         }
-        if (!mSyllableList.isEmpty()) {
-            // Play the audio file.
-            mMediaPlayer = mSyllableList.pop();
-            mMediaPlayer.setOnCompletionListener(this);
+        try {
             mMediaPlayer.start();
-            // Log.d(TAG, "Playing: " + resId);
+            mMediaPlayer = null;
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
         }
     }
 
     public void onCompletion(MediaPlayer mp) {
         // Be sure to release the audio resources when playback is completed.
+        Log.d(TAG, "onCompletion called");
+        mp.reset();
         mp.release();
+    }
 
-        // Play the next character.
-        playNextSyllableOfRemainingText();
+    public boolean onInfo(MediaPlayer mp, int what, int extra) {
+        Log.d(TAG, "mp: " + mp);
+        Log.d(TAG, "what: " + what);
+        Log.d(TAG, "extra: " + extra);
+        return true;
     }
 }

@@ -20,7 +20,8 @@
     android:versionName="BETA (1)"
     android:installLocation="auto">
 
-    <uses-sdk android:minSdkVersion="14"
+    <!-- SDK 16 is needed for gapless playback using setNextMediaPlayer. -->
+    <uses-sdk android:minSdkVersion="16"
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
