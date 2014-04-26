@@ -85,7 +85,13 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     static {
         Map<String, Integer> initMap = new HashMap<String, Integer>();
         initMap.put("-ab", R.raw.audio_0ab);
+
+        // tlh
         initMap.put("-ax", R.raw.audio_0ax);
+        initMap.put("-ex", R.raw.audio_0ex);
+        initMap.put("-Ix", R.raw.audio_0i_x);
+        initMap.put("-ox", R.raw.audio_0ox);
+        initMap.put("-ux", R.raw.audio_0ux);
 
         BACK_HALF_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
