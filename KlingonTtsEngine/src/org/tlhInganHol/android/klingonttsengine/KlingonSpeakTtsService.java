@@ -54,6 +54,10 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
         // --- Verb prefixes ---
         initMap.put("jI-", R.raw.audio_ji_0);
+        initMap.put("qa-", R.raw.audio_qa0);
+        initMap.put("vI-", R.raw.audio_vi_0);
+        initMap.put("Sa-", R.raw.audio_s_a0);
+
         initMap.put("bI-", R.raw.audio_bi_0);
 
         FRONT_HALF_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
