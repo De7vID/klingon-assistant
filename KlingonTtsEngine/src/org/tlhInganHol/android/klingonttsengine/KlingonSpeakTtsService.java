@@ -51,7 +51,11 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     private static final Map<String, Integer> FRONT_HALF_SYLLABLE_TO_AUDIO_MAP;
     static {
         Map<String, Integer> initMap = new HashMap<String, Integer>();
+
+        // b
         initMap.put("ba-", R.raw.audio_ba0);
+        initMap.put("be-", R.raw.audio_be0);
+
         initMap.put("xa-", R.raw.audio_xa0);
 
         // --- Verb prefixes ---
@@ -162,8 +166,10 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("HeG", R.raw.audio_h_eg_);   // Hegh
         initMap.put("yaj", R.raw.audio_yaj);
         initMap.put("SaH", R.raw.audio_s_ah_);
+        initMap.put("QoF", R.raw.audio_q_of_);   // Qong
 
         // --- Common nouns ---
+        initMap.put("QaG", R.raw.audio_q_ag_);   // Qagh
 
         // --- Conjunctions ---
         initMap.put("zej", R.raw.audio_zej);   // 'ej
