@@ -55,12 +55,14 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         // b
         initMap.put("ba-", R.raw.audio_ba0);
         initMap.put("be-", R.raw.audio_be0);
+        initMap.put("bI-", R.raw.audio_bi_0);
+        initMap.put("bo-", R.raw.audio_bo0);
+        initMap.put("bu-", R.raw.audio_bu0);
 
         initMap.put("xa-", R.raw.audio_xa0);
 
         // --- Verb prefixes ---
         initMap.put("jI-", R.raw.audio_ji_0);
-        initMap.put("bI-", R.raw.audio_bi_0);
 
         FRONT_HALF_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
@@ -162,11 +164,17 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("turn", R.raw.audio_silence);  // From {Saturn}.
 
         // --- Common verbs ---
-        initMap.put("jeG", R.raw.audio_jeg_);   // jegh
         initMap.put("HeG", R.raw.audio_h_eg_);   // Hegh
-        initMap.put("yaj", R.raw.audio_yaj);
-        initMap.put("SaH", R.raw.audio_s_ah_);
+        initMap.put("HoH", R.raw.audio_h_oh_);   // HoH
+        initMap.put("jax", R.raw.audio_jax);   // jatlh
+        initMap.put("jeG", R.raw.audio_jeg_);   // jegh
+        initMap.put("leG", R.raw.audio_leg_);   // legh
+        initMap.put("mev", R.raw.audio_mev);
         initMap.put("QoF", R.raw.audio_q_of_);   // Qong
+        initMap.put("SaH", R.raw.audio_s_ah_);
+        initMap.put("Sov", R.raw.audio_s_ov);
+        initMap.put("Suv", R.raw.audio_s_uv);
+        initMap.put("yaj", R.raw.audio_yaj);
 
         // --- Common nouns ---
         initMap.put("QaG", R.raw.audio_q_ag_);   // Qagh
