@@ -4,4 +4,3 @@ Encoding was: Mono, 44100Hz, 32-bit float
 
 Files are trimmed using:
   sox original.mp3 trimmed.mp3 silence 1 0.1 1%
-
