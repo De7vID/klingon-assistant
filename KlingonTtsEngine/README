@@ -1,3 +1,6 @@
 Audio was recorded using a Logitech Laptop Headset H555 "USB Headset Analog Mono" with Audacity, with setting:
   ALSA - pulse - pulse: Line:0 - 1 (Mono)
 
+Files are trimmed using:
+  sox original.mp3 trimmed.mp3 silence 1 0.1 1%
+
