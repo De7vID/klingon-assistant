@@ -3,4 +3,6 @@ Audio was recorded using a Logitech Laptop Headset H555 "USB Headset Analog Mono
 Encoding was: Mono, 44100Hz, 32-bit float
 
 Files are trimmed using:
-  sox original.mp3 trimmed.mp3 silence 1 0.1 1%
+  sox original.mp3 trimmed.mp3 silence 1 0.1 1% (trim from beginning)
+  sox original.mp3 trimmed.mp3 reverse silence 1 0.1 0.1% reverse (trim from end)
+  sox original.mp3 trimmed.mp3 silence 1 0.1 0.1% reverse silence 1 0.1 0.1% reverse (trim from both ends)
