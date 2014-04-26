@@ -53,12 +53,40 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         Map<String, Integer> initMap = new HashMap<String, Integer>();
 
         // --- Verb prefixes ---
+        // jIH
         initMap.put("jI-", R.raw.audio_ji_0);
         initMap.put("qa-", R.raw.audio_qa0);
         initMap.put("vI-", R.raw.audio_vi_0);
         initMap.put("Sa-", R.raw.audio_s_a0);
 
+        // SoH
         initMap.put("bI-", R.raw.audio_bi_0);
+        initMap.put("Co-", R.raw.audio_c_o0);
+        initMap.put("Da-", R.raw.audio_d_a0);
+        initMap.put("ju-", R.raw.audio_ju0);
+
+        // ghaH/'oH
+        initMap.put("mu-", R.raw.audio_mu0);
+        initMap.put("Du-", R.raw.audio_d_u0);
+        initMap.put("nu-", R.raw.audio_nu0);
+        initMap.put("lI-", R.raw.audio_li_0);
+
+        // maH
+        initMap.put("ma-", R.raw.audio_ma0);
+        initMap.put("pI-", R.raw.audio_pi_0);
+        initMap.put("wI-", R.raw.audio_wi_0);
+        initMap.put("re-", R.raw.audio_re0);
+        initMap.put("DI-", R.raw.audio_d_i_0);
+
+        // tlhIH
+        initMap.put("Su-", R.raw.audio_s_u0);
+        initMap.put("tu-", R.raw.audio_tu0);
+        initMap.put("bo-", R.raw.audio_bo0);
+        initMap.put("che-", R.raw.audio_c_e0);
+
+        // chaH/bIH
+        initMap.put("nI-", R.raw.audio_ni_0);
+        initMap.put("lu-", R.raw.audio_lu0);
 
         FRONT_HALF_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
