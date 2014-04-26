@@ -52,17 +52,9 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     static {
         Map<String, Integer> initMap = new HashMap<String, Integer>();
 
-        // b
-        initMap.put("ba-", R.raw.audio_ba0);
-        initMap.put("be-", R.raw.audio_be0);
-        initMap.put("bI-", R.raw.audio_bi_0);
-        initMap.put("bo-", R.raw.audio_bo0);
-        initMap.put("bu-", R.raw.audio_bu0);
-
-        initMap.put("xa-", R.raw.audio_xa0);
-
         // --- Verb prefixes ---
         initMap.put("jI-", R.raw.audio_ji_0);
+        initMap.put("bI-", R.raw.audio_bi_0);
 
         FRONT_HALF_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
@@ -84,14 +76,6 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     private static final Map<String, Integer> BACK_HALF_SYLLABLE_TO_AUDIO_MAP;
     static {
         Map<String, Integer> initMap = new HashMap<String, Integer>();
-        initMap.put("-ab", R.raw.audio_0ab);
-
-        // tlh
-        initMap.put("-ax", R.raw.audio_0ax);
-        initMap.put("-ex", R.raw.audio_0ex);
-        initMap.put("-Ix", R.raw.audio_0i_x);
-        initMap.put("-ox", R.raw.audio_0ox);
-        initMap.put("-ux", R.raw.audio_0ux);
 
         BACK_HALF_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
