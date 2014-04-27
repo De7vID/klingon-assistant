@@ -116,10 +116,13 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         SHORT_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
 
-    // This map contains the back half of full syllables.
+    // This map contains the back half of full syllables. It is preferable to avoid constructing
+    // syllables by concatenating the front and back parts, as there is a noticeable discontinuity
+    // in the audio if the vowel sound is not perfectly matched.
     private static final Map<String, Integer> BACK_HALF_SYLLABLE_TO_AUDIO_MAP;
     static {
         Map<String, Integer> initMap = new HashMap<String, Integer>();
+        // -a, -e, -I, -o, -u
 
         BACK_HALF_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
@@ -536,14 +539,24 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                             // If the syllable isn't short, or it is short and we've failed to get
                             // audio for the full short syllable, then add both the front and the
                             // back.
+                            boolean coughed = false;
                             if (backResId != null) {
                                 prependSyllableToList(backResId);
                             } else {
-                                prependCoughToList();
+                                String backConsonants = syllableBack.substring(vowel.length());
+                                if (backConsonants.length() == 1) {
+                                  // This should be avoided, but if there is no choice, say the
+                                  // consonant by itself. It won't sound smooth.
+                                  prependSyllableToList(getResIdForFallbackChar(backConsonants.charAt(0)));
+                                } else {
+                                  // There was a consonant cluster (-rgh, -w', -y'), can't fake it.
+                                  prependCoughToList();
+                                  coughed = true;
+                                }
                             }
                             if (frontResId != null) {
                                 prependSyllableToList(frontResId);
-                            } else if (backResId != null) {
+                            } else if (coughed = false) {
                                 // Cough only once if both parts are missing.
                                 prependCoughToList();
                             }
