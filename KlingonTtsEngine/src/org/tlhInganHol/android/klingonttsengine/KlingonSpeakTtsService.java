@@ -188,10 +188,11 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("zez", R.raw.audio_zez);   // 'e'
 
         // --- Non-standard phonology ---
-        initMap.put("qarD", R.raw.audio_silence);  // From {pIqarD}.
-        initMap.put("qIrq", R.raw.audio_silence);  // From {jemS tIy qIrq}
-        initMap.put("jemS", R.raw.audio_silence);  // From {jemS tIy qIrq}.
-        initMap.put("turn", R.raw.audio_silence);  // From {Saturn}.
+        initMap.put("jemS", R.raw.audio_jems_);  // From {jemS tIy qIrq}.
+        initMap.put("tIy", R.raw.audio_ti_y);  // From {jemS tIy qIrq}.
+        initMap.put("qIrq", R.raw.audio_qi_rq);  // From {jemS tIy qIrq}
+        initMap.put("qarD", R.raw.audio_qard_);  // From {pIqarD}.
+        initMap.put("turn", R.raw.audio_turn);  // From {Saturn}.
 
         // --- Common verbs ---
         initMap.put("HeG", R.raw.audio_h_eg_);   // Hegh
@@ -219,6 +220,63 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
         // --- Common adverbials ---
         initMap.put("vaj", R.raw.audio_vaj);
+
+        // --- Pronouns ---
+
+        // --- Numbers and number-forming elements ---
+
+        // --- b ---
+        initMap.put("beb", R.raw.audio_beb);
+        initMap.put("bob", R.raw.audio_bob);
+        initMap.put("baC", R.raw.audio_bac_);
+        initMap.put("beC", R.raw.audio_bec_);
+        initMap.put("boC", R.raw.audio_boc_);
+        initMap.put("bID", R.raw.audio_bi_d_);
+        initMap.put("boD", R.raw.audio_bod_);
+        initMap.put("buD", R.raw.audio_bud_);
+        initMap.put("baG", R.raw.audio_bag_);
+        initMap.put("beG", R.raw.audio_beg_);
+        initMap.put("bIG", R.raw.audio_bi_g_);
+        // bogh is a suffix
+        initMap.put("baH", R.raw.audio_bah_);
+        // beH is a suffix
+        initMap.put("bIH", R.raw.audio_bi_h_);
+        initMap.put("boH", R.raw.audio_boh_);
+        initMap.put("buH", R.raw.audio_buh_);
+        initMap.put("baj", R.raw.audio_baj);
+        // bej is a suffix
+        initMap.put("bIj", R.raw.audio_bi_j);
+        initMap.put("boj", R.raw.audio_boj);
+        initMap.put("bal", R.raw.audio_bal);
+        initMap.put("bel", R.raw.audio_bel);
+        initMap.put("bIl", R.raw.audio_bi_l);
+        initMap.put("bol", R.raw.audio_bol);
+        initMap.put("bam", R.raw.audio_bam);
+        initMap.put("bem", R.raw.audio_bem);
+        initMap.put("bIm", R.raw.audio_bi_m);
+        initMap.put("bom", R.raw.audio_bom);
+        initMap.put("ben", R.raw.audio_ben);
+        initMap.put("baF", R.raw.audio_baf_);
+        initMap.put("bIF", R.raw.audio_bi_f_);
+        initMap.put("boF", R.raw.audio_bof_);
+        initMap.put("bep", R.raw.audio_bep);
+        initMap.put("bIp", R.raw.audio_bi_p);
+        initMap.put("bop", R.raw.audio_bop);
+        initMap.put("bup", R.raw.audio_bup);
+
+        initMap.put("b", R.raw.audio_b);
+        // baq beq boq buq
+        // baQ beQ bIQ boQ buQ
+        // bar ber bIr bor bur
+        // bargh bergh burgh
+        // baS bIS boS buS
+        // bet bIt bot
+        // batlh botlh butlh
+        // bav bIv bov buv
+        // bey
+        // buy'
+        // ba' be' bI'
+        // bo
 
         MAIN_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
@@ -322,6 +380,10 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         }
     }
 
+    private void prependCoughToList() {
+        prependSyllableToList(R.raw.audio_cough);
+    }
+
     @Override
     protected synchronized void onSynthesizeText(SynthesisRequest request,
             SynthesisCallback callback) {
@@ -384,6 +446,8 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                         // If it's a short syllable but not the final syllable, then truncate the vowel.
                         if (frontResId != null) {
                             prependSyllableToList(frontResId);
+                        } else {
+                            prependCoughToList();
                         }
                     } else {
                         // Either it's not short, or it's short and final. So play audio for the
@@ -393,15 +457,23 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                             // Try to get audio of the full short syllable in the map of short syllables.
                             resId = SHORT_SYLLABLE_TO_AUDIO_MAP.get(syllable);
                         }
-                        if (resId == null) {
+                        if (resId != null) {
+                            // We have a full short syllable, so play it.
+                            prependSyllableToList(resId);
+                        } else {
                             // If the syllable isn't short, or it is short and we've failed to get
                             // audio for the full short syllable, then add both the front and the
                             // back.
                             if (backResId != null) {
                                 prependSyllableToList(backResId);
+                            } else {
+                                prependCoughToList();
                             }
                             if (frontResId != null) {
                                 prependSyllableToList(frontResId);
+                            } else if (backResId != null) {
+                                // Cough only once if both parts are missing.
+                                prependCoughToList();
                             }
                         }
                     }
@@ -413,10 +485,10 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                 }
             }
             if (!foundMatch) {
-                // No match for a complete syllable.
+                // No match for a complete syllable. Use a fallback sound. This should be avoided if possible.
                 char value = condensedText.charAt(condensedText.length() - 1);
                 condensedText = condensedText.substring(0, condensedText.length() - 1);
-                prependSyllableToList(getResourceIdForChar(value));
+                prependSyllableToList(getResIdForFallbackChar(value));
                 Log.d(TAG, "Stripped char: " + value);
 
                 // The next match will be considered the final syllable in a new word.
@@ -521,60 +593,60 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         return "";
     }
 
-    private static int getResourceIdForChar(char value) {
+    private static int getResIdForFallbackChar(char value) {
         switch(value) {
           case 'a':
-            return R.raw.audio_silence;
+            return R.raw.audio_a;
           case 'b':
-            return R.raw.audio_silence;
+            return R.raw.audio_b;
           case 'C': // {ch}
-            return R.raw.audio_silence;
+            return R.raw.audio_c_;
           case 'D':
-            return R.raw.audio_silence;
+            return R.raw.audio_d_;
           case 'e':
-            return R.raw.audio_silence;
+            return R.raw.audio_e;
           case 'G': // {gh}
-            return R.raw.audio_silence;
+            return R.raw.audio_g_;
           case 'H':
-            return R.raw.audio_silence;
+            return R.raw.audio_h_;
           case 'I':
-            return R.raw.audio_silence;
+            return R.raw.audio_i_;
           case 'j':
-            return R.raw.audio_silence;
+            return R.raw.audio_j;
           case 'l':
-            return R.raw.audio_silence;
+            return R.raw.audio_l;
           case 'm':
-            return R.raw.audio_silence;
+            return R.raw.audio_m;
           case 'n':
-            return R.raw.audio_silence;
+            return R.raw.audio_n;
           case 'F': // {ng}
-            return R.raw.audio_silence;
+            return R.raw.audio_f_;
           case 'o':
-            return R.raw.audio_silence;
+            return R.raw.audio_o;
           case 'p':
-            return R.raw.audio_silence;
+            return R.raw.audio_p;
           case 'q':
-            return R.raw.audio_silence;
+            return R.raw.audio_q;
           case 'Q':
-            return R.raw.audio_silence;
+            return R.raw.audio_q_;
           case 'r':
-            return R.raw.audio_silence;
+            return R.raw.audio_r;
           case 'S':
-            return R.raw.audio_silence;
+            return R.raw.audio_s_;
           case 't':
-            return R.raw.audio_silence;
+            return R.raw.audio_t;
           case 'x': // {tlh}
-            return R.raw.audio_silence;
+            return R.raw.audio_x;
           case 'u':
-            return R.raw.audio_silence;
+            return R.raw.audio_u;
           case 'v':
-            return R.raw.audio_silence;
+            return R.raw.audio_v;
           case 'w':
-            return R.raw.audio_silence;
+            return R.raw.audio_w;
           case 'y':
-            return R.raw.audio_silence;
+            return R.raw.audio_y;
           case 'z': // {'}
-            return R.raw.audio_silence;
+            return R.raw.audio_z;
           case ' ':
             return R.raw.audio_silence;
           default:
