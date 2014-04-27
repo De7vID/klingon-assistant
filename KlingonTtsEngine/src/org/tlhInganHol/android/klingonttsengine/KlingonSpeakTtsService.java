@@ -95,6 +95,10 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("tI-", R.raw.audio_ti_0);
         initMap.put("pe-", R.raw.audio_pe0);
 
+        // Front parts of words.
+        initMap.put("xI-", R.raw.audio_xi_0);  // From {tlhIngan}.
+        initMap.put("te-", R.raw.audio_te0);  // From {tera'ngan}.
+        // banan, Human
 
         FRONT_HALF_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
@@ -190,7 +194,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         // --- Non-standard phonology ---
         initMap.put("jemS", R.raw.audio_jems_);  // From {jemS tIy qIrq}.
         initMap.put("tIy", R.raw.audio_ti_y);  // From {jemS tIy qIrq}.
-        initMap.put("qIrq", R.raw.audio_qi_rq);  // From {jemS tIy qIrq}
+        initMap.put("qIrq", R.raw.audio_qi_rq);  // From {jemS tIy qIrq}.
         initMap.put("qarD", R.raw.audio_qard_);  // From {pIqarD}.
         initMap.put("turn", R.raw.audio_turn);  // From {Saturn}.
 
@@ -199,6 +203,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("HoH", R.raw.audio_h_oh_);   // HoH
         initMap.put("jax", R.raw.audio_jax);   // jatlh
         initMap.put("jeG", R.raw.audio_jeg_);   // jegh
+        initMap.put("jez", R.raw.audio_jez);   // je'
         initMap.put("leG", R.raw.audio_leg_);   // legh
         initMap.put("mev", R.raw.audio_mev);
         initMap.put("QoF", R.raw.audio_q_of_);   // Qong
@@ -206,9 +211,13 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("Sov", R.raw.audio_s_ov);
         initMap.put("Suv", R.raw.audio_s_uv);
         initMap.put("yaj", R.raw.audio_yaj);
+        // Dev
 
         // --- Common nouns ---
         initMap.put("QaG", R.raw.audio_q_ag_);   // Qagh
+        initMap.put("Fan", R.raw.audio_f_an);  // From {tlhIngan}, etc.
+        initMap.put("Hol", R.raw.audio_h_ol);
+        // De'
 
         // --- Conjunctions ---
         initMap.put("zej", R.raw.audio_zej);   // 'ej
@@ -263,20 +272,42 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("bIp", R.raw.audio_bi_p);
         initMap.put("bop", R.raw.audio_bop);
         initMap.put("bup", R.raw.audio_bup);
-
-        initMap.put("b", R.raw.audio_b);
-        // baq beq boq buq
-        // baQ beQ bIQ boQ buQ
-        // bar ber bIr bor bur
-        // bargh bergh burgh
-        // baS bIS boS buS
-        // bet bIt bot
-        // batlh botlh butlh
-        // bav bIv bov buv
-        // bey
-        // buy'
-        // ba' be' bI'
-        // bo
+        initMap.put("baq", R.raw.audio_baq);
+        initMap.put("beq", R.raw.audio_beq);
+        initMap.put("boq", R.raw.audio_boq);
+        initMap.put("buq", R.raw.audio_buq);
+        initMap.put("baQ", R.raw.audio_baq_);
+        initMap.put("beQ", R.raw.audio_beq_);
+        initMap.put("bIQ", R.raw.audio_bi_q_);
+        initMap.put("boQ", R.raw.audio_boq_);
+        initMap.put("buQ", R.raw.audio_buq_);
+        initMap.put("bar", R.raw.audio_bar);
+        initMap.put("ber", R.raw.audio_ber);
+        initMap.put("bIr", R.raw.audio_bi_r);
+        initMap.put("bor", R.raw.audio_bor);
+        initMap.put("bur", R.raw.audio_bur);
+        initMap.put("barG", R.raw.audio_barg_);
+        initMap.put("berG", R.raw.audio_berg_);
+        initMap.put("burG", R.raw.audio_burg_);
+        initMap.put("baS", R.raw.audio_bas_);
+        initMap.put("bIS", R.raw.audio_bi_s_);
+        initMap.put("boS", R.raw.audio_bos_);
+        initMap.put("buS", R.raw.audio_bus_);
+        initMap.put("bet", R.raw.audio_bet);
+        initMap.put("bIt", R.raw.audio_bi_t);
+        initMap.put("bot", R.raw.audio_bot);
+        initMap.put("bax", R.raw.audio_bax);
+        initMap.put("box", R.raw.audio_box);
+        initMap.put("bux", R.raw.audio_bux);
+        initMap.put("bav", R.raw.audio_bav);
+        initMap.put("bIv", R.raw.audio_bi_v);
+        initMap.put("bov", R.raw.audio_bov);
+        initMap.put("buv", R.raw.audio_buv);
+        initMap.put("bey", R.raw.audio_bey);
+        initMap.put("buyz", R.raw.audio_buyz);
+        // ba' and be' are suffixes
+        initMap.put("bIz", R.raw.audio_bi_z);
+        initMap.put("bo", R.raw.audio_bo);
 
         MAIN_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
