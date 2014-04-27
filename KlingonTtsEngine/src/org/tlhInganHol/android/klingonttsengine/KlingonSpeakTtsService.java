@@ -216,6 +216,9 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         // --- Common nouns ---
         initMap.put("Dez", R.raw.audio_d_ez);   // De'
         initMap.put("QaG", R.raw.audio_q_ag_);   // Qagh
+        initMap.put("Qap", R.raw.audio_q_ap);   // From {Qapla'}.
+        initMap.put("laz", R.raw.audio_laz);   // From {Qapla'}.
+        initMap.put("Qaz", R.raw.audio_q_ap);   // From {majQa'}.
         initMap.put("Fan", R.raw.audio_f_an);  // From {tlhIngan}, etc.
         initMap.put("Hol", R.raw.audio_h_ol);
 
@@ -238,6 +241,11 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("vaj", R.raw.audio_vaj);
 
         // --- Pronouns ---
+        initMap.put("jIH", R.raw.audio_ji_h_);
+        initMap.put("SoH", R.raw.audio_s_oh_);
+        initMap.put("GaH", R.raw.audio_g_ah_);
+        initMap.put("maH", R.raw.audio_mah_);
+        initMap.put("zoH", R.raw.audio_zoh_);
 
         // --- Numbers and number-forming elements ---
 
