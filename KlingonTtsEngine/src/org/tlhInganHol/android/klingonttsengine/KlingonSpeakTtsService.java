@@ -199,8 +199,9 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("turn", R.raw.audio_turn);  // From {Saturn}.
 
         // --- Common verbs ---
+        initMap.put("Dev", R.raw.audio_d_ev);
         initMap.put("HeG", R.raw.audio_h_eg_);   // Hegh
-        initMap.put("HoH", R.raw.audio_h_oh_);   // HoH
+        initMap.put("HoH", R.raw.audio_h_oh_);
         initMap.put("jax", R.raw.audio_jax);   // jatlh
         initMap.put("jeG", R.raw.audio_jeg_);   // jegh
         initMap.put("jez", R.raw.audio_jez);   // je'
@@ -211,13 +212,12 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("Sov", R.raw.audio_s_ov);
         initMap.put("Suv", R.raw.audio_s_uv);
         initMap.put("yaj", R.raw.audio_yaj);
-        // Dev
 
         // --- Common nouns ---
+        initMap.put("Dez", R.raw.audio_d_ez);   // De'
         initMap.put("QaG", R.raw.audio_q_ag_);   // Qagh
         initMap.put("Fan", R.raw.audio_f_an);  // From {tlhIngan}, etc.
         initMap.put("Hol", R.raw.audio_h_ol);
-        // De'
 
         // --- Conjunctions ---
         initMap.put("zej", R.raw.audio_zej);   // 'ej
@@ -227,7 +227,14 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("paG", R.raw.audio_pag_);   // pagh
         initMap.put("Gap", R.raw.audio_g_ap);   // ghap
 
+        // --- Question words ---
+        initMap.put("GorG", R.raw.audio_g_org_);   // ghorgh
+        initMap.put("nuq", R.raw.audio_nuq);
+        initMap.put("zar", R.raw.audio_zar);
+        initMap.put("zIv", R.raw.audio_zi_v);
+
         // --- Common adverbials ---
+        initMap.put("neH", R.raw.audio_neh_);
         initMap.put("vaj", R.raw.audio_vaj);
 
         // --- Pronouns ---
