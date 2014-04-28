@@ -556,7 +556,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                             }
                             if (frontResId != null) {
                                 prependSyllableToList(frontResId);
-                            } else if (coughed = false) {
+                            } else if (!coughed) {
                                 // Cough only once if both parts are missing.
                                 prependCoughToList();
                             }
