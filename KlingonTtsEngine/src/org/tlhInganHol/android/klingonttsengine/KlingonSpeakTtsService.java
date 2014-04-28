@@ -96,6 +96,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("pe-", R.raw.audio_pe0);
 
         // Front parts of words.
+        initMap.put("na-", R.raw.audio_na0);  // From {naDev}.
         initMap.put("xI-", R.raw.audio_xi_0);  // From {tlhIngan}.
         initMap.put("te-", R.raw.audio_te0);  // From {tera'ngan}.
         // banan, Human
@@ -202,7 +203,13 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("turn", R.raw.audio_turn);  // From {Saturn}.
 
         // --- Common verbs ---
+        initMap.put("CarG", R.raw.audio_c_arg_);
+        initMap.put("Dab", R.raw.audio_d_ab);
         initMap.put("Dev", R.raw.audio_d_ev);
+        initMap.put("Doq", R.raw.audio_d_oq);
+        initMap.put("Dor", R.raw.audio_d_or);
+        initMap.put("Doyz", R.raw.audio_d_oyz);   // Doy'
+        initMap.put("GIx", R.raw.audio_g_i_x);   // ghItlh
         initMap.put("Goj", R.raw.audio_g_oj);   // ghoj
         initMap.put("GoS", R.raw.audio_g_os_);   // ghoS
         initMap.put("GuF", R.raw.audio_g_uf_);   // ghung
@@ -213,6 +220,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("HIv", R.raw.audio_h_i_v);
         initMap.put("HoH", R.raw.audio_h_oh_);
         initMap.put("jaC", R.raw.audio_jac_);   // jach
+        initMap.put("jaH", R.raw.audio_jah_);   // jaH
         initMap.put("jax", R.raw.audio_jax);   // jatlh
         initMap.put("jeG", R.raw.audio_jeg_);   // jegh
         initMap.put("jez", R.raw.audio_jez);   // je'
@@ -220,32 +228,48 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("loz", R.raw.audio_loz);   // lo'
         initMap.put("maC", R.raw.audio_mac_);
         initMap.put("mev", R.raw.audio_mev);
+        initMap.put("mIz", R.raw.audio_mi_z);
+        initMap.put("FaS", R.raw.audio_f_as_);   // ngaS
+        initMap.put("Fuz", R.raw.audio_f_uz);   // ngu'
+        initMap.put("paw", R.raw.audio_paw);
         initMap.put("poF", R.raw.audio_pof_);
         initMap.put("qaS", R.raw.audio_qas_);
+        initMap.put("qIm", R.raw.audio_qi_m);
         initMap.put("quv", R.raw.audio_quv);
         initMap.put("QoF", R.raw.audio_q_of_);   // Qong
         initMap.put("QuC", R.raw.audio_q_uc_);   // Quch
         initMap.put("SaH", R.raw.audio_s_ah_);
         initMap.put("SIQ", R.raw.audio_s_i_q_);
         initMap.put("Sov", R.raw.audio_s_ov);
+        initMap.put("SuD", R.raw.audio_s_ud_);
         initMap.put("Suv", R.raw.audio_s_uv);
         initMap.put("tIn", R.raw.audio_ti_n);
+        initMap.put("tIv", R.raw.audio_ti_v);
         initMap.put("tuz", R.raw.audio_tuz);
+        initMap.put("van", R.raw.audio_van);
         initMap.put("yaj", R.raw.audio_yaj);
+        initMap.put("zav", R.raw.audio_zav);   // 'av
         initMap.put("zoj", R.raw.audio_zoj);   // 'oj
+        initMap.put("zaF", R.raw.audio_zaf_);   // 'ang
 
         // --- Common nouns ---
         initMap.put("Dez", R.raw.audio_d_ez);   // De'
         initMap.put("DoC", R.raw.audio_d_oc_);   // Doch
+        initMap.put("jaG", R.raw.audio_jag_);   // jagh
         initMap.put("QaG", R.raw.audio_q_ag_);   // Qagh
         initMap.put("Qap", R.raw.audio_q_ap);   // From {Qapla'}.
         initMap.put("laz", R.raw.audio_laz);   // From {Qapla'}.
         initMap.put("Qaz", R.raw.audio_q_az);   // From {majQa'}.
         initMap.put("Fan", R.raw.audio_f_an);  // From {tlhIngan}, etc.
+        initMap.put("Gop", R.raw.audio_g_op);
         initMap.put("Hol", R.raw.audio_h_ol);
+        initMap.put("HuH", R.raw.audio_h_uh_);
+        initMap.put("noS", R.raw.audio_nos_);  // From {Qo'noS}.
+        initMap.put("qamaz", R.raw.audio_qamaz);   // qama'
         initMap.put("vav", R.raw.audio_vav);
         initMap.put("SoS", R.raw.audio_s_os_);
         initMap.put("tarG", R.raw.audio_targ_);
+        initMap.put("tIq", R.raw.audio_ti_q);
         initMap.put("zIw", R.raw.audio_zi_w);
         initMap.put("zoyz", R.raw.audio_zoyz);
 
