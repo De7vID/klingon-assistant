@@ -54,51 +54,51 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
         // --- Verb prefixes ---
         // jIH
-        initMap.put("jI-", R.raw.audio_ji_0);
-        initMap.put("qa-", R.raw.audio_qa0);
-        initMap.put("vI-", R.raw.audio_vi_0);
-        initMap.put("Sa-", R.raw.audio_s_a0);
+        initMap.put("jI-", R.raw.ji0);
+        initMap.put("qa-", R.raw.qa0);
+        initMap.put("vI-", R.raw.vi0);
+        initMap.put("Sa-", R.raw.sa0);
 
         // SoH
-        initMap.put("bI-", R.raw.audio_bi_0);
-        initMap.put("Co-", R.raw.audio_c_o0);
-        initMap.put("Da-", R.raw.audio_d_a0);
-        initMap.put("ju-", R.raw.audio_ju0);
+        initMap.put("bI-", R.raw.bi0);
+        initMap.put("Co-", R.raw.co0);
+        initMap.put("Da-", R.raw.da0);
+        initMap.put("ju-", R.raw.ju0);
 
         // ghaH/'oH
-        initMap.put("mu-", R.raw.audio_mu0);
-        initMap.put("Du-", R.raw.audio_d_u0);
-        initMap.put("nu-", R.raw.audio_nu0);
-        initMap.put("lI-", R.raw.audio_li_0);
+        initMap.put("mu-", R.raw.mu0);
+        initMap.put("Du-", R.raw.du0);
+        initMap.put("nu-", R.raw.nu0);
+        initMap.put("lI-", R.raw.li0);
 
         // maH
-        initMap.put("ma-", R.raw.audio_ma0);
-        initMap.put("pI-", R.raw.audio_pi_0);
-        initMap.put("wI-", R.raw.audio_wi_0);
-        initMap.put("re-", R.raw.audio_re0);
-        initMap.put("DI-", R.raw.audio_d_i_0);
+        initMap.put("ma-", R.raw.ma0);
+        initMap.put("pI-", R.raw.pi0);
+        initMap.put("wI-", R.raw.wi0);
+        initMap.put("re-", R.raw.re0);
+        initMap.put("DI-", R.raw.di0);
 
         // tlhIH
-        initMap.put("Su-", R.raw.audio_s_u0);
-        initMap.put("tu-", R.raw.audio_tu0);
-        initMap.put("bo-", R.raw.audio_bo0);
-        initMap.put("Ce-", R.raw.audio_c_e0);
+        initMap.put("Su-", R.raw.su0);
+        initMap.put("tu-", R.raw.tu0);
+        initMap.put("bo-", R.raw.bo0);
+        initMap.put("Ce-", R.raw.ce0);
 
         // chaH/bIH
-        initMap.put("nI-", R.raw.audio_ni_0);
-        initMap.put("lu-", R.raw.audio_lu0);
+        initMap.put("nI-", R.raw.ni0);
+        initMap.put("lu-", R.raw.lu0);
 
         // Imperatives
-        initMap.put("yI-", R.raw.audio_yi_0);
-        initMap.put("HI-", R.raw.audio_h_i_0);
-        initMap.put("Go-", R.raw.audio_g_o0);
-        initMap.put("tI-", R.raw.audio_ti_0);
-        initMap.put("pe-", R.raw.audio_pe0);
+        initMap.put("yI-", R.raw.yi0);
+        initMap.put("HI-", R.raw.hi0);
+        initMap.put("Go-", R.raw.go0);
+        initMap.put("tI-", R.raw.ti0);
+        initMap.put("pe-", R.raw.pe0);
 
         // Front parts of words.
-        initMap.put("na-", R.raw.audio_na0);  // From {naDev}.
-        initMap.put("xI-", R.raw.audio_xi_0);  // From {tlhIngan}.
-        initMap.put("te-", R.raw.audio_te0);  // From {tera'ngan}.
+        initMap.put("na-", R.raw.na0);  // From {naDev}.
+        initMap.put("xI-", R.raw.xi0);  // From {tlhIngan}.
+        initMap.put("te-", R.raw.te0);  // From {tera'ngan}.
         // banan, Human
 
         FRONT_HALF_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
@@ -112,7 +112,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     static {
         Map<String, Integer> initMap = new HashMap<String, Integer>();
         // bo, cha, Da, DI, Do, gho, ghu, He, Hu, ja, je, jo, lu, 'o, po, QI, ra, ro, So, ta, tI, va, ya, yu, 'a
-        // initMap.put("Da", R.raw.audio_d_a);
+        // initMap.put("Da", R.raw.da);
 
         SHORT_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
@@ -134,274 +134,274 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         Map<String, Integer> initMap = new HashMap<String, Integer>();
 
         // --- Verb suffixes ---
-        initMap.put("zeG", R.raw.audio_zeg_);   // 'egh
-        initMap.put("Cuq", R.raw.audio_c_uq);  // chuq
-        initMap.put("nIS", R.raw.audio_ni_s_);
-        initMap.put("qaF", R.raw.audio_qaf_);   // qang
-        initMap.put("rup", R.raw.audio_rup);
-        initMap.put("beH", R.raw.audio_beh_);
-        initMap.put("vIp", R.raw.audio_vi_p);
-        initMap.put("CoH", R.raw.audio_c_oh_);  // choH
-        initMap.put("qaz", R.raw.audio_qaz);   // qa'
-        initMap.put("moH", R.raw.audio_moh_);
-        initMap.put("luz", R.raw.audio_luz);   // lu'
-        initMap.put("laH", R.raw.audio_lah_);
-        initMap.put("Cuz", R.raw.audio_c_uz);  // chu'
-        initMap.put("bej", R.raw.audio_bej);
-        initMap.put("lawz", R.raw.audio_lawz);  // law'
-        initMap.put("baz", R.raw.audio_baz);   // ba'
-        initMap.put("puz", R.raw.audio_puz);   // pu'
-        initMap.put("taz", R.raw.audio_taz);   // ta'
-        initMap.put("taH", R.raw.audio_tah_);
-        initMap.put("lIz", R.raw.audio_li_z);   // lI'
-        initMap.put("neS", R.raw.audio_nes_);   // neS
-        initMap.put("DIz", R.raw.audio_d_i_z);  // DI'
-        initMap.put("CuG", R.raw.audio_c_u_g_);  // chugh
-        initMap.put("paz", R.raw.audio_paz);   // pa'
-        initMap.put("vIS", R.raw.audio_vi_s_);
-        initMap.put("boG", R.raw.audio_bog_);   // bogh
-        initMap.put("meH", R.raw.audio_meh_);
-        initMap.put("zaz", R.raw.audio_zaz);
-        initMap.put("wIz", R.raw.audio_wi_z);   // wI'
-        initMap.put("moz", R.raw.audio_moz);   // mo'
-        initMap.put("jaj", R.raw.audio_jaj);
-        initMap.put("GaC", R.raw.audio_g_ac_);   // ghach
-        initMap.put("bez", R.raw.audio_bez);   // be'
-        initMap.put("Qoz", R.raw.audio_q_oz);   // Qo'
-        initMap.put("Haz", R.raw.audio_h_az);   // Ha'
-        initMap.put("quz", R.raw.audio_quz);   // qu'
+        initMap.put("zeG", R.raw.zeg);   // 'egh
+        initMap.put("Cuq", R.raw.cuq);  // chuq
+        initMap.put("nIS", R.raw.nis);
+        initMap.put("qaF", R.raw.qaf);   // qang
+        initMap.put("rup", R.raw.rup);
+        initMap.put("beH", R.raw.beh);
+        initMap.put("vIp", R.raw.vip);
+        initMap.put("CoH", R.raw.coh);  // choH
+        initMap.put("qaz", R.raw.qaz);   // qa'
+        initMap.put("moH", R.raw.moh);
+        initMap.put("luz", R.raw.luz);   // lu'
+        initMap.put("laH", R.raw.lah);
+        initMap.put("Cuz", R.raw.cuz);  // chu'
+        initMap.put("bej", R.raw.bej);
+        initMap.put("lawz", R.raw.lawz);  // law'
+        initMap.put("baz", R.raw.baz);   // ba'
+        initMap.put("puz", R.raw.puz);   // pu'
+        initMap.put("taz", R.raw.taz);   // ta'
+        initMap.put("taH", R.raw.tah);
+        initMap.put("lIz", R.raw.liz);   // lI'
+        initMap.put("neS", R.raw.nes);   // neS
+        initMap.put("DIz", R.raw.diz);  // DI'
+        initMap.put("CuG", R.raw.cug);  // chugh
+        initMap.put("paz", R.raw.paz);   // pa'
+        initMap.put("vIS", R.raw.vis);
+        initMap.put("boG", R.raw.bog);   // bogh
+        initMap.put("meH", R.raw.meh);
+        initMap.put("zaz", R.raw.zaz);
+        initMap.put("wIz", R.raw.wiz);   // wI'
+        initMap.put("moz", R.raw.moz);   // mo'
+        initMap.put("jaj", R.raw.jaj);
+        initMap.put("GaC", R.raw.gac);   // ghach
+        initMap.put("bez", R.raw.bez);   // be'
+        initMap.put("Qoz", R.raw.koz);   // Qo'
+        initMap.put("Haz", R.raw.haz);   // Ha'
+        initMap.put("quz", R.raw.quz);   // qu'
 
         // --- Noun suffixes ---
         // Note: {'a'}, {pu'}, {wI'}, {lI'}, and {mo'} are already in the verb suffixes.
         // Also, {oy} requires special handling since it doesn't start with a consonant.
-        initMap.put("Hom", R.raw.audio_h_om);
-        initMap.put("Duz", R.raw.audio_d_uz);   // Du'
-        initMap.put("mey", R.raw.audio_mey);
-        initMap.put("qoq", R.raw.audio_qoq);
-        initMap.put("Hey", R.raw.audio_h_ey);
-        initMap.put("naz", R.raw.audio_naz);   // na'
-        initMap.put("wIj", R.raw.audio_wi_j);
-        initMap.put("lIj", R.raw.audio_li_j);
-        initMap.put("maj", R.raw.audio_maj);
-        initMap.put("maz", R.raw.audio_maz);   // ma'
-        initMap.put("raj", R.raw.audio_raj);
-        initMap.put("raz", R.raw.audio_raz);   // ra'
-        initMap.put("Daj", R.raw.audio_d_aj);
-        initMap.put("Caj", R.raw.audio_c_aj);   // chaj
-        initMap.put("vam", R.raw.audio_vam);
-        initMap.put("vex", R.raw.audio_vex);   // vetlh
-        initMap.put("Daq", R.raw.audio_d_aq);
-        initMap.put("voz", R.raw.audio_voz);   // vo'
-        initMap.put("vaD", R.raw.audio_vad_);
-        initMap.put("zez", R.raw.audio_zez);   // 'e'
+        initMap.put("Hom", R.raw.hom);
+        initMap.put("Duz", R.raw.duz);   // Du'
+        initMap.put("mey", R.raw.mey);
+        initMap.put("qoq", R.raw.qoq);
+        initMap.put("Hey", R.raw.hey);
+        initMap.put("naz", R.raw.naz);   // na'
+        initMap.put("wIj", R.raw.wij);
+        initMap.put("lIj", R.raw.lij);
+        initMap.put("maj", R.raw.maj);
+        initMap.put("maz", R.raw.maz);   // ma'
+        initMap.put("raj", R.raw.raj);
+        initMap.put("raz", R.raw.raz);   // ra'
+        initMap.put("Daj", R.raw.daj);
+        initMap.put("Caj", R.raw.caj);   // chaj
+        initMap.put("vam", R.raw.vam);
+        initMap.put("vex", R.raw.vex);   // vetlh
+        initMap.put("Daq", R.raw.daq);
+        initMap.put("voz", R.raw.voz);   // vo'
+        initMap.put("vaD", R.raw.vad);
+        initMap.put("zez", R.raw.zez);   // 'e'
 
         // --- Non-standard phonology ---
-        initMap.put("jemS", R.raw.audio_jems_);  // From {jemS tIy qIrq}.
-        initMap.put("tIy", R.raw.audio_ti_y);  // From {jemS tIy qIrq}.
-        initMap.put("qIrq", R.raw.audio_qi_rq);  // From {jemS tIy qIrq}.
-        initMap.put("qarD", R.raw.audio_qard_);  // From {pIqarD}.
-        initMap.put("turn", R.raw.audio_turn);  // From {Saturn}.
+        initMap.put("jemS", R.raw.jems);  // From {jemS tIy qIrq}.
+        initMap.put("tIy", R.raw.tiy);  // From {jemS tIy qIrq}.
+        initMap.put("qIrq", R.raw.qirq);  // From {jemS tIy qIrq}.
+        initMap.put("qarD", R.raw.qard);  // From {pIqarD}.
+        initMap.put("turn", R.raw.turn);  // From {Saturn}.
 
         // --- Common verbs ---
-        initMap.put("CarG", R.raw.audio_c_arg_);
-        initMap.put("Cop", R.raw.audio_c_op);
-        initMap.put("Dab", R.raw.audio_d_ab);
-        initMap.put("Dev", R.raw.audio_d_ev);
-        initMap.put("Doq", R.raw.audio_d_oq);
-        initMap.put("Dor", R.raw.audio_d_or);
-        initMap.put("Doyz", R.raw.audio_d_oyz);   // Doy'
-        initMap.put("GIx", R.raw.audio_g_i_x);   // ghItlh
-        initMap.put("Goj", R.raw.audio_g_oj);   // ghoj
-        initMap.put("GoD", R.raw.audio_g_od_);   // ghoD
-        initMap.put("GoS", R.raw.audio_g_os_);   // ghoS
-        initMap.put("GuF", R.raw.audio_g_uf_);   // ghung
-        initMap.put("Hab", R.raw.audio_h_ab);
-        initMap.put("HoH", R.raw.audio_h_oh_);
-        initMap.put("HoS", R.raw.audio_h_os_);
-        initMap.put("HeG", R.raw.audio_h_eg_);   // Hegh
-        initMap.put("HIv", R.raw.audio_h_i_v);
-        initMap.put("HoH", R.raw.audio_h_oh_);
-        initMap.put("jaC", R.raw.audio_jac_);   // jach
-        initMap.put("jaH", R.raw.audio_jah_);   // jaH
-        initMap.put("jax", R.raw.audio_jax);   // jatlh
-        initMap.put("jeG", R.raw.audio_jeg_);   // jegh
-        initMap.put("jez", R.raw.audio_jez);   // je'
-        initMap.put("laj", R.raw.audio_laj);   // laj
-        initMap.put("leG", R.raw.audio_leg_);   // legh
-        initMap.put("loz", R.raw.audio_loz);   // lo'
-        initMap.put("maC", R.raw.audio_mac_);
-        initMap.put("mev", R.raw.audio_mev);
-        initMap.put("mIz", R.raw.audio_mi_z);
-        initMap.put("FaS", R.raw.audio_f_as_);   // ngaS
-        initMap.put("Fuz", R.raw.audio_f_uz);   // ngu'
-        initMap.put("paw", R.raw.audio_paw);
-        initMap.put("poF", R.raw.audio_pof_);
-        initMap.put("qaS", R.raw.audio_qas_);
-        initMap.put("qIm", R.raw.audio_qi_m);
-        initMap.put("quv", R.raw.audio_quv);
-        initMap.put("QoF", R.raw.audio_q_of_);   // Qong
-        initMap.put("Qoy", R.raw.audio_q_oy);   // Qoy
-        initMap.put("QuC", R.raw.audio_q_uc_);   // Quch
-        initMap.put("SaH", R.raw.audio_s_ah_);
-        initMap.put("SIQ", R.raw.audio_s_i_q_);
-        initMap.put("Sop", R.raw.audio_s_op);
-        initMap.put("Sov", R.raw.audio_s_ov);
-        initMap.put("SuD", R.raw.audio_s_ud_);
-        initMap.put("Suv", R.raw.audio_s_uv);
-        initMap.put("tayz", R.raw.audio_tayz);   // tay'
-        initMap.put("tIn", R.raw.audio_ti_n);
-        initMap.put("tIv", R.raw.audio_ti_v);
-        initMap.put("tuz", R.raw.audio_tuz);
-        initMap.put("xap", R.raw.audio_xap);   // tlhap
-        initMap.put("xux", R.raw.audio_xux);   // tlhutlh
-        initMap.put("van", R.raw.audio_van);
-        initMap.put("vIH", R.raw.audio_vi_h_);
-        initMap.put("yaj", R.raw.audio_yaj);
-        initMap.put("zav", R.raw.audio_zav);   // 'av
-        initMap.put("zoj", R.raw.audio_zoj);   // 'oj
-        initMap.put("zaF", R.raw.audio_zaf_);   // 'ang
+        initMap.put("CarG", R.raw.carg);
+        initMap.put("Cop", R.raw.cop);
+        initMap.put("Dab", R.raw.dab);
+        initMap.put("Dev", R.raw.dev);
+        initMap.put("Doq", R.raw.doq);
+        initMap.put("Dor", R.raw.dor);
+        initMap.put("Doyz", R.raw.doyz);   // Doy'
+        initMap.put("GIx", R.raw.gix);   // ghItlh
+        initMap.put("Goj", R.raw.goj);   // ghoj
+        initMap.put("GoD", R.raw.god);   // ghoD
+        initMap.put("GoS", R.raw.gos);   // ghoS
+        initMap.put("GuF", R.raw.guf);   // ghung
+        initMap.put("Hab", R.raw.hab);
+        initMap.put("HoH", R.raw.hoh);
+        initMap.put("HoS", R.raw.hos);
+        initMap.put("HeG", R.raw.heg);   // Hegh
+        initMap.put("HIv", R.raw.hiv);
+        initMap.put("HoH", R.raw.hoh);
+        initMap.put("jaC", R.raw.jac);   // jach
+        initMap.put("jaH", R.raw.jah);   // jaH
+        initMap.put("jax", R.raw.jax);   // jatlh
+        initMap.put("jeG", R.raw.jeg);   // jegh
+        initMap.put("jez", R.raw.jez);   // je'
+        initMap.put("laj", R.raw.laj);   // laj
+        initMap.put("leG", R.raw.leg);   // legh
+        initMap.put("loz", R.raw.loz);   // lo'
+        initMap.put("maC", R.raw.mac);
+        initMap.put("mev", R.raw.mev);
+        initMap.put("mIz", R.raw.miz);
+        initMap.put("FaS", R.raw.fas);   // ngaS
+        initMap.put("Fuz", R.raw.fuz);   // ngu'
+        initMap.put("paw", R.raw.paw);
+        initMap.put("poF", R.raw.pof);
+        initMap.put("qaS", R.raw.qas);
+        initMap.put("qIm", R.raw.qim);
+        initMap.put("quv", R.raw.quv);
+        initMap.put("QoF", R.raw.kof);   // Qong
+        initMap.put("Qoy", R.raw.koy);   // Qoy
+        initMap.put("QuC", R.raw.kuc);   // Quch
+        initMap.put("SaH", R.raw.sah);
+        initMap.put("SIQ", R.raw.sik);
+        initMap.put("Sop", R.raw.sop);
+        initMap.put("Sov", R.raw.sov);
+        initMap.put("SuD", R.raw.sud);
+        initMap.put("Suv", R.raw.suv);
+        initMap.put("tayz", R.raw.tayz);   // tay'
+        initMap.put("tIn", R.raw.tin);
+        initMap.put("tIv", R.raw.tiv);
+        initMap.put("tuz", R.raw.tuz);
+        initMap.put("xap", R.raw.xap);   // tlhap
+        initMap.put("xux", R.raw.xux);   // tlhutlh
+        initMap.put("van", R.raw.van);
+        initMap.put("vIH", R.raw.vih);
+        initMap.put("yaj", R.raw.yaj);
+        initMap.put("zav", R.raw.zav);   // 'av
+        initMap.put("zoj", R.raw.zoj);   // 'oj
+        initMap.put("zaF", R.raw.zaf);   // 'ang
 
         // --- Common nouns ---
-        initMap.put("Dez", R.raw.audio_d_ez);   // De'
-        initMap.put("DoC", R.raw.audio_d_oc_);   // Doch
-        initMap.put("jaG", R.raw.audio_jag_);   // jagh
-        initMap.put("laz", R.raw.audio_laz);   // From {Qapla'}.
-        initMap.put("Fan", R.raw.audio_f_an);  // From {tlhIngan}, etc.
-        initMap.put("GarG", R.raw.audio_g_arg_);   // ghargh
-        initMap.put("Gom", R.raw.audio_g_om);   // ghom
-        initMap.put("Gop", R.raw.audio_g_op);   // ghop
-        initMap.put("HoC", R.raw.audio_h_oc_);   // Hoch
-        initMap.put("Hol", R.raw.audio_h_ol);
-        initMap.put("Hoz", R.raw.audio_h_oz);   // Ho'
-        initMap.put("HuH", R.raw.audio_h_uh_);
-        initMap.put("juH", R.raw.audio_juh_);   // juH
-        initMap.put("lIS", R.raw.audio_li_s_);   // From {qeylIS}.
-        initMap.put("loD", R.raw.audio_lod_);   // loD
-        initMap.put("muz", R.raw.audio_muz);   // mu'
-        initMap.put("noS", R.raw.audio_nos_);  // From {Qo'noS}.
-        initMap.put("puq", R.raw.audio_puq);
-        initMap.put("qey", R.raw.audio_qey);   // From {qeylIS}.
-        initMap.put("QaG", R.raw.audio_q_ag_);   // Qagh
-        initMap.put("Qap", R.raw.audio_q_ap);   // From {Qapla'}.
-        initMap.put("Qaz", R.raw.audio_q_az);   // From {majQa'}.
-        initMap.put("Quv", R.raw.audio_q_uv);
-        initMap.put("Soj", R.raw.audio_s_oj);
-        initMap.put("SoS", R.raw.audio_s_os_);
-        initMap.put("tarG", R.raw.audio_targ_);
-        initMap.put("tIq", R.raw.audio_ti_q);
-        initMap.put("toz", R.raw.audio_toz);   // to'
-        initMap.put("woz", R.raw.audio_woz);   // wo'
-        initMap.put("xeG", R.raw.audio_xeg_);   // tlhegh
-        initMap.put("vav", R.raw.audio_vav);
-        initMap.put("yIH", R.raw.audio_yi_h_);
-        initMap.put("zIw", R.raw.audio_zi_w);
-        initMap.put("zoyz", R.raw.audio_zoyz);
-        initMap.put("zuQ", R.raw.audio_zuq_);   // 'uQ
-        initMap.put("zuS", R.raw.audio_zus_);   // 'uS
+        initMap.put("Dez", R.raw.dez);   // De'
+        initMap.put("DoC", R.raw.doc);   // Doch
+        initMap.put("jaG", R.raw.jag);   // jagh
+        initMap.put("laz", R.raw.laz);   // From {Qapla'}.
+        initMap.put("Fan", R.raw.fan);  // From {tlhIngan}, etc.
+        initMap.put("GarG", R.raw.garg);   // ghargh
+        initMap.put("Gom", R.raw.gom);   // ghom
+        initMap.put("Gop", R.raw.gop);   // ghop
+        initMap.put("HoC", R.raw.hoc);   // Hoch
+        initMap.put("Hol", R.raw.hol);
+        initMap.put("Hoz", R.raw.hoz);   // Ho'
+        initMap.put("HuH", R.raw.huh);
+        initMap.put("juH", R.raw.juh);   // juH
+        initMap.put("lIS", R.raw.lis);   // From {qeylIS}.
+        initMap.put("loD", R.raw.lod);   // loD
+        initMap.put("muz", R.raw.muz);   // mu'
+        initMap.put("noS", R.raw.nos);  // From {Qo'noS}.
+        initMap.put("puq", R.raw.puq);
+        initMap.put("qey", R.raw.qey);   // From {qeylIS}.
+        initMap.put("QaG", R.raw.kag);   // Qagh
+        initMap.put("Qap", R.raw.kap);   // From {Qapla'}.
+        initMap.put("Qaz", R.raw.kaz);   // From {majQa'}.
+        initMap.put("Quv", R.raw.kuv);
+        initMap.put("Soj", R.raw.soj);
+        initMap.put("SoS", R.raw.sos);
+        initMap.put("tarG", R.raw.targ);
+        initMap.put("tIq", R.raw.tiq);
+        initMap.put("toz", R.raw.toz);   // to'
+        initMap.put("woz", R.raw.woz);   // wo'
+        initMap.put("xeG", R.raw.xeg);   // tlhegh
+        initMap.put("vav", R.raw.vav);
+        initMap.put("yIH", R.raw.yih);
+        initMap.put("zIw", R.raw.ziw);
+        initMap.put("zoyz", R.raw.zoyz);
+        initMap.put("zuQ", R.raw.zuk);   // 'uQ
+        initMap.put("zuS", R.raw.zus);   // 'uS
 
         // --- Conjunctions ---
-        initMap.put("zej", R.raw.audio_zej);   // 'ej
-        initMap.put("je", R.raw.audio_je);
-        initMap.put("qoj", R.raw.audio_qoj);
-        initMap.put("joq", R.raw.audio_joq);
-        initMap.put("paG", R.raw.audio_pag_);   // pagh
-        initMap.put("Gap", R.raw.audio_g_ap);   // ghap
+        initMap.put("zej", R.raw.zej);   // 'ej
+        initMap.put("je", R.raw.je);
+        initMap.put("qoj", R.raw.qoj);
+        initMap.put("joq", R.raw.joq);
+        initMap.put("paG", R.raw.pag);   // pagh
+        initMap.put("Gap", R.raw.gap);   // ghap
 
         // --- Question words ---
-        initMap.put("GorG", R.raw.audio_g_org_);   // ghorgh
-        initMap.put("nuq", R.raw.audio_nuq);
-        initMap.put("zar", R.raw.audio_zar);
-        initMap.put("zIv", R.raw.audio_zi_v);
+        initMap.put("GorG", R.raw.gorg);   // ghorgh
+        initMap.put("nuq", R.raw.nuq);
+        initMap.put("zar", R.raw.zar);
+        initMap.put("zIv", R.raw.ziv);
 
         // --- Common adverbials ---
-        initMap.put("neH", R.raw.audio_neh_);
-        initMap.put("QIt", R.raw.audio_q_i_t);
-        initMap.put("reH", R.raw.audio_reh_);
-        initMap.put("vaj", R.raw.audio_vaj);
+        initMap.put("neH", R.raw.neh);
+        initMap.put("QIt", R.raw.kit);
+        initMap.put("reH", R.raw.reh);
+        initMap.put("vaj", R.raw.vaj);
 
         // --- Pronouns ---
-        initMap.put("jIH", R.raw.audio_ji_h_);
-        initMap.put("SoH", R.raw.audio_s_oh_);
-        initMap.put("GaH", R.raw.audio_g_ah_);
-        initMap.put("maH", R.raw.audio_mah_);
-        initMap.put("zoH", R.raw.audio_zoh_);
+        initMap.put("jIH", R.raw.jih);
+        initMap.put("SoH", R.raw.soh);
+        initMap.put("GaH", R.raw.gah);
+        initMap.put("maH", R.raw.mah);
+        initMap.put("zoH", R.raw.zoh);
 
         // --- Numbers and number-forming elements ---
 
         // --- b ---
-        initMap.put("beb", R.raw.audio_beb);
-        initMap.put("bob", R.raw.audio_bob);
-        initMap.put("baC", R.raw.audio_bac_);
-        initMap.put("beC", R.raw.audio_bec_);
-        initMap.put("boC", R.raw.audio_boc_);
-        initMap.put("bID", R.raw.audio_bi_d_);
-        initMap.put("boD", R.raw.audio_bod_);
-        initMap.put("buD", R.raw.audio_bud_);
-        initMap.put("baG", R.raw.audio_bag_);
-        initMap.put("beG", R.raw.audio_beg_);
-        initMap.put("bIG", R.raw.audio_bi_g_);
+        initMap.put("beb", R.raw.beb);
+        initMap.put("bob", R.raw.bob);
+        initMap.put("baC", R.raw.bac);
+        initMap.put("beC", R.raw.bec);
+        initMap.put("boC", R.raw.boc);
+        initMap.put("bID", R.raw.bid);
+        initMap.put("boD", R.raw.bod);
+        initMap.put("buD", R.raw.bud);
+        initMap.put("baG", R.raw.bag);
+        initMap.put("beG", R.raw.beg);
+        initMap.put("bIG", R.raw.big);
         // bogh is a suffix
-        initMap.put("baH", R.raw.audio_bah_);
+        initMap.put("baH", R.raw.bah);
         // beH is a suffix
-        initMap.put("bIH", R.raw.audio_bi_h_);
-        initMap.put("boH", R.raw.audio_boh_);
-        initMap.put("buH", R.raw.audio_buh_);
-        initMap.put("baj", R.raw.audio_baj);
+        initMap.put("bIH", R.raw.bih);
+        initMap.put("boH", R.raw.boh);
+        initMap.put("buH", R.raw.buh);
+        initMap.put("baj", R.raw.baj);
         // bej is a suffix
-        initMap.put("bIj", R.raw.audio_bi_j);
-        initMap.put("boj", R.raw.audio_boj);
-        initMap.put("bal", R.raw.audio_bal);
-        initMap.put("bel", R.raw.audio_bel);
-        initMap.put("bIl", R.raw.audio_bi_l);
-        initMap.put("bol", R.raw.audio_bol);
-        initMap.put("bam", R.raw.audio_bam);
-        initMap.put("bem", R.raw.audio_bem);
-        initMap.put("bIm", R.raw.audio_bi_m);
-        initMap.put("bom", R.raw.audio_bom);
-        initMap.put("ben", R.raw.audio_ben);
-        initMap.put("baF", R.raw.audio_baf_);
-        initMap.put("bIF", R.raw.audio_bi_f_);
-        initMap.put("boF", R.raw.audio_bof_);
-        initMap.put("bep", R.raw.audio_bep);
-        initMap.put("bIp", R.raw.audio_bi_p);
-        initMap.put("bop", R.raw.audio_bop);
-        initMap.put("bup", R.raw.audio_bup);
-        initMap.put("baq", R.raw.audio_baq);
-        initMap.put("beq", R.raw.audio_beq);
-        initMap.put("boq", R.raw.audio_boq);
-        initMap.put("buq", R.raw.audio_buq);
-        initMap.put("baQ", R.raw.audio_baq_);
-        initMap.put("beQ", R.raw.audio_beq_);
-        initMap.put("bIQ", R.raw.audio_bi_q_);
-        initMap.put("boQ", R.raw.audio_boq_);
-        initMap.put("buQ", R.raw.audio_buq_);
-        initMap.put("bar", R.raw.audio_bar);
-        initMap.put("ber", R.raw.audio_ber);
-        initMap.put("bIr", R.raw.audio_bi_r);
-        initMap.put("bor", R.raw.audio_bor);
-        initMap.put("bur", R.raw.audio_bur);
-        initMap.put("barG", R.raw.audio_barg_);
-        initMap.put("berG", R.raw.audio_berg_);
-        initMap.put("burG", R.raw.audio_burg_);
-        initMap.put("baS", R.raw.audio_bas_);
-        initMap.put("bIS", R.raw.audio_bi_s_);
-        initMap.put("boS", R.raw.audio_bos_);
-        initMap.put("buS", R.raw.audio_bus_);
-        initMap.put("bet", R.raw.audio_bet);
-        initMap.put("bIt", R.raw.audio_bi_t);
-        initMap.put("bot", R.raw.audio_bot);
-        initMap.put("bax", R.raw.audio_bax);
-        initMap.put("box", R.raw.audio_box);
-        initMap.put("bux", R.raw.audio_bux);
-        initMap.put("bav", R.raw.audio_bav);
-        initMap.put("bIv", R.raw.audio_bi_v);
-        initMap.put("bov", R.raw.audio_bov);
-        initMap.put("buv", R.raw.audio_buv);
-        initMap.put("bey", R.raw.audio_bey);
-        initMap.put("buyz", R.raw.audio_buyz);
+        initMap.put("bIj", R.raw.bij);
+        initMap.put("boj", R.raw.boj);
+        initMap.put("bal", R.raw.bal);
+        initMap.put("bel", R.raw.bel);
+        initMap.put("bIl", R.raw.bil);
+        initMap.put("bol", R.raw.bol);
+        initMap.put("bam", R.raw.bam);
+        initMap.put("bem", R.raw.bem);
+        initMap.put("bIm", R.raw.bim);
+        initMap.put("bom", R.raw.bom);
+        initMap.put("ben", R.raw.ben);
+        initMap.put("baF", R.raw.baf);
+        initMap.put("bIF", R.raw.bif);
+        initMap.put("boF", R.raw.bof);
+        initMap.put("bep", R.raw.bep);
+        initMap.put("bIp", R.raw.bip);
+        initMap.put("bop", R.raw.bop);
+        initMap.put("bup", R.raw.bup);
+        initMap.put("baq", R.raw.baq);
+        initMap.put("beq", R.raw.beq);
+        initMap.put("boq", R.raw.boq);
+        initMap.put("buq", R.raw.buq);
+        initMap.put("baQ", R.raw.bak);
+        initMap.put("beQ", R.raw.bek);
+        initMap.put("bIQ", R.raw.bik);
+        initMap.put("boQ", R.raw.bok);
+        initMap.put("buQ", R.raw.buk);
+        initMap.put("bar", R.raw.bar);
+        initMap.put("ber", R.raw.ber);
+        initMap.put("bIr", R.raw.bir);
+        initMap.put("bor", R.raw.bor);
+        initMap.put("bur", R.raw.bur);
+        initMap.put("barG", R.raw.barg);
+        initMap.put("berG", R.raw.berg);
+        initMap.put("burG", R.raw.burg);
+        initMap.put("baS", R.raw.bas);
+        initMap.put("bIS", R.raw.bis);
+        initMap.put("boS", R.raw.bos);
+        initMap.put("buS", R.raw.bus);
+        initMap.put("bet", R.raw.bet);
+        initMap.put("bIt", R.raw.bit);
+        initMap.put("bot", R.raw.bot);
+        initMap.put("bax", R.raw.bax);
+        initMap.put("box", R.raw.box);
+        initMap.put("bux", R.raw.bux);
+        initMap.put("bav", R.raw.bav);
+        initMap.put("bIv", R.raw.biv);
+        initMap.put("bov", R.raw.bov);
+        initMap.put("buv", R.raw.buv);
+        initMap.put("bey", R.raw.bey);
+        initMap.put("buyz", R.raw.buyz);
         // ba' and be' are suffixes
-        initMap.put("bIz", R.raw.audio_bi_z);
-        initMap.put("bo", R.raw.audio_bo);
+        initMap.put("bIz", R.raw.biz);
+        initMap.put("bo", R.raw.bo);
 
         MAIN_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
@@ -506,7 +506,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     }
 
     private void prependCoughToList() {
-        prependSyllableToList(R.raw.audio_cough);
+        prependSyllableToList(R.raw.cough);
     }
 
     @Override
@@ -731,59 +731,59 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     private static int getResIdForFallbackChar(char value) {
         switch(value) {
           case 'a':
-            return R.raw.audio_a;
+            return R.raw.a;
           case 'b':
-            return R.raw.audio_b;
+            return R.raw.b;
           case 'C': // {ch}
-            return R.raw.audio_c_;
+            return R.raw.c;
           case 'D':
-            return R.raw.audio_d_;
+            return R.raw.d;
           case 'e':
-            return R.raw.audio_e;
+            return R.raw.e;
           case 'G': // {gh}
-            return R.raw.audio_g_;
+            return R.raw.g;
           case 'H':
-            return R.raw.audio_h_;
+            return R.raw.h;
           case 'I':
-            return R.raw.audio_i_;
+            return R.raw.i;
           case 'j':
-            return R.raw.audio_j;
+            return R.raw.j;
           case 'l':
-            return R.raw.audio_l;
+            return R.raw.l;
           case 'm':
-            return R.raw.audio_m;
+            return R.raw.m;
           case 'n':
-            return R.raw.audio_n;
+            return R.raw.n;
           case 'F': // {ng}
-            return R.raw.audio_f_;
+            return R.raw.f;
           case 'o':
-            return R.raw.audio_o;
+            return R.raw.o;
           case 'p':
-            return R.raw.audio_p;
+            return R.raw.p;
           case 'q':
-            return R.raw.audio_q;
+            return R.raw.q;
           case 'Q':
-            return R.raw.audio_q_;
+            return R.raw.k;
           case 'r':
-            return R.raw.audio_r;
+            return R.raw.r;
           case 'S':
-            return R.raw.audio_s_;
+            return R.raw.s;
           case 't':
-            return R.raw.audio_t;
+            return R.raw.t;
           case 'x': // {tlh}
-            return R.raw.audio_x;
+            return R.raw.x;
           case 'u':
-            return R.raw.audio_u;
+            return R.raw.u;
           case 'v':
-            return R.raw.audio_v;
+            return R.raw.v;
           case 'w':
-            return R.raw.audio_w;
+            return R.raw.w;
           case 'y':
-            return R.raw.audio_y;
+            return R.raw.y;
           case 'z': // {'}
-            return R.raw.audio_z;
+            return R.raw.z;
           case ' ':
-            return R.raw.audio_silence;
+            return R.raw.silence;
           default:
             // Note that 0 denotes an invalid resource ID in Android.
             return 0;
