@@ -1,5 +1,6 @@
 CHANGELOG
 
+2014-04-19: Lots of improvements to TTS engine.
 2014-04-16: Add Text-To_Speech ability (requires TTS engine which supports Klingon).
 
 2014-04-11: Split into backport (Honeycomb and below) and regular versions again (Android version 4+/API 14+).
