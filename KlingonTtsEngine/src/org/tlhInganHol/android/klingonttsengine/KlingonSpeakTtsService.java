@@ -204,6 +204,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
         // --- Common verbs ---
         initMap.put("CarG", R.raw.audio_c_arg_);
+        initMap.put("Cop", R.raw.audio_c_op);
         initMap.put("Dab", R.raw.audio_d_ab);
         initMap.put("Dev", R.raw.audio_d_ev);
         initMap.put("Doq", R.raw.audio_d_oq);
@@ -211,6 +212,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("Doyz", R.raw.audio_d_oyz);   // Doy'
         initMap.put("GIx", R.raw.audio_g_i_x);   // ghItlh
         initMap.put("Goj", R.raw.audio_g_oj);   // ghoj
+        initMap.put("GoD", R.raw.audio_g_od_);   // ghoD
         initMap.put("GoS", R.raw.audio_g_os_);   // ghoS
         initMap.put("GuF", R.raw.audio_g_uf_);   // ghung
         initMap.put("Hab", R.raw.audio_h_ab);
@@ -224,6 +226,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("jax", R.raw.audio_jax);   // jatlh
         initMap.put("jeG", R.raw.audio_jeg_);   // jegh
         initMap.put("jez", R.raw.audio_jez);   // je'
+        initMap.put("laj", R.raw.audio_laj);   // laj
         initMap.put("leG", R.raw.audio_leg_);   // legh
         initMap.put("loz", R.raw.audio_loz);   // lo'
         initMap.put("maC", R.raw.audio_mac_);
@@ -237,16 +240,22 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("qIm", R.raw.audio_qi_m);
         initMap.put("quv", R.raw.audio_quv);
         initMap.put("QoF", R.raw.audio_q_of_);   // Qong
+        initMap.put("Qoy", R.raw.audio_q_oy);   // Qoy
         initMap.put("QuC", R.raw.audio_q_uc_);   // Quch
         initMap.put("SaH", R.raw.audio_s_ah_);
         initMap.put("SIQ", R.raw.audio_s_i_q_);
+        initMap.put("Sop", R.raw.audio_s_op);
         initMap.put("Sov", R.raw.audio_s_ov);
         initMap.put("SuD", R.raw.audio_s_ud_);
         initMap.put("Suv", R.raw.audio_s_uv);
+        initMap.put("tayz", R.raw.audio_tayz);   // tay'
         initMap.put("tIn", R.raw.audio_ti_n);
         initMap.put("tIv", R.raw.audio_ti_v);
         initMap.put("tuz", R.raw.audio_tuz);
+        initMap.put("xap", R.raw.audio_xap);   // tlhap
+        initMap.put("xux", R.raw.audio_xux);   // tlhutlh
         initMap.put("van", R.raw.audio_van);
+        initMap.put("vIH", R.raw.audio_vi_h_);
         initMap.put("yaj", R.raw.audio_yaj);
         initMap.put("zav", R.raw.audio_zav);   // 'av
         initMap.put("zoj", R.raw.audio_zoj);   // 'oj
@@ -256,22 +265,39 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("Dez", R.raw.audio_d_ez);   // De'
         initMap.put("DoC", R.raw.audio_d_oc_);   // Doch
         initMap.put("jaG", R.raw.audio_jag_);   // jagh
+        initMap.put("laz", R.raw.audio_laz);   // From {Qapla'}.
+        initMap.put("Fan", R.raw.audio_f_an);  // From {tlhIngan}, etc.
+        initMap.put("GarG", R.raw.audio_g_arg_);   // ghargh
+        initMap.put("Gom", R.raw.audio_g_om);   // ghom
+        initMap.put("Gop", R.raw.audio_g_op);   // ghop
+        initMap.put("HoC", R.raw.audio_h_oc_);   // Hoch
+        initMap.put("Hol", R.raw.audio_h_ol);
+        initMap.put("Hoz", R.raw.audio_h_oz);   // Ho'
+        initMap.put("HuH", R.raw.audio_h_uh_);
+        initMap.put("juH", R.raw.audio_juh_);   // juH
+        initMap.put("lIS", R.raw.audio_li_s_);   // From {qeylIS}.
+        initMap.put("loD", R.raw.audio_lod_);   // loD
+        initMap.put("muz", R.raw.audio_muz);   // mu'
+        initMap.put("noS", R.raw.audio_nos_);  // From {Qo'noS}.
+        initMap.put("puq", R.raw.audio_puq);
+        initMap.put("qey", R.raw.audio_qey);   // From {qeylIS}.
         initMap.put("QaG", R.raw.audio_q_ag_);   // Qagh
         initMap.put("Qap", R.raw.audio_q_ap);   // From {Qapla'}.
-        initMap.put("laz", R.raw.audio_laz);   // From {Qapla'}.
         initMap.put("Qaz", R.raw.audio_q_az);   // From {majQa'}.
-        initMap.put("Fan", R.raw.audio_f_an);  // From {tlhIngan}, etc.
-        initMap.put("Gop", R.raw.audio_g_op);
-        initMap.put("Hol", R.raw.audio_h_ol);
-        initMap.put("HuH", R.raw.audio_h_uh_);
-        initMap.put("noS", R.raw.audio_nos_);  // From {Qo'noS}.
-        initMap.put("qamaz", R.raw.audio_qamaz);   // qama'
-        initMap.put("vav", R.raw.audio_vav);
+        initMap.put("Quv", R.raw.audio_q_uv);
+        initMap.put("Soj", R.raw.audio_s_oj);
         initMap.put("SoS", R.raw.audio_s_os_);
         initMap.put("tarG", R.raw.audio_targ_);
         initMap.put("tIq", R.raw.audio_ti_q);
+        initMap.put("toz", R.raw.audio_toz);   // to'
+        initMap.put("woz", R.raw.audio_woz);   // wo'
+        initMap.put("xeG", R.raw.audio_xeg_);   // tlhegh
+        initMap.put("vav", R.raw.audio_vav);
+        initMap.put("yIH", R.raw.audio_yi_h_);
         initMap.put("zIw", R.raw.audio_zi_w);
         initMap.put("zoyz", R.raw.audio_zoyz);
+        initMap.put("zuQ", R.raw.audio_zuq_);   // 'uQ
+        initMap.put("zuS", R.raw.audio_zus_);   // 'uS
 
         // --- Conjunctions ---
         initMap.put("zej", R.raw.audio_zej);   // 'ej
