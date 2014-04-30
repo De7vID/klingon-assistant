@@ -354,6 +354,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
         // --- Common adverbials ---
         initMap.put("Caq", R.raw.caq);   // chaq
+        initMap.put("DaH", R.raw.dah);
         initMap.put("Doz", R.raw.doz);   // Do'
         initMap.put("neH", R.raw.neh);
         initMap.put("nom", R.raw.nom);
