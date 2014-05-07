@@ -112,7 +112,10 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     static {
         Map<String, Integer> initMap = new HashMap<String, Integer>();
         // bo, cha, Da, DI, Do, gho, ghu, He, Hu, ja, je, jo, lu, 'o, po, QI, ra, ro, So, ta, tI, va, ya, yu, 'a
-        // initMap.put("Da", R.raw.da);
+        initMap.put("bo", R.raw.bo);
+        initMap.put("Ca", R.raw.ca);
+        initMap.put("Da", R.raw.da);
+        initMap.put("je", R.raw.je);
 
         SHORT_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
@@ -320,6 +323,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("muz", R.raw.muz);   // mu'
         initMap.put("noS", R.raw.nos);   // From {Qo'noS}.
         initMap.put("peG", R.raw.peg);   // pegh
+        initMap.put("pem", R.raw.pem);
         initMap.put("pet", R.raw.pet);   // From {luspet}.
         initMap.put("puq", R.raw.puq);
         initMap.put("ram", R.raw.ram);
@@ -372,11 +376,11 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
         // --- Conjunctions ---
         initMap.put("zej", R.raw.zej);   // 'ej
-        initMap.put("je", R.raw.je);
         initMap.put("qoj", R.raw.qoj);
         initMap.put("joq", R.raw.joq);
         initMap.put("paG", R.raw.pag);   // pagh
         initMap.put("Gap", R.raw.gap);   // ghap
+        // je is short
 
         // --- Question words ---
         initMap.put("GorG", R.raw.gorg);   // ghorgh
@@ -476,7 +480,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("buyz", R.raw.buyz);
         // ba' and be' are suffixes
         initMap.put("bIz", R.raw.biz);
-        initMap.put("bo", R.raw.bo);
+        // bo is short
 
         // --- D ---
         initMap.put("dawz", R.raw.dawz);  // Daw'
@@ -629,7 +633,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                     // The next match won't be the final syllable in a word.
                     isFinalSyllable = false;
                     foundMatch = true;
-                    Log.d(TAG, "Matched tail: " + tail);
+                    Log.d(TAG, "Matched tail: {" + tail + "}");
                     break;
                 }
             }
@@ -648,10 +652,17 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
                     // If the syllable is CV, then it is a short syllable.
                     boolean isShortSyllable = syllableBack.equals(vowel);
+                    // Log.d(TAG, "Syllable: {" + syllable + "}");
+                    // Log.d(TAG, "Syllable front: {" + syllableFront + "}");
+                    // Log.d(TAG, "Syllable back: {" + syllableBack + "}");
+                    // Log.d(TAG, "Vowel: {" + vowel + "}");
+                    // Log.d(TAG, "isShortSyllable: {" + isShortSyllable + "}");
+                    // Log.d(TAG, "isFinalSyllable: {" + isFinalSyllable + "}");
                     if (isShortSyllable && !isFinalSyllable) {
                         // If it's a short syllable but not the final syllable, then truncate the vowel.
                         if (frontResId != null) {
                             prependSyllableToList(frontResId);
+                            Log.d(TAG, "Matched syllable: {" + syllableFront + "-}");
                         } else {
                             prependCoughToList();
                         }
@@ -666,6 +677,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                         if (resId != null) {
                             // We have a full short syllable, so play it.
                             prependSyllableToList(resId);
+                            Log.d(TAG, "Matched syllable: {" + syllable + "}");
                         } else {
                             // If the syllable isn't short, or it is short and we've failed to get
                             // audio for the full short syllable, then add both the front and the
@@ -691,13 +703,13 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                                 // Cough only once if both parts are missing.
                                 prependCoughToList();
                             }
+                            Log.d(TAG, "Matched syllable: {" + syllableFront + "-" + syllableBack + "}");
                         }
                     }
 
                     // Now the next match won't be the final syllable in a word.
                     isFinalSyllable = false;
                     foundMatch = true;
-                    Log.d(TAG, "Matched syllable: " + syllableFront + " " + syllableBack);
                 }
             }
             if (!foundMatch) {
@@ -731,7 +743,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         //   CVrgh
         //   CVw'  (excluding {ow'} and {uw'})
         //   CVy'
-        // Log.d(TAG, "removeTailSyllable from: " + input);
+        // Log.d(TAG, "removeTailSyllable from: {" + input + "}");
 
         String remainingText = input;
         String tail = "";
@@ -768,11 +780,15 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
             tail = "rG";
             remainingText = remainingText.substring(0, remainingText.length() - 2);
         } else if (remainingText.length() > 2 && !isSimpleVowel(remainingText.charAt(remainingText.length() - 1))) {
-            // Ends in something other than a vowel. Assume it's a consonant.
+            // Ends in something other than a vowel. Assume it's a consonant, unless it's a space.
             tail = remainingText.substring(remainingText.length() - 1);
+            if (tail.equals(" ")) {
+                // Not a valid final consonant.
+                return "";
+            }
             remainingText = remainingText.substring(0, remainingText.length() - 1);
         }
-        // Log.d(TAG, "After ending: " + remainingText + " / " + tail);
+        // Log.d(TAG, "After ending: {" + remainingText + " / " + tail + "}");
 
         // Look for the vowel.
         if (remainingText.length() < 2 ||
@@ -782,7 +798,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         }
         tail = remainingText.substring(remainingText.length() - 1) + tail;
         remainingText = remainingText.substring(0, remainingText.length() - 1);
-        // Log.d(TAG, "After middle: " + remainingText + " / " + tail);
+        // Log.d(TAG, "After middle: {" + remainingText + " / " + tail + "}");
 
         // Look for the initial consonant.
         if (remainingText.length() < 1 ||
@@ -792,7 +808,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         }
         tail = remainingText.substring(remainingText.length() - 1) + tail;
         remainingText = remainingText.substring(0, remainingText.length() - 1);
-        // Log.d(TAG, "After beginning: " + remainingText + " / " + tail);
+        // Log.d(TAG, "After beginning: {" + remainingText + " / " + tail + "}");
 
         return tail;
     }
