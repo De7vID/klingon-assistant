@@ -352,6 +352,24 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("zuQ", R.raw.zuk);   // 'uQ
         initMap.put("zuS", R.raw.zus);   // 'uS
 
+        // --- Numbers and number-forming elements ---
+        initMap.put("waz", R.raw.waz);
+        initMap.put("Caz", R.raw.caz);
+        initMap.put("wej", R.raw.wej);
+        // loS is a verb
+        initMap.put("vaG", R.raw.vag);
+        initMap.put("jav", R.raw.jav);
+        initMap.put("SoC", R.raw.soc);
+        initMap.put("CorG", R.raw.corg);
+        initMap.put("Hut", R.raw.hut);
+        // maH is a pronoun
+        initMap.put("vax", R.raw.vax);
+        initMap.put("SaD", R.raw.sad);
+        // SanID is Sa- + nID
+        initMap.put("nex", R.raw.nex);
+        initMap.put("bIp", R.raw.bip);
+        initMap.put("zuyz", R.raw.zuyz);
+
         // --- Conjunctions ---
         initMap.put("zej", R.raw.zej);   // 'ej
         initMap.put("je", R.raw.je);
@@ -384,8 +402,6 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("GaH", R.raw.gah);
         initMap.put("maH", R.raw.mah);
         initMap.put("zoH", R.raw.zoh);
-
-        // --- Numbers and number-forming elements ---
 
         // --- b ---
         initMap.put("beb", R.raw.beb);
@@ -422,7 +438,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("bIF", R.raw.bif);
         initMap.put("boF", R.raw.bof);
         initMap.put("bep", R.raw.bep);
-        initMap.put("bIp", R.raw.bip);
+        // bIp is a number-forming element
         initMap.put("bop", R.raw.bop);
         initMap.put("bup", R.raw.bup);
         initMap.put("baq", R.raw.baq);
@@ -464,6 +480,9 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
         // --- D ---
         initMap.put("dawz", R.raw.dawz);  // Daw'
+
+        // --- n ---
+        initMap.put("nID", R.raw.nid);
 
         MAIN_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
