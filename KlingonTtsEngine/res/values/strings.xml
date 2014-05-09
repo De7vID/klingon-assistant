@@ -18,10 +18,5 @@
     <!-- The name of the application. -->
     <string name="app_name">Klingon TTS Engine</string>
     <!-- The heading of the first (and only) preference fragment -->
-    <string name="general_settings">General settings</string>
-
-    <string name="whisper_title">Whisper utterances</string>
-    <string name="whisper_summary">Say stuff really softly, only the keenest
-      eared robots can understand.</string>
 
 </resources>

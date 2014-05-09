@@ -16,7 +16,6 @@
 package org.tlhInganHol.android.klingonttsengine;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.media.AudioFormat;
 import android.media.MediaPlayer;
 import android.speech.tts.SynthesisCallback;
@@ -31,7 +30,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 /**
- * A text to speech engine that generates "speech" that a robot might understand.
+ * A text to speech engine that generates Klingon speech.
  * The engine supports two different Klingon voices.
  *
  * It exercises all aspects of the Text to speech engine API
@@ -45,7 +44,6 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
     private volatile String[] mCurrentLanguage = null;
     private volatile boolean mStopRequested = false;
-    private SharedPreferences mSharedPrefs = null;
 
     // This map contains the front half of full syllables.
     private static final Map<String, Integer> FRONT_HALF_SYLLABLE_TO_AUDIO_MAP;
@@ -494,8 +492,6 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     @Override
     public void onCreate() {
         super.onCreate();
-        mSharedPrefs = getSharedPreferences(GeneralSettingsFragment.SHARED_PREFS_NAME,
-                Context.MODE_PRIVATE);
         // We load the default language when we start up. This isn't strictly
         // required though, it can always be loaded lazily on the first call to
         // onLoadLanguage or onSynthesizeText. This a tradeoff between memory usage

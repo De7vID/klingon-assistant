@@ -46,9 +46,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="org.tlhInganHol.android.klingonttsengine.KlingonSpeakSettings"
-                android:label="@string/general_settings"  />
-
     </application>
 
 </manifest>
