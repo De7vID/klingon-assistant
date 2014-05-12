@@ -214,6 +214,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("Doq", R.raw.doq);
         initMap.put("Dor", R.raw.dor);
         initMap.put("Doyz", R.raw.doyz);   // Doy'
+        initMap.put("DuQ", R.raw.duk);   // DuQ
         initMap.put("GIx", R.raw.gix);   // ghItlh
         initMap.put("Gaj", R.raw.gaj);   // ghaj
         initMap.put("Goj", R.raw.goj);   // ghoj
@@ -247,7 +248,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("moj", R.raw.moj);
         initMap.put("naj", R.raw.naj);
         initMap.put("nIH", R.raw.nih);
-        initMap.put("noz", R.raw.noz);
+        initMap.put("noD", R.raw.nod);
         initMap.put("FaG", R.raw.fag);   // ngagh
         initMap.put("FaS", R.raw.fas);   // ngaS
         initMap.put("Fuz", R.raw.fuz);   // ngu'
@@ -255,14 +256,17 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("poF", R.raw.pof);
         initMap.put("poS", R.raw.pos);
         initMap.put("puS", R.raw.pus);
+        initMap.put("reG", R.raw.reg);   // regh
         initMap.put("rur", R.raw.rur);
         initMap.put("qaD", R.raw.qad);
         initMap.put("qaS", R.raw.qas);
         initMap.put("qaw", R.raw.qaw);
         initMap.put("qIm", R.raw.qim);
         initMap.put("qIp", R.raw.qip);
+        initMap.put("qox", R.raw.qox);   // qotlh
         initMap.put("qul", R.raw.qul);
         initMap.put("quv", R.raw.quv);
+        initMap.put("QIH", R.raw.kih);
         initMap.put("Qob", R.raw.kob);
         initMap.put("QoF", R.raw.kof);   // Qong
         initMap.put("Qoy", R.raw.koy);   // Qoy
@@ -323,6 +327,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("mIt", R.raw.mit);   // From {lojmIt}.
         initMap.put("muz", R.raw.muz);   // mu'
         initMap.put("noS", R.raw.nos);   // From {Qo'noS}.
+        initMap.put("noz", R.raw.noz);   // no'
         initMap.put("peG", R.raw.peg);   // pegh
         initMap.put("pem", R.raw.pem);
         initMap.put("pet", R.raw.pet);   // From {luspet}.
