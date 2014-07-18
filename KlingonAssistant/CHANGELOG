@@ -1,5 +1,6 @@
 CHANGELOG
 
+2014-07-15: Work around a bug where the action bar sometimes disappears.
 2014-06-14: Minor edits to database.
 2014-04-29: Better integration with TTS.
 2014-04-16: Add Text-To_Speech ability (requires TTS engine which supports Klingon).
