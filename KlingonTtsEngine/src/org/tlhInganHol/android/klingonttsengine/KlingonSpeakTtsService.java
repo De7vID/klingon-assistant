@@ -136,12 +136,12 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
         // --- b ---
         initMap.put("baC", R.raw.bac);
-        initMap.put("baF", R.raw.baf);
         initMap.put("baG", R.raw.bag);
         initMap.put("baH", R.raw.bah);
         initMap.put("baj", R.raw.baj);
         initMap.put("bal", R.raw.bal);
         initMap.put("bam", R.raw.bam);
+        initMap.put("baF", R.raw.baf);
         initMap.put("baQ", R.raw.bak);
         initMap.put("baq", R.raw.baq);
         initMap.put("bar", R.raw.bar);
@@ -211,20 +211,26 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("buyz", R.raw.buyz);
 
         // --- ch ---
-        // initMap.put("CaC", R.raw.cac);
-        // initMap.put("CaF", R.raw.caf);
-        // initMap.put("CaG", R.raw.cag);
-        // initMap.put("CaH", R.raw.cah);
+        initMap.put("Cab", R.raw.cab);
+        initMap.put("CaC", R.raw.cac);
+        initMap.put("CaD", R.raw.cad);
+        initMap.put("CaG", R.raw.cag);
+        initMap.put("CaH", R.raw.cah);
         initMap.put("Caj", R.raw.caj);   // chaj
-        // initMap.put("Cal", R.raw.cal);
-        // initMap.put("Cam", R.raw.cam);
-        // initMap.put("CaQ", R.raw.cak);
+        initMap.put("Cal", R.raw.cal);
+        initMap.put("Cam", R.raw.cam);
+        initMap.put("Can", R.raw.can);
+        initMap.put("CaF", R.raw.caf);
+        initMap.put("Cap", R.raw.cap);   // chaq
         initMap.put("Caq", R.raw.caq);   // chaq
-        // initMap.put("Car", R.raw.car);
+        initMap.put("CaQ", R.raw.cak);
+        initMap.put("Car", R.raw.car);
         initMap.put("CarG", R.raw.carg);
-        // initMap.put("CaS", R.raw.cas);
-        // initMap.put("Cav", R.raw.cav);
-        // initMap.put("Cax", R.raw.cax);
+        initMap.put("CaS", R.raw.cas);
+        initMap.put("Cax", R.raw.cax);
+        initMap.put("Cawz", R.raw.cawz);
+        initMap.put("Cav", R.raw.cav);
+        initMap.put("Cayz", R.raw.cayz);
         initMap.put("Caz", R.raw.caz);
         // initMap.put("Ceb", R.raw.ceb);
         // initMap.put("CeC", R.raw.cec);
