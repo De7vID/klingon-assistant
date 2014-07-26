@@ -144,8 +144,8 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("bam", R.raw.bam);
         initMap.put("baQ", R.raw.bak);
         initMap.put("baq", R.raw.baq);
-        initMap.put("barG", R.raw.barg);
         initMap.put("bar", R.raw.bar);
+        initMap.put("barG", R.raw.barg);
         initMap.put("baS", R.raw.bas);
         initMap.put("bav", R.raw.bav);
         initMap.put("bax", R.raw.bax);
@@ -211,16 +211,81 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("buyz", R.raw.buyz);
 
         // --- ch ---
+        // initMap.put("CaC", R.raw.cac);
+        // initMap.put("CaF", R.raw.caf);
+        // initMap.put("CaG", R.raw.cag);
+        // initMap.put("CaH", R.raw.cah);
         initMap.put("Caj", R.raw.caj);   // chaj
+        // initMap.put("Cal", R.raw.cal);
+        // initMap.put("Cam", R.raw.cam);
+        // initMap.put("CaQ", R.raw.cak);
         initMap.put("Caq", R.raw.caq);   // chaq
+        // initMap.put("Car", R.raw.car);
         initMap.put("CarG", R.raw.carg);
+        // initMap.put("CaS", R.raw.cas);
+        // initMap.put("Cav", R.raw.cav);
+        // initMap.put("Cax", R.raw.cax);
         initMap.put("Caz", R.raw.caz);
+        // initMap.put("Ceb", R.raw.ceb);
+        // initMap.put("CeC", R.raw.cec);
+        // initMap.put("CeG", R.raw.ceg);
+        // initMap.put("CeH", R.raw.ceh);
+        // initMap.put("Cej", R.raw.cej);
+        // initMap.put("Cel", R.raw.cel);
+        // initMap.put("Cem", R.raw.cem);
         initMap.put("Cen", R.raw.cen);
+        // initMap.put("Cep", R.raw.cep);
+        // initMap.put("CeQ", R.raw.cek);
+        // initMap.put("Ceq", R.raw.ceq);
+        // initMap.put("CerG", R.raw.cerg);
+        // initMap.put("Cer", R.raw.cer);
+        // initMap.put("Cet", R.raw.cet);
+        // initMap.put("Cey", R.raw.cey);
+        // initMap.put("Cez", R.raw.cez);
+        // initMap.put("CID", R.raw.cid);
+        // initMap.put("CIF", R.raw.cif);
+        // initMap.put("CIG", R.raw.cig);
+        // initMap.put("CIH", R.raw.cih);
+        // initMap.put("CIj", R.raw.cij);
+        // initMap.put("CIl", R.raw.cil);
+        // initMap.put("CIm", R.raw.cim);
+        // initMap.put("CIp", R.raw.cip);
+        // initMap.put("CIQ", R.raw.cik);
+        // initMap.put("CIr", R.raw.cir);
+        // initMap.put("CIS", R.raw.cis);
+        // initMap.put("CIt", R.raw.cit);
+        // initMap.put("CIv", R.raw.civ);
+        // initMap.put("CIz", R.raw.ciz);
+        // initMap.put("Cob", R.raw.cob);
+        // initMap.put("CoC", R.raw.coc);
+        // initMap.put("CoD", R.raw.cod);
+        // initMap.put("CoF", R.raw.cof);
+        // initMap.put("CoG", R.raw.cog);
         initMap.put("CoH", R.raw.coh);  // choH
+        // initMap.put("Coj", R.raw.coj);
+        // initMap.put("Col", R.raw.col);
+        // initMap.put("Com", R.raw.com);
         initMap.put("Cop", R.raw.cop);
+        // initMap.put("CoQ", R.raw.cok);
+        // initMap.put("Coq", R.raw.coq);
+        // initMap.put("Cor", R.raw.cor);
         initMap.put("CorG", R.raw.corg);
+        // initMap.put("CoS", R.raw.cos);
+        // initMap.put("Cot", R.raw.cot);
+        // initMap.put("Cov", R.raw.cov);
+        // initMap.put("Cox", R.raw.cox);
+        // initMap.put("CuD", R.raw.cud);
         initMap.put("CuG", R.raw.cug);  // chugh
+        // initMap.put("CuH", R.raw.cuh);
+        // initMap.put("Cup", R.raw.cup);
+        // initMap.put("CuQ", R.raw.cuk);
         initMap.put("Cuq", R.raw.cuq);  // chuq
+        // initMap.put("CurG", R.raw.curg);
+        // initMap.put("Cur", R.raw.cur);
+        // initMap.put("CuS", R.raw.cus);
+        // initMap.put("Cuv", R.raw.cuv);
+        // initMap.put("Cux", R.raw.cux);
+        // initMap.put("Cuyz", R.raw.cuyz);
         initMap.put("Cuz", R.raw.cuz);  // chu'
 
         // --- D ---
