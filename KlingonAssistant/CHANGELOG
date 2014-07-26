@@ -1,5 +1,10 @@
 CHANGELOG
 
+2014-07-26: Remove dependency on ActionBarSherlock.
+
+AppCompat.Dark theme generated using:
+http://jgilfelt.github.io/android-actionbarstylegenerator/#name=Appcompatdark&compat=appcompat&theme=dark&actionbarstyle=transparent&texture=0&hairline=0&neutralPressed=1&backColor=2D2D2D%2C100&secondaryColor=151515%2C100&tabColor=33B5E5%2C100&tertiaryColor=303030%2C100&accentColor=33B5E5%2C100&cabBackColor=002E3E%2C100&cabHighlightColor=33B5E5%2C100
+
 2014-07-21: Link hand and foot words; improve Shakespeare entries; added lyrics for {yIH bom}.
 2014-07-15: Try to work around a bug where the action bar sometimes disappears.
 2014-06-14: Minor edits to database.
