@@ -134,366 +134,372 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     static {
         Map<String, Integer> initMap = new HashMap<String, Integer>();
 
-        // --- Verb suffixes ---
-        initMap.put("zeG", R.raw.zeg);   // 'egh
-        initMap.put("Cuq", R.raw.cuq);  // chuq
-        initMap.put("nIS", R.raw.nis);
-        initMap.put("qaF", R.raw.qaf);   // qang
-        initMap.put("rup", R.raw.rup);
-        initMap.put("beH", R.raw.beh);
-        initMap.put("vIp", R.raw.vip);
-        initMap.put("CoH", R.raw.coh);  // choH
-        initMap.put("qaz", R.raw.qaz);   // qa'
-        initMap.put("moH", R.raw.moh);
-        initMap.put("luz", R.raw.luz);   // lu'
-        initMap.put("laH", R.raw.lah);
-        initMap.put("Cuz", R.raw.cuz);  // chu'
-        initMap.put("bej", R.raw.bej);
-        initMap.put("lawz", R.raw.lawz);  // law'
+        // --- b ---
+        initMap.put("baC", R.raw.bac);
+        initMap.put("baF", R.raw.baf);
+        initMap.put("baG", R.raw.bag);
+        initMap.put("baH", R.raw.bah);
+        initMap.put("baj", R.raw.baj);
+        initMap.put("bal", R.raw.bal);
+        initMap.put("bam", R.raw.bam);
+        initMap.put("baQ", R.raw.bak);
+        initMap.put("baq", R.raw.baq);
+        initMap.put("barG", R.raw.barg);
+        initMap.put("bar", R.raw.bar);
+        initMap.put("baS", R.raw.bas);
+        initMap.put("bav", R.raw.bav);
+        initMap.put("bax", R.raw.bax);
         initMap.put("baz", R.raw.baz);   // ba'
-        initMap.put("puz", R.raw.puz);   // pu'
-        initMap.put("taz", R.raw.taz);   // ta'
-        initMap.put("taH", R.raw.tah);
-        initMap.put("lIz", R.raw.liz);   // lI'
-        initMap.put("neS", R.raw.nes);   // neS
-        initMap.put("DIz", R.raw.diz);  // DI'
-        initMap.put("CuG", R.raw.cug);  // chugh
-        initMap.put("paz", R.raw.paz);   // pa'
-        initMap.put("vIS", R.raw.vis);
-        initMap.put("boG", R.raw.bog);   // bogh
-        initMap.put("meH", R.raw.meh);
-        initMap.put("zaz", R.raw.zaz);
-        initMap.put("wIz", R.raw.wiz);   // wI'
-        initMap.put("moz", R.raw.moz);   // mo'
-        initMap.put("jaj", R.raw.jaj);
-        initMap.put("GaC", R.raw.gac);   // ghach
+        initMap.put("beb", R.raw.beb);
+        initMap.put("beC", R.raw.bec);
+        initMap.put("beG", R.raw.beg);
+        initMap.put("beH", R.raw.beh);
+        initMap.put("bej", R.raw.bej);
+        initMap.put("bel", R.raw.bel);
+        initMap.put("bem", R.raw.bem);
+        initMap.put("ben", R.raw.ben);
+        initMap.put("bep", R.raw.bep);
+        initMap.put("beQ", R.raw.bek);
+        initMap.put("beq", R.raw.beq);
+        initMap.put("berG", R.raw.berg);
+        initMap.put("ber", R.raw.ber);
+        initMap.put("bet", R.raw.bet);
+        initMap.put("bey", R.raw.bey);
         initMap.put("bez", R.raw.bez);   // be'
-        initMap.put("Qoz", R.raw.koz);   // Qo'
-        initMap.put("Haz", R.raw.haz);   // Ha'
-        initMap.put("quz", R.raw.quz);   // qu'
+        initMap.put("bID", R.raw.bid);
+        initMap.put("bIF", R.raw.bif);
+        initMap.put("bIG", R.raw.big);
+        initMap.put("bIH", R.raw.bih);
+        initMap.put("bIj", R.raw.bij);
+        initMap.put("bIl", R.raw.bil);
+        initMap.put("bIm", R.raw.bim);
+        initMap.put("bIp", R.raw.bip);
+        initMap.put("bIQ", R.raw.bik);
+        initMap.put("bIr", R.raw.bir);
+        initMap.put("bIS", R.raw.bis);
+        initMap.put("bIt", R.raw.bit);
+        initMap.put("bIv", R.raw.biv);
+        initMap.put("bIz", R.raw.biz);
+        // bo is short
+        initMap.put("bob", R.raw.bob);
+        initMap.put("boC", R.raw.boc);
+        initMap.put("boD", R.raw.bod);
+        initMap.put("boF", R.raw.bof);
+        initMap.put("boG", R.raw.bog);   // bogh
+        initMap.put("boH", R.raw.boh);
+        initMap.put("boj", R.raw.boj);
+        initMap.put("bol", R.raw.bol);
+        initMap.put("bom", R.raw.bom);
+        initMap.put("bop", R.raw.bop);
+        initMap.put("boQ", R.raw.bok);
+        initMap.put("boq", R.raw.boq);
+        initMap.put("bor", R.raw.bor);
+        initMap.put("boS", R.raw.bos);
+        initMap.put("bot", R.raw.bot);
+        initMap.put("bov", R.raw.bov);
+        initMap.put("box", R.raw.box);
+        initMap.put("buD", R.raw.bud);
+        initMap.put("buH", R.raw.buh);
+        initMap.put("bup", R.raw.bup);
+        initMap.put("buQ", R.raw.buk);
+        initMap.put("buq", R.raw.buq);
+        initMap.put("burG", R.raw.burg);
+        initMap.put("bur", R.raw.bur);
+        initMap.put("buS", R.raw.bus);
+        initMap.put("buv", R.raw.buv);
+        initMap.put("bux", R.raw.bux);
+        initMap.put("buyz", R.raw.buyz);
 
-        // --- Noun suffixes ---
-        // Note: {'a'}, {pu'}, {wI'}, {lI'}, and {mo'} are already in the verb suffixes.
-        // Also, {oy} requires special handling since it doesn't start with a consonant.
-        initMap.put("Hom", R.raw.hom);
-        initMap.put("Duz", R.raw.duz);   // Du'
-        initMap.put("mey", R.raw.mey);
-        initMap.put("qoq", R.raw.qoq);
-        initMap.put("Hey", R.raw.hey);
-        initMap.put("naz", R.raw.naz);   // na'
-        initMap.put("wIj", R.raw.wij);
-        initMap.put("lIj", R.raw.lij);
-        initMap.put("maj", R.raw.maj);
-        initMap.put("maz", R.raw.maz);   // ma'
-        initMap.put("raj", R.raw.raj);
-        initMap.put("raz", R.raw.raz);   // ra'
-        initMap.put("Daj", R.raw.daj);
+        // --- ch ---
         initMap.put("Caj", R.raw.caj);   // chaj
-        initMap.put("vam", R.raw.vam);
-        initMap.put("vex", R.raw.vex);   // vetlh
-        initMap.put("Daq", R.raw.daq);
-        initMap.put("voz", R.raw.voz);   // vo'
-        initMap.put("vaD", R.raw.vad);
-        initMap.put("zez", R.raw.zez);   // 'e'
-
-        // --- Non-standard phonology ---
-        initMap.put("jemS", R.raw.jems);  // From {jemS tIy qIrq}.
-        initMap.put("tIy", R.raw.tiy);  // From {jemS tIy qIrq}.
-        initMap.put("qIrq", R.raw.qirq);  // From {jemS tIy qIrq}.
-        initMap.put("qarD", R.raw.qard);  // From {pIqarD}.
-        initMap.put("turn", R.raw.turn);  // From {Saturn}.
-
-        // --- Common verbs ---
+        initMap.put("Caq", R.raw.caq);   // chaq
         initMap.put("CarG", R.raw.carg);
+        initMap.put("Caz", R.raw.caz);
         initMap.put("Cen", R.raw.cen);
+        initMap.put("CoH", R.raw.coh);  // choH
         initMap.put("Cop", R.raw.cop);
+        initMap.put("CorG", R.raw.corg);
+        initMap.put("CuG", R.raw.cug);  // chugh
+        initMap.put("Cuq", R.raw.cuq);  // chuq
+        initMap.put("Cuz", R.raw.cuz);  // chu'
+
+        // --- D ---
         initMap.put("Dab", R.raw.dab);
+        initMap.put("DaH", R.raw.dah);
+        initMap.put("Daj", R.raw.daj);
+        initMap.put("Daq", R.raw.daq);
+        initMap.put("Dat", R.raw.dat);
+        initMap.put("Dawz", R.raw.dawz);  // Daw'
         initMap.put("Dej", R.raw.dej);
         initMap.put("Dev", R.raw.dev);
+        initMap.put("Dez", R.raw.dez);   // De'
+        initMap.put("DIz", R.raw.diz);  // DI'
+        initMap.put("DoC", R.raw.doc);   // Doch
         initMap.put("DoG", R.raw.dog);   // Dogh
+        initMap.put("Dop", R.raw.dop);
         initMap.put("Doq", R.raw.doq);
         initMap.put("Dor", R.raw.dor);
         initMap.put("Doyz", R.raw.doyz);   // Doy'
+        initMap.put("Doz", R.raw.doz);   // Do'
+        initMap.put("Duj", R.raw.duj);
         initMap.put("DuQ", R.raw.duk);   // DuQ
-        initMap.put("GIx", R.raw.gix);   // ghItlh
+        initMap.put("Duz", R.raw.duz);   // Du'
+
+        // --- gh ---
+        initMap.put("GaC", R.raw.gac);   // ghach
+        initMap.put("GaH", R.raw.gah);
         initMap.put("Gaj", R.raw.gaj);   // ghaj
-        initMap.put("Goj", R.raw.goj);   // ghoj
+        initMap.put("Gap", R.raw.gap);   // ghap
+        initMap.put("GarG", R.raw.garg);   // ghargh
+        initMap.put("Gez", R.raw.gez);   // From {ghe''or}.
+        initMap.put("GIx", R.raw.gix);   // ghItlh
         initMap.put("GoD", R.raw.god);   // ghoD
+        initMap.put("Goj", R.raw.goj);   // ghoj
+        initMap.put("Gom", R.raw.gom);   // ghom
+        initMap.put("Gop", R.raw.gop);   // ghop
+        initMap.put("GorG", R.raw.gorg);   // ghorgh
         initMap.put("Gor", R.raw.gor);   // ghor
         initMap.put("GoS", R.raw.gos);   // ghoS
         initMap.put("GuF", R.raw.guf);   // ghung
-        initMap.put("Hab", R.raw.hab);
-        initMap.put("HoH", R.raw.hoh);
-        initMap.put("HaG", R.raw.hag);   // Hagh
-        initMap.put("HoS", R.raw.hos);
-        initMap.put("HeG", R.raw.heg);   // Hegh
-        initMap.put("HIv", R.raw.hiv);
-        initMap.put("HoH", R.raw.hoh);
-        initMap.put("jaC", R.raw.jac);   // jach
-        initMap.put("jaH", R.raw.jah);   // jaH
-        initMap.put("jax", R.raw.jax);   // jatlh
-        initMap.put("jaz", R.raw.jaz);   // ja'
-        initMap.put("jeG", R.raw.jeg);   // jegh
-        initMap.put("jey", R.raw.jey);
-        initMap.put("jez", R.raw.jez);   // je'
-        initMap.put("laj", R.raw.laj);   // laj
-        initMap.put("layz", R.raw.layz);   // lay'
-        initMap.put("leG", R.raw.leg);   // legh
-        initMap.put("loS", R.raw.los);
-        initMap.put("loz", R.raw.loz);   // lo'
-        initMap.put("maC", R.raw.mac);
-        initMap.put("mej", R.raw.mej);
-        initMap.put("mev", R.raw.mev);
-        initMap.put("mIz", R.raw.miz);
-        initMap.put("moj", R.raw.moj);
-        initMap.put("naj", R.raw.naj);
-        initMap.put("nIH", R.raw.nih);
-        initMap.put("noD", R.raw.nod);
-        initMap.put("FaG", R.raw.fag);   // ngagh
-        initMap.put("FaS", R.raw.fas);   // ngaS
-        initMap.put("Fuz", R.raw.fuz);   // ngu'
-        initMap.put("paw", R.raw.paw);
-        initMap.put("poF", R.raw.pof);
-        initMap.put("poS", R.raw.pos);
-        initMap.put("puS", R.raw.pus);
-        initMap.put("reG", R.raw.reg);   // regh
-        initMap.put("rur", R.raw.rur);
-        initMap.put("qaD", R.raw.qad);
-        initMap.put("qaS", R.raw.qas);
-        initMap.put("qaw", R.raw.qaw);
-        initMap.put("qIm", R.raw.qim);
-        initMap.put("qIp", R.raw.qip);
-        initMap.put("qox", R.raw.qox);   // qotlh
-        initMap.put("qul", R.raw.qul);
-        initMap.put("quv", R.raw.quv);
-        initMap.put("QIH", R.raw.kih);
-        initMap.put("Qob", R.raw.kob);
-        initMap.put("QoF", R.raw.kof);   // Qong
-        initMap.put("Qoy", R.raw.koy);   // Qoy
-        initMap.put("QuC", R.raw.kuc);   // Quch
-        initMap.put("ruC", R.raw.ruc);   // ruch
-        initMap.put("SaH", R.raw.sah);
-        initMap.put("Sayz", R.raw.sayz);   // Say'
-        initMap.put("SIQ", R.raw.sik);
-        initMap.put("Sop", R.raw.sop);
-        initMap.put("Sov", R.raw.sov);
-        initMap.put("SuD", R.raw.sud);
-        initMap.put("Suv", R.raw.suv);
-        initMap.put("tayz", R.raw.tayz);   // tay'
-        initMap.put("tIn", R.raw.tin);
-        initMap.put("tIv", R.raw.tiv);
-        initMap.put("tuH", R.raw.tuh);
-        initMap.put("tuj", R.raw.tuj);
-        initMap.put("tuz", R.raw.tuz);
-        initMap.put("xap", R.raw.xap);   // tlhap
-        initMap.put("xux", R.raw.xux);   // tlhutlh
-        initMap.put("van", R.raw.van);
-        initMap.put("vIH", R.raw.vih);
-        initMap.put("yaj", R.raw.yaj);
-        initMap.put("zav", R.raw.zav);   // 'av
-        initMap.put("zoj", R.raw.zoj);   // 'oj
-        initMap.put("zaF", R.raw.zaf);   // 'ang
-
-        // --- Common nouns ---
-        initMap.put("Dat", R.raw.dat);
-        initMap.put("Dez", R.raw.dez);   // De'
-        initMap.put("DoC", R.raw.doc);   // Doch
-        initMap.put("Dop", R.raw.dop);
-        initMap.put("Duj", R.raw.duj);
-        initMap.put("jaG", R.raw.jag);   // jagh
-        initMap.put("Fan", R.raw.fan);  // From {tlhIngan}, etc.
-        initMap.put("GarG", R.raw.garg);   // ghargh
-        initMap.put("Gez", R.raw.gez);   // From {ghe''or}.
-        initMap.put("Gom", R.raw.gom);   // ghom
-        initMap.put("Gop", R.raw.gop);   // ghop
         initMap.put("Guz", R.raw.guz);   // ghu'
+
+        // --- H ---
+        initMap.put("Hab", R.raw.hab);
+        initMap.put("HaG", R.raw.hag);   // Hagh
+        initMap.put("Haz", R.raw.haz);   // Ha'
+        initMap.put("HeG", R.raw.heg);   // Hegh
+        initMap.put("Hey", R.raw.hey);
         initMap.put("HIq", R.raw.hiq);
+        initMap.put("HIv", R.raw.hiv);
         initMap.put("HoC", R.raw.hoc);   // Hoch
+        initMap.put("HoH", R.raw.hoh);
+        initMap.put("HoH", R.raw.hoh);
         initMap.put("Hol", R.raw.hol);
+        initMap.put("Hom", R.raw.hom);
+        initMap.put("HoS", R.raw.hos);
         initMap.put("Hov", R.raw.hov);
         initMap.put("Hoz", R.raw.hoz);   // Ho'
         initMap.put("HuH", R.raw.huh);
+        initMap.put("Hut", R.raw.hut);
+
+        // --- j ---
+        initMap.put("jaC", R.raw.jac);   // jach
+        initMap.put("jaG", R.raw.jag);   // jagh
+        initMap.put("jaH", R.raw.jah);   // jaH
+        initMap.put("jaj", R.raw.jaj);
+        initMap.put("jav", R.raw.jav);
+        initMap.put("jax", R.raw.jax);   // jatlh
+        initMap.put("jaz", R.raw.jaz);   // ja'
+        // je is short
+        initMap.put("jeG", R.raw.jeg);   // jegh
+        initMap.put("jemS", R.raw.jems);  // From {jemS tIy qIrq}.
+        initMap.put("jey", R.raw.jey);
+        initMap.put("jez", R.raw.jez);   // je'
         initMap.put("jIb", R.raw.jib);
+        initMap.put("jIH", R.raw.jih);
+        initMap.put("joq", R.raw.joq);
         initMap.put("juH", R.raw.juh);   // juH
-        initMap.put("lax", R.raw.lax);   // latlh
-        initMap.put("laz", R.raw.laz);   // la', or from {Qapla'}.
+
+        // --- l ---
+        initMap.put("laH", R.raw.lah);
+        initMap.put("laj", R.raw.laj);   // laj
         initMap.put("larG", R.raw.larg);   // From {veqlargh}.
+        initMap.put("lawz", R.raw.lawz);  // law'
+        initMap.put("lax", R.raw.lax);   // latlh
+        initMap.put("layz", R.raw.layz);   // lay'
+        initMap.put("laz", R.raw.laz);   // la', or from {Qapla'}.
         initMap.put("leF", R.raw.lef);   // leng
+        initMap.put("leG", R.raw.leg);   // legh
+        initMap.put("lIj", R.raw.lij);
         initMap.put("lIS", R.raw.lis);   // From {qeylIS}.
+        initMap.put("lIz", R.raw.liz);   // lI'
         initMap.put("loD", R.raw.lod);   // loD
         initMap.put("loj", R.raw.loj);   // From {lojmIt}.
+        initMap.put("loS", R.raw.los);
+        initMap.put("loz", R.raw.loz);   // lo'
         initMap.put("luS", R.raw.lus);   // From {luspet}.
+        initMap.put("luz", R.raw.luz);   // lu'
+
+        // --- m ---
+        initMap.put("maC", R.raw.mac);
+        initMap.put("maH", R.raw.mah);
+        initMap.put("maj", R.raw.maj);
         initMap.put("mayz", R.raw.mayz);   // may'
+        initMap.put("maz", R.raw.maz);   // ma'
+        initMap.put("meH", R.raw.meh);
+        initMap.put("mej", R.raw.mej);
+        initMap.put("mev", R.raw.mev);
+        initMap.put("mey", R.raw.mey);
         initMap.put("mIt", R.raw.mit);   // From {lojmIt}.
+        initMap.put("mIz", R.raw.miz);
+        initMap.put("moH", R.raw.moh);
+        initMap.put("moj", R.raw.moj);
+        initMap.put("moz", R.raw.moz);   // mo'
         initMap.put("muz", R.raw.muz);   // mu'
+
+        // --- n ---
+        initMap.put("naj", R.raw.naj);
+        initMap.put("naz", R.raw.naz);   // na'
+        initMap.put("neH", R.raw.neh);
+        initMap.put("neS", R.raw.nes);   // neS
+        initMap.put("nex", R.raw.nex);
+        initMap.put("nID", R.raw.nid);
+        initMap.put("nIH", R.raw.nih);
+        initMap.put("nIS", R.raw.nis);
+        initMap.put("noD", R.raw.nod);
+        initMap.put("nom", R.raw.nom);
         initMap.put("noS", R.raw.nos);   // From {Qo'noS}.
+        initMap.put("not", R.raw.not);
         initMap.put("noz", R.raw.noz);   // no'
+        initMap.put("nuq", R.raw.nuq);
+
+        // --- ng ---
+        initMap.put("FaG", R.raw.fag);   // ngagh
+        initMap.put("Fan", R.raw.fan);  // From {tlhIngan}, etc.
+        initMap.put("FaS", R.raw.fas);   // ngaS
+        initMap.put("Fuz", R.raw.fuz);   // ngu'
+
+        // --- p ---
+        initMap.put("paG", R.raw.pag);   // pagh
+        initMap.put("paw", R.raw.paw);
+        initMap.put("paz", R.raw.paz);   // pa'
         initMap.put("peG", R.raw.peg);   // pegh
         initMap.put("pem", R.raw.pem);
         initMap.put("pet", R.raw.pet);   // From {luspet}.
+        initMap.put("poF", R.raw.pof);
+        initMap.put("poS", R.raw.pos);
         initMap.put("puq", R.raw.puq);
-        initMap.put("ram", R.raw.ram);
+        initMap.put("puS", R.raw.pus);
+        initMap.put("puz", R.raw.puz);   // pu'
+
+        // --- q ---
         initMap.put("qab", R.raw.qab);
+        initMap.put("qaD", R.raw.qad);
+        initMap.put("qaF", R.raw.qaf);   // qang
+        initMap.put("qarD", R.raw.qard);  // From {pIqarD}.
+        initMap.put("qaS", R.raw.qas);
+        initMap.put("qaw", R.raw.qaw);
+        initMap.put("qaz", R.raw.qaz);   // qa'
         initMap.put("qey", R.raw.qey);   // From {qeylIS}.
+        initMap.put("qIm", R.raw.qim);
+        initMap.put("qIp", R.raw.qip);
+        initMap.put("qIrq", R.raw.qirq);  // From {jemS tIy qIrq}.
         initMap.put("qoH", R.raw.qoh);
+        initMap.put("qoj", R.raw.qoj);
+        initMap.put("qoq", R.raw.qoq);
         initMap.put("qoS", R.raw.qos);
+        initMap.put("qox", R.raw.qox);   // qotlh
+        initMap.put("qul", R.raw.qul);
+        initMap.put("quv", R.raw.quv);
+        initMap.put("quz", R.raw.quz);   // qu'
+
+        // --- Q ---
         initMap.put("QaG", R.raw.kag);   // Qagh
         initMap.put("Qap", R.raw.kap);   // From {Qapla'}.
         initMap.put("Qaz", R.raw.kaz);   // From {majQa'}.
+        initMap.put("QIH", R.raw.kih);
+        initMap.put("QIt", R.raw.kit);
+        initMap.put("Qob", R.raw.kob);
+        initMap.put("QoF", R.raw.kof);   // Qong
+        initMap.put("Qoy", R.raw.koy);   // Qoy
+        initMap.put("Qoz", R.raw.koz);   // Qo'
+        initMap.put("QuC", R.raw.kuc);   // Quch
         initMap.put("Quv", R.raw.kuv);
+
+        // --- r ---
+        initMap.put("raj", R.raw.raj);
+        initMap.put("ram", R.raw.ram);
+        initMap.put("raz", R.raw.raz);   // ra'
+        initMap.put("reG", R.raw.reg);   // regh
+        initMap.put("reH", R.raw.reh);
+        initMap.put("ruC", R.raw.ruc);   // ruch
+        initMap.put("rup", R.raw.rup);
+        initMap.put("rur", R.raw.rur);
+
+        // --- S ---
+        initMap.put("SaD", R.raw.sad);
+        initMap.put("SaH", R.raw.sah);
+        initMap.put("Sayz", R.raw.sayz);   // Say'
+        initMap.put("SIQ", R.raw.sik);
+        initMap.put("SoC", R.raw.soc);
+        initMap.put("SoH", R.raw.soh);
         initMap.put("Soj", R.raw.soj);
+        initMap.put("Sop", R.raw.sop);
         initMap.put("SoS", R.raw.sos);
+        initMap.put("Sov", R.raw.sov);
+        initMap.put("SuD", R.raw.sud);
+        initMap.put("Suv", R.raw.suv);
+
+        // --- t ---
+        initMap.put("taH", R.raw.tah);
         initMap.put("taj", R.raw.taj);
         initMap.put("tarG", R.raw.targ);
+        initMap.put("tayz", R.raw.tayz);   // tay'
+        initMap.put("taz", R.raw.taz);   // ta'
+        initMap.put("teb", R.raw.teb);   // From {nIteb}
+        initMap.put("tIn", R.raw.tin);
         initMap.put("tIq", R.raw.tiq);
+        initMap.put("tIv", R.raw.tiv);
+        initMap.put("tIy", R.raw.tiy);  // From {jemS tIy qIrq}.
         initMap.put("toz", R.raw.toz);   // to'
-        initMap.put("woz", R.raw.woz);   // wo'
-        initMap.put("xeG", R.raw.xeg);   // tlhegh
+        initMap.put("tuH", R.raw.tuh);
+        initMap.put("tuj", R.raw.tuj);
+        initMap.put("turn", R.raw.turn);  // From {Saturn}.
+        initMap.put("tuz", R.raw.tuz);
+
+        // --- v ---
+        initMap.put("vaD", R.raw.vad);
+        initMap.put("vaG", R.raw.vag);
+        initMap.put("vaj", R.raw.vaj);
+        initMap.put("vam", R.raw.vam);
+        initMap.put("van", R.raw.van);
         initMap.put("vav", R.raw.vav);
+        initMap.put("vax", R.raw.vax);
         initMap.put("vayz", R.raw.vayz);   // vay'
         initMap.put("veq", R.raw.veq);   // From {veqlargh}.
-        initMap.put("voG", R.raw.vog);   // vogh
+        initMap.put("vex", R.raw.vex);   // vetlh
+        initMap.put("vIH", R.raw.vih);
+        initMap.put("vIp", R.raw.vip);
+        initMap.put("vIS", R.raw.vis);
         initMap.put("vIz", R.raw.viz);   // From {DIvI'}.
+        initMap.put("voG", R.raw.vog);   // vogh
+        initMap.put("voz", R.raw.voz);   // vo'
+
+        // --- w ---
+        initMap.put("waz", R.raw.waz);
+        initMap.put("wej", R.raw.wej);
+        initMap.put("wIj", R.raw.wij);
+        initMap.put("wIz", R.raw.wiz);   // wI'
+        initMap.put("woz", R.raw.woz);   // wo'
+
+        // --- x ---
+        initMap.put("xap", R.raw.xap);   // tlhap
+        initMap.put("xeG", R.raw.xeg);   // tlhegh
+        initMap.put("xux", R.raw.xux);   // tlhutlh
+
+        // --- y ---
         initMap.put("yab", R.raw.yab);
-        initMap.put("yIn", R.raw.yin);
+        initMap.put("yaj", R.raw.yaj);
         initMap.put("yIH", R.raw.yih);
+        initMap.put("yIn", R.raw.yin);
+
+        // --- z ---
+        initMap.put("zaF", R.raw.zaf);   // 'ang
+        initMap.put("zar", R.raw.zar);
+        initMap.put("zav", R.raw.zav);   // 'av
+        initMap.put("zaz", R.raw.zaz);
+        initMap.put("zeG", R.raw.zeg);   // 'egh
+        initMap.put("zej", R.raw.zej);   // 'ej
+        initMap.put("zez", R.raw.zez);   // 'e'
+        initMap.put("zIv", R.raw.ziv);
         initMap.put("zIw", R.raw.ziw);
+        initMap.put("zoH", R.raw.zoh);
+        initMap.put("zoj", R.raw.zoj);   // 'oj
         initMap.put("zor", R.raw.zor);   // From {ghe''or}.
         initMap.put("zoyz", R.raw.zoyz);
         initMap.put("zuQ", R.raw.zuk);   // 'uQ
         initMap.put("zuS", R.raw.zus);   // 'uS
-
-        // --- Numbers and number-forming elements ---
-        initMap.put("waz", R.raw.waz);
-        initMap.put("Caz", R.raw.caz);
-        initMap.put("wej", R.raw.wej);
-        // loS is a verb
-        initMap.put("vaG", R.raw.vag);
-        initMap.put("jav", R.raw.jav);
-        initMap.put("SoC", R.raw.soc);
-        initMap.put("CorG", R.raw.corg);
-        initMap.put("Hut", R.raw.hut);
-        // maH is a pronoun
-        initMap.put("vax", R.raw.vax);
-        initMap.put("SaD", R.raw.sad);
-        // SanID is Sa- + nID
-        initMap.put("nex", R.raw.nex);
-        initMap.put("bIp", R.raw.bip);
         initMap.put("zuyz", R.raw.zuyz);
-
-        // --- Conjunctions ---
-        initMap.put("zej", R.raw.zej);   // 'ej
-        initMap.put("qoj", R.raw.qoj);
-        initMap.put("joq", R.raw.joq);
-        initMap.put("paG", R.raw.pag);   // pagh
-        initMap.put("Gap", R.raw.gap);   // ghap
-        // je is short
-
-        // --- Question words ---
-        initMap.put("GorG", R.raw.gorg);   // ghorgh
-        initMap.put("nuq", R.raw.nuq);
-        initMap.put("zar", R.raw.zar);
-        initMap.put("zIv", R.raw.ziv);
-
-        // --- Common adverbials ---
-        initMap.put("Caq", R.raw.caq);   // chaq
-        initMap.put("DaH", R.raw.dah);
-        initMap.put("Doz", R.raw.doz);   // Do'
-        initMap.put("neH", R.raw.neh);
-        initMap.put("nom", R.raw.nom);
-        initMap.put("not", R.raw.not);
-        initMap.put("QIt", R.raw.kit);
-        initMap.put("reH", R.raw.reh);
-        initMap.put("teb", R.raw.teb);   // From {nIteb}
-        initMap.put("vaj", R.raw.vaj);
-
-        // --- Pronouns ---
-        initMap.put("jIH", R.raw.jih);
-        initMap.put("SoH", R.raw.soh);
-        initMap.put("GaH", R.raw.gah);
-        initMap.put("maH", R.raw.mah);
-        initMap.put("zoH", R.raw.zoh);
-
-        // --- b ---
-        initMap.put("beb", R.raw.beb);
-        initMap.put("bob", R.raw.bob);
-        initMap.put("baC", R.raw.bac);
-        initMap.put("beC", R.raw.bec);
-        initMap.put("boC", R.raw.boc);
-        initMap.put("bID", R.raw.bid);
-        initMap.put("boD", R.raw.bod);
-        initMap.put("buD", R.raw.bud);
-        initMap.put("baG", R.raw.bag);
-        initMap.put("beG", R.raw.beg);
-        initMap.put("bIG", R.raw.big);
-        // bogh is a suffix
-        initMap.put("baH", R.raw.bah);
-        // beH is a suffix
-        initMap.put("bIH", R.raw.bih);
-        initMap.put("boH", R.raw.boh);
-        initMap.put("buH", R.raw.buh);
-        initMap.put("baj", R.raw.baj);
-        // bej is a suffix
-        initMap.put("bIj", R.raw.bij);
-        initMap.put("boj", R.raw.boj);
-        initMap.put("bal", R.raw.bal);
-        initMap.put("bel", R.raw.bel);
-        initMap.put("bIl", R.raw.bil);
-        initMap.put("bol", R.raw.bol);
-        initMap.put("bam", R.raw.bam);
-        initMap.put("bem", R.raw.bem);
-        initMap.put("bIm", R.raw.bim);
-        initMap.put("bom", R.raw.bom);
-        initMap.put("ben", R.raw.ben);
-        initMap.put("baF", R.raw.baf);
-        initMap.put("bIF", R.raw.bif);
-        initMap.put("boF", R.raw.bof);
-        initMap.put("bep", R.raw.bep);
-        // bIp is a number-forming element
-        initMap.put("bop", R.raw.bop);
-        initMap.put("bup", R.raw.bup);
-        initMap.put("baq", R.raw.baq);
-        initMap.put("beq", R.raw.beq);
-        initMap.put("boq", R.raw.boq);
-        initMap.put("buq", R.raw.buq);
-        initMap.put("baQ", R.raw.bak);
-        initMap.put("beQ", R.raw.bek);
-        initMap.put("bIQ", R.raw.bik);
-        initMap.put("boQ", R.raw.bok);
-        initMap.put("buQ", R.raw.buk);
-        initMap.put("bar", R.raw.bar);
-        initMap.put("ber", R.raw.ber);
-        initMap.put("bIr", R.raw.bir);
-        initMap.put("bor", R.raw.bor);
-        initMap.put("bur", R.raw.bur);
-        initMap.put("barG", R.raw.barg);
-        initMap.put("berG", R.raw.berg);
-        initMap.put("burG", R.raw.burg);
-        initMap.put("baS", R.raw.bas);
-        initMap.put("bIS", R.raw.bis);
-        initMap.put("boS", R.raw.bos);
-        initMap.put("buS", R.raw.bus);
-        initMap.put("bet", R.raw.bet);
-        initMap.put("bIt", R.raw.bit);
-        initMap.put("bot", R.raw.bot);
-        initMap.put("bax", R.raw.bax);
-        initMap.put("box", R.raw.box);
-        initMap.put("bux", R.raw.bux);
-        initMap.put("bav", R.raw.bav);
-        initMap.put("bIv", R.raw.biv);
-        initMap.put("bov", R.raw.bov);
-        initMap.put("buv", R.raw.buv);
-        initMap.put("bey", R.raw.bey);
-        initMap.put("buyz", R.raw.buyz);
-        // ba' and be' are suffixes
-        initMap.put("bIz", R.raw.biz);
-        // bo is short
-
-        // --- D ---
-        initMap.put("dawz", R.raw.dawz);  // Daw'
-
-        // --- n ---
-        initMap.put("nID", R.raw.nid);
 
         MAIN_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
