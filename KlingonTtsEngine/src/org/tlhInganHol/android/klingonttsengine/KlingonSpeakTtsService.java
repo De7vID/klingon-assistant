@@ -94,6 +94,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("pe-", R.raw.pe0);
 
         // Front parts of words.
+        initMap.put("CI-", R.raw.ci0);
         initMap.put("na-", R.raw.na0);  // From {naDev}.
         initMap.put("xI-", R.raw.xi0);  // From {tlhIngan}.
         initMap.put("te-", R.raw.te0);  // From {tera'ngan}.
@@ -251,17 +252,20 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("Cev", R.raw.cev);
         // initMap.put("Cey", R.raw.cey);
         initMap.put("Cez", R.raw.cez);
-        // initMap.put("CID", R.raw.cid);
+        initMap.put("CIC", R.raw.cic);
+        initMap.put("CID", R.raw.cid);
         // initMap.put("CIF", R.raw.cif);
         // initMap.put("CIG", R.raw.cig);
         // initMap.put("CIH", R.raw.cih);
-        // initMap.put("CIj", R.raw.cij);
-        // initMap.put("CIl", R.raw.cil);
-        // initMap.put("CIm", R.raw.cim);
-        // initMap.put("CIp", R.raw.cip);
+        initMap.put("CIj", R.raw.cij);
+        initMap.put("CIl", R.raw.cil);
+        initMap.put("CIm", R.raw.cim);
+        initMap.put("CIn", R.raw.cin);
+        initMap.put("CIp", R.raw.cip);
         // initMap.put("CIQ", R.raw.cik);
         // initMap.put("CIr", R.raw.cir);
-        // initMap.put("CIS", R.raw.cis);
+        initMap.put("CIrg", R.raw.cirg);
+        initMap.put("CIS", R.raw.cis);
         // initMap.put("CIt", R.raw.cit);
         // initMap.put("CIv", R.raw.civ);
         // initMap.put("CIz", R.raw.ciz);
