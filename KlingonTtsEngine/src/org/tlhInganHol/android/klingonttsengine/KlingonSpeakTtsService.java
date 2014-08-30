@@ -161,8 +161,8 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("bep", R.raw.bep);
         initMap.put("beQ", R.raw.bek);
         initMap.put("beq", R.raw.beq);
-        initMap.put("berG", R.raw.berg);
         initMap.put("ber", R.raw.ber);
+        initMap.put("berG", R.raw.berg);
         initMap.put("bet", R.raw.bet);
         initMap.put("bey", R.raw.bey);
         initMap.put("bez", R.raw.bez);   // be'
@@ -241,14 +241,16 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("Cem", R.raw.cem);
         initMap.put("Cen", R.raw.cen);
         initMap.put("CeF", R.raw.cef);  // cheng
-        // initMap.put("Cep", R.raw.cep);
+        initMap.put("Cep", R.raw.cep);
         // initMap.put("CeQ", R.raw.cek);
         // initMap.put("Ceq", R.raw.ceq);
-        // initMap.put("CerG", R.raw.cerg);
-        // initMap.put("Cer", R.raw.cer);
-        // initMap.put("Cet", R.raw.cet);
+        initMap.put("Cer", R.raw.cer);
+        initMap.put("CerG", R.raw.cerg);
+        initMap.put("CeS", R.raw.ces);
+        initMap.put("Cet", R.raw.cet);
+        initMap.put("Cev", R.raw.cev);
         // initMap.put("Cey", R.raw.cey);
-        // initMap.put("Cez", R.raw.cez);
+        initMap.put("Cez", R.raw.cez);
         // initMap.put("CID", R.raw.cid);
         // initMap.put("CIF", R.raw.cif);
         // initMap.put("CIG", R.raw.cig);
