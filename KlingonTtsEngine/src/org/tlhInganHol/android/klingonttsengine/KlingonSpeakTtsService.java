@@ -753,17 +753,21 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                     Integer backResId = BACK_HALF_SYLLABLE_TO_AUDIO_MAP.get("-" + syllableBack);
                     Integer frontResId = FRONT_HALF_SYLLABLE_TO_AUDIO_MAP.get(syllableFront + "-");
 
-                    // If the syllable is CV, then it is a short syllable.
+                    // If the syllable is CV, then it is a short syllable. If it is CV-, then it is an unattached prefix.
                     boolean isShortSyllable = syllableBack.equals(vowel);
+                    boolean isUnattachedPrefix = syllableBack.equals(vowel + "-");
                     Log.d(TAG, "Syllable: {" + syllable + "}");
                     Log.d(TAG, "Syllable front: {" + syllableFront + "}");
                     Log.d(TAG, "Syllable back: {" + syllableBack + "}");
                     Log.d(TAG, "Vowel: {" + vowel + "}");
                     Log.d(TAG, "isShortSyllable: {" + isShortSyllable + "}");
+                    Log.d(TAG, "isUnattachedPrefix: {" + isUnattachedPrefix + "}");
                     Log.d(TAG, "isFinalSyllable: {" + isFinalSyllable + "}");
-                    if (isShortSyllable && !isFinalSyllable) {
+                    if (isShortSyllable && !isFinalSyllable || isUnattachedPrefix) {
                         // If it's a short syllable but not the final syllable, then truncate the vowel.
-                        // This is so the audio for {bo-} takes precedence over the audio for {bo} if it's the beginning part of a word.
+                        // This is either an attached prefix, part of a multisyllabic word, or a CV verb attached to a suffix.
+                        // The audio for {bo-} takes precedence over the audio for {bo} if it's the beginning part of a word.
+                        // Also treat unattached prefixes the same way.
                         if (frontResId != null) {
                             prependSyllableToList(frontResId);
                             Log.d(TAG, "Matched syllable: {" + syllableFront + "-}");
@@ -779,7 +783,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
                             resId = SHORT_SYLLABLE_TO_AUDIO_MAP.get(syllable);
                         }
                         if (resId != null) {
-                            // We have a full short syllable, so play it. Ex: {bo} or {bo-}.
+                            // We have a full short syllable, so play it. Ex: {bo}.
                             prependSyllableToList(resId);
                             Log.d(TAG, "Matched syllable: {" + syllable + "}");
                         } else {
@@ -996,7 +1000,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
      * Also replace {'} with "z" for ease of processing. The input is assumed to be proper Klingon orthography.
      */
     private static String condenseKlingonDiTrigraphs(String input) {
-        return input.replaceAll("[^A-Za-z']+", " ")  // Strip all non-alphabetical characters (except {'}).
+        return input.replaceAll("[^A-Za-z'\\-]+", " ")  // Strip all non-alphabetical characters (except {'} and "-").
                     .replaceAll("ch", "C")
                     .replaceAll("gh", "G")   // {gh} has to be done before {ng} so that {ngh} -> "nG" and not "Fh".
                     .replaceAll("ng", "F")
