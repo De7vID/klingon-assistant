@@ -720,7 +720,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         Log.d(TAG, "condensedText: \"" + condensedText + "\"");
         boolean isFinalSyllable = true;
         while (!condensedText.equals("")) {
-            // Syllables in the main syllable map must have length 3 or 4.
+            // Syllables in the main syllable map must have length 3 or 4 (CVC or CVCC).
             boolean foundMatch = false;
             for (int len = 3; len <= 4; len++) {
                 if (condensedText.length() < len) {
