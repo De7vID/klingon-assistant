@@ -33,7 +33,8 @@ foreach my $e (@{$data->{database}->{mem}})
   $condensed =~ s/[\-\.\?!,;]//g;
   # remove the "X" placeholder from sentences.
   $condensed =~ s/X//g;
-  $condensed =~ s/ //g;
+  $condensed =~ s/^ //g;
+  $condensed =~ s/  / /g;
   # {gh} has to be done before {ng} so that {ngh} -> "nG" and not "Fh".
   # {gh} has to be replaced with "G" at first to distinguish "nG" from "ng".
   $condensed =~ s/ch/C/g;
@@ -46,8 +47,16 @@ foreach my $e (@{$data->{database}->{mem}})
 
   # keep stripping syllables off the end
   while ($condensed =~ /(.*)([^aeiou][aeiou][^aeiou]*)/) {
-    $syllables{$2} = $e->{entry_name};
+    $s = $2;
     $condensed = $1;
+    $syllables{$s} = $e->{entry_name};
+    if ($condensed =~ /.*[aeiou]$/) {
+      # if ends in vowel, treat next syllable as half syllable
+      $condensed = $condensed.'0';
+    } elsif ($condensed =~ /.* $/) {
+      # skip spaces, this must happen after the vowel check
+      chop $condensed;
+    }
   }
   if (length $condensed) {
     $syllables{$condensed} = $condensed;
