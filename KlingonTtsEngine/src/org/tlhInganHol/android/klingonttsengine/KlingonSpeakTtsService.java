@@ -95,6 +95,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
         // Front parts of words.
         initMap.put("CI-", R.raw.ci0);
+        initMap.put("Cu-", R.raw.cu0);
         initMap.put("na-", R.raw.na0);  // From {naDev}.
         initMap.put("xI-", R.raw.xi0);  // From {tlhIngan}.
         initMap.put("te-", R.raw.te0);  // From {tera'ngan}.
@@ -290,17 +291,22 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("Cov", R.raw.cov);
         initMap.put("Coz", R.raw.coz);
         // initMap.put("Cox", R.raw.cox);
-        // initMap.put("CuD", R.raw.cud);
+        initMap.put("CuC", R.raw.cuc);
+        initMap.put("CuD", R.raw.cud);
         initMap.put("CuG", R.raw.cug);  // chugh
-        // initMap.put("CuH", R.raw.cuh);
-        // initMap.put("Cup", R.raw.cup);
+        initMap.put("CuH", R.raw.cuh);
+        initMap.put("Cun", R.raw.cun);
+        initMap.put("Cuf", R.raw.cuf);
+        initMap.put("Cup", R.raw.cup);
         // initMap.put("CuQ", R.raw.cuk);
         initMap.put("Cuq", R.raw.cuq);  // chuq
         // initMap.put("CurG", R.raw.curg);
         // initMap.put("Cur", R.raw.cur);
-        // initMap.put("CuS", R.raw.cus);
-        // initMap.put("Cuv", R.raw.cuv);
+        initMap.put("CuS", R.raw.cus);
+        initMap.put("Cut", R.raw.cut);
+        initMap.put("Cuv", R.raw.cuv);
         // initMap.put("Cux", R.raw.cux);
+        initMap.put("Cuy", R.raw.cuy);
         // initMap.put("Cuyz", R.raw.cuyz);
         initMap.put("Cuz", R.raw.cuz);  // chu'
 
@@ -493,6 +499,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("Qoy", R.raw.koy);   // Qoy
         initMap.put("Qoz", R.raw.koz);   // Qo'
         initMap.put("QuC", R.raw.kuc);   // Quch
+        initMap.put("Qun", R.raw.kun);   // From {chuQun}.
         initMap.put("Quv", R.raw.kuv);
 
         // --- r ---
