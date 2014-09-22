@@ -312,11 +312,22 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
         // --- D ---
         initMap.put("Dab", R.raw.dab);
+        initMap.put("Dac", R.raw.dac);
+        initMap.put("Dag", R.raw.dag);
         initMap.put("DaH", R.raw.dah);
         initMap.put("Daj", R.raw.daj);
+        initMap.put("Dal", R.raw.dal);
+        initMap.put("Dan", R.raw.dan);
+        initMap.put("Dap", R.raw.dap);
         initMap.put("Daq", R.raw.daq);
+        initMap.put("DaQ", R.raw.dak);
+        initMap.put("Darg", R.raw.darg);
+        initMap.put("DaS", R.raw.das);
         initMap.put("Dat", R.raw.dat);
+        initMap.put("Dav", R.raw.dav);
         initMap.put("Dawz", R.raw.dawz);  // Daw'
+        initMap.put("Day", R.raw.day);
+        initMap.put("Daz", R.raw.daz);
         initMap.put("DeC", R.raw.dec);  // Dech
         initMap.put("Dej", R.raw.dej);
         initMap.put("Dev", R.raw.dev);
@@ -354,6 +365,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         // --- H ---
         initMap.put("Hab", R.raw.hab);
         initMap.put("HaG", R.raw.hag);   // Hagh
+        initMap.put("Ham", R.raw.ham);   // DavHam, Hamlet
         initMap.put("Haz", R.raw.haz);   // Ha'
         initMap.put("HeG", R.raw.heg);   // Hegh
         initMap.put("Hey", R.raw.hey);
