@@ -270,23 +270,25 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("CIv", R.raw.civ);
         initMap.put("CIw", R.raw.ciw);
         initMap.put("CIz", R.raw.ciz);
-        // initMap.put("Cob", R.raw.cob);
+        initMap.put("Cob", R.raw.cob);
         // initMap.put("CoC", R.raw.coc);
         // initMap.put("CoD", R.raw.cod);
-        // initMap.put("CoF", R.raw.cof);
-        // initMap.put("CoG", R.raw.cog);
+        initMap.put("CoF", R.raw.cof);
+        initMap.put("CoG", R.raw.cog);
         initMap.put("CoH", R.raw.coh);  // choH
         // initMap.put("Coj", R.raw.coj);
-        // initMap.put("Col", R.raw.col);
-        // initMap.put("Com", R.raw.com);
+        initMap.put("Col", R.raw.col);
+        initMap.put("Com", R.raw.com);
+        initMap.put("Con", R.raw.con);
         initMap.put("Cop", R.raw.cop);
-        // initMap.put("CoQ", R.raw.cok);
-        // initMap.put("Coq", R.raw.coq);
-        // initMap.put("Cor", R.raw.cor);
+        initMap.put("CoQ", R.raw.cok);
+        initMap.put("Coq", R.raw.coq);
+        initMap.put("Cor", R.raw.cor);
         initMap.put("CorG", R.raw.corg);
-        // initMap.put("CoS", R.raw.cos);
-        // initMap.put("Cot", R.raw.cot);
-        // initMap.put("Cov", R.raw.cov);
+        initMap.put("CoS", R.raw.cos);
+        initMap.put("Cot", R.raw.cot);
+        initMap.put("Cov", R.raw.cov);
+        initMap.put("Coz", R.raw.coz);
         // initMap.put("Cox", R.raw.cox);
         // initMap.put("CuD", R.raw.cud);
         initMap.put("CuG", R.raw.cug);  // chugh
