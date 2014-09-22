@@ -96,6 +96,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         // Front parts of words.
         initMap.put("CI-", R.raw.ci0);
         initMap.put("Cu-", R.raw.cu0);
+        initMap.put("Do-", R.raw.do0);
         initMap.put("na-", R.raw.na0);  // From {naDev}.
         initMap.put("xI-", R.raw.xi0);  // From {tlhIngan}.
         initMap.put("te-", R.raw.te0);  // From {tera'ngan}.
@@ -115,6 +116,8 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("bo", R.raw.bo);
         initMap.put("Ca", R.raw.ca);
         initMap.put("Da", R.raw.da);
+        initMap.put("DI", R.raw.di);
+        initMap.put("Do", R.raw.do_);  // Can't use "do" because it's a Java keyword!
         initMap.put("je", R.raw.je);
 
         SHORT_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
@@ -342,7 +345,6 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("DeS", R.raw.des);
         initMap.put("Dev", R.raw.dev);
         initMap.put("Dez", R.raw.dez);   // De'
-        initMap.put("DI", R.raw.di);
         initMap.put("DIb", R.raw.dib);
         initMap.put("DIc", R.raw.dic);
         initMap.put("DIg", R.raw.dig);
@@ -355,12 +357,21 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("DIS", R.raw.dis);
         initMap.put("DIv", R.raw.div);
         initMap.put("DIz", R.raw.diz);  // DI'
-        di dib dic dig dij dil din dif dip dir dis div
         initMap.put("DoC", R.raw.doc);   // Doch
+        initMap.put("DoD", R.raw.dod);
         initMap.put("DoG", R.raw.dog);   // Dogh
+        initMap.put("DoH", R.raw.doh);
+        initMap.put("Doj", R.raw.doj);
+        initMap.put("Dol", R.raw.dol);
+        initMap.put("Dom", R.raw.dom);
+        initMap.put("Don", R.raw.don);
         initMap.put("Dop", R.raw.dop);
         initMap.put("Doq", R.raw.doq);
+        initMap.put("DoQ", R.raw.dok);
         initMap.put("Dor", R.raw.dor);
+        initMap.put("DoS", R.raw.dos);
+        initMap.put("Dox", R.raw.dox);
+        initMap.put("Dov", R.raw.dov);
         initMap.put("Doyz", R.raw.doyz);   // Doy'
         initMap.put("Doz", R.raw.doz);   // Do'
         initMap.put("Duj", R.raw.duj);
