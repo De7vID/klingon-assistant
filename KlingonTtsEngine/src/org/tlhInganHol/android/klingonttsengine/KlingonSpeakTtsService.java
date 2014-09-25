@@ -695,9 +695,23 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("zoj", R.raw.zoj);   // 'oj
         initMap.put("zor", R.raw.zor);   // From {ghe''or}.
         initMap.put("zoyz", R.raw.zoyz);
+        initMap.put("zuC", R.raw.zuc);
+        initMap.put("zuD", R.raw.zud);
+        initMap.put("zuG", R.raw.zug);
+        initMap.put("zuH", R.raw.zuh);
+        initMap.put("zuj", R.raw.zuj);
+        initMap.put("zul", R.raw.zul);
+        initMap.put("zum", R.raw.zum);
+        initMap.put("zun", R.raw.zun);
+        initMap.put("zup", R.raw.zup);
         initMap.put("zuQ", R.raw.zuk);   // 'uQ
+        initMap.put("zur", R.raw.zur);
         initMap.put("zuS", R.raw.zus);   // 'uS
+        initMap.put("zut", R.raw.zut);
+        initMap.put("zux", R.raw.zux);
+        initMap.put("zuy", R.raw.zuy);
         initMap.put("zuyz", R.raw.zuyz);
+        initMap.put("zuz", R.raw.zuz);
 
         MAIN_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
