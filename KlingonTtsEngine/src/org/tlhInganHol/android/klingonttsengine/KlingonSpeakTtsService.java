@@ -117,6 +117,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("Ca", R.raw.ca);
         initMap.put("Da", R.raw.da);
         initMap.put("DI", R.raw.di);
+        initMap.put("Go", R.raw.go);
         initMap.put("Do", R.raw.do_);  // Can't use "do" because it's a Java keyword!
         initMap.put("je", R.raw.je);
 
@@ -409,13 +410,26 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("Gev", R.raw.gev);
         initMap.put("Gez", R.raw.gez);   // From {ghe''or}.
         initMap.put("GIx", R.raw.gix);   // ghItlh
+        initMap.put("Gob", R.raw.gob);
+        initMap.put("GoC", R.raw.goc);
         initMap.put("GoD", R.raw.god);   // ghoD
+        initMap.put("GoG", R.raw.gog);
+        initMap.put("GoH", R.raw.goh);
         initMap.put("Goj", R.raw.goj);   // ghoj
+        initMap.put("Gol", R.raw.gol);
         initMap.put("Gom", R.raw.gom);   // ghom
+        initMap.put("Gon", R.raw.gon);
+        initMap.put("GoF", R.raw.gof);
         initMap.put("Gop", R.raw.gop);   // ghop
-        initMap.put("GorG", R.raw.gorg);   // ghorgh
+        initMap.put("Goq", R.raw.goq);
+        initMap.put("GoQ", R.raw.gok);
         initMap.put("Gor", R.raw.gor);   // ghor
+        initMap.put("GorG", R.raw.gorg);   // ghorgh
         initMap.put("GoS", R.raw.gos);   // ghoS
+        initMap.put("Got", R.raw.got);
+        initMap.put("Gov", R.raw.gov);
+        initMap.put("Goz", R.raw.goz);
+
         initMap.put("GuF", R.raw.guf);   // ghung
         initMap.put("Guz", R.raw.guz);   // ghu'
 
