@@ -690,7 +690,23 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("zeG", R.raw.zeg);   // 'egh
         initMap.put("zej", R.raw.zej);   // 'ej
         initMap.put("zez", R.raw.zez);   // 'e'
+        initMap.put("zIb", R.raw.zib);
+        initMap.put("zIg", R.raw.zig);
+        initMap.put("zIH", R.raw.zih);
+        initMap.put("zIj", R.raw.zij);
+        initMap.put("zIl", R.raw.zil);
+        initMap.put("zIm", R.raw.zim);
+        initMap.put("zIn", R.raw.zin);
+        initMap.put("zIp", R.raw.zip);
+        initMap.put("zIq", R.raw.ziq);
+        initMap.put("zIQ", R.raw.zik);
+        initMap.put("zIr", R.raw.zir);
+        initMap.put("zIS", R.raw.zis);
+        initMap.put("zIt", R.raw.zit);
+        initMap.put("zIx", R.raw.zix);
         initMap.put("zIv", R.raw.ziv);
+        initMap.put("zIz", R.raw.ziz);
+
         initMap.put("zIw", R.raw.ziw);
         initMap.put("zob", R.raw.zob);
         initMap.put("zoC", R.raw.zoc);
