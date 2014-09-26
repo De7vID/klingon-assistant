@@ -100,6 +100,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("na-", R.raw.na0);  // From {naDev}.
         initMap.put("xI-", R.raw.xi0);  // From {tlhIngan}.
         initMap.put("te-", R.raw.te0);  // From {tera'ngan}.
+        initMap.put("za-", R.raw.za0);
         // banan, Human
 
         FRONT_HALF_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
@@ -120,6 +121,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("Go", R.raw.go);
         initMap.put("Do", R.raw.do_);  // Can't use "do" because it's a Java keyword!
         initMap.put("je", R.raw.je);
+        initMap.put("za", R.raw.za);
         initMap.put("zo", R.raw.zo);
 
         SHORT_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
@@ -682,9 +684,28 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("yIn", R.raw.yin);
 
         // --- z ---
+        initMap.put("zab", R.raw.zab);
+        initMap.put("zaC", R.raw.zac);
+        initMap.put("zaD", R.raw.zad);
+        initMap.put("zaG", R.raw.zag);
+        initMap.put("zaH", R.raw.zah);
+        initMap.put("zaj", R.raw.zaj);
+        initMap.put("zal", R.raw.zal);
+        initMap.put("zam", R.raw.zam);
+        initMap.put("zan", R.raw.zan);
         initMap.put("zaF", R.raw.zaf);   // 'ang
+        initMap.put("zap", R.raw.zap);
+        initMap.put("zaq", R.raw.zaq);
+        initMap.put("zaQ", R.raw.zak);
         initMap.put("zar", R.raw.zar);
+        initMap.put("zarG", R.raw.zarg);
+        initMap.put("zaS", R.raw.zas);
+        initMap.put("zat", R.raw.zat);
         initMap.put("zav", R.raw.zav);   // 'av
+        initMap.put("zaw", R.raw.zaw);
+        initMap.put("zawz", R.raw.zawz);
+        initMap.put("zax", R.raw.zax);
+        initMap.put("zayz", R.raw.zayz);
         initMap.put("zaz", R.raw.zaz);
 
         initMap.put("zeb", R.raw.zeb);   // 'eb
