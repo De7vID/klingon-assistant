@@ -112,7 +112,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
     private static final Map<String, Integer> SHORT_SYLLABLE_TO_AUDIO_MAP;
     static {
         Map<String, Integer> initMap = new HashMap<String, Integer>();
-        // bo, cha, Da, DI, Do, gho, ghu, He, Hu, ja, je, jo, lu, 'o, po, QI, ra, ro, So, ta, tI, va, ya, yu, 'a
+        // bo, cha, Da, DI, Do, gho, ghu, He, Hu, ja, je, jo, lu, po, QI, ra, ro, So, ta, tI, va, ya, yu, 'a, 'o
         initMap.put("bo", R.raw.bo);
         initMap.put("Ca", R.raw.ca);
         initMap.put("Da", R.raw.da);
@@ -120,6 +120,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("Go", R.raw.go);
         initMap.put("Do", R.raw.do_);  // Can't use "do" because it's a Java keyword!
         initMap.put("je", R.raw.je);
+        initMap.put("zo", R.raw.zo);
 
         SHORT_SYLLABLE_TO_AUDIO_MAP = Collections.unmodifiableMap(initMap);
     }
@@ -691,10 +692,23 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("zez", R.raw.zez);   // 'e'
         initMap.put("zIv", R.raw.ziv);
         initMap.put("zIw", R.raw.ziw);
+        initMap.put("zob", R.raw.zob);
+        initMap.put("zoC", R.raw.zoc);
+        initMap.put("zoD", R.raw.zod);
+        initMap.put("zoG", R.raw.zog);
         initMap.put("zoH", R.raw.zoh);
         initMap.put("zoj", R.raw.zoj);   // 'oj
+        initMap.put("zol", R.raw.zol);
+        initMap.put("zom", R.raw.zom);
+        initMap.put("zof", R.raw.zof);
+        initMap.put("zop", R.raw.zop);
+        initMap.put("zoQ", R.raw.zok);
         initMap.put("zor", R.raw.zor);   // From {ghe''or}.
+        initMap.put("zoS", R.raw.zos);
+        initMap.put("zov", R.raw.zov);
+        initMap.put("zox", R.raw.zox);
         initMap.put("zoyz", R.raw.zoyz);
+        initMap.put("zoz", R.raw.zoz);
         initMap.put("zuC", R.raw.zuc);
         initMap.put("zuD", R.raw.zud);
         initMap.put("zuG", R.raw.zug);
