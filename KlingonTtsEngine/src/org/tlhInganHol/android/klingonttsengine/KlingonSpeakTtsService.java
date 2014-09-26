@@ -121,6 +121,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("Go", R.raw.go);
         initMap.put("Do", R.raw.do_);  // Can't use "do" because it's a Java keyword!
         initMap.put("je", R.raw.je);
+        initMap.put("yu", R.raw.yu);
         initMap.put("za", R.raw.za);
         initMap.put("zo", R.raw.zo);
 
@@ -682,6 +683,14 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("yap", R.raw.yap);
         initMap.put("yIH", R.raw.yih);
         initMap.put("yIn", R.raw.yin);
+        initMap.put("yub", R.raw.yub);
+        initMap.put("yuC", R.raw.yuc);
+        initMap.put("yuD", R.raw.yud);
+        initMap.put("yup", R.raw.yup);
+        initMap.put("yuQ", R.raw.yuk);
+        initMap.put("yur", R.raw.yur);
+        initMap.put("yuv", R.raw.yuv);
+        initMap.put("yuz", R.raw.yuz);
 
         // --- z ---
         initMap.put("zab", R.raw.zab);
