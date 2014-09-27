@@ -100,6 +100,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("na-", R.raw.na0);  // From {naDev}.
         initMap.put("xI-", R.raw.xi0);  // From {tlhIngan}.
         initMap.put("te-", R.raw.te0);  // From {tera'ngan}.
+        initMap.put("ya-", R.raw.ya0);
         initMap.put("za-", R.raw.za0);
         // banan, Human
 
@@ -121,6 +122,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("Go", R.raw.go);
         initMap.put("Do", R.raw.do_);  // Can't use "do" because it's a Java keyword!
         initMap.put("je", R.raw.je);
+        initMap.put("ya", R.raw.ya);
         initMap.put("yu", R.raw.yu);
         initMap.put("za", R.raw.za);
         initMap.put("zo", R.raw.zo);
@@ -679,8 +681,20 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
         // --- y ---
         initMap.put("yab", R.raw.yab);
+        initMap.put("yaC", R.raw.yac);
+        initMap.put("yaD", R.raw.yad);
+        initMap.put("yaG", R.raw.yag);
+        initMap.put("yaH", R.raw.yah);
         initMap.put("yaj", R.raw.yaj);
+        initMap.put("yan", R.raw.yan);
         initMap.put("yap", R.raw.yap);
+        initMap.put("yaS", R.raw.yas);
+        initMap.put("yat", R.raw.yat);
+        initMap.put("yav", R.raw.yav);
+        initMap.put("yax", R.raw.yax);
+        initMap.put("yay", R.raw.yay);
+        initMap.put("yayz", R.raw.yayz);
+
         initMap.put("yIb", R.raw.yib);
         initMap.put("yIC", R.raw.yic);
         initMap.put("yID", R.raw.yid);
@@ -692,7 +706,6 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("yIt", R.raw.yit);
         initMap.put("yIv", R.raw.yiv);
         initMap.put("yIz", R.raw.yiz);
-
         initMap.put("yob", R.raw.yob);
         initMap.put("yoD", R.raw.yod);
         initMap.put("yoH", R.raw.yoh);
@@ -709,7 +722,6 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("yov", R.raw.yov);
         initMap.put("yoy", R.raw.yoy);
         initMap.put("yoz", R.raw.yoz);
-
         initMap.put("yub", R.raw.yub);
         initMap.put("yuC", R.raw.yuc);
         initMap.put("yuD", R.raw.yud);
