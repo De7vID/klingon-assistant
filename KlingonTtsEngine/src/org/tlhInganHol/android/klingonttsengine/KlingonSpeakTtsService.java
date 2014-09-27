@@ -122,6 +122,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("Go", R.raw.go);
         initMap.put("Do", R.raw.do_);  // Can't use "do" because it's a Java keyword!
         initMap.put("je", R.raw.je);
+        initMap.put("no", R.raw.no);
         initMap.put("ya", R.raw.ya);
         initMap.put("yu", R.raw.yu);
         initMap.put("za", R.raw.za);
@@ -542,11 +543,24 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("nIH", R.raw.nih);
         initMap.put("nIS", R.raw.nis);
         initMap.put("nob", R.raw.nob);
+        initMap.put("noC", R.raw.noc);
         initMap.put("noD", R.raw.nod);
+        initMap.put("noG", R.raw.nog);
+        initMap.put("noH", R.raw.noh);
+        initMap.put("noj", R.raw.noj);
+        initMap.put("nol", R.raw.nol);
         initMap.put("nom", R.raw.nom);
+        initMap.put("non", R.raw.non);
+        initMap.put("noF", R.raw.nof);
+        initMap.put("nop", R.raw.nop);
+        initMap.put("nor", R.raw.nor);
+        initMap.put("norG", R.raw.norg);
         initMap.put("noS", R.raw.nos);   // From {Qo'noS}.
         initMap.put("not", R.raw.not);
+        initMap.put("nox", R.raw.nox);
+        initMap.put("nov", R.raw.nov);
         initMap.put("noz", R.raw.noz);   // no'
+
         initMap.put("nuq", R.raw.nuq);
 
         // --- ng ---
