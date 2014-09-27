@@ -64,9 +64,39 @@ foreach my $e (@{$data->{database}->{mem}})
   }
 }
 
-for my $s (sort keys %syllables)
-{
+my %front_half_syllables;
+my %short_syllables;
+my %full_syllables;
+
+for my $s (sort keys %syllables) {
+  my $t = $s;
+  # TODO convert to other form
   if (! -e '../KlingonTtsEngine/res/raw/'.$s.'.mp3') {
     print "Warning: File ", $s, ".mp3 not found! Required for: {", $syllables{$s}, "}\n";
+  } else {
+    if (length $s == 2) {
+      $short_syllables{$s} = $t;
+    } elsif (substr($s,2) eq '0') {
+      $front_half_syllables{$s} = $t;
+    } else {
+      $full_syllables{$s} = $t;
+    }
   }
 }
+
+print "\n        Front halves:\n";
+for my $s (sort keys %front_half_syllables) {
+  print "        initMap.put(\"", $s, "\", R.raw.", $front_half_syllables{$s}, ");\n";
+
+}
+
+print "\n        Short syllables:\n";
+for my $s (sort keys %short_syllables) {
+  print "        initMap.put(\"", $s, "\", R.raw.", $short_syllables{$s}, ");\n";
+}
+
+print "\n        Full syllables:\n";
+for my $s (sort keys %full_syllables) {
+  print "        initMap.put(\"", $s, "\", R.raw.", $full_syllables{$s}, ");\n";
+}
+
