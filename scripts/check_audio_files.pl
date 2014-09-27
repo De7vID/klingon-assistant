@@ -109,6 +109,7 @@ unless ( $java_file =~ s/(BEGIN: FRONT_HALF_SYLLABLE_TO_AUDIO_MAP\n).*(^\s+\/\/ 
 $short_syllables_code = "";
 for my $s (sort keys %short_syllables) {
   my $line = sprintf("        initMap.put(\"%s\", R.raw.%s);\n", $short_syllables{$s}, $s);
+  $short_syllables_code = $short_syllables_code . $line;
 }
 unless ( $java_file =~ s/(BEGIN: SHORT_SYLLABLE_TO_AUDIO_MAP\n).*(^\s+\/\/ END: SHORT_SYLLABLE_TO_AUDIO_MAP)/$1$short_syllables_code$2/smg ) {
   print "ERROR: Failed to write SHORT_SYLLABLE_TO_AUDIO_MAP.\n";
@@ -118,6 +119,7 @@ unless ( $java_file =~ s/(BEGIN: SHORT_SYLLABLE_TO_AUDIO_MAP\n).*(^\s+\/\/ END: 
 $full_syllables_code = "";
 for my $s (sort keys %full_syllables) {
   my $line = sprintf("        initMap.put(\"%s\", R.raw.%s);\n", $full_syllables{$s}, $s);
+  $full_syllables_code = $full_syllables_code . $line;
 }
 unless ( $java_file =~ s/(BEGIN: MAIN_SYLLABLE_TO_AUDIO_MAP\n).*(^\s+\/\/ END: MAIN_SYLLABLE_TO_AUDIO_MAP)/$1$full_syllables_code$2/smg ) {
   print "ERROR: Failed to write MAIN_SYLLABLE_TO_AUDIO_MAP.\n";
