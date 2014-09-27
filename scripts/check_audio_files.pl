@@ -70,7 +70,15 @@ my %full_syllables;
 
 for my $s (sort keys %syllables) {
   my $t = $s;
-  # TODO convert to other form
+  $t =~ s/0$/-/g;
+  $t =~ s/c/C/g;
+  $t =~ s/d/D/g;
+  $t =~ s/g/G/g;
+  $t =~ s/h/H/g;
+  $t =~ s/i/I/g;
+  $t =~ s/f/F/g;
+  $t =~ s/k/Q/g;
+  $t =~ s/s/S/g;
   if (! -e '../KlingonTtsEngine/res/raw/'.$s.'.mp3') {
     print "Warning: File ", $s, ".mp3 not found! Required for: {", $syllables{$s}, "}\n";
   } else {
@@ -84,19 +92,37 @@ for my $s (sort keys %syllables) {
   }
 }
 
-print "\n        Front halves:\n";
+# Generate code in the Java file to produce the audio map.
+$java_file_name = '../KlingonTtsEngine/src/org/tlhInganHol/android/klingonttsengine/KlingonSpeakTtsService.java';
+$java_file = read_file($java_file_name);
+
+$front_half_code = "";
 for my $s (sort keys %front_half_syllables) {
-  print "        initMap.put(\"", $s, "\", R.raw.", $front_half_syllables{$s}, ");\n";
-
+  my $line = sprintf("        initMap.put(\"%s\", R.raw.%s);\n", $front_half_syllables{$s}, $s);
+  $front_half_code = $front_half_code . $line;
+}
+unless ( $java_file =~ s/(BEGIN: FRONT_HALF_SYLLABLE_TO_AUDIO_MAP\n).*(^\s+\/\/ END: FRONT_HALF_SYLLABLE_TO_AUDIO_MAP)/$1$front_half_code$2/smg ) {
+  print "ERROR: Failed to write FRONT_HALF_SYLLABLE_TO_AUDIO_MAP.\n";
+  exit;
 }
 
-print "\n        Short syllables:\n";
+$short_syllables_code = "";
 for my $s (sort keys %short_syllables) {
-  print "        initMap.put(\"", $s, "\", R.raw.", $short_syllables{$s}, ");\n";
+  my $line = sprintf("        initMap.put(\"%s\", R.raw.%s);\n", $short_syllables{$s}, $s);
+}
+unless ( $java_file =~ s/(BEGIN: SHORT_SYLLABLE_TO_AUDIO_MAP\n).*(^\s+\/\/ END: SHORT_SYLLABLE_TO_AUDIO_MAP)/$1$short_syllables_code$2/smg ) {
+  print "ERROR: Failed to write SHORT_SYLLABLE_TO_AUDIO_MAP.\n";
+  exit;
 }
 
-print "\n        Full syllables:\n";
+$full_syllables_code = "";
 for my $s (sort keys %full_syllables) {
-  print "        initMap.put(\"", $s, "\", R.raw.", $full_syllables{$s}, ");\n";
+  my $line = sprintf("        initMap.put(\"%s\", R.raw.%s);\n", $full_syllables{$s}, $s);
+}
+unless ( $java_file =~ s/(BEGIN: MAIN_SYLLABLE_TO_AUDIO_MAP\n).*(^\s+\/\/ END: MAIN_SYLLABLE_TO_AUDIO_MAP)/$1$full_syllables_code$2/smg ) {
+  print "ERROR: Failed to write MAIN_SYLLABLE_TO_AUDIO_MAP.\n";
+  exit;
 }
 
+# Write to the Java file.
+write_file $java_file_name, {binmode => ':utf8'}, $java_file;
