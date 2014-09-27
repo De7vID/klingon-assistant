@@ -67,6 +67,7 @@ foreach my $e (@{$data->{database}->{mem}})
 my %front_half_syllables;
 my %short_syllables;
 my %full_syllables;
+my $warning_count = 0;
 
 for my $s (sort keys %syllables) {
   my $t = $s;
@@ -82,6 +83,7 @@ for my $s (sort keys %syllables) {
   # Special-case "do" and "for" because they are Java keywords, by adding an underscore to the filenames.
   if (!(-e '../KlingonTtsEngine/res/raw/' . $s . '.mp3') && !($s eq "do") && !($s eq "for")) {
     print "Warning: File ", $s, ".mp3 not found! Required for: {", $syllables{$s}, "}\n";
+    $warning_count++;
   } else {
     if (length $s == 2) {
       if ($s eq "do") {
@@ -114,6 +116,7 @@ unless ( $java_file =~ s/(BEGIN: FRONT_HALF_SYLLABLE_TO_AUDIO_MAP\n).*(^\s+\/\/ 
   print "ERROR: Failed to write FRONT_HALF_SYLLABLE_TO_AUDIO_MAP.\n";
   exit;
 }
+$front_half_count = keys %front_half_syllables;
 
 $short_syllables_code = "";
 for my $s (sort keys %short_syllables) {
@@ -124,6 +127,7 @@ unless ( $java_file =~ s/(BEGIN: SHORT_SYLLABLE_TO_AUDIO_MAP\n).*(^\s+\/\/ END: 
   print "ERROR: Failed to write SHORT_SYLLABLE_TO_AUDIO_MAP.\n";
   exit;
 }
+$short_syllables_count = keys %short_syllables;
 
 $full_syllables_code = "";
 for my $s (sort keys %full_syllables) {
@@ -134,6 +138,11 @@ unless ( $java_file =~ s/(BEGIN: MAIN_SYLLABLE_TO_AUDIO_MAP\n).*(^\s+\/\/ END: M
   print "ERROR: Failed to write MAIN_SYLLABLE_TO_AUDIO_MAP.\n";
   exit;
 }
+$full_syllables_count = keys %full_syllables;
 
 # Write to the Java file.
 write_file $java_file_name, {binmode => ':utf8'}, $java_file;
+print "Wrote: ", $front_half_count, " front half syllables, ",
+                 $short_syllables_count, " short syllables, and ",
+                 $full_syllables_count, " full syllables.\n";
+print $warning_count, " warnings.\n";
