@@ -79,11 +79,16 @@ for my $s (sort keys %syllables) {
   $t =~ s/f/F/g;
   $t =~ s/k/Q/g;
   $t =~ s/s/S/g;
-  if (! -e '../KlingonTtsEngine/res/raw/'.$s.'.mp3') {
+  # special-case "do" because it's a Java keyword, so the filename has to be "do_".
+  if (!(-e '../KlingonTtsEngine/res/raw/' . $s . '.mp3') && !($s eq "do")) {
     print "Warning: File ", $s, ".mp3 not found! Required for: {", $syllables{$s}, "}\n";
   } else {
     if (length $s == 2) {
-      $short_syllables{$s} = $t;
+      if ($s eq "do") {
+        $short_syllables{$s . "_"} = $t;
+      } else {
+        $short_syllables{$s} = $t;
+      }
     } elsif (substr($s,2) eq '0') {
       $front_half_syllables{$s} = $t;
     } else {
