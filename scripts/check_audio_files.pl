@@ -35,7 +35,7 @@ foreach my $e (@{$data->{database}->{mem}})
   # remove the "X" placeholder from sentences.
   $condensed =~ s/X//g;
   $condensed =~ s/^ //g;
-  $condensed =~ s/  / /g;
+  $condensed =~ s/\s+/ /g;
   # {gh} has to be done before {ng} so that {ngh} -> "nG" and not "Fh".
   # {gh} has to be replaced with "G" at first to distinguish "nG" from "ng".
   $condensed =~ s/ch/C/g;
