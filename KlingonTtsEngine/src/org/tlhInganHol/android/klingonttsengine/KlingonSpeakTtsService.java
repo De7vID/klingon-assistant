@@ -1649,8 +1649,8 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         super.onCreate();
         // We load the default language when we start up. This isn't strictly
         // required though, it can always be loaded lazily on the first call to
-        // onLoadLanguage or onSynthesizeText. This a tradeoff between memory usage
-        // and the latency of the first call.
+        // onLoadLanguage or onSynthesizeText. There is a tradeoff between
+        // memory usage and the latency of the first call.
         onLoadLanguage("tlh", "CAN", "");
     }
 
@@ -1668,15 +1668,15 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
     @Override
     protected int onIsLanguageAvailable(String lang, String country, String variant) {
-        // The robot speak synthesizer supports only english.
+        // The speech synthesizer supports only Klingon.
         if ("tlh".equals(lang)) {
-            // We support two specific klingon languages, the canadian klingon language
-            // and the american klingon language.
+            // We support two specific Klingon dialects, the Canadian Klingon dialect
+            // and the American Klingon dialect.
             if ("USA".equals(country) || "CAN".equals(country)) {
                 // If the engine supported a specific variant, we would have
                 // something like.
                 //
-                // if ("android".equals(variant)) {
+                // if ("Sa'Qej".equals(variant)) {
                 //     return TextToSpeech.LANG_COUNTRY_VAR_AVAILABLE;
                 // }
                 return TextToSpeech.LANG_COUNTRY_AVAILABLE;
