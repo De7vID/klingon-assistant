@@ -1763,8 +1763,19 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         // At this point, we have loaded the language we need for synthesis and
         // it is guaranteed that we support it so we proceed with synthesis.
 
+        // When Android asks for a sample spoken sentence, it requests the text
+        // "This is an example of speech synthesis". However, we just look for
+        // the word "example", since it's not guaranteed that this string won't
+        // change. We replace the request with the Klingon sentence:
+        // {QIch luchenmoHlu'ta'bogh 'aghlu'meH chovnatlhvam noblu'}.
+        String requestedText = request.getText();
+        String condensedText;
+        if (requestedText.toLowerCase().contains("example")) {
+          condensedText = "QIC luCenmoHluztazboG zaGluzmeH Covnaxvam nobluz";
+        } else {
+          condensedText = condenseKlingonDiTrigraphs(requestedText);
+        }
         // We construct a list of syllables to be played.
-        String condensedText = condenseKlingonDiTrigraphs(request.getText());
         Log.d(TAG, "---\n");
         Log.d(TAG, "condensedText: \"" + condensedText + "\"");
         boolean isFinalSyllable = true;
