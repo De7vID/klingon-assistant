@@ -61,6 +61,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("Co-", R.raw.co0);
         initMap.put("Cu-", R.raw.cu0);
         initMap.put("Da-", R.raw.da0);
+        initMap.put("De-", R.raw.de0);
         initMap.put("DI-", R.raw.di0);
         initMap.put("Do-", R.raw.do0);
         initMap.put("Du-", R.raw.du0);
@@ -289,6 +290,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("CIrG", R.raw.cirg);
         initMap.put("CIS", R.raw.cis);
         initMap.put("CIw", R.raw.ciw);
+        initMap.put("CIy", R.raw.ciy);
         initMap.put("Cob", R.raw.cob);
         initMap.put("CoF", R.raw.cof);
         initMap.put("CoG", R.raw.cog);
@@ -333,6 +335,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("DaS", R.raw.das);
         initMap.put("Dat", R.raw.dat);
         initMap.put("Dav", R.raw.dav);
+        initMap.put("Daw", R.raw.daw);
         initMap.put("Dawz", R.raw.dawz);
         initMap.put("Day", R.raw.day);
         initMap.put("Daz", R.raw.daz);
@@ -362,6 +365,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("DIS", R.raw.dis);
         initMap.put("DIv", R.raw.div);
         initMap.put("DIz", R.raw.diz);
+        initMap.put("Dob", R.raw.dob);
         initMap.put("DoC", R.raw.doc);
         initMap.put("DoD", R.raw.dod);
         initMap.put("DoG", R.raw.dog);
@@ -375,10 +379,13 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("Doq", R.raw.doq);
         initMap.put("Dor", R.raw.dor);
         initMap.put("DoS", R.raw.dos);
+        initMap.put("Dot", R.raw.dot);
         initMap.put("Dov", R.raw.dov);
         initMap.put("Dox", R.raw.dox);
         initMap.put("Doyz", R.raw.doyz);
         initMap.put("Doz", R.raw.doz);
+        initMap.put("Dub", R.raw.dub);
+        initMap.put("DuC", R.raw.duc);
         initMap.put("Duj", R.raw.duj);
         initMap.put("DuQ", R.raw.duk);
         initMap.put("Duz", R.raw.duz);
