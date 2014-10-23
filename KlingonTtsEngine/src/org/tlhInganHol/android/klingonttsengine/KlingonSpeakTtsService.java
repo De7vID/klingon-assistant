@@ -1421,8 +1421,11 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("wan", R.raw.wan);
         initMap.put("waq", R.raw.waq);
         initMap.put("war", R.raw.war);
+        initMap.put("warG", R.raw.warg);
         initMap.put("wav", R.raw.wav);
         initMap.put("wawz", R.raw.wawz);
+        initMap.put("wax", R.raw.wax);
+        initMap.put("way", R.raw.way);
         initMap.put("wayz", R.raw.wayz);
         initMap.put("waz", R.raw.waz);
         initMap.put("web", R.raw.web);
@@ -1445,6 +1448,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("wIH", R.raw.wih);
         initMap.put("wIj", R.raw.wij);
         initMap.put("wIl", R.raw.wil);
+        initMap.put("wIv", R.raw.wiv);
         initMap.put("wIx", R.raw.wix);
         initMap.put("wIy", R.raw.wiy);
         initMap.put("wIz", R.raw.wiz);
@@ -1456,6 +1460,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("woj", R.raw.woj);
         initMap.put("woQ", R.raw.wok);
         initMap.put("wom", R.raw.wom);
+        initMap.put("woq", R.raw.woq);
         initMap.put("wor", R.raw.wor);
         initMap.put("woS", R.raw.wos);
         initMap.put("wot", R.raw.wot);
@@ -1481,6 +1486,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("xawz", R.raw.xawz);
         initMap.put("xax", R.raw.xax);
         initMap.put("xay", R.raw.xay);
+        initMap.put("xaz", R.raw.xaz);
         initMap.put("xeD", R.raw.xed);
         initMap.put("xeF", R.raw.xef);
         initMap.put("xeG", R.raw.xeg);
@@ -1502,7 +1508,12 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         initMap.put("xIS", R.raw.xis);
         initMap.put("xIv", R.raw.xiv);
         initMap.put("xIz", R.raw.xiz);
+        initMap.put("xob", R.raw.xob);
+        initMap.put("xoC", R.raw.xoc);
         initMap.put("xoF", R.raw.xof);
+        initMap.put("xoG", R.raw.xog);
+        initMap.put("xoj", R.raw.xoj);
+        initMap.put("xoQ", R.raw.xok);
         initMap.put("xol", R.raw.xol);
         initMap.put("xom", R.raw.xom);
         initMap.put("xon", R.raw.xon);
