@@ -16,7 +16,7 @@
 <resources>
 
     <!-- The name of the application. -->
-    <string name="app_name">Klingon TTS Engine</string>
+    <string name="app_name">Klingon Text-To-Speech (TTS) Engine</string>
     <!-- The heading of the first (and only) preference fragment -->
 
 </resources>
