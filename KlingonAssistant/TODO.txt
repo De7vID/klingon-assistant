@@ -1,4 +1,12 @@
 
+integrate TTS into list view
+
+split off "latest updates" messages
+
+--- Search bar bug ---
+Beginning in around version 2014.07.21a, on devices with Android 2.3.6, the black-background search bar doesn't work. But pressing the search button pops up a white search bar, and that one works, so it's a work-around. (Repro'd on 2.3.3 API 10.)
+
+--- NPE ---
 Android 4.3
 2014.04.29a (TTS)
 Venue 7
@@ -16,3 +24,4 @@ at java.lang.reflect.Method.invoke(Method.java:525)
 at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:737)
 at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:553)
 at dalvik.system.NativeStart.main(Native Method)
+
