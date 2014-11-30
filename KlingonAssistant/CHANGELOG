@@ -1,5 +1,6 @@
 CHANGELOG
 
+2014-11-30: Fixed rover placement bug with some complex sentences.
 2014-11-26: Added extra-canonical vocabulary from Klingon Blockly.
 2014-11-25: Added social network preference setting.
 2014-11-16: qepHom vocabulary related to: ranks, computers, knots, quantum mechanics, The Klingon Art of War.
