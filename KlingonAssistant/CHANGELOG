@@ -1,5 +1,6 @@
 CHANGELOG
 
+2014-12-02: Added colour-coding to indicate different parts of speech.
 2014-11-30: Fixed rover placement bug with some complex sentences.
 2014-11-26: Added extra-canonical vocabulary from Klingon Blockly.
 2014-11-25: Added social network preference setting.
