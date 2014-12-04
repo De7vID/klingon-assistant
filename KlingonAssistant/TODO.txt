@@ -1,7 +1,7 @@
 
-integrate TTS into list view
-
-split off "latest updates" messages
+* integrate TTS into list view
+* split off "latest updates" messages
+* re-arrange toolbar buttons
 
 --- NPE ---
 Android 4.3
