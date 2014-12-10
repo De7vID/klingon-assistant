@@ -1,6 +1,6 @@
 CHANGELOG
 
-2014-12-03: Remove hyp annotation from Klingon Monopoly words.
+2014-12-03: Remove hyp annotation from some Klingon Monopoly words.
 2014-12-02: Added colour-coding to indicate different parts of speech. Show {pIqaD} in more places.
 2014-11-30: Fixed rover placement bug with some complex sentences.
 2014-11-26: Added extra-canonical vocabulary from Klingon Blockly.
