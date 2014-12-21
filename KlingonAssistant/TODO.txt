@@ -3,6 +3,9 @@
 * split off "latest updates" messages
 * re-arrange toolbar buttons
 
+German:
+grep -c "definition_de\"><" *
+
 --- NPE ---
 Android 4.3
 2014.04.29a (TTS)
