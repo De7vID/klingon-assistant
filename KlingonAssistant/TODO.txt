@@ -5,6 +5,7 @@
 
 German:
 grep -c "definition_de\"><" *
+ä ü ö ß Ü
 
 --- NPE ---
 Android 4.3
