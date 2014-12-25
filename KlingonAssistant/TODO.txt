@@ -1,5 +1,5 @@
 
-Fix Toolbar: https://github.com/amlcurran/ShowcaseView/issues/203
+In order to update to appcompat support r21, must first apply fix for Toolbar: https://github.com/amlcurran/ShowcaseView/issues/203
 
 * integrate TTS into list view
 * split off "latest updates" messages
