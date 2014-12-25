@@ -1,6 +1,6 @@
 CHANGELOG
 
-2014-12-25: Remove Theme.AppCompat.Dark, in preparation to move to Lollipop (Material Design) theme.
+2014-12-25: Update appcompat support library to v21.
 2014-12-17: Remove extcan from DeCandido words vetted by Marc Okrand for qepHom 2014.
 2014-12-03: Remove hyp annotation from some Klingon Monopoly words.
 2014-12-02: Added colour-coding to indicate different parts of speech. Show {pIqaD} in more places.

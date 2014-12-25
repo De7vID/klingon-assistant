@@ -1,4 +1,6 @@
 
+Fix Toolbar: https://github.com/amlcurran/ShowcaseView/issues/203
+
 * integrate TTS into list view
 * split off "latest updates" messages
 * re-arrange toolbar buttons
