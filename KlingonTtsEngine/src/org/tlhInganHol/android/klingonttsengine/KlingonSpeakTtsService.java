@@ -1973,10 +1973,13 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
             //   mp.prepare();
             MediaPlayer mp = MediaPlayer.create(this, resId.intValue());
 
-            // Chain this MediaPlayer to the front of the existing one (if any).
-            mp.setNextMediaPlayer(mMediaPlayer);
-            mp.setOnCompletionListener(this);
-            mMediaPlayer = mp;
+            // Chain this MediaPlayer (if it was successfully created) to the
+            // front of the existing one (if any).
+            if (mp != null) {
+                mp.setNextMediaPlayer(mMediaPlayer);
+                mp.setOnCompletionListener(this);
+                mMediaPlayer = mp;
+            }
         }
     }
 
