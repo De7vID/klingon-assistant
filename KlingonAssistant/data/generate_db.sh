@@ -29,7 +29,7 @@ sed -i "s/\[\[VERSION\]\]/$VERSION/" mem.xml
 
 # Convert from xml to sql instructions.
 ./xml2sql.pl > mem.sql
-# sed -i 's/INSERT INTO "mem"/INSERT INTO mem/g' mem.sql
+sed -i 's/INSERT INTO "mem"/INSERT INTO mem/g' mem.sql
 
 # Print any entries with duplicate columns.
 grep "ARRAY" mem.sql
