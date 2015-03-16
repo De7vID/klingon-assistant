@@ -1,5 +1,6 @@
 CHANGELOG
 
+2015-03-06: Add new words from Festival of the Spoken Nerd DVD. Minor edits.
 2015-02-06: Add Italian translations for UI.
 2015-01-12: Remove tutorial (since ShowcaseView has compatibility issues with newer Android versions)
 2014-12-25: Attempt to update appcompat support library to v21, failure.
