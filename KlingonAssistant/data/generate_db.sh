@@ -38,10 +38,11 @@ grep "ARRAY" mem.sql
 git checkout ../assets/qawHaq.db
 if [ -f ../assets/qawHaq.db ];
 then
-    # If the db already exists, show a diff.
-    sqlite3 ../assets/qawHaq.db .dump > old-mem.sql
     if [ ! $NONINTERACTIVE ]
     then
+        # If the db already exists, show a diff.
+        sqlite3 ../assets/qawHaq.db .dump > old-mem.sql
+        sed -i 's/INSERT INTO "mem"/INSERT INTO mem/g' old-mem.sql
         vimdiff old-mem.sql mem.sql
         read -n1 -r -p "Press any key to generate new db..."
         echo
@@ -52,6 +53,7 @@ sqlite3 ../assets/qawHaq.db < mem.sql
 
 # Sanity check.
 sqlite3 ../assets/qawHaq.db .dump > sanity.sql
+sed -i 's/INSERT INTO "mem"/INSERT INTO mem/g' sanity.sql
 diff mem.sql sanity.sql
 
 # Pause (in case of error).
