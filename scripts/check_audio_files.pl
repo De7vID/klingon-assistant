@@ -80,25 +80,17 @@ for my $s (sort keys %syllables) {
   $t =~ s/f/F/g;
   $t =~ s/k/Q/g;
   $t =~ s/s/S/g;
-  # Special-case "do" and "for" because they are Java keywords, by adding an underscore to the filenames.
-  if (!(-e '../KlingonTtsEngine/res/raw/' . $s . '.mp3') && !($s eq "do") && !($s eq "for")) {
-    print "Warning: File ", $s, ".mp3 not found! Required for: {", $syllables{$s}, "}\n";
+  # Because "do" and "for" are Java keywords, and "con" is a reserved filename in Windows, add "audio_" as a prefix to the filenames.
+  if (!(-e '../KlingonTtsEngine/res/raw/audio_' . $s . '.mp3')) {
+    print "Warning: File audio_", $s, ".mp3 not found! Required for: {", $syllables{$s}, "}\n";
     $warning_count++;
   } else {
     if (length $s == 2) {
-      if ($s eq "do") {
-        $short_syllables{$s . "_"} = $t;
-      } else {
-        $short_syllables{$s} = $t;
-      }
+      $short_syllables{$s} = $t;
     } elsif (substr($s,2) eq '0') {
       $front_half_syllables{$s} = $t;
     } else {
-      if ($s eq "for") {
-        $full_syllables{$s . "_"} = $t;
-      } else {
-        $full_syllables{$s} = $t;
-      }
+      $full_syllables{$s} = $t;
     }
   }
 }
@@ -109,7 +101,7 @@ $java_file = read_file($java_file_name);
 
 $front_half_code = "";
 for my $s (sort keys %front_half_syllables) {
-  my $line = sprintf("        initMap.put(\"%s\", R.raw.%s);\n", $front_half_syllables{$s}, $s);
+  my $line = sprintf("        initMap.put(\"%s\", R.raw.audio_%s);\n", $front_half_syllables{$s}, $s);
   $front_half_code = $front_half_code . $line;
 }
 unless ( $java_file =~ s/(BEGIN: FRONT_HALF_SYLLABLE_TO_AUDIO_MAP\n).*(^\s+\/\/ END: FRONT_HALF_SYLLABLE_TO_AUDIO_MAP)/$1$front_half_code$2/smg ) {
@@ -120,7 +112,7 @@ $front_half_count = keys %front_half_syllables;
 
 $short_syllables_code = "";
 for my $s (sort keys %short_syllables) {
-  my $line = sprintf("        initMap.put(\"%s\", R.raw.%s);\n", $short_syllables{$s}, $s);
+  my $line = sprintf("        initMap.put(\"%s\", R.raw.audio_%s);\n", $short_syllables{$s}, $s);
   $short_syllables_code = $short_syllables_code . $line;
 }
 unless ( $java_file =~ s/(BEGIN: SHORT_SYLLABLE_TO_AUDIO_MAP\n).*(^\s+\/\/ END: SHORT_SYLLABLE_TO_AUDIO_MAP)/$1$short_syllables_code$2/smg ) {
@@ -131,7 +123,7 @@ $short_syllables_count = keys %short_syllables;
 
 $full_syllables_code = "";
 for my $s (sort keys %full_syllables) {
-  my $line = sprintf("        initMap.put(\"%s\", R.raw.%s);\n", $full_syllables{$s}, $s);
+  my $line = sprintf("        initMap.put(\"%s\", R.raw.audio_%s);\n", $full_syllables{$s}, $s);
   $full_syllables_code = $full_syllables_code . $line;
 }
 unless ( $java_file =~ s/(BEGIN: MAIN_SYLLABLE_TO_AUDIO_MAP\n).*(^\s+\/\/ END: MAIN_SYLLABLE_TO_AUDIO_MAP)/$1$full_syllables_code$2/smg ) {
