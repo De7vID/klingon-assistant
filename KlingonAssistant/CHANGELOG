@@ -1,5 +1,6 @@
 CHANGELOG
 
+2015-05-01: use Proguard for TTS version too.
 2015-04-22: minor edits to database.
 2015-04-07: minor edits to database.
 2015-03-27: Update Play Store URL to {quja'} keyboard in help.
