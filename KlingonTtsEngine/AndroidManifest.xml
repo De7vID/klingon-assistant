@@ -16,8 +16,8 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.tlhInganHol.android.klingonttsengine"
-    android:versionCode="16"
-    android:versionName="2015.04.03"
+    android:versionCode="17"
+    android:versionName="2015.11.08"
     android:installLocation="auto">
 
     <!-- SDK 16 is needed for gapless playback using setNextMediaPlayer. -->
