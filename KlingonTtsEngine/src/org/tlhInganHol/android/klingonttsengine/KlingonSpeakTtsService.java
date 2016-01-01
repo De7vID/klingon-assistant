@@ -22,11 +22,16 @@ import android.speech.tts.SynthesisCallback;
 import android.speech.tts.SynthesisRequest;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeechService;
+import android.speech.tts.Voice;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -1933,25 +1938,32 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
     @Override
     protected int onIsLanguageAvailable(String lang, String country, String variant) {
+        // Log.d(TAG, "lang: " + lang);
+        // Log.d(TAG, "country: " + country);
+        // Log.d(TAG, "variant: " + variant);
+
         // The speech synthesizer supports only Klingon.
-        if ("tlh".equals(lang)) {
-            // We support two specific Klingon dialects, the Canadian Klingon dialect
-            // and the American Klingon dialect.
-            if ("USA".equals(country) || "CAN".equals(country)) {
-                // If the engine supported a specific variant, we would have
-                // something like.
-                //
-                // if ("Sa'Qej".equals(variant)) {
-                //     return TextToSpeech.LANG_COUNTRY_VAR_AVAILABLE;
-                // }
-                return TextToSpeech.LANG_COUNTRY_AVAILABLE;
-            }
+        // if ("tlh".equals(lang)) {
+        //     // We support two specific Klingon dialects, the Canadian Klingon dialect
+        //     // and the American Klingon dialect.
+        //     if ("USA".equals(country) || "CAN".equals(country)) {
+        //         // If the engine supported a specific variant, we would have
+        //         // something like.
+        //         //
+        //         // if ("Sa'Qej".equals(variant)) {
+        //         //     return TextToSpeech.LANG_COUNTRY_VAR_AVAILABLE;
+        //         // }
+        //         return TextToSpeech.LANG_COUNTRY_AVAILABLE;
+        //     }
 
-            // We support the language, but not the country.
-            return TextToSpeech.LANG_AVAILABLE;
-        }
+        //     // We support the language, but not the country.
+        //     return TextToSpeech.LANG_AVAILABLE;
+        // }
 
-        return TextToSpeech.LANG_NOT_SUPPORTED;
+        // return TextToSpeech.LANG_NOT_SUPPORTED;
+
+        // Work-around for https://github.com/De7vID/klingon-assistant/issues/132.
+        return TextToSpeech.LANG_AVAILABLE;
     }
 
     /*
@@ -2362,5 +2374,27 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         // Log.d(TAG, "onCompletion called");
         // mp.reset();
         mp.release();
+    }
+
+    // This override is okay on 5.1.1.
+    // It does nothing on 6.0.1.
+    @Override
+    public List<Voice> onGetVoices() {
+        // Work-around for https://github.com/De7vID/klingon-assistant/issues/132.
+        List<Voice> list = new ArrayList<Voice>();
+        list.add(new Voice("Klingon (Canada)", new Locale("tlh", "CAN"), 100, 100, false,
+              new HashSet<String>()));
+        return list;
+    }
+
+    // This override causes "tlh" not to be supported on 5.1.1.
+    // It does nothing on 6.0.1.
+    @Override
+    public String onGetDefaultVoiceNameFor(String lang, String country, String variant) {
+        // Work-around for https://github.com/De7vID/klingon-assistant/issues/132.
+        if (lang.equals("tlh")) {
+          return "Klingon (Canada)";
+        }
+        return super.onGetDefaultVoiceNameFor(lang, country, variant);
     }
 }
