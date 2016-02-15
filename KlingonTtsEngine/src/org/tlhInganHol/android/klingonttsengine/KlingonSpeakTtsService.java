@@ -1938,32 +1938,30 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
     @Override
     protected int onIsLanguageAvailable(String lang, String country, String variant) {
-        // Log.d(TAG, "lang: " + lang);
-        // Log.d(TAG, "country: " + country);
-        // Log.d(TAG, "variant: " + variant);
+        // The return value of this method must be consistent with onLoadLanguage and onLoadVoice.
+        Log.d(TAG, "lang: " + lang);
+        Log.d(TAG, "country: " + country);
+        Log.d(TAG, "variant: " + variant);
 
         // The speech synthesizer supports only Klingon.
-        // if ("tlh".equals(lang)) {
-        //     // We support two specific Klingon dialects, the Canadian Klingon dialect
-        //     // and the American Klingon dialect.
-        //     if ("USA".equals(country) || "CAN".equals(country)) {
-        //         // If the engine supported a specific variant, we would have
-        //         // something like.
-        //         //
-        //         // if ("Sa'Qej".equals(variant)) {
-        //         //     return TextToSpeech.LANG_COUNTRY_VAR_AVAILABLE;
-        //         // }
-        //         return TextToSpeech.LANG_COUNTRY_AVAILABLE;
-        //     }
+        if ("tlh".equals(lang)) {
+            // We support two specific Klingon dialects, the Canadian Klingon dialect
+            // and the American Klingon dialect.
+            if ("USA".equals(country) || "CAN".equals(country)) {
+                // If the engine supported a specific variant, we would have
+                // something like.
+                //
+                // if ("Sa'Qej".equals(variant)) {
+                //     return TextToSpeech.LANG_COUNTRY_VAR_AVAILABLE;
+                // }
+                return TextToSpeech.LANG_COUNTRY_AVAILABLE;
+            }
 
-        //     // We support the language, but not the country.
-        //     return TextToSpeech.LANG_AVAILABLE;
-        // }
+            // We support the language, but not the country.
+            return TextToSpeech.LANG_AVAILABLE;
+        }
 
-        // return TextToSpeech.LANG_NOT_SUPPORTED;
-
-        // Work-around for https://github.com/De7vID/klingon-assistant/issues/132.
-        return TextToSpeech.LANG_AVAILABLE;
+        return TextToSpeech.LANG_NOT_SUPPORTED;
     }
 
     /*
@@ -1993,6 +1991,7 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
 
         mCurrentLanguage = new String[] { lang, loadCountry, "" };
 
+        // The return value here must be consistent with onIsLanguageAvailable and onLoadVoice.
         return isLanguageAvailable;
     }
 
@@ -2385,6 +2384,28 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         list.add(new Voice("Klingon (Canada)", new Locale("tlh", "CAN"), 100, 100, false,
               new HashSet<String>()));
         return list;
+    }
+
+    @Override
+    public int onLoadVoice(String name) {
+        Log.d(TAG, "onLoadVoice: " + name);
+        if (name.equals("Klingon (Canada)")) {
+            // The return value here must be consistent with onLoadLanguage and
+            // onIsLanguageAvailable.
+            return TextToSpeech.LANG_COUNTRY_AVAILABLE;
+        } else {
+            return TextToSpeech.LANG_NOT_SUPPORTED;
+        }
+    }
+
+    @Override
+    public int onIsValidVoiceName(String name) {
+        Log.d(TAG, "onIsValidVoiceName: " + name);
+        if (name.equals("Klingon (Canada)")) {
+            return TextToSpeech.SUCCESS;
+        } else {
+            return TextToSpeech.ERROR;
+        }
     }
 
     // This override causes "tlh" not to be supported on 5.1.1.
