@@ -106,8 +106,8 @@ Note that Klingon has words for "ten thousand" ({netlh:n:num}) and "hundred thou
       <column name="definition">be present (not absent)</column>
       <column name="definition_de">anwesend  sein</column>
       <column name="synonyms"></column>
-      <column name="antonyms">{Dach:v:1}, {SaH:v:2}</column>
-      <column name="see_also"></column>
+      <column name="antonyms">{Dach:v:1}</column>
+      <column name="see_also">{SaH:v:2}</column>
       <column name="notes"></column>
       <column name="hidden_notes"></column>
       <column name="components"></column>
