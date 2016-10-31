@@ -1532,6 +1532,23 @@ The word itself means "origin of everything" or "start of it all" or the like, a
       <column name="source"></column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">26295</column>
+      <column name="entry_name">qenya'</column>
+      <column name="part_of_speech">n:place</column>
+      <column name="definition">Kenya</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
       <column name="_id">26300</column>
       <column name="entry_name">qeng</column>
       <column name="part_of_speech">v:t_c</column>
@@ -3200,6 +3217,23 @@ It can also be used for the device some Humans use to keep their babies quiet (w
       <column name="examples"></column>
       <column name="search_tags"></column>
       <column name="source">[1] {TKD:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">26985</column>
+      <column name="entry_name">quba'</column>
+      <column name="part_of_speech">n:place</column>
+      <column name="definition">Cuba</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <column name="_id">26990</column>

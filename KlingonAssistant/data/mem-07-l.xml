@@ -1177,6 +1177,23 @@ This word can be used figuratively. There is an idiom, {let mInDu'Daj; Separmey 
       <column name="source">[1] {KLI mailing list 2014.01.27:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">19126</column>
+      <column name="entry_name">letSeburgh</column>
+      <column name="part_of_speech">n:place</column>
+      <column name="definition">Luxembourg</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
       <!-- Checked on: 2012.12.09. -->
       <column name="_id">19130</column>
       <column name="entry_name">letlh</column>
@@ -1376,6 +1393,23 @@ This word can be used figuratively. There is an idiom, {let mInDu'Daj; Separmey 
       <column name="source">[1] {Star Trek Into Darkness:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">19188</column>
+      <column name="entry_name">lIbya'</column>
+      <column name="part_of_speech">n:place</column>
+      <column name="definition">Libya</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
       <!-- Checked on: 2012.12.09. -->
       <column name="_id">19190</column>
       <column name="entry_name">lIch</column>
@@ -1493,6 +1527,23 @@ This word can be used figuratively. There is an idiom, {let mInDu'Daj; Separmey 
       <column name="examples"></column>
       <column name="search_tags">start</column>
       <column name="source">[1] {HQ 12.2, Jun. 2003:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">19245</column>
+      <column name="entry_name">lIHtentay'</column>
+      <column name="part_of_speech">n:place</column>
+      <column name="definition">Lichtenstein</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <!-- Checked on: 2012.12.09. -->

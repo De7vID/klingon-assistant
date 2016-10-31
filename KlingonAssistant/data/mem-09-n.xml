@@ -995,6 +995,23 @@ Do not confuse this word with {naHjej:n}.</column>
       <column name="source">[1] {TKD:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">22205</column>
+      <column name="entry_name">nayjerya'</column>
+      <column name="part_of_speech">n:place</column>
+      <column name="definition">Nigeria</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
       <column name="_id">22210</column>
       <column name="entry_name">nay'</column>
       <column name="part_of_speech">n:food</column>
