@@ -20,17 +20,19 @@
       <column name="_id">20090</column>
       <column name="entry_name">mab</column>
       <column name="part_of_speech">n</column>
-      <column name="definition">treaty</column>
+      <column name="definition">treaty, agreement, contract, commitment</column>
       <column name="definition_de">Vertrag</column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
       <column name="see_also">{qI':v}, {Sutlh:v}</column>
       <column name="notes"></column>
-      <column name="hidden_notes">Possibly a reference to the fairy Queen Mab in Romeo and Juliet, who is known for making bargains with mortals.</column>
+      <column name="hidden_notes">This is defined only as "treaty" in {TKD:src}. The additional definitions come from {Saarbrücken qepHom'a' 2016:src}.
+
+Possibly a reference to the fairy Queen Mab in Romeo and Juliet, who is known for making bargains with mortals.</column>
       <column name="components"></column>
       <column name="examples"></column>
-      <column name="search_tags">contract</column>
-      <column name="source">[1] {TKD:src}</column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {TKD:src}, [2] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <!-- Checked on: 2012.12.15. -->
