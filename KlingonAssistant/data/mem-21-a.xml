@@ -732,8 +732,25 @@ The example literally means "My eyes sting me", which shows that {'aw':v:nolink}
       <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
-      <!-- Checked on: 2014.11.16. -->
+      <!-- Checked on: 2016.10.31. -->
       <column name="_id">37312</column>
+      <column name="entry_name">'a'leghen'I'</column>
+      <column name="part_of_speech">n:place</column>
+      <column name="definition">Allegheny</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{pItlhbergh:n}</column>
+      <column name="notes">This is a place name in {'amerI'qa' SepjIjQa':n} on Earth.</column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2014.11.16. -->
+      <column name="_id">37313</column>
       <column name="entry_name">'a'Setbur</column>
       <column name="part_of_speech">n:name</column>
       <column name="definition">Azetbur</column>
