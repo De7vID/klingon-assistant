@@ -544,7 +544,7 @@ Another way is to issue the command, {rep yIper!:sen:nolink}  In replying to thi
       <column name="components"></column>
       <column name="examples"></column>
       <column name="search_tags"></column>
-      <column name="source">{Smithsonian GO FLIGHT app:src}</column>
+      <column name="source">[1] {Smithsonian GO FLIGHT app:src}</column>
     </table>
     <table name="mem">
       <column name="_id">37240</column>
