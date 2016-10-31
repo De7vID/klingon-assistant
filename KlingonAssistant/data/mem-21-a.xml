@@ -210,6 +210,40 @@
       <column name="source">[1] {TNK:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">37096</column>
+      <column name="entry_name">'amerI'qa' tIng chan tIng</column>
+      <column name="part_of_speech">n:place</column>
+      <column name="definition">South America</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">37097</column>
+      <column name="entry_name">'amerI'qa' 'ev chan 'ev</column>
+      <column name="part_of_speech">n:place</column>
+      <column name="definition">North America</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
       <column name="_id">37100</column>
       <column name="entry_name">'ampaS</column>
       <column name="part_of_speech">n</column>
@@ -242,6 +276,23 @@
       <column name="examples"></column>
       <column name="search_tags"></column>
       <column name="source">[1] {Klingon Monopoly:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">37107</column>
+      <column name="entry_name">'antartIq</column>
+      <column name="part_of_speech">n:place</column>
+      <column name="definition">Antarctica</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <column name="_id">37110</column>
@@ -514,6 +565,7 @@ Another way is to issue the command, {rep yIper!:sen:nolink}  In replying to thi
       <column name="source">[1] {s.k 1999.02.02:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
       <column name="_id">37235</column>
       <column name="entry_name">'aSralya'</column>
       <column name="part_of_speech">n:place</column>
@@ -528,6 +580,23 @@ Another way is to issue the command, {rep yIper!:sen:nolink}  In replying to thi
       <column name="examples"></column>
       <column name="search_tags"></column>
       <column name="source">[1] {TNK:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">37236</column>
+      <column name="entry_name">'aSya'</column>
+      <column name="part_of_speech">n:place</column>
+      <column name="definition">Asia</column>
+      <column name="definition_de">Asien</column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <!-- Checked on: 2016.10.10. -->
@@ -660,6 +729,23 @@ Another way is to issue the command, {rep yIper!:sen:nolink}  In replying to thi
       <column name="examples"></column>
       <column name="search_tags"></column>
       <column name="source">[1] {PK:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">37286</column>
+      <column name="entry_name">'avrI'qa'</column>
+      <column name="part_of_speech">n:place</column>
+      <column name="definition">Africa</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <column name="_id">37290</column>
