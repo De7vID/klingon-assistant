@@ -1214,6 +1214,23 @@ This verb can also be used with an object. See {pegh:v:1}.</column>
       <column name="source">[1] {TKDA:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">24505</column>
+      <column name="entry_name">peQnagh</column>
+      <column name="part_of_speech">n</column>
+      <column name="definition">magnet</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
       <column name="_id">24510</column>
       <column name="entry_name">per</column>
       <column name="part_of_speech">n</column>
@@ -1276,6 +1293,23 @@ This verb can also be used with an object. See {pegh:v:1}.</column>
       <column name="examples"></column>
       <column name="search_tags">operation, mission</column>
       <column name="source">[1] {KGT:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">24535</column>
+      <column name="entry_name">pet</column>
+      <column name="part_of_speech">v:i_c</column>
+      <column name="definition">welded (together)</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <!-- Gowron says {petaD!}: http://www.youtube.com/v/i48VMmapyks -->
     <table name="mem">

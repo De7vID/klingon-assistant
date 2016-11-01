@@ -1725,6 +1725,23 @@ For an idiomatic expression used to tell someone not to move, see {taD:v}.</colu
       <column name="source">[1] {HQ 9.3, Sept. 2000:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">34742</column>
+      <column name="entry_name">vIncha'</column>
+      <column name="part_of_speech">n</column>
+      <column name="definition">furnace</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{mItlh:v}, {Qu:v}, {baS laSvargh:n}, {QumeH ngaSwI':n}</column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
       <!-- Checked on: 2013.11.10. -->
       <column name="_id">34745</column>
       <column name="entry_name">vInDa'</column>

@@ -2471,6 +2471,23 @@ Watch a lesson on this joke: {YouTube video:url:http://www.youtube.com/v/HciuEJS
       <column name="source">[1] {PK:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">28477</column>
+      <column name="entry_name">Qu</column>
+      <column name="part_of_speech">v:t_c</column>
+      <column name="definition">cast (cast metal)</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{mItlh:v}, {baS laSvargh:n}, {vIncha':n}, {QumeH ngaSwI':n}</column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
       <column name="_id">28480</column>
       <column name="entry_name">Qub</column>
       <column name="part_of_speech">v:t_c</column>
@@ -2762,6 +2779,23 @@ The slang meaning of {chong:v:2,slang}, when applied to a person, is equivalent 
       <column name="examples"></column>
       <column name="search_tags"></column>
       <column name="source">[1] {BoP:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">28635</column>
+      <column name="entry_name">QumeH ngaSwI'</column>
+      <column name="part_of_speech"></column>
+      <column name="definition"></column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{mItlh:v}, {Qu:v}, {vIncha':n}, {baS laSvargh:n}</column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components">{Qu:v}, {-meH:v}, {ngaSwI':n}</column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <column name="_id">28640</column>
