@@ -383,14 +383,16 @@ For "days ago" and "days from now", see {Hu':n} and {leS:n}, respectively.</colu
       <column name="synonyms"></column>
       <column name="antonyms"></column>
       <column name="see_also">{Qub:v}</column>
-      <column name="notes"></column>
+      <column name="notes">For a counterfactual (or "irrealis") statement, the phrase {... net jalchugh:sen:nolink} "if one imagines that...", "if it is imagined that..." is used.[2]</column>
       <column name="hidden_notes">J.L. are John Lennon's initials.</column>
       <column name="components"></column>
       <column name="examples">
-▶ {puvbogh targh yIjal@@puv:v, -bogh:v, targh:n, yI-:v, jal:v} "Think about a flying targ."
-▶ {tlhIngan SoH 'e' vIjal@@tlhIngan:n, SoH:n, 'e':n, vI-:v, jal:v} "I imagine you are a Klingon."</column>
+▶ {puvbogh targh yIjal@@puv:v, -bogh:v, targh:n, yI-:v, jal:v} "Think about a flying targ."[1]
+▶ {tlhIngan SoH 'e' vIjal@@tlhIngan:n, SoH:n, 'e':n, vI-:v, jal:v} "I imagine you are a Klingon."[1]
+▶ {tlhIngan SoH net jalchugh, qagh DatIv@@tlhIngan:n, SoH:n, net:n, jal:v, -chugh:v, qagh:n, Da-:v, tIv:v} "If you were a Klingon, you would enjoy gagh."[2]
+</column>
       <column name="search_tags"></column>
-      <column name="source">[1] {Saarbrücken qepHom'a' 2015:src}</column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2015:src}, [2] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <!-- Checked on: 2012.12.01. -->
@@ -1299,7 +1301,7 @@ Note that {jemS:n:nolink} and {qIrq:n:nolink} do not follow proper Klingon phono
       <column name="synonyms"></column>
       <column name="antonyms"></column>
       <column name="see_also"></column>
-      <column name="notes"></column>
+      <column name="notes">This verb does not take an object, and is generally in a phrase following a phrase saying what the subject of {jeS:v:nolink} is participating in.[2]</column>
       <column name="hidden_notes"></column>
       <column name="components"></column>
       <column name="examples">
@@ -1308,7 +1310,7 @@ All of the following can be translated as "I participate in the {qepHom@@qep:n, 
 ▶ {qaS qepHom 'ej jIjeS.:sen:nolink} "The qepHom is happening, and I participate."
 ▶ {qaS qepHom vaj jIjeS.:sen:nolink} "The qepHom is happening, so I participate."[2]</column>
       <column name="search_tags"></column>
-      <column name="source">[1] {TKD:src}, [2] {KLI mailing list 2016.10.19:src}</column>
+      <column name="source">[1] {TKD:src}, [2] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <!-- Checked on: 2016.10.31. -->
