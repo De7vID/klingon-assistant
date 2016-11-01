@@ -1006,6 +1006,23 @@ This word can be used to refer to traveling with or without a special purpose. I
       <column name="source">[1] {KGT:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">19052</column>
+      <column name="entry_name">leng chach mab</column>
+      <column name="part_of_speech">n:deriv,extcan</column>
+      <column name="definition">voyage cancellation insurance</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes">"Voyage cancellation insurance" was an odd concept for Maltz, and not a term or phrase he had heard before, but he said that {leng chach mab:n:nolink} "voyage emergency contract" would be understood by Klingons to mean an agreement about who is responsible for what, if something goes wrong during a journey.</column>
+      <column name="hidden_notes"></column>
+      <column name="components">{leng:n}, {chach:n}, {mab:n}</column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
       <!-- Checked on: 2016.07.25. -->
       <column name="_id">19055</column>
       <column name="entry_name">lep</column>
