@@ -225,6 +225,23 @@ Do not confuse this with the similarly named {qa'raj:n}.</column>
       <column name="source">[1] {TNK:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">27488</column>
+      <column name="entry_name">QalmeH DoQmIv'a'</column>
+      <column name="part_of_speech">n:deriv</column>
+      <column name="definition">bathtub</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{Say'moHmeH DoQmIv'a':n}</column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components">{Qal:v}, {-meH:v}, {DoQmIv:n}, {-'a':n}</column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
       <column name="_id">27490</column>
       <column name="entry_name">Qam</column>
       <column name="part_of_speech">v:i</column>
