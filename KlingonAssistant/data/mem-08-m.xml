@@ -3461,12 +3461,12 @@ Note that the verb used for a heartbeat is {joq:v}.</column>
       <column name="synonyms"></column>
       <column name="antonyms">{lugh:v}</column>
       <column name="see_also">{Qagh:v}, {bIQ ngaS HIvje'.:sen}</column>
-      <column name="notes"></column>
+      <column name="notes">Note that this means "be incorrect, factually wrong", as opposed to {waS:v} "be amiss, awry".</column>
       <column name="hidden_notes">This is missing from the E-K side of {TKD:src}.</column>
       <column name="components"></column>
       <column name="examples"></column>
-      <column name="search_tags"></column>
-      <column name="source">[1] {TKD:src}</column>
+      <column name="search_tags">incorrect</column>
+      <column name="source">[1] {TKD:src}, [2] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <column name="_id">21510</column>
@@ -3695,7 +3695,7 @@ Note that the verb used for a heartbeat is {joq:v}.</column>
       <column name="_id">21625</column>
       <column name="entry_name">mutlh</column>
       <column name="part_of_speech">v:t_c</column>
-      <column name="definition">construct, assemble, put together</column>
+      <column name="definition">construct, assemble, put together, manufacture</column>
       <column name="definition_de">zusammensetzen, bauen</column>
       <column name="synonyms"></column>
       <column name="antonyms">{lagh:v}</column>
@@ -3705,7 +3705,7 @@ Note that the verb used for a heartbeat is {joq:v}.</column>
 A person who repairs things is a {tI'wI':n}. Most {mutlhwI'pu':n:nolink} are also {tI'wI'pu':n:nolink}.
 
 When applied to {tlhIm:n}, {mutlh:v:nolink} means to assemble the carpet. The verb for laying a carpet is {vel:v}.</column>
-      <column name="hidden_notes"></column>
+      <column name="hidden_notes">The original definition given on the {KLI mailing list:src} was "construct, assemble, put together". This word was also defined as "manufacture, construct, put together" in the {Saarbrücken qepHom'a' 2016:src} booklet.</column>
       <column name="components"></column>
       <column name="examples">
 ▶ {ngogh mutlhwI':n} "bricklayer"
@@ -3714,7 +3714,7 @@ When applied to {tlhIm:n}, {mutlh:v:nolink} means to assemble the carpet. The ve
 ▶ {'och mutlhwI':n} "plumber"
 ▶ {'ul pat mutlhwI':n} "electrician"</column>
       <column name="search_tags"></column>
-      <column name="source">[1] {KLI mailing list 2012.01.09:src}</column>
+      <column name="source">[1] {KLI mailing list 2012.01.09:src}, [2] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <column name="_id">21630</column>

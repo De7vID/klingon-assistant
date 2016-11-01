@@ -3084,7 +3084,7 @@ For other units of time, {pIq:n:nolink} is used.</column>
       <column name="definition_de">Auto, Fahrzeug</column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
-      <column name="see_also">{Duj:n:2}, {vergh:n}, {vergh:v}</column>
+      <column name="see_also">{SeD:v}, {Duj:n:2}, {vergh:n}, {vergh:v}</column>
       <column name="notes"></column>
       <column name="hidden_notes"></column>
       <column name="components">{puH:n}, {Duj:n:2}</column>
@@ -3611,7 +3611,7 @@ For other units of time, {pIq:n:nolink} is used.</column>
       <column name="definition_de">fliegen</column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
-      <column name="see_also">{qaj:v}, {'or:v}, {muD Duj:v}</column>
+      <column name="see_also">{qaj:v}, {'or:v}, {muD Duj:v}, {'al:v}</column>
       <column name="notes"></column>
       <column name="hidden_notes"></column>
       <column name="components"></column>

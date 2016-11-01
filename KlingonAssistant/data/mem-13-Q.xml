@@ -1254,7 +1254,7 @@ The names of the Klingon consonants consist of the sound followed by {ay:sen:nol
     <table name="mem">
       <column name="_id">27940</column>
       <column name="entry_name">QIH</column>
-      <column name="part_of_speech">v:1,t</column>
+      <column name="part_of_speech">v:1,t_c</column>
       <column name="definition">damage, cause damage</column>
       <column name="definition_de">schaden, zerstören</column>
       <column name="synonyms"></column>
@@ -1270,7 +1270,7 @@ The names of the Klingon consonants consist of the sound followed by {ay:sen:nol
     <table name="mem">
       <column name="_id">27950</column>
       <column name="entry_name">QIH</column>
-      <column name="part_of_speech">v:2,t</column>
+      <column name="part_of_speech">v:2,t_c</column>
       <column name="definition">wrong, treat unjustly</column>
       <column name="definition_de">ungerecht behandeln</column>
       <column name="synonyms"></column>
@@ -1281,8 +1281,8 @@ The names of the Klingon consonants consist of the sound followed by {ay:sen:nol
       <column name="components"></column>
       <column name="examples">
 ▶ {cheqotlhchugh maHaghbe''a'? cheDuQchugh mareghbe''a'? cheQIHchugh manoDbe''a'?:sen}</column>
-      <column name="search_tags"></column>
-      <column name="source">[1] {KGT:src}</column>
+      <column name="search_tags">mistreat</column>
+      <column name="source">[1] {KGT:src}, [2] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <column name="_id">27960</column>

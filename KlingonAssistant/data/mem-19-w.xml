@@ -326,6 +326,23 @@ Do not confuse this with {mum:v}, which means "taste" in the sense of perceiving
       <column name="source">[1] {KGT:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">35345</column>
+      <column name="entry_name">waS</column>
+      <column name="part_of_speech">v:is</column>
+      <column name="definition">be wrong, awry</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes">Note that this means "be amiss, awry" (something has gone wrong or didn't turn out according to plan), as opposed to {muj:v} "be incorrect, factually wrong".</column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags">amiss</column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
       <column name="_id">35350</column>
       <column name="entry_name">watlh</column>
       <column name="part_of_speech">v:is</column>
