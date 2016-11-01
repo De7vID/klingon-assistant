@@ -502,6 +502,23 @@ Do not confuse this with {mum:v}, which means "taste" in the sense of perceiving
       <column name="source">[1] {TKW p.66:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">35435</column>
+      <column name="entry_name">wa' rutlh qam Do Duj</column>
+      <column name="part_of_speech">n:deriv</column>
+      <column name="definition">unicycle</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{qam Do Duj:n}</column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components">{wa':n}, {rutlh:n}, {qam Do Duj:n}</column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
       <!-- Checked on: 2012.11.21. -->
       <column name="_id">35440</column>
       <column name="entry_name">wa' SuvwI' muHlu'DI', tuHchoH Hoch SuvwI'pu'.</column>
