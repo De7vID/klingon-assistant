@@ -1636,7 +1636,7 @@ If an implement is used for an activity typically performed by a finger, a finge
       <column name="definition_de">regnen</column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
-      <column name="see_also">{jev:v:1}, {muD Dotlh:n}, {ghay:v}, {Har'ey:n}</column>
+      <column name="see_also">{jev:v:1}, {muD Dotlh:n}, {ghay:v}, {Har'ey:n}, {vI'laS:n}</column>
       <column name="notes">This verb can take an object. Its subject is usually unstated.[2]</column>
       <column name="hidden_notes">It's the sound of rain falling.</column>
       <column name="components"></column>
@@ -2185,7 +2185,7 @@ This word carries the idiomatic meaning of "matter, concern, affair". For exampl
       <column name="definition_de">Baum</column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
-      <column name="see_also">{lav:n}, {por:n}, {tI:n}</column>
+      <column name="see_also">{lav:n}, {por:n}, {bartIq:n}, {Qechjem'a':n}, {tI:n}</column>
       <column name="notes">There is an idiom, {lugh; Sor rur@@lugh:v, Sor:n, rur:v}, which is connected to the verb {Sor:v}.
 
 This word can also refer to the "club" suit in a deck of playing cards (see {Degh:n:2}).[2]</column>

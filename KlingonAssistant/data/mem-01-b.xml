@@ -471,6 +471,23 @@ Watch Gowron say this: {YouTube video:url:http://www.youtube.com/v/kWP0lgIYMBA}<
       <column name="source">[1] {KGT p.182:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">10225</column>
+      <column name="entry_name">bartIq</column>
+      <column name="part_of_speech">n</column>
+      <column name="definition">branch (of a tree)</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{Sor:n}, {por:n}, {Qechjem'a':n}</column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
       <!-- Checked on: 2012.11.18. -->
       <column name="_id">10230</column>
       <column name="entry_name">baS</column>

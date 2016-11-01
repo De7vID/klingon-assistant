@@ -769,7 +769,24 @@ Watch Gowron say this: {YouTube video:url:http://www.youtube.com/v/SIpF7Zak6CY}<
       <column name="components"></column>
       <column name="examples"></column>
       <column name="search_tags"></column>
-      <column name="source">[1] {qep'a' 2016:src}</column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">27746</column>
+      <column name="entry_name">Qechjem'a'</column>
+      <column name="part_of_speech">n:deriv</column>
+      <column name="definition">trunk (of tree)</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{Sor:n}, {bartIq:n}, {por:n}</column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components">{Qechjem:n}, {-'a':n}</column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <column name="_id">27750</column>
