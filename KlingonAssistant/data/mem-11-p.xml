@@ -3135,7 +3135,7 @@ For other units of time, {pIq:n:nolink} is used.</column>
       <column name="definition_de">Toilette (Raum)</column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
-      <column name="see_also">{puch:n}</column>
+      <column name="see_also">{puch:n}, {DoQmIv:n}, {Say'moHmeH DoQmIv'a':n}</column>
       <column name="notes"></column>
       <column name="hidden_notes">The word lists say "washroom". The "bathroom" definition comes from the example sentence on p.170.</column>
       <column name="components">{puch:n}, {pa':n:1}</column>
