@@ -2481,18 +2481,35 @@ When a number is used for numbering (labeling), as opposed to counting, it follo
     <table name="mem">
       <column name="_id">21056</column>
       <column name="entry_name">mI'QeD</column>
-      <column name="part_of_speech">n:deriv,extcan</column>
+      <column name="part_of_speech">n:deriv</column>
       <column name="definition">mathematics</column>
       <column name="definition_de">Mathematik</column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
-      <column name="see_also"></column>
+      <column name="see_also">{mI'tej:n}</column>
       <column name="notes"></column>
       <column name="hidden_notes">This was used in Klingon Blockly. The usage was vetted by Marc Okrand.[1]</column>
       <column name="components">{mI':n}, {QeD:n}</column>
       <column name="examples"></column>
       <column name="search_tags"></column>
       <column name="source">[1] {KLI mailing list 2014.11.26:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">21057</column>
+      <column name="entry_name">mI'tej</column>
+      <column name="part_of_speech">n:deriv</column>
+      <column name="definition">mathematician</column>
+      <column name="definition_de">Mathematiker</column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{mI'QeD:n}</column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components">{mI':n}, {tej:n}</column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <column name="_id">21058</column>

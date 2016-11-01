@@ -943,7 +943,7 @@ To answer in the negative, say {Qo':excl} "no, I refuse".</column>
       <column name="definition_de">Medaille, Emblem, Zeichen, Ehren-/Abzeichen</column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
-      <column name="see_also">{tuq Degh:n}, {tIq'ghob:n:archaic,hyp}, {joqwI':n}, {'oS:v}, {maQ:n}, {Degh:n:1}</column>
+      <column name="see_also">{tuq Degh:n}, {ngutlh:n}, {tIq'ghob:n:archaic,hyp}, {joqwI':n}, {'oS:v}, {maQ:n}, {Degh:n:1}</column>
       <column name="notes">This can also refer to the suits in a deck of playing cards, for which see {meyrI':n}, {por:n}, {Sor:n}, and {'eSpeD:n}.</column>
       <column name="hidden_notes"></column>
       <column name="components"></column>
@@ -2279,6 +2279,23 @@ Coincidentally or not, this words sounds similar to {DI vI':n:nolink} "accumulat
       <column name="examples"></column>
       <column name="search_tags"></column>
       <column name="source">[1] {TKD:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">13772</column>
+      <column name="entry_name">DI'on</column>
+      <column name="part_of_speech">n</column>
+      <column name="definition">characteristic, trait</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <!-- Checked on: 2016.07.25. -->

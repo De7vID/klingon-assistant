@@ -2669,7 +2669,8 @@ If the person you're speaking to is your superior, consider adding {-neS:v:suff}
       <!-- Checked on: 2012.11.21. -->
       <column name="_id">12770</column>
       <column name="entry_name">chung</column>
-      <column name="part_of_speech">v:i</column>
+      <!-- {chungHa'wI'} suggests this may be transitive. -->
+      <column name="part_of_speech">v:t</column>
       <column name="definition">accelerate</column>
       <column name="definition_de">beschleunigen</column>
       <column name="synonyms"></column>
@@ -2678,9 +2679,27 @@ If the person you're speaking to is your superior, consider adding {-neS:v:suff}
       <column name="notes"></column>
       <column name="hidden_notes"></column>
       <column name="components"></column>
-      <column name="examples"></column>
+      <column name="examples">
+▶ {chungHa'wI':n}</column>
       <column name="search_tags"></column>
       <column name="source">[1] {TKD:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">12775</column>
+      <column name="entry_name">chungHa'wI'</column>
+      <column name="part_of_speech">n:deriv</column>
+      <column name="definition">brake</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components">{chung:v}, {-Ha':v}, {-wI':v}</column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <!-- Checked on: 2012.11.21. -->

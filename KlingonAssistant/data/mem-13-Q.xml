@@ -1984,6 +1984,23 @@ Agreement is also expressed by the idiomatic expression {wa' DoS wIqIp.:sen:idio
       <column name="source">[1] {Letter from MO 2010.11.15:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">28272</column>
+      <column name="entry_name">QongDaq 'echlet tun</column>
+      <column name="part_of_speech">n:deriv</column>
+      <column name="definition">mattress</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes">This is a very non-Klingon concept.</column>
+      <column name="hidden_notes"></column>
+      <column name="components">{QongDaq:n}, {'echlet:n}, {tun:v}</column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
       <column name="_id">28280</column>
       <column name="entry_name">QongmeH Duj</column>
       <column name="part_of_speech">n:deriv</column>
