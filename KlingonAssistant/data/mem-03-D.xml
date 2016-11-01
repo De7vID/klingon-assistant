@@ -461,6 +461,23 @@ As a time element, {DaHjaj:n} precedes any adverbials.[1, sec. 6.7]</column>
       <column name="source">[1] {TKDA:src}, [2] {Klingon Monopoly:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">13151</column>
+      <column name="entry_name">Daq noy</column>
+      <column name="part_of_speech">n:deriv</column>
+      <column name="definition">landmark (not a building)</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{qach noy:n}</column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components">{Daq:n}, {noy:v}</column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
       <column name="_id">13155</column>
       <column name="entry_name">DaqwIj vISovbe'.</column>
       <column name="part_of_speech">sen:phr</column>
@@ -1514,6 +1531,23 @@ Watch Gowron say this: {YouTube video:url:http://www.youtube.com/v/7qXuTn9HpP4}<
       <column name="examples"></column>
       <column name="search_tags">DVDs, data disks</column>
       <column name="source">[1] {Saarbrücken qepHom'a' 2011:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">13536</column>
+      <column name="entry_name">De' QulwI'</column>
+      <column name="part_of_speech">n:deriv</column>
+      <column name="definition">librarian</column>
+      <column name="definition_de"></column>
+      <column name="synonyms">{paq nojwI':n}</column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components">{De':n}, {Qul:v}, {-wI':n}</column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <column name="_id">13540</column>
@@ -3377,7 +3411,7 @@ This verb is used for improvement of a more abstract nature, such as in status, 
       <column name="see_also">{'ejDo':n}, {Som:n}, {HanDogh:n}, {botjan:n}, {chIj:v}, {vergh:v}, {vergh:n}</column>
       <column name="notes">This word can refer to any vehicle, not just spaceships, by specifying the environment in which the vehicle travels. See {puH Duj:n}, {muD Duj:n}, {bIQ Duj:n}.
 
-Some special terminology is used for the parts of a {Duj:n:2,nolink}. The section towards its {tlhop:n} is called its {'et:n}, while the section towards its {'em:n} is called its {'o':n}. To refer to a ship's dorsal, ventral, port, and starboard areas, see {Dung:n}, {bIng:n}, {poS:n}, and {nIH:n}, respectively.
+Some special terminology is used for the parts of a {Duj:n:2,nolink}. The section towards its {tlhop:n:1} is called its {'et:n}, while the section towards its {'em:n} is called its {'o':n}. To refer to a ship's dorsal, ventral, port, and starboard areas, see {Dung:n}, {bIng:n}, {poS:n}, and {nIH:n}, respectively.
 
 For verbs related to ship movement, see under {'or:v}.
 
@@ -3553,7 +3587,7 @@ The logo of Star Alliance, the largest airline alliance on Earth, is often paint
       <column name="definition_de">Bereich über, oberhalb</column>
       <column name="synonyms"></column>
       <column name="antonyms">{bIng:n}</column>
-      <column name="see_also">{joj:n}, {retlh:n}, {tlhop:n}, {'em:n}</column>
+      <column name="see_also">{joj:n}, {retlh:n}, {tlhop:n:1}, {'em:n}</column>
       <column name="notes">See {'aqroS:n:1} and {yor:n} for the top parts of an object. See also {lurgh:n} for other words related to spatial directions.</column>
       <column name="hidden_notes"></column>
       <column name="components"></column>

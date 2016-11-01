@@ -309,7 +309,75 @@ The imperative verb prefix when {pagh:n:1h,nolink} is the object is {yI-:v:pref}
       <column name="source">[1] {KCD:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">24152</column>
+      <column name="entry_name">paq Duj</column>
+      <column name="part_of_speech">n:deriv</column>
+      <column name="definition">bookmobile</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components">{paq:n:1h}, {Duj:n:2}</column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">24153</column>
+      <column name="entry_name">paq nojwI'</column>
+      <column name="part_of_speech">n:deriv</column>
+      <column name="definition">librarian</column>
+      <column name="definition_de"></column>
+      <column name="synonyms">{De' QulwI':n}</column>
+      <column name="antonyms"></column>
+      <column name="see_also">{paq nojwI' qach:n}, {paq nojwI' tum:n}</column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components">{paq:n:1h}, {noj:v}, {-wI':n}</column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">24154</column>
+      <column name="entry_name">paq nojwI' qach</column>
+      <column name="part_of_speech">n:deriv</column>
+      <column name="definition">library (building)</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{paq nojwI':n}, {paq nojwI' tum:n}</column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components">{paq nojwI':n}, {qach:n}</column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
       <column name="_id">24155</column>
+      <column name="entry_name">paq nojwI' tum</column>
+      <column name="part_of_speech">n:deriv</column>
+      <column name="definition">library (public)</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{paq nojwI':n}, {paq nojwI' qach:n}</column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components">{paq nojwI':n}, {tum:n}</column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
+      <column name="_id">24159</column>
       <column name="entry_name">paq'batlh</column>
       <column name="part_of_speech">n:archaic,deriv</column>
       <column name="definition">Book of Honor</column>
@@ -1300,7 +1368,7 @@ Watch Gowron say this: {YouTube video:url:http://www.youtube.com/v/GonhyphPQPU}<
     </table>
     <table name="mem">
       <!-- Checked on: 2016.10.31. -->
-      <column name="_id">24560</column>
+      <column name="_id">24565</column>
       <column name="entry_name">pe'bIl</column>
       <column name="part_of_speech">n</column>
       <column name="definition">lightning</column>
@@ -2772,7 +2840,7 @@ For other units of time, {pIq:n:nolink} is used.</column>
       <column name="definition_de">links</column>
       <column name="synonyms"></column>
       <column name="antonyms">{nIH:n}</column>
-      <column name="see_also">{tlhop:n}, {'em:n}, {'et:n}, {'o':n}</column>
+      <column name="see_also">{tlhop:n:1}, {'em:n}, {'et:n}, {'o':n}</column>
       <column name="notes">See also {lurgh:n} for other words related to spatial directions.</column>
       <column name="hidden_notes"></column>
       <column name="components"></column>

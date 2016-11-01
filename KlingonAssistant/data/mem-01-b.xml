@@ -1890,7 +1890,7 @@ Watch Gowron say this: {YouTube video:url:http://www.youtube.com/v/NpFDKTzINH8}<
       <column name="definition_de">Unten, Bereich unterhalb</column>
       <column name="synonyms"></column>
       <column name="antonyms">{Dung:n}</column>
-      <column name="see_also">{joj:n}, {retlh:n}, {tlhop:n}, {'em:n}</column>
+      <column name="see_also">{joj:n}, {retlh:n}, {tlhop:n:1}, {'em:n}</column>
       <column name="notes">See {bIS'ub:n} and {pIrmuS:n} for the bottom parts of an object. See also {lurgh:n} for other words related to spatial directions.</column>
       <column name="hidden_notes"></column>
       <column name="components"></column>
@@ -2012,6 +2012,23 @@ Watch Gowron say this: {YouTube video:url:http://www.youtube.com/v/NpFDKTzINH8}<
       <column name="examples"></column>
       <column name="search_tags"></column>
       <column name="source">[1] {TNK:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">10856</column>
+      <column name="entry_name">bIQ ghItmoHwI'</column>
+      <column name="part_of_speech">n:deriv</column>
+      <column name="definition">fountain</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components">{bIQ:n}, {ghIt:v}, {-moH:v}, {-wI':v}</column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <column name="_id">10860</column>
@@ -3477,7 +3494,7 @@ There is also a related idiom {bIr; bortaS rur}.</column>
       <column name="definition_de">Zentrum, Mitte</column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
-      <column name="see_also">{joj:n}, {qoD:n}, {bIng:n}, {Dung:n}, {retlh:n}, {tlhop:n}, {'em:n}</column>
+      <column name="see_also">{joj:n}, {qoD:n}, {bIng:n}, {Dung:n}, {retlh:n}, {tlhop:n:1}, {'em:n}</column>
       <column name="notes">For the area between two (or more) objects, see {joj:n}. For the interior of an object in general, see {qoD:n}.</column>
       <column name="hidden_notes"></column>
       <column name="components"></column>

@@ -1383,7 +1383,41 @@ It is used to refer to the point on a (geometric) star ({DujtlhuQ:n}).[3]</colum
       <column name="source">[1] {KGT:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
       <column name="_id">28006</column>
+      <column name="entry_name">QIn tum</column>
+      <column name="part_of_speech">n:deriv</column>
+      <column name="definition">postal service</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{QIn tum qach:n}</column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">28007</column>
+      <column name="entry_name">QIn tum qach</column>
+      <column name="part_of_speech">n:deriv</column>
+      <column name="definition">post office (building)</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{QIn tum:n}</column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
+      <column name="_id">28008</column>
       <column name="entry_name">QIn vagh</column>
       <column name="part_of_speech">n:deriv</column>
       <column name="definition">spearhead with multiple points</column>
@@ -1399,7 +1433,7 @@ It is used to refer to the point on a (geometric) star ({DujtlhuQ:n}).[3]</colum
       <column name="source">[1] {KGT:src}</column>
     </table>
     <table name="mem">
-      <column name="_id">28007</column>
+      <column name="_id">28009</column>
       <column name="entry_name">QIn 'echletHom</column>
       <column name="part_of_speech">n:deriv</column>
       <column name="definition">postcard</column>

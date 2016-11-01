@@ -537,7 +537,7 @@ The imperative verb prefix when {ghaH:n:nolink} is the object is {yI-:v:pref}.</
       <column name="definition_de">sprühen</column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
-      <column name="see_also">{SIS:v}</column>
+      <column name="see_also">{ghIt:v}, {SIS:v}</column>
       <column name="notes"></column>
       <column name="hidden_notes">An English definition has never been given for this word. Its meaning is inferred from the examples of its usage.</column>
       <column name="components"></column>
@@ -1601,6 +1601,23 @@ There is also a regional word {ley':n} which means "nose".</column>
       <column name="source">[1] {KGT:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">15045</column>
+      <column name="entry_name">ghIt</column>
+      <column name="part_of_speech">v:i_c</column>
+      <column name="definition">flow (e.g., water), gush, spout</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{ghay':v}</column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
       <!-- Checked on: 2012.11.30. -->
       <column name="_id">15050</column>
       <column name="entry_name">ghItlh</column>
@@ -2231,6 +2248,23 @@ Watch Gowron say this: {YouTube video:url:http://www.youtube.com/v/7_rXiSTQmAE}<
       <column name="examples"></column>
       <column name="search_tags"></column>
       <column name="source">[1] {TKD:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">15325</column>
+      <column name="entry_name">ghommeH yotlh</column>
+      <column name="part_of_speech">n:deriv</column>
+      <column name="definition">plaza, courtyard</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components">{ghom:v}, {-meH:v}, {yotlh:n}</column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <!-- Checked on: 2012.11.30. -->

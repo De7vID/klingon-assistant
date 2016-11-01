@@ -393,7 +393,7 @@ The suits in a deck of playing cards are called {Degh:n:2}.</column>
       <column name="definition">behind, area behind</column>
       <column name="definition_de">Hinten, Bereich hinter</column>
       <column name="synonyms"></column>
-      <column name="antonyms">{tlhop:n}</column>
+      <column name="antonyms">{tlhop:n:1}</column>
       <column name="see_also">{bIng:n}, {Dung:n}, {joj:n}, {retlh:n}, {poS:n}, {nIH:n}, {'o':n}</column>
       <column name="notes">For the rear section of an object, see {'o':n}. See also {lurgh:n} for other words related to spatial directions.</column>
       <column name="hidden_notes"></column>
@@ -674,8 +674,8 @@ This word should not be confused with {'eQway:n}.</column>
       <column name="definition_de">Vorn, Bug</column>
       <column name="synonyms"></column>
       <column name="antonyms">{'o':n}</column>
-      <column name="see_also">{poS:n}, {nIH:n}, {tlhop:n}</column>
-      <column name="notes">For the area in front of an object, see {tlhop:n}.</column>
+      <column name="see_also">{poS:n}, {nIH:n}, {tlhop:n:1}</column>
+      <column name="notes">For the area in front of an object, see {tlhop:n:1}.</column>
       <column name="hidden_notes"></column>
       <column name="components"></column>
       <column name="examples"></column>
