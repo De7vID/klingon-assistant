@@ -133,6 +133,23 @@
       <column name="source">[1] {KGT:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">17521</column>
+      <column name="entry_name">jaDchu'</column>
+      <column name="part_of_speech">v:t_c,deriv</column>
+      <column name="definition">juggle (objects, not tasks)</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components">{jaD:v}, {-chu':v}</column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
       <!-- Checked on: 2012.12.01. -->
       <column name="_id">17530</column>
       <column name="entry_name">jagh</column>
@@ -384,7 +401,7 @@ For "days ago" and "days from now", see {Hu':n} and {leS:n}, respectively.</colu
       <column name="definition_de">Gerät</column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
-      <column name="see_also">{jom:v}, {jo':n}, {mIqta':n}, {jan:n:2}</column>
+      <column name="see_also">{vIqraq:n}, {jom:v}, {jo':n}, {mIqta':n}, {jan:n:2}</column>
       <column name="notes"></column>
       <column name="hidden_notes"></column>
       <column name="components"></column>
@@ -1292,6 +1309,23 @@ All of the following can be translated as "I participate in the {qepHom@@qep:n, 
 ▶ {qaS qepHom vaj jIjeS.:sen:nolink} "The qepHom is happening, so I participate."[2]</column>
       <column name="search_tags"></column>
       <column name="source">[1] {TKD:src}, [2] {KLI mailing list 2016.10.19:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">18025</column>
+      <column name="entry_name">jeS QoQ</column>
+      <column name="part_of_speech">n</column>
+      <column name="definition">jazz (music)</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{QoQ:n}</column>
+      <column name="notes">This is a loanword from {DIvI' Hol:n}.</column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <!-- Checked on: 2012.12.01. -->

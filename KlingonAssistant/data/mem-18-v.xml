@@ -1757,6 +1757,23 @@ For an idiomatic expression used to tell someone not to move, see {taD:v}.</colu
       <column name="source">[1] {KGT:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">34775</column>
+      <column name="entry_name">vIqraq</column>
+      <column name="part_of_speech">n</column>
+      <column name="definition">artifact, work of art</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{jan:n:1}, {mutlh:v}</column>
+      <column name="notes">This term is more general than a visual piece of art. It covers that, but also an artifact (not in the archeological sense), handicraft, gizmo, gadget, contraption, machine, device, etc. That is, it refers to something manufactured or made.</column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags">gizmo, gadget, contraption</column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
       <column name="_id">34780</column>
       <column name="entry_name">vIqSIS</column>
       <column name="part_of_speech">n:name,fic</column>
@@ -2033,6 +2050,23 @@ For an idiomatic expression used to tell someone not to move, see {taD:v}.</colu
       <column name="examples"></column>
       <column name="search_tags"></column>
       <column name="source">[1] {Klingon Monpoly:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">34908</column>
+      <column name="entry_name">vol</column>
+      <column name="part_of_speech">n</column>
+      <column name="definition">pane, panel, sheet (not for bed)</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also"></column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <column name="_id">34910</column>

@@ -625,7 +625,7 @@ The imperative verb prefix when {ghaH:n:nolink} is the object is {yI-:v:pref}.</
       <column name="definition_de">Ode des Respekts</column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
-      <column name="see_also">{bom:n}</column>
+      <column name="see_also">{bom:n}, {ghuQ:n}</column>
       <column name="notes"></column>
       <column name="hidden_notes">A "gothic" poem.</column>
       <column name="components"></column>
@@ -2892,6 +2892,23 @@ This word is alien in origin. The reason Klingons use an alien word for this is 
       <column name="examples"></column>
       <column name="search_tags"></column>
       <column name="source">[1] {TKD:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">15615</column>
+      <column name="entry_name">ghuQ</column>
+      <column name="part_of_speech">n</column>
+      <column name="definition">poem</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{bom:n}, {gha'tlhIq:n}</column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
     <table name="mem">
       <!-- Checked on: 2012.11.30. -->
