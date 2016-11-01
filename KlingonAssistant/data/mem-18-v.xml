@@ -967,7 +967,7 @@ This verb is used to describe the laying of a carpet. The person who lays a carp
       <column name="definition_de"></column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
-      <column name="see_also">{ghav 'uSqan:n}</column>
+      <column name="see_also">{tamler:n}, {baS:n}, {ghav 'uSqan:n}</column>
       <column name="notes"></column>
       <column name="hidden_notes"></column>
       <column name="components"></column>
