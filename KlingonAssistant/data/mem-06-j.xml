@@ -1399,6 +1399,40 @@ This verb is used in Sonnet 116, where its explicit subject is {muD:n:nolink}.[2
       <column name="source">[1] {TKDA:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">18052</column>
+      <column name="entry_name">jey'</column>
+      <column name="part_of_speech">n</column>
+      <column name="definition">tin</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{tamler:n}, {baS:n}</column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">18055</column>
+      <column name="entry_name">jey' Sorpuq</column>
+      <column name="part_of_speech">n:deriv</column>
+      <column name="definition">bronze</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{tamler:n}, {baS:n}, {Sorpuq:n}</column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
       <!-- Checked on: 2012.12.01. -->
       <column name="_id">18060</column>
       <column name="entry_name">jey'naS</column>

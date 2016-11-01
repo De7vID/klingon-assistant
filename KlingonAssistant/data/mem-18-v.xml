@@ -942,7 +942,41 @@ This verb is used to describe the laying of a carpet. The person who lays a carp
       <column name="source">[1] {Klingon Monopoly:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">34489</column>
+      <column name="entry_name">velSo'</column>
+      <column name="part_of_speech">n</column>
+      <column name="definition">chromium</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{tamler:n}, {baS:n}</column>
+      <column name="notes"></column>
+      <column name="hidden_notes">This appears to be a combination of {vel:v} and {So':v}. Chromium is often used to coat things.</column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
       <column name="_id">34490</column>
+      <column name="entry_name">velSo' 'uSqan</column>
+      <column name="part_of_speech">n:deriv</column>
+      <column name="definition">stainless steel</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{ghav 'uSqan:n}</column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
+      <column name="_id">34491</column>
       <column name="entry_name">vem</column>
       <column name="part_of_speech">v:i</column>
       <column name="definition">wake up, cease sleeping</column>

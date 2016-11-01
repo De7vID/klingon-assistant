@@ -1034,7 +1034,7 @@ Do not confuse this with {mum:v}, which means "taste" in the sense of perceiving
       <column name="definition_de">Kerze</column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
-      <column name="see_also">{Sech:n}, {wovmoHbogh jan:n}, {wovmoHwI':n}</column>
+      <column name="see_also">{Sech:n}, {wovmoHbogh jan:n}, {wovmoHwI':n}, {req:n}</column>
       <column name="notes"></column>
       <column name="hidden_notes">"Wax" or "wick".</column>
       <column name="components"></column>
