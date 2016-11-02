@@ -1010,7 +1010,7 @@ This word can be used to refer to traveling with or without a special purpose. I
       <!-- Checked on: 2016.10.31. -->
       <column name="_id">19052</column>
       <column name="entry_name">leng chach mab</column>
-      <column name="part_of_speech">n:deriv,extcan</column>
+      <column name="part_of_speech">n:deriv</column>
       <column name="definition">voyage cancellation insurance</column>
       <column name="definition_de"></column>
       <column name="synonyms"></column>
