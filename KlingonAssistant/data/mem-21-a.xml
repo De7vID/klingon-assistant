@@ -219,8 +219,8 @@
       <column name="definition_de"></column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
-      <column name="see_also">{weQ:n}</column>
-      <column name="notes"></column>
+      <column name="see_also"></column>
+      <column name="notes">This refers to the material, not a container for drinking.</column>
       <column name="hidden_notes"></column>
       <column name="components"></column>
       <column name="examples"></column>
