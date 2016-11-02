@@ -1426,7 +1426,7 @@ In {TNK:src}, the category title for "Countries" was translated {Sepmey tlhab:n:
       <column name="_id">30695</column>
       <column name="entry_name">SIlovenISqa'</column>
       <column name="part_of_speech">n:place</column>
-      <column name="definition"></column>
+      <column name="definition">Slovakia</column>
       <column name="definition_de"></column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>

@@ -2784,8 +2784,8 @@ The slang meaning of {chong:v:2,slang}, when applied to a person, is equivalent 
       <!-- Checked on: 2016.10.31. -->
       <column name="_id">28635</column>
       <column name="entry_name">QumeH ngaSwI'</column>
-      <column name="part_of_speech"></column>
-      <column name="definition"></column>
+      <column name="part_of_speech">n:deriv</column>
+      <column name="definition">mold (for casting)</column>
       <column name="definition_de"></column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
