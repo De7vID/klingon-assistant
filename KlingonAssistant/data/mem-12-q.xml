@@ -2344,25 +2344,26 @@ In the {Haynes BoP Manual:src}, this ship class is referred to as {raptor:n:noli
       <column name="search_tags"></column>
       <column name="source">[1] {TKDA:src}, [2] {msn 1996.12.12:src}</column>
     </table>
-    <!--
     <table name="mem">
+      <!-- Checked on: 2016.11.03. -->
       <column name="_id">26661</column>
-      <column name="entry_name">qItbe'</column>
+      <column name="entry_name">qIt</column>
       <column name="part_of_speech">n:anim</column>
       <column name="definition">a kind of bird</column>
       <column name="definition_de">Art Vogel</column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
       <column name="see_also"></column>
-      <column name="notes">This is a bird which resembles a Terran guinea-hen.</column>
-      <column name="hidden_notes">The source is Andrew Miller. This word was revealed for a Smithsonian Klingon Shakespeare skit that he and Marc Okrand were involved in. Note that {qItbe'} means "impossible".</column>
+      <column name="notes">This is a big, fat bird native to Kronos, which is able to fly, but not for a long time. A female one of these is a {qItbe':n:nolink}, while a male is a {qItloD:n:nolink}.[2] It resembles a Terran guineafowl.[1]</column>
+      <column name="hidden_notes">The source is Andrew Miller. This word was revealed for a Smithsonian Klingon Shakespeare skit that he and Marc Okrand were involved in. It was confirmed at the {Saarbrücken qepHom'a' 2016:src}.
+
+Note that {qItbe'@@qIt:v, -be':v} means "impossible".</column>
       <column name="components"></column>
       <column name="examples"></column>
       <column name="search_tags"></column>
-      !-- https://www.facebook.com/groups/tlhInganHol/permalink/1005787589437500/ --
-      <column name="source">[1] {Facebook "tlhIngan Hol" group 2014.12.26:src}</column>
+      <!-- https://www.facebook.com/groups/tlhInganHol/permalink/1005787589437500/ -->
+      <column name="source">[1] {Facebook "tlhIngan Hol jatlhwI'pu'" group 2014.12.26:src}, [2] {Saarbrücken qepHom'a' 2016:src}</column>
     </table>
-    -->
     <table name="mem">
       <column name="_id">26670</column>
       <column name="entry_name">qItI'nga'</column>
