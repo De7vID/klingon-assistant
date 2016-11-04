@@ -252,7 +252,7 @@
       <column name="definition_de"></column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
-      <column name="see_also"></column>
+      <column name="see_also">{tera':n}</column>
       <column name="notes"></column>
       <column name="hidden_notes"></column>
       <column name="components"></column>
@@ -269,7 +269,7 @@
       <column name="definition_de"></column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
-      <column name="see_also"></column>
+      <column name="see_also">{tera':n}</column>
       <column name="notes"></column>
       <column name="hidden_notes"></column>
       <column name="components"></column>
@@ -337,7 +337,7 @@
       <column name="definition_de"></column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
-      <column name="see_also"></column>
+      <column name="see_also">{tera':n}</column>
       <column name="notes"></column>
       <column name="hidden_notes"></column>
       <column name="components"></column>
@@ -676,7 +676,7 @@ Another way is to issue the command, {rep yIper!:sen:nolink}  In replying to thi
       <column name="definition_de">Australien</column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
-      <column name="see_also"></column>
+      <column name="see_also">{tera':n}</column>
       <column name="notes"></column>
       <column name="hidden_notes"></column>
       <column name="components"></column>
@@ -693,7 +693,7 @@ Another way is to issue the command, {rep yIper!:sen:nolink}  In replying to thi
       <column name="definition_de">Asien</column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
-      <column name="see_also"></column>
+      <column name="see_also">{tera':n}</column>
       <column name="notes"></column>
       <column name="hidden_notes"></column>
       <column name="components"></column>
@@ -842,7 +842,7 @@ Another way is to issue the command, {rep yIper!:sen:nolink}  In replying to thi
       <column name="definition_de"></column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
-      <column name="see_also"></column>
+      <column name="see_also">{tera':n}</column>
       <column name="notes"></column>
       <column name="hidden_notes"></column>
       <column name="components"></column>

@@ -782,6 +782,23 @@ This word should not be confused with {'eQway:n}.</column>
       <column name="source">[1] {BoP:src}</column>
     </table>
     <table name="mem">
+      <!-- Checked on: 2016.10.31. -->
+      <column name="_id">37565</column>
+      <column name="entry_name">'ewrop</column>
+      <column name="part_of_speech">n:place</column>
+      <column name="definition">Europe</column>
+      <column name="definition_de"></column>
+      <column name="synonyms"></column>
+      <column name="antonyms"></column>
+      <column name="see_also">{tera':n}</column>
+      <column name="notes"></column>
+      <column name="hidden_notes"></column>
+      <column name="components"></column>
+      <column name="examples"></column>
+      <column name="search_tags"></column>
+      <column name="source">[1] {Saarbrücken qepHom'a' 2016:src}</column>
+    </table>
+    <table name="mem">
       <column name="_id">37570</column>
       <column name="entry_name">'ey</column>
       <column name="part_of_speech">v:is</column>
