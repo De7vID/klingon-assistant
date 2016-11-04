@@ -1,33 +1,57 @@
 The following audio need to be recorded:
 redo: yIch (from DoyIchlan)
 
+Warning: File audio_bon.mp3 not found! Required for: {bon}
+Warning: File audio_ciq.mp3 not found! Required for: {chIq}
 Warning: File audio_cod.mp3 not found! Required for: {lI'choD}
 Warning: File audio_cum.mp3 not found! Required for: {tlhom chum}
 Warning: File audio_dem.mp3 not found! Required for: {Dem}
+Warning: File audio_diy.mp3 not found! Required for: {'eyawaDIy}
 Warning: File audio_fif.mp3 not found! Required for: {ngIng}
-Warning: File audio_jem.mp3 not found! Required for: {Qechjem}
-Warning: File audio_kec.mp3 not found! Required for: {Qechjem}
+Warning: File audio_fux.mp3 not found! Required for: {ngutlh}
+Warning: File audio_guk.mp3 not found! Required for: {ghuQ}
+Warning: File audio_jem.mp3 not found! Required for: {Qechjem'a'}
+Warning: File audio_kec.mp3 not found! Required for: {Qechjem'a'}
 Warning: File audio_kiq.mp3 not found! Required for: {QIq}
 Warning: File audio_lay.mp3 not found! Required for: {lay}
-Warning: File audio_le0.mp3 not found! Required for: {lerup}
+Warning: File audio_le0.mp3 not found! Required for: {'a'leghen'I'}
+Warning: File audio_ma.mp3 not found! Required for: {mIyama}
+Warning: File audio_mi0.mp3 not found! Required for: {mIyama}
 Warning: File audio_mij.mp3 not found! Required for: {yomIj}
+Warning: File audio_mix.mp3 not found! Required for: {mItlh}
 Warning: File audio_noq.mp3 not found! Required for: {noq}
 Warning: File audio_pul.mp3 not found! Required for: {pul}
 Warning: File audio_qek.mp3 not found! Required for: {qeQ}
+Warning: File audio_rem.mp3 not found! Required for: {'Iw remwI'}
+Warning: File audio_rez.mp3 not found! Required for: {'eyre'}
+Warning: File audio_rib.mp3 not found! Required for: {maghrIb}
 Warning: File audio_roq.mp3 not found! Required for: {qImroq}
+Warning: File audio_royz.mp3 not found! Required for: {'o'roy'}
+Warning: File audio_siw.mp3 not found! Required for: {bIraSIw}
 Warning: File audio_sof.mp3 not found! Required for: {'InSong}
 Warning: File audio_tim.mp3 not found! Required for: {javtIm}
 Warning: File audio_tur.mp3 not found! Required for: {turmIq}
 Warning: File audio_vib.mp3 not found! Required for: {vIbHa'}
+Warning: File audio_vix.mp3 not found! Required for: {vItlh}
 Warning: File audio_vorg.mp3 not found! Required for: {vorgh}
 Warning: File audio_vuj.mp3 not found! Required for: {vuj}
+Warning: File audio_vun.mp3 not found! Required for: {vun}
 Warning: File audio_vur.mp3 not found! Required for: {vur}
+Warning: File audio_was.mp3 not found! Required for: {waS}
+Warning: File audio_wat.mp3 not found! Required for: {naw'wat}
+Warning: File audio_wed.mp3 not found! Required for: {'angweD}
+Warning: File audio_wez.mp3 not found! Required for: {veneSwe'la'}
+Warning: File audio_wis.mp3 not found! Required for: {SuwISya'}
 Warning: File audio_xayz.mp3 not found! Required for: {tlhay'}
 Warning: File audio_xod.mp3 not found! Required for: {tlhoD}
+Warning: File audio_ye0.mp3 not found! Required for: {yeru'Sala'yIm}
+Warning: File audio_yen.mp3 not found! Required for: {tungyen}
+Warning: File audio_yim.mp3 not found! Required for: {yeru'Sala'yIm}
 Warning: File audio_yorg.mp3 not found! Required for: {yorgh}
+Warning: File audio_zew.mp3 not found! Required for: {'ewrop}
 Warning: File audio_zoy.mp3 not found! Required for: {'oynot}
-Wrote: 83 front half syllables, 27 short syllables, and 1700 full syllables.
-25 warnings.
+Wrote: 83 front half syllables, 28 short syllables, and 1700 full syllables.
+49 warnings.
 
 jatlh - clarify
 
