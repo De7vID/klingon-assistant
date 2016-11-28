@@ -3,18 +3,11 @@ redo: yIch (from DoyIchlan)
 
 Warning: File audio_bon.mp3 not found! Required for: {bon}
 Warning: File audio_ciq.mp3 not found! Required for: {chIq}
-Warning: File audio_cod.mp3 not found! Required for: {lI'choD}
-Warning: File audio_cum.mp3 not found! Required for: {tlhom chum}
-Warning: File audio_dem.mp3 not found! Required for: {Dem}
 Warning: File audio_diy.mp3 not found! Required for: {'eyawaDIy}
-Warning: File audio_fif.mp3 not found! Required for: {ngIng}
 Warning: File audio_fux.mp3 not found! Required for: {ngutlh}
 Warning: File audio_guk.mp3 not found! Required for: {ghuQ}
-Warning: File audio_jem.mp3 not found! Required for: {Qechjem'a'}
-Warning: File audio_kec.mp3 not found! Required for: {Qechjem'a'}
-Warning: File audio_kiq.mp3 not found! Required for: {QIq}
-Warning: File audio_lay.mp3 not found! Required for: {lay}
 Warning: File audio_le0.mp3 not found! Required for: {'a'leghen'I'}
+Warning: File audio_lil.mp3 not found! Required for: {'IDnar lIlwI'}
 Warning: File audio_ma.mp3 not found! Required for: {mIyama}
 Warning: File audio_mi0.mp3 not found! Required for: {mIyama}
 Warning: File audio_mij.mp3 not found! Required for: {yomIj}
@@ -43,15 +36,17 @@ Warning: File audio_wed.mp3 not found! Required for: {'angweD}
 Warning: File audio_wez.mp3 not found! Required for: {veneSwe'la'}
 Warning: File audio_wis.mp3 not found! Required for: {SuwISya'}
 Warning: File audio_xayz.mp3 not found! Required for: {tlhay'}
+Warning: File audio_xeh.mp3 not found! Required for: {tlheH}
 Warning: File audio_xod.mp3 not found! Required for: {tlhoD}
 Warning: File audio_ye0.mp3 not found! Required for: {yeru'Sala'yIm}
 Warning: File audio_yen.mp3 not found! Required for: {tungyen}
 Warning: File audio_yim.mp3 not found! Required for: {yeru'Sala'yIm}
 Warning: File audio_yorg.mp3 not found! Required for: {yorgh}
+Warning: File audio_yuq.mp3 not found! Required for: {yuq}
+Warning: File audio_yut.mp3 not found! Required for: {yut}
 Warning: File audio_zew.mp3 not found! Required for: {'ewrop}
 Warning: File audio_zoy.mp3 not found! Required for: {'oynot}
-Wrote: 83 front half syllables, 28 short syllables, and 1700 full syllables.
-49 warnings.
+Wrote: 83 front half syllables, 28 short syllables, and 1708 full syllables.
 
 jatlh - clarify
 
