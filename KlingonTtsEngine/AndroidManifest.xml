@@ -21,6 +21,7 @@
     android:installLocation="auto">
 
     <!-- SDK 16 is needed for gapless playback using setNextMediaPlayer. -->
+    <!-- SDK 23 is not backwards compatible in terms of permissions, so a version needs to be compiled for minSdkVersion and targetSdkVersion 23. -->
     <uses-sdk android:minSdkVersion="16"
         android:targetSdkVersion="19" />
 
