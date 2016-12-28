@@ -16,11 +16,12 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.tlhInganHol.android.klingonttsengine"
-    android:versionCode="19"
-    android:versionName="2016.01.05"
+    android:versionCode="20"
+    android:versionName="2016.12.28"
     android:installLocation="auto">
 
     <!-- SDK 16 is needed for gapless playback using setNextMediaPlayer. -->
+    <!-- SDK 23 is not backwards compatible in terms of permissions, so a version needs to be compiled for minSdkVersion and targetSdkVersion 23. -->
     <uses-sdk android:minSdkVersion="16"
         android:targetSdkVersion="19" />
 
