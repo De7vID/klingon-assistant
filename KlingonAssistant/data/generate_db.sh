@@ -97,6 +97,7 @@ fi
 # Clean up temporary files.
 rm mem.xml
 rm mem.sql
+rm mem_processed.xml
 rm sanity.sql
 rm -f old-mem.sql
 rm -f ../assets/qawHaq.db~
