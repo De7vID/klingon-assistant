@@ -1,0 +1,53 @@
+apply plugin: 'com.android.application'
+
+def keystorePropertiesFile = rootProject.file("../keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+android {
+    // The compileSdkVersion and targetSdkVersion must be 20, in order to use
+    // appcompat-v7:20 as a dependency.
+    compileSdkVersion 20
+    buildToolsVersion "25.0.3"
+    defaultConfig {
+        applicationId "org.tlhInganHol.android.klingonassistant"
+        // Minimum Android version needed for TTS is 4.1 (16), targeted version 4.4.4 (20). -->
+        minSdkVersion 16
+        targetSdkVersion 20
+        // For the regular version (with TTS), the versionCode must be odd.
+        versionCode 381
+        versionName "2017.09.08a"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:20.+'
+    compile 'net.simonvt.menudrawer:menudrawer:3.0.+@aar'
+}
