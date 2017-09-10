@@ -11,7 +11,8 @@ binmode(STDOUT, ":utf8");
 # create xml object
 $xml = new XML::Simple;
 
-# read xml file - this should point to KlingonAssistant's data path
+# create and read xml file - this should point to KlingonAssistant's data path
+system('cd ../KlingonAssistant/data/ && ./generate_db.sh --xmlonly');
 $sm_export = read_file('../KlingonAssistant/data/mem.xml');
 
 # do substitutions to make it ready for conversion
