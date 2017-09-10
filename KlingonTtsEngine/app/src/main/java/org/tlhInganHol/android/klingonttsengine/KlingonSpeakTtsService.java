@@ -15,6 +15,7 @@
  */
 package org.tlhInganHol.android.klingonttsengine;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.media.AudioFormat;
 import android.media.MediaPlayer;
@@ -2430,9 +2431,11 @@ public class KlingonSpeakTtsService extends TextToSpeechService implements andro
         mp.release();
     }
 
-    // This override is okay on 5.1.1.
-    // It does nothing on 6.0.1.
+    // This override is okay on 5.1.1 (API 22). It does nothing on 6.0.1 (API 23).
+    // getVoices is only ever called on API 21 and above, so this will never be called when
+    // android.speech.tts.Voice is unavailable.
     @Override
+    @TargetApi(21)
     public List<Voice> onGetVoices() {
         // Work-around for https://github.com/De7vID/klingon-assistant/issues/132.
         List<Voice> list = new ArrayList<Voice>();
