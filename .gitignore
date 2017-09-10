@@ -27,3 +27,6 @@ proguard/
 
 # Included libraries
 *.jar
+
+# Keystore
+keystore.properties
