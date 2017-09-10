@@ -6,7 +6,7 @@ cd data
 cd ..
 
 # Build the debug build.
-ant debug
+./gradlew assembleDebug
 if [ $? -eq 0 ]
 then
     # Pause before pushing.
@@ -14,8 +14,8 @@ then
     echo
 
     # Push to device.
-    adb install -r bin/KlingonAssistant-debug.apk
-    adb push bin/KlingonAssistant-debug.apk /sdcard/
+    adb install -r ./app/build/outputs/apk/app-debug.apk
+    adb push ./app/build/outputs/apk/app-debug.apk /sdcard/
 else
     echo ERROR: Failed to compile.
 fi

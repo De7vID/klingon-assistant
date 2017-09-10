@@ -81,7 +81,7 @@ for my $s (sort keys %syllables) {
   $t =~ s/k/Q/g;
   $t =~ s/s/S/g;
   # Because "do" and "for" are Java keywords, and "con" is a reserved filename in Windows, add "audio_" as a prefix to the filenames.
-  if (!(-e '../KlingonTtsEngine/res/raw/audio_' . $s . '.mp3')) {
+  if (!(-e '../KlingonTtsEngine/app/src/main/res/raw/audio_' . $s . '.mp3')) {
     print "Warning: File audio_", $s, ".mp3 not found! Required for: {", $syllables{$s}, "}\n";
     $warning_count++;
   } else {
@@ -96,7 +96,7 @@ for my $s (sort keys %syllables) {
 }
 
 # Generate code in the Java file to produce the audio map.
-$java_file_name = '../KlingonTtsEngine/src/org/tlhInganHol/android/klingonttsengine/KlingonSpeakTtsService.java';
+$java_file_name = '../KlingonTtsEngine/app/src/main/java/org/tlhInganHol/android/klingonttsengine/KlingonSpeakTtsService.java';
 $java_file = read_file($java_file_name);
 
 $front_half_code = "";
