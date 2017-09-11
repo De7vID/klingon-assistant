@@ -54,6 +54,8 @@ public class SourcesActivity extends BaseActivity {
       // Title in system language.
       entryTitle.setText(resources.getString(R.string.menu_sources));
     }
+
+    // TODO: Bold the names of sources.
   }
 
   @Override
