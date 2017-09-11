@@ -18,11 +18,6 @@ allprojects {
     }
 }
 
-// TODO: assembleDebug and assembleRelease should have dependsOn on this.
-task updateDatabase(type: Exec) {
-    commandLine './write_db.sh'
-}
-
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
