@@ -17,6 +17,8 @@
 package org.tlhInganHol.android.klingonassistant;
 
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
@@ -29,11 +31,33 @@ public class PrefixChartActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-    if (sharedPrefs.getBoolean(
-        Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false)) {
+    boolean useKlingonUI = sharedPrefs.getBoolean(
+        Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false);
+    if (useKlingonUI) {
       setDrawerContentView(R.layout.prefix_chart_tlh);
     } else {
       setDrawerContentView(R.layout.prefix_chart);
+    }
+
+    Resources resources = getResources();
+    JellyBeanSpanFixTextView entryTitle = (JellyBeanSpanFixTextView) findViewById(R.id.entry_title);
+
+    // Set the title.
+    entryTitle.invalidate();
+    if (useKlingonUI) {
+      if (sharedPrefs.getBoolean(
+          Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false)) {
+        // Klingon (in {pIqaD}).
+        entryTitle.setTypeface(KlingonAssistant.getKlingonFontTypeface(getBaseContext()));
+        entryTitle.setText(KlingonContentProvider.convertStringToKlingonFont(
+            resources.getString(R.string.menu_prefix_chart_tlh)));
+      } else {
+        // Klingon (but in Latin).
+        entryTitle.setText(resources.getString(R.string.menu_prefix_chart_tlh));
+      }
+    } else {
+      // Title in system language.
+      entryTitle.setText(resources.getString(R.string.menu_prefix_chart));
     }
   }
 
