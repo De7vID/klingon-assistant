@@ -24,6 +24,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import java.util.Locale;
 
@@ -31,12 +32,13 @@ import java.util.Locale;
 public class Preferences extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 
   // Tutorial preferences.
-  // public static final String KEY_RUN_TUTORIAL_CHECKBOX_PREFERENCE                = "run_tutorial_checkbox_preference";
+  // public static final String KEY_RUN_TUTORIAL_CHECKBOX_PREFERENCE = "run_tutorial_checkbox_preference";
 
   // Language preferences.
   public static final String KEY_KLINGON_UI_CHECKBOX_PREFERENCE = "klingon_ui_checkbox_preference";
   public static final String KEY_KLINGON_FONT_CHECKBOX_PREFERENCE =
       "klingon_font_checkbox_preference";
+  private static final String KEY_LANGUAGE_DEFAULT_ALREADY_SET = "language_default_already_set";
   public static final String KEY_SHOW_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE =
       "show_german_definitions_checkbox_preference";
   public static final String KEY_SEARCH_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE =
@@ -79,15 +81,24 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
     // Load the preferences from an XML resource.
     addPreferencesFromResource(R.xml.preferences);
 
-    // Set the defaults for the German options based on the user's language.
-    CheckBoxPreference mShowGermanCheckBoxPreference =
-        (CheckBoxPreference)
-            getPreferenceScreen().findPreference(KEY_SHOW_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE);
-    CheckBoxPreference mSearchGermanCheckBoxPreference =
-        (CheckBoxPreference)
-            getPreferenceScreen().findPreference(KEY_SEARCH_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE);
-    mShowGermanCheckBoxPreference.setChecked(shouldPreferGerman());
-    mSearchGermanCheckBoxPreference.setChecked(shouldPreferGerman());
+    // Set the defaults for the German options based on the user's language, if it hasn't been
+    // already set.
+    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+    if (!sharedPrefs.getBoolean(KEY_LANGUAGE_DEFAULT_ALREADY_SET, /* default */ false)) {
+      CheckBoxPreference mShowGermanCheckBoxPreference =
+          (CheckBoxPreference)
+              getPreferenceScreen().findPreference(KEY_SHOW_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE);
+      CheckBoxPreference mSearchGermanCheckBoxPreference =
+          (CheckBoxPreference)
+              getPreferenceScreen()
+                  .findPreference(KEY_SEARCH_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE);
+      mShowGermanCheckBoxPreference.setChecked(shouldPreferGerman());
+      mSearchGermanCheckBoxPreference.setChecked(shouldPreferGerman());
+
+      SharedPreferences.Editor sharedPrefsEd = sharedPrefs.edit();
+      sharedPrefsEd.putBoolean(KEY_LANGUAGE_DEFAULT_ALREADY_SET, true);
+      sharedPrefsEd.commit();
+    }
 
     // TUTORIAL
     // if (KlingonAssistant.INCLUDE_TUTORIAL) {
