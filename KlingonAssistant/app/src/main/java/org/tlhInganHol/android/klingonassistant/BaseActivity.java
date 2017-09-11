@@ -450,8 +450,8 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
     startActivity(intent);
   }
 
-  // Private method to launch an external app or web site.
-  private void launchExternal(String externalUrl) {
+  // Method to launch an external app or web site.
+  protected void launchExternal(String externalUrl) {
     Intent intent = new Intent(Intent.ACTION_VIEW);
     // Set NEW_TASK so the external app or web site is independent.
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
