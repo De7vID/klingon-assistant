@@ -20,10 +20,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceActivity;
 import android.view.MenuItem;
+import java.util.Locale;
 
 // Since this needs to extend PreferenceActivity, it does not have an action bar.
 public class Preferences extends PreferenceActivity implements OnSharedPreferenceChangeListener {
@@ -59,12 +61,33 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
   private CheckBoxPreference mKlingonFontCheckBoxPreference;
   private static boolean warningActive = false;
 
+  // @TargetApi(Build.VERSION_CODES.N)
+  public static boolean shouldPreferGerman() {
+    Locale locale;
+    // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+    //   locale = Resources.getSystem().getConfiguration().getLocales().get(0);
+    // } else {
+    locale = Resources.getSystem().getConfiguration().locale;
+    // }
+    return locale.getLanguage().equals(Locale.GERMAN.getLanguage());
+  }
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     // Load the preferences from an XML resource.
     addPreferencesFromResource(R.xml.preferences);
+
+    // Set the defaults for the German options based on the user's language.
+    CheckBoxPreference mShowGermanCheckBoxPreference =
+        (CheckBoxPreference)
+            getPreferenceScreen().findPreference(KEY_SHOW_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE);
+    CheckBoxPreference mSearchGermanCheckBoxPreference =
+        (CheckBoxPreference)
+            getPreferenceScreen().findPreference(KEY_SEARCH_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE);
+    mShowGermanCheckBoxPreference.setChecked(shouldPreferGerman());
+    mSearchGermanCheckBoxPreference.setChecked(shouldPreferGerman());
 
     // TUTORIAL
     // if (KlingonAssistant.INCLUDE_TUTORIAL) {

@@ -450,6 +450,24 @@ public class EntryActivity extends BaseActivity
   }
 
   @Override
+  protected void onResume() {
+    super.onResume();
+
+    // TTS:
+    // Initialize text-to-speech. This is an asynchronous operation.
+    // The OnInitListener (second argument) is called after initialization completes.
+    // This is needed in onResume because we send the user to the Google Play Store to
+    // install the TTS engine if it isn't already installed, so the status of the TTS
+    // engine may change when this app resumes.
+    // Log.d(TAG, "Initialising TTS");
+    mTts =
+        new TextToSpeech(
+            this,
+            this, // TextToSpeech.OnInitListener
+            "org.tlhInganHol.android.klingonttsengine"); // Requires API 14.
+  }
+
+  @Override
   protected void onDestroy() {
     // TTS:
     // Don't forget to shutdown!
@@ -483,13 +501,12 @@ public class EntryActivity extends BaseActivity
     }
 
     // TTS:
-    // The button is disabled in the layout.
-    // It will be enabled upon initialization of the TTS engine.
+    // The button is disabled in the layout. It should only be enabled in EntryActivity.
     mSpeakButton = menu.findItem(R.id.speak);
-    if (ttsInitialized) {
-      // Log.d(TAG, "enabling TTS button in onCreateOptionsMenu");
-      mSpeakButton.setVisible(true);
-    }
+    // if (ttsInitialized) {
+    //   // Log.d(TAG, "enabling TTS button in onCreateOptionsMenu");
+    mSpeakButton.setVisible(true);
+    // }
 
     return true;
   }
@@ -549,7 +566,12 @@ public class EntryActivity extends BaseActivity
   public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == R.id.speak) {
       // TTS:
-      if (mEntryName != null) {
+      if (!ttsInitialized) {
+        // The TTS engine is not installed (or disabled). Send user to Google Play Store.
+        launchExternal(
+            "https://play.google.com/store/apps/details?id=org.tlhInganHol.android.klingonttsengine");
+      } else if (mEntryName != null) {
+        // The TTS engine is working, and there's something to say, say it.
         // Log.d(TAG, "Speaking");
         // Toast.makeText(getBaseContext(), mEntryName, Toast.LENGTH_LONG).show();
         mTts.speak(mEntryName, TextToSpeech.QUEUE_FLUSH, null);
@@ -576,10 +598,10 @@ public class EntryActivity extends BaseActivity
 
         // The TTS engine has been successfully initialized.
         ttsInitialized = true;
-        if (mSpeakButton != null) {
-          // Log.d(TAG, "enabling TTS button in onInit");
-          mSpeakButton.setVisible(true);
-        }
+        // if (mSpeakButton != null) {
+        //   // Log.d(TAG, "enabling TTS button in onInit");
+        //   mSpeakButton.setVisible(true);
+        // }
       }
     } else {
       // Initialization failed.

@@ -21,44 +21,41 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-/** Displays the prefix chart. */
-public class PrefixChartActivity extends BaseActivity {
-  // private static final String TAG = "PrefixChartActivity";
+/** Displays the sources page. */
+public class SourcesActivity extends BaseActivity {
+  // private static final String TAG = "SourcesActivity";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-    boolean useKlingonUI =
-        sharedPrefs.getBoolean(Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false);
-    if (useKlingonUI) {
-      setDrawerContentView(R.layout.prefix_chart_tlh);
-    } else {
-      setDrawerContentView(R.layout.prefix_chart);
-    }
-
+    setDrawerContentView(R.layout.sources);
     Resources resources = getResources();
     JellyBeanSpanFixTextView entryTitle = (JellyBeanSpanFixTextView) findViewById(R.id.entry_title);
 
+    // Get the shared preferences.
+    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
     // Set the title.
     entryTitle.invalidate();
-    if (useKlingonUI) {
+    if (sharedPrefs.getBoolean(
+        Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false)) {
       if (sharedPrefs.getBoolean(
           Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false)) {
         // Klingon (in {pIqaD}).
         entryTitle.setTypeface(KlingonAssistant.getKlingonFontTypeface(getBaseContext()));
         entryTitle.setText(
             KlingonContentProvider.convertStringToKlingonFont(
-                resources.getString(R.string.menu_prefix_chart_tlh)));
+                resources.getString(R.string.menu_sources_tlh)));
       } else {
         // Klingon (but in Latin).
-        entryTitle.setText(resources.getString(R.string.menu_prefix_chart_tlh));
+        entryTitle.setText(resources.getString(R.string.menu_sources_tlh));
       }
     } else {
       // Title in system language.
-      entryTitle.setText(resources.getString(R.string.menu_prefix_chart));
+      entryTitle.setText(resources.getString(R.string.menu_sources));
     }
+
+    // TODO: Bold the names of sources.
   }
 
   @Override

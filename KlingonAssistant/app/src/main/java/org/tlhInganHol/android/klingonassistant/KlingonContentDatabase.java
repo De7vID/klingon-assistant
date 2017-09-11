@@ -101,7 +101,7 @@ public class KlingonContentDatabase {
 
   // This should be kept in sync with the version number in the database
   // entry {boQwI':n}.
-  private static final int DATABASE_VERSION = 201709080;
+  private static final int DATABASE_VERSION = 201709101;
 
   private final KlingonDatabaseOpenHelper mDatabaseOpenHelper;
   private static final HashMap<String, String> mColumnMap = buildColumnMap();
@@ -285,9 +285,11 @@ public class KlingonContentDatabase {
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
     boolean searchGermanDefinitions =
         sharedPrefs.getBoolean(
-                Preferences.KEY_SHOW_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE, /* default */ false)
+                Preferences.KEY_SHOW_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE, /* default */
+                Preferences.shouldPreferGerman())
             && sharedPrefs.getBoolean(
-                Preferences.KEY_SEARCH_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE, /* default */ false);
+                Preferences.KEY_SEARCH_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE, /* default */
+                Preferences.shouldPreferGerman());
 
     if (queryEntry.basePartOfSpeechIsUnknown() && queryEntry.getEntryName().length() > 4) {
       // If the POS is unknown and the query is greater than 4 characters, try to parse it
@@ -306,10 +308,13 @@ public class KlingonContentDatabase {
 
     // If the query was made without a base part of speech, expand the
     // search to include entries not beginning with the query, and also
-    // search on the (English) definition and search tags.
+    // search on the (English) definition and search tags. Limit to at
+    // least 2 characters as anything less than that isn't meaningful in
+    // Klingon, but 2 characters allow searching from the end for
+    // "rhyming" purposes.
     if (queryEntry.basePartOfSpeechIsUnknown()) {
       // Try the entries, but not from the beginning.
-      if (queryEntry.getEntryName().length() > 2) {
+      if (queryEntry.getEntryName().length() >= 2) {
         Cursor resultsWithGivenQueryCursor =
             getEntriesContainingQuery(looseQuery, /* isPrefix */ false);
         copyCursorEntries(
@@ -319,55 +324,61 @@ public class KlingonContentDatabase {
         }
       }
 
-      // Match definitions, from beginning. Since the definition is (almost always) canonical, always search in English. Additionally search in German // if that option is set.
+      // Match definitions, from beginning. Since the definition is (almost
+      // always) canonical, always search in English. Additionally search in
+      // German if that option is set.
       matchDefinitionsOrSearchTags(
-          queryBase, /* isPrefix */
-          true, /* useSearchTags */
+          queryBase,
+          true, /* isPrefix */
+          false, /* useSearchTags */
           false, /* searchGermanDefinitions */
-          false,
           resultsCursor,
           resultsSet);
       if (searchGermanDefinitions) {
         matchDefinitionsOrSearchTags(
-            queryBase, /* isPrefix */
-            true, /* useSearchTags */
-            false, /* searchGermanDefinitions */
-            true,
+            queryBase,
+            true, /* isPrefix */
+            false, /* useSearchTags */
+            true, /* searchGermanDefinitions */
             resultsCursor,
             resultsSet);
       }
 
-      // Match definitions, anywhere else. Again, always search in English, and additionally search in German if that option is set.
-      if (queryEntry.getEntryName().length() > 2) {
+      // Match definitions, anywhere else. Again, always search in English, and
+      // additionally search in German if that option is set. Limit to 3
+      // characters as there would be too many coincidental hits otherwise.
+      if (queryEntry.getEntryName().length() >= 3) {
         matchDefinitionsOrSearchTags(
-            queryBase, /* isPrefix */
+            queryBase,
+            false, /* isPrefix */
             false, /* useSearchTags */
             false, /* searchGermanDefinitions */
-            false,
             resultsCursor,
             resultsSet);
         if (searchGermanDefinitions) {
           matchDefinitionsOrSearchTags(
-              queryBase, /* isPrefix */
+              queryBase,
+              false, /* isPrefix */
               false, /* useSearchTags */
-              false, /* searchGermanDefinitions */
-              true,
+              true, /* searchGermanDefinitions */
               resultsCursor,
               resultsSet);
         }
 
-        // Match search tags, from beginning, then anywhere else. Don't bother searching the search tags in English if the option to search German is set.
+        // Match search tags, from beginning, then anywhere else. Don't bother
+        // searching the search tags in English if the option to search German
+        // is set.
         matchDefinitionsOrSearchTags(
-            queryBase, /* isPrefix */
+            queryBase,
+            true, /* isPrefix */
             true, /* useSearchTags */
-            true,
             searchGermanDefinitions,
             resultsCursor,
             resultsSet);
         matchDefinitionsOrSearchTags(
-            queryBase, /* isPrefix */
-            false, /* useSearchTags */
-            true,
+            queryBase,
+            false, /* isPrefix */
+            true, /* useSearchTags */
             searchGermanDefinitions,
             resultsCursor,
             resultsSet);

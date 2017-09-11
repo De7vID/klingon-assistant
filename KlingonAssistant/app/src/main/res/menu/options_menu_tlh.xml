@@ -24,10 +24,12 @@
           android:icon="@drawable/ic_menu_search"
           app:showAsAction="always" />
 
+    <!--
     <item android:id="@+id/social_network"
           android:title="@string/menu_social_network_tlh"
           android:icon="@drawable/ic_menu_community"
           app:showAsAction="always" />
+    -->
 
     <!-- TTS -->
     <item android:id="@+id/speak"
@@ -44,11 +46,13 @@
           android:visible="false" />
 
     <!-- TUTORIAL -->
+    <!--
     <item android:id="@+id/request_translation"
           android:title="@string/menu_request_translation_tlh"
           android:icon="@drawable/ic_menu_request_translation"
           app:showAsAction="ifRoom"
           android:visible="false" />
+    -->
 
     <item android:id="@+id/about"
           android:title="@string/menu_about_tlh"

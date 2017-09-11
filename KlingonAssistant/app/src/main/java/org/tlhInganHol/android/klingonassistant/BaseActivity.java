@@ -28,7 +28,6 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -146,9 +145,10 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
       items.add(new SlideMenuCategory(R.string.menu_reference_tlh));
       items.add(new SlideMenuItem(R.string.menu_pronunciation_tlh, R.id.pronunciation, 0));
       items.add(new SlideMenuItem(R.string.menu_prefixes_tlh, R.id.prefixes, 0));
-      items.add(new SlideMenuItem(R.string.menu_prefix_charts_tlh, R.id.prefix_charts, 0));
+      items.add(new SlideMenuItem(R.string.menu_prefix_chart_tlh, R.id.prefix_chart, 0));
       items.add(new SlideMenuItem(R.string.menu_noun_suffixes_tlh, R.id.noun_suffixes, 0));
       items.add(new SlideMenuItem(R.string.menu_verb_suffixes_tlh, R.id.verb_suffixes, 0));
+      items.add(new SlideMenuItem(R.string.menu_sources_tlh, R.id.sources, 0));
       items.add(new SlideMenuCategory(R.string.menu_phrases_tlh));
       items.add(
           new SlideMenuItem(R.string.beginners_conversation_tlh, R.id.beginners_conversation, 0));
@@ -179,14 +179,15 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
       items.add(new SlideMenuCategory(R.string.menu_kli_tlh));
       items.add(new SlideMenuItem(R.string.menu_kli_lessons_tlh, R.id.kli_lessons, 0));
       items.add(new SlideMenuItem(R.string.menu_kli_questions_tlh, R.id.kli_questions, 0));
-      items.add(new SlideMenuItem(R.string.menu_kli_discord_tlh, R.id.kli_discord, 0));
+      // items.add(new SlideMenuItem(R.string.menu_kli_discord_tlh, R.id.kli_discord, 0));
     } else {
       items.add(new SlideMenuCategory(R.string.menu_reference));
       items.add(new SlideMenuItem(R.string.menu_pronunciation, R.id.pronunciation, 0));
       items.add(new SlideMenuItem(R.string.menu_prefixes, R.id.prefixes, 0));
-      items.add(new SlideMenuItem(R.string.menu_prefix_charts, R.id.prefix_charts, 0));
+      items.add(new SlideMenuItem(R.string.menu_prefix_chart, R.id.prefix_chart, 0));
       items.add(new SlideMenuItem(R.string.menu_noun_suffixes, R.id.noun_suffixes, 0));
       items.add(new SlideMenuItem(R.string.menu_verb_suffixes, R.id.verb_suffixes, 0));
+      items.add(new SlideMenuItem(R.string.menu_sources, R.id.sources, 0));
       items.add(new SlideMenuCategory(R.string.menu_phrases));
       items.add(new SlideMenuItem(R.string.beginners_conversation, R.id.beginners_conversation, 0));
       items.add(new SlideMenuItem(R.string.jokes, R.id.jokes, 0));
@@ -218,7 +219,7 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
       items.add(new SlideMenuCategory(R.string.menu_kli));
       items.add(new SlideMenuItem(R.string.menu_kli_lessons, R.id.kli_lessons, 0));
       items.add(new SlideMenuItem(R.string.menu_kli_questions, R.id.kli_questions, 0));
-      items.add(new SlideMenuItem(R.string.menu_kli_discord, R.id.kli_discord, 0));
+      // items.add(new SlideMenuItem(R.string.menu_kli_discord, R.id.kli_discord, 0));
     }
     mList = new ListView(this);
 
@@ -317,7 +318,7 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
         // Show "Prefixes" screen.
         displayHelp(QUERY_FOR_PREFIXES);
         break;
-      case R.id.prefix_charts:
+      case R.id.prefix_chart:
         // Show "Prefix chart" screen.
         displayPrefixChart();
         break;
@@ -328,6 +329,10 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
       case R.id.verb_suffixes:
         // Show "Verb Suffixes" screen.
         displayHelp(QUERY_FOR_VERB_SUFFIXES);
+        break;
+      case R.id.sources:
+        // Show "Sources" screen.
+        displaySources();
         break;
 
         // Handle media.
@@ -359,9 +364,11 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
         launchExternal("http://www.kli.org/questions/categories/");
         break;
 
-      case R.id.kli_discord:
-        launchExternal("https://discordapp.com/channels/235416538927202304/");
-        break;
+        /*
+        case R.id.kli_discord:
+          launchExternal("https://discordapp.com/channels/235416538927202304/");
+          break;
+          */
 
         // Handle social networks.
         /*
@@ -443,8 +450,8 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
     startActivity(intent);
   }
 
-  // Private method to launch an external app or web site.
-  private void launchExternal(String externalUrl) {
+  // Method to launch an external app or web site.
+  protected void launchExternal(String externalUrl) {
     Intent intent = new Intent(Intent.ACTION_VIEW);
     // Set NEW_TASK so the external app or web site is independent.
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -529,6 +536,13 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
   }
 
+  // Protected method to display the sources page.
+  protected void displaySources() {
+    Intent sourcesIntent = new Intent(this, SourcesActivity.class);
+    startActivity(sourcesIntent);
+    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+  }
+
   // Protected method to display search results.
   protected void displaySearchResults(String helpQuery) {
     Intent intent = new Intent(this, KlingonAssistant.class);
@@ -571,23 +585,27 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
       case android.R.id.home:
         mDrawer.toggleMenu();
         break;
-      case R.id.social_network:
-        SharedPreferences sharedPrefs =
-            PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        if (sharedPrefs
-            .getString(Preferences.KEY_SOCIAL_NETWORK_LIST_PREFERENCE, /* default */ "gplus")
-            .equals("gplus")) {
-          // Launch Google+ Klingon speakers community.
-          launchExternal("https://plus.google.com/communities/108380135139365833546");
-        } else {
-          // Launch Facebook "Learn Klingon" group.
-          launchFacebook("LearnKlingon");
-        }
-        break;
+        /*
+        case R.id.social_network:
+          SharedPreferences sharedPrefs =
+              PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+          if (sharedPrefs
+              .getString(Preferences.KEY_SOCIAL_NETWORK_LIST_PREFERENCE, "gplus")
+              .equals("gplus")) {
+            // Launch Google+ Klingon speakers community.
+            launchExternal("https://plus.google.com/communities/108380135139365833546");
+          } else {
+            // Launch Facebook "Learn Klingon" group.
+            launchFacebook("LearnKlingon");
+          }
+          break;
+          */
         /* TUTORIAL */
-      case R.id.request_translation:
-        requestTranslation();
-        break;
+        /*
+        case R.id.request_translation:
+          requestTranslation();
+          break;
+          */
       case R.id.about:
         // Show "About" screen.
         displayHelp(QUERY_FOR_ABOUT);

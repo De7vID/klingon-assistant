@@ -16,7 +16,7 @@
 ** limitations under the License.
 */
 -->
-<!-- Layout for the prefix charts. -->
+<!-- Layout for the prefix charts (tlhIngan Hol). -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="fill_parent"
@@ -25,7 +25,7 @@
     <!-- Entry must be serif, to distinguish capital-I from lowercase-l. -->
     <org.tlhInganHol.android.klingonassistant.JellyBeanSpanFixTextView
             android:id="@+id/entry_title"
-            android:text="@string/menu_prefix_charts"
+            android:text="@string/menu_prefix_chart_tlh"
             android:textSize="35sp"
             android:textColor="?android:textColorPrimary"
             android:typeface="serif"
@@ -43,18 +43,18 @@
             android:stretchColumns="*">
             <TableRow>
                 <TextView android:text="" />
-                <TextView android:text="none " android:textSize="18sp" />
-                <TextView android:text="me " android:textSize="18sp" android:textStyle="italic" />
-                <TextView android:text="you " android:textSize="18sp" android:textStyle="italic" />
-                <TextView android:text="him/her/it " android:textSize="18sp" android:textStyle="italic" />
-                <TextView android:text="us " android:textSize="18sp" android:textStyle="italic" />
-                <TextView android:text="you (pl) " android:textSize="18sp" android:textStyle="italic" />
-                <TextView android:text="them " android:textSize="18sp" android:textStyle="italic" />
+                <TextView android:text="pagh " android:textSize="18sp" />
+                <TextView android:text="jIH " android:textSize="18sp" android:textStyle="italic" />
+                <TextView android:text="SoH " android:textSize="18sp" android:textStyle="italic" />
+                <TextView android:text="ghaH/'oH " android:textSize="18sp" android:textStyle="italic" />
+                <TextView android:text="maH " android:textSize="18sp" android:textStyle="italic" />
+                <TextView android:text="tlhIH " android:textSize="18sp" android:textStyle="italic" />
+                <TextView android:text="chaH/bIH " android:textSize="18sp" android:textStyle="italic" />
             </TableRow>
 
             <!-- Subject: I -->
             <TableRow>
-                <TextView android:text="I " android:textSize="18sp" android:textStyle="italic" />
+                <TextView android:text="jIH " android:textSize="18sp" android:textStyle="italic" />
                 <TextView android:text="jI- " android:textSize="18sp" android:textStyle="bold" />
                 <TextView android:text="- " android:textSize="18sp" />
                 <TextView android:text="qa- " android:textSize="18sp" android:textStyle="bold" />
@@ -66,7 +66,7 @@
 
             <!-- Subject: you -->
             <TableRow>
-                <TextView android:text="you " android:textSize="18sp" android:textStyle="italic" />
+                <TextView android:text="SoH " android:textSize="18sp" android:textStyle="italic" />
                 <TextView android:text="bI- " android:textSize="18sp" android:textStyle="bold" />
                 <TextView android:text="cho- " android:textSize="18sp" android:textStyle="bold" />
                 <TextView android:text="- " android:textSize="18sp" />
@@ -78,7 +78,7 @@
 
             <!-- Subject: he/she/it -->
             <TableRow>
-                <TextView android:text="he/she/it " android:textSize="18sp" android:textStyle="italic" />
+                <TextView android:text="ghaH/'oH " android:textSize="18sp" android:textStyle="italic" />
                 <TextView android:text="0 " android:textSize="18sp" />
                 <TextView android:text="mu- " android:textSize="18sp" android:textStyle="bold" />
                 <TextView android:text="Du- " android:textSize="18sp" android:textStyle="bold" />
@@ -90,7 +90,7 @@
 
             <!-- Subject: we -->
             <TableRow>
-                <TextView android:text="we " android:textSize="18sp" android:textStyle="italic" />
+                <TextView android:text="maH " android:textSize="18sp" android:textStyle="italic" />
                 <TextView android:text="ma- " android:textSize="18sp" android:textStyle="bold" />
                 <TextView android:text="- " android:textSize="18sp" />
                 <TextView android:text="pI- " android:textSize="18sp" android:textStyle="bold" />
@@ -102,7 +102,7 @@
 
             <!-- Subject: you (plural) -->
             <TableRow>
-                <TextView android:text="you (pl) " android:textSize="18sp" android:textStyle="italic" />
+                <TextView android:text="tlhIH " android:textSize="18sp" android:textStyle="italic" />
                 <TextView android:text="Su- " android:textSize="18sp" android:textStyle="bold" />
                 <TextView android:text="tu- " android:textSize="18sp" android:textStyle="bold" />
                 <TextView android:text="- " android:textSize="18sp" />
@@ -114,7 +114,7 @@
 
             <!-- Subject: they -->
             <TableRow>
-                <TextView android:text="they " android:textSize="18sp" android:textStyle="italic" />
+                <TextView android:text="chaH/bIH " android:textSize="18sp" android:textStyle="italic" />
                 <TextView android:text="0 " android:textSize="18sp" />
                 <TextView android:text="mu- " android:textSize="18sp" android:textStyle="bold" />
                 <TextView android:text="nI- " android:textSize="18sp" android:textStyle="bold" />
@@ -131,7 +131,7 @@
 
             <!-- Subject: you (imperative) -->
             <TableRow>
-                <TextView android:text="you (imp) " android:textSize="18sp" android:textStyle="italic" />
+                <TextView android:text="SoH (ra') " android:textSize="18sp" android:textStyle="italic" />
                 <TextView android:text="yI- " android:textSize="18sp" android:textStyle="bold" />
                 <TextView android:text="HI- " android:textSize="18sp" android:textStyle="bold" />
                 <TextView android:text="- " android:textSize="18sp" />
@@ -143,7 +143,7 @@
 
             <!-- Subject: you (plural imperative) -->
             <TableRow>
-                <TextView android:text="you (imp, pl) " android:textSize="18sp" android:textStyle="italic" />
+                <TextView android:text="tlhIH (ra') " android:textSize="18sp" android:textStyle="italic" />
                 <TextView android:text="pe- " android:textSize="18sp" android:textStyle="bold" />
                 <TextView android:text="HI- " android:textSize="18sp" android:textStyle="bold" />
                 <TextView android:text="- " android:textSize="18sp" />

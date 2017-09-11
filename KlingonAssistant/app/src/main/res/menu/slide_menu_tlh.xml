@@ -25,12 +25,14 @@
                 android:title="@string/menu_pronunciation_tlh" />
             <item android:id="@+id/prefixes"
                 android:title="@string/menu_prefixes_tlh" />
-            <item android:id="@+id/prefix_charts"
-                android:title="@string/menu_prefix_charts_tlh" />
+            <item android:id="@+id/prefix_chart"
+                android:title="@string/menu_prefix_chart_tlh" />
             <item android:id="@+id/noun_suffixes"
                 android:title="@string/menu_noun_suffixes_tlh" />
             <item android:id="@+id/verb_suffixes"
                 android:title="@string/menu_verb_suffixes_tlh" />
+            <item android:id="@+id/sources"
+                android:title="@string/menu_sources_tlh" />
         </menu>
     </item>
 
@@ -121,8 +123,10 @@
                 android:title="@string/menu_kli_lessons_tlh" />
             <item android:id="@+id/kli_questions"
                 android:title="@string/menu_kli_questions_tlh" />
+            <!--
             <item android:id="@+id/kli_discord"
                 android:title="@string/menu_kli_discord_tlh" />
+            -->
         </menu>
     </item>
 </menu>
