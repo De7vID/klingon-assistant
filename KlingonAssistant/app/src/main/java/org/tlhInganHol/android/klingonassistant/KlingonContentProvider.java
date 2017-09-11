@@ -950,7 +950,8 @@ public class KlingonContentProvider extends ContentProvider {
     public boolean shouldDisplayGermanDefinition() {
       SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
       if (sharedPrefs.getBoolean(
-          Preferences.KEY_SHOW_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE, /* default */ Preferences.shouldPreferGerman())) {
+          Preferences.KEY_SHOW_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE, /* default */
+          Preferences.shouldPreferGerman())) {
         // Show German definitions preference set to true and German definition is not empty or
         // identical to the English.
         return mDefinition_DE != null
@@ -966,7 +967,8 @@ public class KlingonContentProvider extends ContentProvider {
     public boolean shouldDisplayGermanNotes() {
       SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
       if (sharedPrefs.getBoolean(
-          Preferences.KEY_SHOW_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE, /* default */ Preferences.shouldPreferGerman())) {
+          Preferences.KEY_SHOW_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE, /* default */
+          Preferences.shouldPreferGerman())) {
         // Show German definitions preference set to true and German notes are not empty.
         return mNotes_DE != null && !mNotes_DE.equals("");
       } else {
@@ -978,7 +980,8 @@ public class KlingonContentProvider extends ContentProvider {
     public boolean shouldDisplayGermanExamples() {
       SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
       if (sharedPrefs.getBoolean(
-          Preferences.KEY_SHOW_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE, /* default */ Preferences.shouldPreferGerman())) {
+          Preferences.KEY_SHOW_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE, /* default */
+          Preferences.shouldPreferGerman())) {
         // Show German definitions preference set to true and German examples are not empty.
         return mExamples_DE != null && !mExamples_DE.equals("");
       } else {
