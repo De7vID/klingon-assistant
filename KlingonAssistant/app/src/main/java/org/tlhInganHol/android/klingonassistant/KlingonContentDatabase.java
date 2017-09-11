@@ -309,7 +309,7 @@ public class KlingonContentDatabase {
     // search on the (English) definition and search tags.
     if (queryEntry.basePartOfSpeechIsUnknown()) {
       // Try the entries, but not from the beginning.
-      if (queryEntry.getEntryName().length() > 2) {
+      if (queryEntry.getEntryName().length() > 1) {
         Cursor resultsWithGivenQueryCursor =
             getEntriesContainingQuery(looseQuery, /* isPrefix */ false);
         copyCursorEntries(
@@ -341,7 +341,7 @@ public class KlingonContentDatabase {
 
       // Match definitions, anywhere else. Again, always search in English, and
       // additionally search in German if that option is set.
-      if (queryEntry.getEntryName().length() > 2) {
+      if (queryEntry.getEntryName().length() > 1) {
         matchDefinitionsOrSearchTags(
             queryBase,
             false, /* isPrefix */
