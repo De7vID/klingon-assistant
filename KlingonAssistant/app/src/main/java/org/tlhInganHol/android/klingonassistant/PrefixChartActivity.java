@@ -31,9 +31,9 @@ public class PrefixChartActivity extends BaseActivity {
 
     if (sharedPrefs.getBoolean(
         Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false)) {
-      setDrawerContentView(R.layout.prefix_charts_tlh);
+      setDrawerContentView(R.layout.prefix_chart_tlh);
     } else {
-      setDrawerContentView(R.layout.prefix_charts);
+      setDrawerContentView(R.layout.prefix_chart);
     }
   }
 

@@ -306,10 +306,13 @@ public class KlingonContentDatabase {
 
     // If the query was made without a base part of speech, expand the
     // search to include entries not beginning with the query, and also
-    // search on the (English) definition and search tags.
+    // search on the (English) definition and search tags. Limit to at
+    // least 2 characters as anything less than that isn't meaningful in
+    // Klingon, but 2 characters allow searching from the end for
+    // "rhyming" purposes.
     if (queryEntry.basePartOfSpeechIsUnknown()) {
       // Try the entries, but not from the beginning.
-      if (queryEntry.getEntryName().length() > 1) {
+      if (queryEntry.getEntryName().length() >= 2) {
         Cursor resultsWithGivenQueryCursor =
             getEntriesContainingQuery(looseQuery, /* isPrefix */ false);
         copyCursorEntries(
@@ -340,8 +343,9 @@ public class KlingonContentDatabase {
       }
 
       // Match definitions, anywhere else. Again, always search in English, and
-      // additionally search in German if that option is set.
-      if (queryEntry.getEntryName().length() > 1) {
+      // additionally search in German if that option is set. Limit to 3
+      // characters as there would be too many coincidental hits otherwise.
+      if (queryEntry.getEntryName().length() >= 3) {
         matchDefinitionsOrSearchTags(
             queryBase,
             false, /* isPrefix */
