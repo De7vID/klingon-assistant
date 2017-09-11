@@ -67,9 +67,10 @@
     <string name="menu_reference">Allgemein</string>
     <string name="menu_pronunciation">Aussprache</string>
     <string name="menu_prefixes">Vorsilben</string>
-    <string name="menu_prefix_charts">Vorsilben-Tabelle</string>
+    <string name="menu_prefix_chart">Vorsilben-Tabelle</string>
     <string name="menu_noun_suffixes">Nomensuffixe</string>
     <string name="menu_verb_suffixes">Verbsuffixe</string>
+    <string name="menu_sources">Quellen</string>
     <string name="menu_phrases">Nützliche Sätze</string>
     <string name="menu_lists">Listen</string>
     <string name="menu_media">Medien</string>
@@ -124,7 +125,7 @@
         <string name="klingon_font_preference_title">{pIqaD}</string>
         <string name="klingon_font_preference_summary">Klingonische Schriftzeichen anzeigen.</string>
         <string name="show_german_definitions_preference_title">Deutsche Definitionen</string>
-        <string name="show_german_definitions_preference_summary">Deutsche Übersetzungen anzeigen (in Bearbeitung).</string>
+        <string name="show_german_definitions_preference_summary">Deutsche Übersetzungen anzeigen.</string>
         <string name="search_german_definitions_preference_title">Deutsche Suche</string>
         <string name="search_german_definitions_preference_summary">Auch deutsche Definitionen durchsuchen.</string>
       <string name="input_preferences">Eingabeeinstellungen</string>

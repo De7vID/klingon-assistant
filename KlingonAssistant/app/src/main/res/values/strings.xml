@@ -94,14 +94,17 @@
     <string name="menu_prefixes">Prefixes</string>
     <string name="menu_prefixes_tlh">moHaq</string>
 
-    <string name="menu_prefix_charts">Prefix charts</string>
-    <string name="menu_prefix_charts_tlh">moHaq DaH</string>
+    <string name="menu_prefix_chart">Prefix charts</string>
+    <string name="menu_prefix_chart_tlh">moHaq DaH</string>
 
     <string name="menu_noun_suffixes">Noun suffixes</string>
     <string name="menu_noun_suffixes_tlh">DIp mojaq</string>
 
     <string name="menu_verb_suffixes">Verb suffixes</string>
     <string name="menu_verb_suffixes_tlh">wot mojaq</string>
+
+    <string name="menu_sources">Sources</string>
+    <string name="menu_sources_tlh">Halmey</string>
 
     <string name="menu_phrases">Useful phrases</string>
     <string name="menu_phrases_tlh">mu\'tlheghmey lI\'</string>
@@ -124,8 +127,10 @@
     <string name="menu_kli_questions">Ask Questions!</string>
     <string name="menu_kli_questions_tlh">yIghel!</string>
 
+    <!--
     <string name="menu_kli_discord">Discord</string>
     <string name="menu_kli_discord_tlh">DISqorD</string>
+    -->
 
     <!-- Social networks. -->
     <string name="menu_social_network">Social network</string>
@@ -227,7 +232,7 @@
         <string name="klingon_font_preference_title">{pIqaD}</string>
         <string name="klingon_font_preference_summary">Display Klingon text using {pIqaD}.</string>
         <string name="show_german_definitions_preference_title">Show German definitions</string>
-        <string name="show_german_definitions_preference_summary">Display German translations of the definitions (incomplete).</string>
+        <string name="show_german_definitions_preference_summary">Display German translations of the definitions.</string>
         <string name="search_german_definitions_preference_title">Search German definitions</string>
         <string name="search_german_definitions_preference_summary">Include German definitions when searching.</string>
       <string name="input_preferences">Input preferences</string>

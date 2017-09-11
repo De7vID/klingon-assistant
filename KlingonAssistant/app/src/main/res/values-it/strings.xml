@@ -67,9 +67,10 @@
     <string name="menu_reference">Riferimenti</string>
     <string name="menu_pronunciation">Pronuncia</string>
     <string name="menu_prefixes">Prefissi</string>
-    <string name="menu_prefix_charts">Tabella dei prefissi</string>
+    <string name="menu_prefix_chart">Tabella dei prefissi</string>
     <string name="menu_noun_suffixes">Sostantivi</string>
     <string name="menu_verb_suffixes">Verbi</string>
+    <string name="menu_sources">Fonti</string>
     <string name="menu_phrases">Frasi utili</string>
     <string name="menu_lists">Liste</string>
     <string name="menu_media">Media</string>
@@ -117,7 +118,7 @@
         <string name="klingon_font_preference_title">{pIqaD}</string>
         <string name="klingon_font_preference_summary">Visualizza il testo Klingon usando {pIqaD}.</string>
         <string name="show_german_definitions_preference_title">Visualizza le definizioni tedesche</string>
-        <string name="show_german_definitions_preference_summary">Visualizza traduzioni tedesche delle definizioni (incompleto).</string>
+        <string name="show_german_definitions_preference_summary">Visualizza traduzioni tedesche delle definizioni.</string>
         <string name="search_german_definitions_preference_title">Ricerca definizioni tedesche</string>
         <string name="search_german_definitions_preference_summary">Includi definizioni tedesche quando fai una ricerca.</string>
       <string name="input_preferences">Preferenze di inserimento</string>

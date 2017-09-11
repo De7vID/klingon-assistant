@@ -1,6 +1,6 @@
 CHANGELOG
 
-2017-09-10: Migrated from ant to gradle.
+2017-09-10: Migrated from ant to gradle (deprecate support of API below 16). Bug fixes. Enabled TTS always.
 2017-09-10: Removed "float" mode. This was not being used and was confusing users.
 2017-09-08: Misc. edits.
 2017-08-20: Add (almost all) Klingon lines from movies as entries.

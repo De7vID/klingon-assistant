@@ -80,6 +80,7 @@
                 android:defaultValue="false" />
     </PreferenceCategory>
 
+    <!--
     <PreferenceCategory
             android:title="@string/social_preferences">
 
@@ -91,6 +92,7 @@
                 android:entryValues="@array/social_network_entries_values"
                 android:defaultValue="gplus" />
     </PreferenceCategory>
+    -->
 
     <PreferenceCategory
             android:title="@string/informational_preferences">
