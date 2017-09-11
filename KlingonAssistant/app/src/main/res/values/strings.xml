@@ -127,8 +127,10 @@
     <string name="menu_kli_questions">Ask Questions!</string>
     <string name="menu_kli_questions_tlh">yIghel!</string>
 
+    <!--
     <string name="menu_kli_discord">Discord</string>
     <string name="menu_kli_discord_tlh">DISqorD</string>
+    -->
 
     <!-- Social networks. -->
     <string name="menu_social_network">Social network</string>
