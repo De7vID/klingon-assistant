@@ -319,55 +319,60 @@ public class KlingonContentDatabase {
         }
       }
 
-      // Match definitions, from beginning. Since the definition is (almost always) canonical, always search in English. Additionally search in German // if that option is set.
+      // Match definitions, from beginning. Since the definition is (almost
+      // always) canonical, always search in English. Additionally search in
+      // German if that option is set.
       matchDefinitionsOrSearchTags(
-          queryBase, /* isPrefix */
-          true, /* useSearchTags */
+          queryBase,
+          true, /* isPrefix */
+          false, /* useSearchTags */
           false, /* searchGermanDefinitions */
-          false,
           resultsCursor,
           resultsSet);
       if (searchGermanDefinitions) {
         matchDefinitionsOrSearchTags(
-            queryBase, /* isPrefix */
-            true, /* useSearchTags */
-            false, /* searchGermanDefinitions */
-            true,
+            queryBase,
+            true, /* isPrefix */
+            false, /* useSearchTags */
+            true, /* searchGermanDefinitions */
             resultsCursor,
             resultsSet);
       }
 
-      // Match definitions, anywhere else. Again, always search in English, and additionally search in German if that option is set.
+      // Match definitions, anywhere else. Again, always search in English, and
+      // additionally search in German if that option is set.
       if (queryEntry.getEntryName().length() > 2) {
         matchDefinitionsOrSearchTags(
-            queryBase, /* isPrefix */
+            queryBase,
+            false, /* isPrefix */
             false, /* useSearchTags */
             false, /* searchGermanDefinitions */
-            false,
             resultsCursor,
             resultsSet);
         if (searchGermanDefinitions) {
           matchDefinitionsOrSearchTags(
-              queryBase, /* isPrefix */
+              queryBase,
+              false, /* isPrefix */
               false, /* useSearchTags */
-              false, /* searchGermanDefinitions */
-              true,
+              true, /* searchGermanDefinitions */
               resultsCursor,
               resultsSet);
         }
 
-        // Match search tags, from beginning, then anywhere else. Don't bother searching the search tags in English if the option to search German is set.
+        // Match search tags, from beginning, then anywhere else. Don't bother
+        // searching the search tags in English if the option to search German
+        // is set.
         matchDefinitionsOrSearchTags(
-            queryBase, /* isPrefix */
+            queryBase,
+            true, /* isPrefix */
             true, /* useSearchTags */
-            true,
             searchGermanDefinitions,
             resultsCursor,
             resultsSet);
         matchDefinitionsOrSearchTags(
-            queryBase, /* isPrefix */
-            false, /* useSearchTags */
-            true,
+            queryBase,
+            false, /* isPrefix */
+            true, /* useSearchTags */
             searchGermanDefinitions,
             resultsCursor,
             resultsSet);
