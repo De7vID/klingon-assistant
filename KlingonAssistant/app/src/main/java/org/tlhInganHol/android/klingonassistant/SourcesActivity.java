@@ -18,7 +18,6 @@ package org.tlhInganHol.android.klingonassistant;
 
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
@@ -44,8 +43,9 @@ public class SourcesActivity extends BaseActivity {
           Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false)) {
         // Klingon (in {pIqaD}).
         entryTitle.setTypeface(KlingonAssistant.getKlingonFontTypeface(getBaseContext()));
-        entryTitle.setText(KlingonContentProvider.convertStringToKlingonFont(
-            resources.getString(R.string.menu_sources_tlh)));
+        entryTitle.setText(
+            KlingonContentProvider.convertStringToKlingonFont(
+                resources.getString(R.string.menu_sources_tlh)));
       } else {
         // Klingon (but in Latin).
         entryTitle.setText(resources.getString(R.string.menu_sources_tlh));

@@ -285,9 +285,9 @@ public class KlingonContentDatabase {
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
     boolean searchGermanDefinitions =
         sharedPrefs.getBoolean(
-                Preferences.KEY_SHOW_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE, /* default */ false)
+                Preferences.KEY_SHOW_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE, /* default */ Preferences.shouldPreferGerman())
             && sharedPrefs.getBoolean(
-                Preferences.KEY_SEARCH_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE, /* default */ false);
+                Preferences.KEY_SEARCH_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE, /* default */ Preferences.shouldPreferGerman());
 
     if (queryEntry.basePartOfSpeechIsUnknown() && queryEntry.getEntryName().length() > 4) {
       // If the POS is unknown and the query is greater than 4 characters, try to parse it
