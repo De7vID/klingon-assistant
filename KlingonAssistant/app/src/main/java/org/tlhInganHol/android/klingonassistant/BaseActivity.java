@@ -365,10 +365,10 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
         break;
 
         /*
-      case R.id.kli_discord:
-        launchExternal("https://discordapp.com/channels/235416538927202304/");
-        break;
-        */
+        case R.id.kli_discord:
+          launchExternal("https://discordapp.com/channels/235416538927202304/");
+          break;
+          */
 
         // Handle social networks.
         /*
@@ -586,26 +586,26 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
         mDrawer.toggleMenu();
         break;
         /*
-      case R.id.social_network:
-        SharedPreferences sharedPrefs =
-            PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        if (sharedPrefs
-            .getString(Preferences.KEY_SOCIAL_NETWORK_LIST_PREFERENCE, "gplus")
-            .equals("gplus")) {
-          // Launch Google+ Klingon speakers community.
-          launchExternal("https://plus.google.com/communities/108380135139365833546");
-        } else {
-          // Launch Facebook "Learn Klingon" group.
-          launchFacebook("LearnKlingon");
-        }
-        break;
-        */
+        case R.id.social_network:
+          SharedPreferences sharedPrefs =
+              PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+          if (sharedPrefs
+              .getString(Preferences.KEY_SOCIAL_NETWORK_LIST_PREFERENCE, "gplus")
+              .equals("gplus")) {
+            // Launch Google+ Klingon speakers community.
+            launchExternal("https://plus.google.com/communities/108380135139365833546");
+          } else {
+            // Launch Facebook "Learn Klingon" group.
+            launchFacebook("LearnKlingon");
+          }
+          break;
+          */
         /* TUTORIAL */
         /*
-      case R.id.request_translation:
-        requestTranslation();
-        break;
-        */
+        case R.id.request_translation:
+          requestTranslation();
+          break;
+          */
       case R.id.about:
         // Show "About" screen.
         displayHelp(QUERY_FOR_ABOUT);
