@@ -31,6 +31,8 @@
                 android:title="@string/menu_noun_suffixes_tlh" />
             <item android:id="@+id/verb_suffixes"
                 android:title="@string/menu_verb_suffixes_tlh" />
+            <item android:id="@+id/sources"
+                android:title="@string/menu_sources_tlh" />
         </menu>
     </item>
 

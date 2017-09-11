@@ -148,6 +148,7 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
       items.add(new SlideMenuItem(R.string.menu_prefix_chart_tlh, R.id.prefix_chart, 0));
       items.add(new SlideMenuItem(R.string.menu_noun_suffixes_tlh, R.id.noun_suffixes, 0));
       items.add(new SlideMenuItem(R.string.menu_verb_suffixes_tlh, R.id.verb_suffixes, 0));
+      items.add(new SlideMenuItem(R.string.menu_sources_tlh, R.id.sources, 0));
       items.add(new SlideMenuCategory(R.string.menu_phrases_tlh));
       items.add(
           new SlideMenuItem(R.string.beginners_conversation_tlh, R.id.beginners_conversation, 0));
@@ -186,6 +187,7 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
       items.add(new SlideMenuItem(R.string.menu_prefix_chart, R.id.prefix_chart, 0));
       items.add(new SlideMenuItem(R.string.menu_noun_suffixes, R.id.noun_suffixes, 0));
       items.add(new SlideMenuItem(R.string.menu_verb_suffixes, R.id.verb_suffixes, 0));
+      items.add(new SlideMenuItem(R.string.menu_sources, R.id.sources, 0));
       items.add(new SlideMenuCategory(R.string.menu_phrases));
       items.add(new SlideMenuItem(R.string.beginners_conversation, R.id.beginners_conversation, 0));
       items.add(new SlideMenuItem(R.string.jokes, R.id.jokes, 0));
@@ -327,6 +329,10 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
       case R.id.verb_suffixes:
         // Show "Verb Suffixes" screen.
         displayHelp(QUERY_FOR_VERB_SUFFIXES);
+        break;
+      case R.id.sources:
+        // Show "Sources" screen.
+        displaySources();
         break;
 
         // Handle media.
@@ -525,6 +531,13 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
   protected void displayPrefixChart() {
     Intent prefixChartIntent = new Intent(this, PrefixChartActivity.class);
     startActivity(prefixChartIntent);
+    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+  }
+
+  // Protected method to display the sources page.
+  protected void displaySources() {
+    Intent sourcesIntent = new Intent(this, SourcesActivity.class);
+    startActivity(sourcesIntent);
     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
   }
 

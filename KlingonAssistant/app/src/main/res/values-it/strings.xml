@@ -70,6 +70,7 @@
     <string name="menu_prefix_chart">Tabella dei prefissi</string>
     <string name="menu_noun_suffixes">Sostantivi</string>
     <string name="menu_verb_suffixes">Verbi</string>
+    <string name="menu_sources">Fonti</string>
     <string name="menu_phrases">Frasi utili</string>
     <string name="menu_lists">Liste</string>
     <string name="menu_media">Media</string>

@@ -103,6 +103,9 @@
     <string name="menu_verb_suffixes">Verb suffixes</string>
     <string name="menu_verb_suffixes_tlh">wot mojaq</string>
 
+    <string name="menu_sources">Sources</string>
+    <string name="menu_sources_tlh">Halmey</string>
+
     <string name="menu_phrases">Useful phrases</string>
     <string name="menu_phrases_tlh">mu\'tlheghmey lI\'</string>
 

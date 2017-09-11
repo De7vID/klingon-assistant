@@ -100,6 +100,9 @@
         <!-- Displays the prefix chart. -->
         <activity android:name=".PrefixChartActivity" />
 
+        <!-- Displays the sources page. -->
+        <activity android:name=".SourcesActivity" />
+
         <!-- Provides search suggestions for words and their definitions. -->
         <provider android:name=".KlingonContentProvider"
                   android:authorities="org.tlhInganHol.android.klingonassistant.KlingonContentProvider" />

@@ -70,6 +70,7 @@
     <string name="menu_prefix_chart">Tabla de los prefijos</string>
     <string name="menu_noun_suffixes">Sufijos nominales</string>
     <string name="menu_verb_suffixes">Sufijos verbales</string>
+    <string name="menu_sources">Fuentes</string>
     <string name="menu_phrases">Frases útiles</string>
     <string name="menu_lists">Listas</string>
     <string name="menu_media">Medios</string>
