@@ -18,7 +18,6 @@ package org.tlhInganHol.android.klingonassistant;
 
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
@@ -31,8 +30,8 @@ public class PrefixChartActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-    boolean useKlingonUI = sharedPrefs.getBoolean(
-        Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false);
+    boolean useKlingonUI =
+        sharedPrefs.getBoolean(Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false);
     if (useKlingonUI) {
       setDrawerContentView(R.layout.prefix_chart_tlh);
     } else {
@@ -49,8 +48,9 @@ public class PrefixChartActivity extends BaseActivity {
           Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false)) {
         // Klingon (in {pIqaD}).
         entryTitle.setTypeface(KlingonAssistant.getKlingonFontTypeface(getBaseContext()));
-        entryTitle.setText(KlingonContentProvider.convertStringToKlingonFont(
-            resources.getString(R.string.menu_prefix_chart_tlh)));
+        entryTitle.setText(
+            KlingonContentProvider.convertStringToKlingonFont(
+                resources.getString(R.string.menu_prefix_chart_tlh)));
       } else {
         // Klingon (but in Latin).
         entryTitle.setText(resources.getString(R.string.menu_prefix_chart_tlh));
