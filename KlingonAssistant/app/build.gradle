@@ -15,8 +15,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 20
         // For the regular version (with TTS), the versionCode must be odd.
-        versionCode 385
-        versionName "2017.09.10b"
+        versionCode 387
+        versionName "2017.09.10c"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
