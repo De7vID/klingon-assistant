@@ -15,8 +15,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 20
         // For the regular version (with TTS), the versionCode must be odd.
-        versionCode 387
-        versionName "2017.09.10c"
+        versionCode 391
+        versionName "2017.09.10e"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -51,3 +51,10 @@ dependencies {
     compile 'com.android.support:appcompat-v7:20.+'
     compile 'net.simonvt.menudrawer:menudrawer:3.0.+@aar'
 }
+
+task updateDatabase(type: Exec) {
+    workingDir '..'
+    commandLine './write_db.sh'
+}
+
+preBuild.dependsOn 'updateDatabase'
