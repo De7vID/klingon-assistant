@@ -13,8 +13,8 @@ android {
         // SDK 23 is not backwards compatible in terms of permissions, so a version needs to be compiled for minSdkVersion and targetSdkVersion 23.
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 20
-        versionName "2016.12.28"
+        versionCode 21
+        versionName "2017.09.15"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

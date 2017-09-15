@@ -1,2 +1,2 @@
 #!/bin/sh
-vim -p AndroidManifest.xml CHANGELOG
+vim -p app/build.gradle CHANGELOG
