@@ -16,7 +16,7 @@ android {
         targetSdkVersion 20
         // For the regular version (with TTS), the versionCode must be odd.
         versionCode 391
-        versionName "2017.09.10e"
+        versionName "2017.09.10f"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
