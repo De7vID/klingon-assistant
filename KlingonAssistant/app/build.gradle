@@ -15,7 +15,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 20
         versionCode 391
-        versionName "2017.09.10g"
+        versionName "2017.09.15h"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
