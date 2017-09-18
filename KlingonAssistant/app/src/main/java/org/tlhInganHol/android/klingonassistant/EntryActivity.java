@@ -62,7 +62,7 @@ public class EntryActivity extends BaseActivity
 
   // TTS:
   /** The {@link TextToSpeech} used for speaking. */
-  private TextToSpeech mTts;
+  private TextToSpeech mTts = null;
 
   private MenuItem mSpeakButton;
   private boolean ttsInitialized = false;
@@ -75,6 +75,7 @@ public class EntryActivity extends BaseActivity
     // Initialize text-to-speech. This is an asynchronous operation.
     // The OnInitListener (second argument) is called after initialization completes.
     // Log.d(TAG, "Initialising TTS");
+    clearTTS();
     mTts =
         new TextToSpeech(
             this,
@@ -460,6 +461,7 @@ public class EntryActivity extends BaseActivity
     // install the TTS engine if it isn't already installed, so the status of the TTS
     // engine may change when this app resumes.
     // Log.d(TAG, "Initialising TTS");
+    clearTTS();
     mTts =
         new TextToSpeech(
             this,
@@ -467,15 +469,19 @@ public class EntryActivity extends BaseActivity
             "org.tlhInganHol.android.klingonttsengine"); // Requires API 14.
   }
 
+  private void clearTTS() {
+    if (mTts != null) {
+      mTts.stop();
+      mTts.shutdown();
+    }
+  }
+
   @Override
   protected void onDestroy() {
     // TTS:
     // Don't forget to shutdown!
     // Log.d(TAG, "Shutting down TTS");
-    if (mTts != null) {
-      mTts.stop();
-      mTts.shutdown();
-    }
+    clearTTS();
     super.onDestroy();
   }
 
