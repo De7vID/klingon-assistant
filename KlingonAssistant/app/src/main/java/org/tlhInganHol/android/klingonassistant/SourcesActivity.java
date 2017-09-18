@@ -20,6 +20,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.widget.TextView;
 
 /** Displays the sources page. */
 public class SourcesActivity extends BaseActivity {
@@ -30,7 +31,7 @@ public class SourcesActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
     setDrawerContentView(R.layout.sources);
     Resources resources = getResources();
-    JellyBeanSpanFixTextView entryTitle = (JellyBeanSpanFixTextView) findViewById(R.id.entry_title);
+    TextView entryTitle = (TextView) findViewById(R.id.entry_title);
 
     // Get the shared preferences.
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -38,20 +39,13 @@ public class SourcesActivity extends BaseActivity {
     // Set the title.
     entryTitle.invalidate();
     if (sharedPrefs.getBoolean(
-        Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false)) {
-      if (sharedPrefs.getBoolean(
-          Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false)) {
-        // Klingon (in {pIqaD}).
-        entryTitle.setTypeface(KlingonAssistant.getKlingonFontTypeface(getBaseContext()));
-        entryTitle.setText(
-            KlingonContentProvider.convertStringToKlingonFont(
-                resources.getString(R.string.menu_sources_tlh)));
-      } else {
-        // Klingon (but in Latin).
-        entryTitle.setText(resources.getString(R.string.menu_sources_tlh));
-      }
+        Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false)) {
+      // Klingon (in {pIqaD}).
+      entryTitle.setTypeface(KlingonAssistant.getKlingonFontTypeface(getBaseContext()));
+      entryTitle.setText(
+          KlingonContentProvider.convertStringToKlingonFont(
+              resources.getString(R.string.menu_sources)));
     } else {
-      // Title in system language.
       entryTitle.setText(resources.getString(R.string.menu_sources));
     }
 
