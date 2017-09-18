@@ -1,4 +1,0 @@
-# Phrases used in reviews of Klingon translation programs.
-
-Listen up, earthling, there's a new language in town.=Qoy, tera'ngan, vengDaq Hol chu' tu'lu'.
-I wonder if this translator will work.=Qap mughwI'vam 'e' vISIv.
