@@ -20,6 +20,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.widget.TextView;
 
 /** Displays the prefix chart. */
 public class PrefixChartActivity extends BaseActivity {
@@ -39,24 +40,18 @@ public class PrefixChartActivity extends BaseActivity {
     }
 
     Resources resources = getResources();
-    JellyBeanSpanFixTextView entryTitle = (JellyBeanSpanFixTextView) findViewById(R.id.entry_title);
+    TextView entryTitle = (TextView) findViewById(R.id.entry_title);
 
     // Set the title.
     entryTitle.invalidate();
-    if (useKlingonUI) {
-      if (sharedPrefs.getBoolean(
-          Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false)) {
-        // Klingon (in {pIqaD}).
-        entryTitle.setTypeface(KlingonAssistant.getKlingonFontTypeface(getBaseContext()));
-        entryTitle.setText(
-            KlingonContentProvider.convertStringToKlingonFont(
-                resources.getString(R.string.menu_prefix_chart_tlh)));
-      } else {
-        // Klingon (but in Latin).
-        entryTitle.setText(resources.getString(R.string.menu_prefix_chart_tlh));
-      }
+    if (sharedPrefs.getBoolean(
+        Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false)) {
+      // Klingon (in {pIqaD}).
+      entryTitle.setTypeface(KlingonAssistant.getKlingonFontTypeface(getBaseContext()));
+      entryTitle.setText(
+          KlingonContentProvider.convertStringToKlingonFont(
+              resources.getString(R.string.menu_prefix_chart)));
     } else {
-      // Title in system language.
       entryTitle.setText(resources.getString(R.string.menu_prefix_chart));
     }
   }

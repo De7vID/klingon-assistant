@@ -23,11 +23,12 @@
         android:layout_height="fill_parent"
         android:padding="5dp">
     <!-- Entry must be serif, to distinguish capital-I from lowercase-l. -->
-    <org.tlhInganHol.android.klingonassistant.JellyBeanSpanFixTextView
+    <TextView
             android:id="@+id/entry_title"
             android:textSize="35sp"
             android:textColor="?android:textColorPrimary"
             android:typeface="serif"
+            android:paddingBottom="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     <!-- Definition can default to sans (embedded Klingon must be serif). -->
@@ -37,12 +38,15 @@
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
             android:fillViewport="true">
-        <org.tlhInganHol.android.klingonassistant.JellyBeanSpanFixTextView
+        <!-- The bottom padding is needed so the page doesn't overlap with
+             the floating action button. -->
+        <TextView
                 android:id="@+id/definition"
                 android:textSize="18sp"
                 android:textColor="?android:textColorSecondary"
                 android:typeface="sans"
-                android:paddingTop="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="70dp"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:fillViewport="true"
@@ -77,7 +81,6 @@
 \n
 \nOther:
 \nFTG = Federation Travel Guide (1997)
-\nTNK = Talk Now! Klingon from eurotalk (2011)
-\n"/>
+\nTNK = Talk Now! Klingon from eurotalk (2011)"/>
     </ScrollView>
 </LinearLayout>
