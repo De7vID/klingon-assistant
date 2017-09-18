@@ -171,11 +171,10 @@ public class KlingonContentDatabase {
     String selection = "rowid = ?";
     String[] selectionArgs = new String[] {rowId};
 
-    return query(selection, selectionArgs, columns);
-
     /*
      * This builds a query that looks like: SELECT <columns> FROM <table> WHERE rowid = <rowId>
      */
+    return query(selection, selectionArgs, columns);
   }
 
   /**
@@ -612,7 +611,8 @@ public class KlingonContentDatabase {
     return cursor;
   }
 
-  // Helper method to make it easier to search either definitions or search tags, in either English or German.
+  // Helper method to make it easier to search either definitions or search tags, in either English
+  // or German.
   private void matchDefinitionsOrSearchTags(
       String piece,
       boolean isPrefix,
@@ -727,7 +727,8 @@ public class KlingonContentDatabase {
         if (filterEntry.isSatisfiedBy(resultEntry)
             && !resultEntry.isArchaic()
             && !resultEntry.isHypothetical()) {
-          // Log.d(TAG, "adding: " + resultEntry.getEntryName() + " (" + resultEntry.getPartOfSpeech() + ")");
+          // Log.d(TAG, "adding: " + resultEntry.getEntryName() + " (" +
+          // resultEntry.getPartOfSpeech() + ")");
           Object[] exactMatchObject = complexWordCursorRow(resultEntry, complexWord);
 
           // If this is a bare word, prevent duplicates.
@@ -897,6 +898,19 @@ public class KlingonContentDatabase {
     return cursor;
   }
 
+  /** Returns a cursor containing a random entry. */
+  public Cursor getRandomEntry(String[] columns) {
+    // TODO: This is very inefficient.
+    Cursor cursor =
+        mDatabaseOpenHelper
+            .getReadableDatabase()
+            .query(true, FTS_VIRTUAL_TABLE, columns, null, null, null, null, "RANDOM()", "1");
+    if (cursor != null) {
+      cursor.moveToFirst();
+    }
+    return cursor;
+  }
+
   /**
    * Performs a database query.
    *
@@ -941,6 +955,20 @@ public class KlingonContentDatabase {
       return null;
     }
     return cursor;
+  }
+
+  public static String getDatabaseVersion() {
+    return dottedVersion(DATABASE_VERSION);
+  }
+
+  private static String dottedVersion(int version) {
+    String s = Integer.toString(version);
+    return s.substring(0, 4)
+        + "."
+        + s.substring(4, 6)
+        + "."
+        + s.substring(6, 8)
+        + Character.toString((char) (s.charAt(8) - '0' + 'a'));
   }
 
   /** This class helps create, open, and upgrade the Klingon database. */
@@ -1000,16 +1028,6 @@ public class KlingonContentDatabase {
 
       // Show help after database upgrade.
       setShowHelpFlag();
-    }
-
-    private String dottedVersion(int version) {
-      String s = Integer.toString(version);
-      return s.substring(0, 4)
-          + "."
-          + s.substring(4, 6)
-          + "."
-          + s.substring(6, 8)
-          + Character.toString((char) (s.charAt(8) - '0' + 'a'));
     }
 
     private void setShowHelpFlag() {

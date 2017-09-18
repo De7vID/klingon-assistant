@@ -23,11 +23,12 @@
         android:layout_height="fill_parent"
         android:padding="5dp">
     <!-- Entry must be serif, to distinguish capital-I from lowercase-l. -->
-    <org.tlhInganHol.android.klingonassistant.JellyBeanSpanFixTextView
+    <TextView
             android:id="@+id/entry_title"
             android:textSize="35sp"
             android:textColor="?android:textColorPrimary"
             android:typeface="serif"
+            android:paddingBottom="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     <!-- Definition can default to sans (embedded Klingon must be serif). -->
@@ -37,15 +38,39 @@
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
             android:fillViewport="true">
-        <org.tlhInganHol.android.klingonassistant.JellyBeanSpanFixTextView
-                android:id="@+id/definition"
-                android:textSize="18sp"
-                android:textColor="?android:textColorSecondary"
-                android:typeface="sans"
-                android:paddingTop="10dp"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:fillViewport="true"
-                android:layout_weight="1.0" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+            <!-- The bottom padding is needed so the entry doesn't overlap with
+                 the floating action button. -->
+            <TextView
+                    android:id="@+id/definition"
+                    android:textSize="18sp"
+                    android:textColor="?android:textColorSecondary"
+                    android:typeface="sans"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:fillViewport="true"
+                    android:layout_weight="1.0" />
+            <!-- Set the itemIconTint and itemTextColor to white to work around
+                 a bug where the selected item is coloured different.
+                 Unfortunately, this means that when the button is disabled,
+                 it's not visually distinct, so we make it invisible
+                 programmatically. -->
+            <android.support.design.widget.BottomNavigationView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/bottom_navigation"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginBottom="70dp"
+                    android:layout_gravity="start"
+                    app:itemIconTint="@android:color/white"
+                    app:itemTextColor="@android:color/white"
+                    app:menu="@menu/bottom_navigation_items" />
+        </LinearLayout>
     </ScrollView>
 </LinearLayout>

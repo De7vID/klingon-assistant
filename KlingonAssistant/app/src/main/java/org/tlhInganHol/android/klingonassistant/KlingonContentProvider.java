@@ -70,6 +70,7 @@ public class KlingonContentProvider extends ContentProvider {
   private static final int SEARCH_SUGGEST = 2;
   private static final int REFRESH_SHORTCUT = 3;
   private static final int GET_ENTRY_BY_ID = 4;
+  private static final int GET_RANDOM_ENTRY = 5;
   private static final UriMatcher sURIMatcher = buildUriMatcher();
 
   /** Builds up a UriMatcher for search suggestion and shortcut refresh queries. */
@@ -84,6 +85,9 @@ public class KlingonContentProvider extends ContentProvider {
 
     // This is needed internally to get an entry by its id.
     matcher.addURI(AUTHORITY, "get_entry_by_id/#", GET_ENTRY_BY_ID);
+
+    // This is needed internally to get a random entry.
+    matcher.addURI(AUTHORITY, "get_random_entry", GET_RANDOM_ENTRY);
 
     /*
      * The following are unused in this implementation, but if we include {@link
@@ -139,6 +143,8 @@ public class KlingonContentProvider extends ContentProvider {
         }
         // Log.d(TAG, "entryId = " + entryId);
         return getEntryById(entryId, projection);
+      case GET_RANDOM_ENTRY:
+        return getRandomEntry(projection);
       default:
         throw new IllegalArgumentException("Unknown Uri: " + uri);
     }
@@ -231,6 +237,11 @@ public class KlingonContentProvider extends ContentProvider {
     return mContentDatabase.getEntryById(entryId, projection);
   }
 
+  /** Get a single random entry. */
+  private Cursor getRandomEntry(String[] projection) {
+    return mContentDatabase.getRandomEntry(projection);
+  }
+
   /**
    * This method is required in order to query the supported types. It's also useful in our own
    * query() method to determine the type of Uri received.
@@ -270,7 +281,8 @@ public class KlingonContentProvider extends ContentProvider {
 
   public static String convertStringToKlingonFont(String s) {
     // Strip anything we don't recognise.
-    // This pattern should be kept mostly in sync with ENTRY_PATTERN. Note that "ü" and "+" will never be in an entry name.
+    // This pattern should be kept mostly in sync with ENTRY_PATTERN. Note that "ü" and "+" will
+    // never be in an entry name.
     String klingonString = s.replaceAll("[^A-Za-z0-9 '\\\":;,\\.\\-?!_/()@=%&\\*]", "");
 
     // This is a hack: change the separators between words and their affixes.
@@ -1293,17 +1305,17 @@ public class KlingonContentProvider extends ContentProvider {
           sharedPrefs.getBoolean(
               Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false);
       if (mSentenceType == SentenceType.EMPIRE_UNION_DAY) {
-        if (useKlingonUI) {
-          return mContext.getResources().getString(R.string.empire_union_day_tlh);
-        } else {
-          return mContext.getResources().getString(R.string.empire_union_day);
-        }
+        // if (useKlingonUI) {
+        //   return mContext.getResources().getString(R.string.empire_union_day_tlh);
+        // } else {
+        return mContext.getResources().getString(R.string.empire_union_day);
+        // }
       } else if (mSentenceType == SentenceType.CURSE_WARFARE) {
-        if (useKlingonUI) {
-          return mContext.getResources().getString(R.string.curse_warfare_tlh);
-        } else {
-          return mContext.getResources().getString(R.string.curse_warfare);
-        }
+        // if (useKlingonUI) {
+        //   return mContext.getResources().getString(R.string.curse_warfare_tlh);
+        // } else {
+        return mContext.getResources().getString(R.string.curse_warfare);
+        // }
         /*
          * IDIOM is commented out because it's not in the menu yet, since we have no good
          * translation for the word. } else if (mSentenceType == SentenceType.IDIOM) { if
@@ -1311,11 +1323,11 @@ public class KlingonContentProvider extends ContentProvider {
          * return mContext.getResources().getString(R.string.idioms); }
          */
       } else if (mSentenceType == SentenceType.NENTAY) {
-        if (useKlingonUI) {
-          return mContext.getResources().getString(R.string.nentay_tlh);
-        } else {
-          return mContext.getResources().getString(R.string.nentay);
-        }
+        // if (useKlingonUI) {
+        //   return mContext.getResources().getString(R.string.nentay_tlh);
+        // } else {
+        return mContext.getResources().getString(R.string.nentay);
+        // }
         /*
          * PROVERB is also commented out because it's not in the menu yet either, due to
          * incompleteness. } else if (mSentenceType == SentenceType.PROVERB) { if (useKlingonUI) {
@@ -1323,53 +1335,53 @@ public class KlingonContentProvider extends ContentProvider {
          * mContext.getResources().getString(R.string.proverbs); }
          */
       } else if (mSentenceType == SentenceType.MILITARY_CELEBRATION) {
-        if (useKlingonUI) {
-          return mContext.getResources().getString(R.string.military_celebration_tlh);
-        } else {
-          return mContext.getResources().getString(R.string.military_celebration);
-        }
+        // if (useKlingonUI) {
+        //   return mContext.getResources().getString(R.string.military_celebration_tlh);
+        // } else {
+        return mContext.getResources().getString(R.string.military_celebration);
+        // }
       } else if (mSentenceType == SentenceType.REJECTION) {
-        if (useKlingonUI) {
-          return mContext.getResources().getString(R.string.rejection_tlh);
-        } else {
-          return mContext.getResources().getString(R.string.rejection);
-        }
+        // if (useKlingonUI) {
+        //   return mContext.getResources().getString(R.string.rejection_tlh);
+        // } else {
+        return mContext.getResources().getString(R.string.rejection);
+        // }
       } else if (mSentenceType == SentenceType.REPLACEMENT_PROVERB) {
-        if (useKlingonUI) {
-          return mContext.getResources().getString(R.string.replacement_proverbs_tlh);
-        } else {
-          return mContext.getResources().getString(R.string.replacement_proverbs);
-        }
+        // if (useKlingonUI) {
+        //   return mContext.getResources().getString(R.string.replacement_proverbs_tlh);
+        // } else {
+        return mContext.getResources().getString(R.string.replacement_proverbs);
+        // }
       } else if (mSentenceType == SentenceType.SECRECY_PROVERB) {
-        if (useKlingonUI) {
-          return mContext.getResources().getString(R.string.secrecy_proverbs_tlh);
-        } else {
-          return mContext.getResources().getString(R.string.secrecy_proverbs);
-        }
+        // if (useKlingonUI) {
+        //   return mContext.getResources().getString(R.string.secrecy_proverbs_tlh);
+        // } else {
+        return mContext.getResources().getString(R.string.secrecy_proverbs);
+        // }
       } else if (mSentenceType == SentenceType.TOAST) {
-        if (useKlingonUI) {
-          return mContext.getResources().getString(R.string.toasts_tlh);
-        } else {
-          return mContext.getResources().getString(R.string.toasts);
-        }
+        // if (useKlingonUI) {
+        //   return mContext.getResources().getString(R.string.toasts_tlh);
+        // } else {
+        return mContext.getResources().getString(R.string.toasts);
+        // }
       } else if (mSentenceType == SentenceType.LYRICS) {
-        if (useKlingonUI) {
-          return mContext.getResources().getString(R.string.lyrics_tlh);
-        } else {
-          return mContext.getResources().getString(R.string.lyrics);
-        }
+        // if (useKlingonUI) {
+        //   return mContext.getResources().getString(R.string.lyrics_tlh);
+        // } else {
+        return mContext.getResources().getString(R.string.lyrics);
+        // }
       } else if (mSentenceType == SentenceType.BEGINNERS_CONVERSATION) {
-        if (useKlingonUI) {
-          return mContext.getResources().getString(R.string.beginners_conversation_tlh);
-        } else {
-          return mContext.getResources().getString(R.string.beginners_conversation);
-        }
+        // if (useKlingonUI) {
+        //   return mContext.getResources().getString(R.string.beginners_conversation_tlh);
+        // } else {
+        return mContext.getResources().getString(R.string.beginners_conversation);
+        // }
       } else if (mSentenceType == SentenceType.JOKE) {
-        if (useKlingonUI) {
-          return mContext.getResources().getString(R.string.jokes_tlh);
-        } else {
-          return mContext.getResources().getString(R.string.jokes);
-        }
+        // if (useKlingonUI) {
+        //   return mContext.getResources().getString(R.string.jokes_tlh);
+        // } else {
+        return mContext.getResources().getString(R.string.jokes);
+        // }
       }
 
       // The empty string is returned if the type is general PHRASE.
@@ -1489,7 +1501,8 @@ public class KlingonContentProvider extends ContentProvider {
 
         default:
           // This is reached if the verb transitivity type is unknown, or if for some reason this
-          // function is called on a verb with a type 5 noun suffix attached, which shouldn't happen.
+          // function is called on a verb with a type 5 noun suffix attached, which shouldn't
+          // happen.
           return mContext.getResources().getString(R.string.transitivity_unknown);
       }
     }
@@ -1578,10 +1591,12 @@ public class KlingonContentProvider extends ContentProvider {
   }
 
   // This class is for complex Klingon words. A complex word is a noun or verb with affixes.
-  // Note: To debug parsing, you likely want to use "adb logcat -s KlingonContentProvider.ComplexWord"
+  // Note: To debug parsing, you likely want to use "adb logcat -s
+  // KlingonContentProvider.ComplexWord"
   // or "adb logcat -s KlingonContentProvider.ComplexWord KlingonContentProvider".
   public static class ComplexWord {
-    // The logging tag can be at most 23 characters. "KlingonContentProvider.ComplexWord" was too long.
+    // The logging tag can be at most 23 characters. "KlingonContentProvider.ComplexWord" was too
+    // long.
     String TAG = "KCP.ComplexWord";
 
     // The noun suffixes.
@@ -1833,7 +1848,8 @@ public class KlingonContentProvider extends ContentProvider {
         String suffixType;
         if (anotherComplexWord != null) {
           if (BuildConfig.DEBUG) {
-            // Verb suffix level doesn't correspond exactly: {-Ha'}, types 1 through 8, {-Qo'}, then 9.
+            // Verb suffix level doesn't correspond exactly: {-Ha'}, types 1 through 8, {-Qo'}, then
+            // 9.
             if (mSuffixLevel == 1) {
               suffixType = "-Ha'";
             } else if (mSuffixLevel == 10) {
