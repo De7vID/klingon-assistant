@@ -17,41 +17,38 @@
 package org.tlhInganHol.android.klingonassistant;
 
 import android.app.SearchManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+// import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.util.Log;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.TypefaceSpan;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import java.util.ArrayList;
-import java.util.List;
-import net.simonvt.menudrawer.MenuDrawer;
-import net.simonvt.menudrawer.Position;
+import android.widget.TextView;
+import java.util.Locale;
 
-// TUTORIAL:
-// import com.google.android.gms.plus.PlusShare;
-// import com.google.android.gms.plus.PlusShare.Builder;
-// import com.google.android.gms.plus.model.people.Person;
-// import java.util.Arrays;
-
-public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.MenuListener {
+public class BaseActivity extends AppCompatActivity
+    implements NavigationView.OnNavigationItemSelectedListener {
   private static final String TAG = "BaseActivity";
 
   // This must uniquely identify the {boQwI'} entry.
@@ -81,233 +78,183 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
   private static final String QUERY_FOR_BEGINNERS_CONVERSATION = "*:sen:bc";
   private static final String QUERY_FOR_JOKES = "*:sen:joke";
 
-  private KillReceiver mKillReceiver;
-  protected static final String ACTION_KILL =
-      "org.tlhInganHol.android.klingonassistant.intent.action.KILL";
-  protected static final String KILL_TYPE =
-      "org.tlhInganHol.android.klingonassistant.intent.action/kill";
-
-  private MenuDrawer mDrawer;
-
-  protected SlideMenuAdapter mAdapter;
-  protected ListView mList;
+  // protected SlideMenuAdapter mAdapter;
+  // protected ListView mList;
 
   private int mActivePosition = 0;
 
   // Helper method to determine whether the device is (likely) a tablet in horizontal orientation.
-  // public boolean isHorizontalTablet() {
-  //   Configuration config = getResources().getConfiguration();
-  //   if (config.orientation == Configuration.ORIENTATION_LANDSCAPE
-  //       && (config.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
-  //           >= Configuration.SCREENLAYOUT_SIZE_LARGE) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
+  public boolean isHorizontalTablet() {
+    // Configuration config = getResources().getConfiguration();
+    // if (config.orientation == Configuration.ORIENTATION_LANDSCAPE
+    //     && (config.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
+    //         >= Configuration.SCREENLAYOUT_SIZE_LARGE) {
+    //   return true;
+    // }
+    // return false;
+    return getResources().getBoolean(R.bool.drawer_layout_locked);
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    if (savedInstanceState != null) {
-      mActivePosition = savedInstanceState.getInt(STATE_ACTIVE_POSITION);
-    }
+    // if (savedInstanceState != null) {
+    //   mActivePosition = savedInstanceState.getInt(STATE_ACTIVE_POSITION);
+    // }
 
-    // Get the action bar.
-    ActionBar actionBar = getSupportActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(true);
-
+    // Override for Klingon language.
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     if (sharedPrefs.getBoolean(
-        Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false)) {
-      // Display the action bar title in Klingon font.
-      SpannableString title = new SpannableString("");
-      Typeface klingonTypeface = KlingonAssistant.getKlingonFontTypeface(getBaseContext());
-      title.setSpan(
-          new KlingonTypefaceSpan("", klingonTypeface),
-          0,
-          title.length(),
-          Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-      actionBar.setTitle(title);
+        Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false)) {
+      Configuration configuration = getBaseContext().getResources().getConfiguration();
+      configuration.locale = new Locale("tlh", "CAN");
+      getBaseContext()
+          .getResources()
+          .updateConfiguration(configuration, getBaseContext().getResources().getDisplayMetrics());
     }
+
+    setContentView(R.layout.activity_base);
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    // getSupportActionBar().setIcon(R.drawable.ic_ka);
+
+    // Display the title in Klingon font.
+    SpannableString klingonAppName =
+        new SpannableString(
+            KlingonContentProvider.convertStringToKlingonFont(
+                getBaseContext().getResources().getString(R.string.app_name)));
+    Typeface klingonTypeface = KlingonAssistant.getKlingonFontTypeface(getBaseContext());
+    klingonAppName.setSpan(
+        new KlingonTypefaceSpan("", klingonTypeface),
+        0,
+        klingonAppName.length(),
+        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    getSupportActionBar().setTitle(klingonAppName);
+
+    // FAB:
+    // FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+    // fab.setOnClickListener(
+    //     new View.OnClickListener() {
+    //       @Override
+    //       public void onClick(View view) {
+    //         // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+    //         //     .setAction("Action", null)
+    //         //     .show();
+    //         displaySearchResults("This button doesn't work yet!:sen@@wej:adv, Qap:v:2, leQ:n, -vam:n");
+    //         // onSearchRequested();
+    //       }
+    //     });
+
+    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+    ActionBarDrawerToggle toggle =
+        new ActionBarDrawerToggle(
+            this,
+            drawer,
+            toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close);
+    drawer.setDrawerListener(toggle);
+    toggle.syncState();
+
+    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+    navigationView.setNavigationItemSelectedListener(this);
+    Menu navMenu = navigationView.getMenu();
+    for (int i = 0; i < navMenu.size(); i++) {
+      MenuItem menuItem = navMenu.getItem(i);
+      SubMenu subMenu = menuItem.getSubMenu();
+      if (subMenu != null && subMenu.size() > 0) {
+        for (int j = 0; j < subMenu.size(); j++) {
+          MenuItem subMenuItem = subMenu.getItem(j);
+          applyTypefaceToMenuItem(subMenuItem, false);
+        }
+      }
+      applyTypefaceToMenuItem(menuItem, true);
+    }
+
+    View headerView = navigationView.getHeaderView(0);
+    TextView appNameView = (TextView) headerView.findViewById(R.id.app_name_view);
+    TextView versionView = (TextView) headerView.findViewById(R.id.version_view);
+    appNameView.setText(klingonAppName);
+    versionView.setText("v" + KlingonContentDatabase.getDatabaseVersion());
 
     // If the device is in landscape orientation and the screen size is large (or bigger), then
+    // lock the navigation drawer in open mode.
     // make the slide-out menu static. Otherwise, hide it by default.
-    MenuDrawer.Type drawerType = MenuDrawer.Type.BEHIND;
-    if (isHorizontalTablet()) {
-      drawerType = MenuDrawer.Type.STATIC;
-    }
-    mDrawer = MenuDrawer.attach(this, drawerType, Position.LEFT, MenuDrawer.MENU_DRAG_CONTENT);
-
-    List<Object> items = new ArrayList<Object>();
-    if (sharedPrefs.getBoolean(
-        Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false)) {
-      items.add(new SlideMenuCategory(R.string.menu_reference_tlh));
-      items.add(new SlideMenuItem(R.string.menu_pronunciation_tlh, R.id.pronunciation, 0));
-      items.add(new SlideMenuItem(R.string.menu_prefixes_tlh, R.id.prefixes, 0));
-      items.add(new SlideMenuItem(R.string.menu_prefix_chart_tlh, R.id.prefix_chart, 0));
-      items.add(new SlideMenuItem(R.string.menu_noun_suffixes_tlh, R.id.noun_suffixes, 0));
-      items.add(new SlideMenuItem(R.string.menu_verb_suffixes_tlh, R.id.verb_suffixes, 0));
-      items.add(new SlideMenuItem(R.string.menu_sources_tlh, R.id.sources, 0));
-      items.add(new SlideMenuCategory(R.string.menu_phrases_tlh));
-      items.add(
-          new SlideMenuItem(R.string.beginners_conversation_tlh, R.id.beginners_conversation, 0));
-      items.add(new SlideMenuItem(R.string.jokes_tlh, R.id.jokes, 0));
-      items.add(new SlideMenuItem(R.string.nentay_tlh, R.id.nentay, 0));
-      items.add(new SlideMenuItem(R.string.military_celebration_tlh, R.id.military_celebration, 0));
-      items.add(new SlideMenuItem(R.string.toasts_tlh, R.id.toasts, 0));
-      items.add(new SlideMenuItem(R.string.lyrics_tlh, R.id.lyrics, 0));
-      items.add(new SlideMenuItem(R.string.curse_warfare_tlh, R.id.curse_warfare, 0));
-      items.add(new SlideMenuItem(R.string.replacement_proverbs_tlh, R.id.replacement_proverbs, 0));
-      items.add(new SlideMenuItem(R.string.secrecy_proverbs_tlh, R.id.secrecy_proverbs, 0));
-      items.add(new SlideMenuItem(R.string.empire_union_day_tlh, R.id.empire_union_day, 0));
-      items.add(new SlideMenuItem(R.string.rejection_tlh, R.id.rejection, 0));
-      items.add(new SlideMenuCategory(R.string.menu_media_tlh));
-      items.add(new SlideMenuItem(R.string.media_1_title_tlh, R.id.media_1, 0));
-      items.add(new SlideMenuItem(R.string.media_2_title_tlh, R.id.media_2, 0));
-      items.add(new SlideMenuItem(R.string.media_3_title_tlh, R.id.media_3, 0));
-      items.add(new SlideMenuItem(R.string.media_4_title_tlh, R.id.media_4, 0));
-      items.add(new SlideMenuItem(R.string.media_5_title_tlh, R.id.media_5, 0));
-      items.add(new SlideMenuItem(R.string.media_6_title_tlh, R.id.media_6, 0));
-      /*
-      items.add(new SlideMenuCategory(R.string.menu_social_tlh));
-          items.add(new SlideMenuItem(R.string.menu_gplus_tlh, R.id.gplus, 0));
-          items.add(new SlideMenuItem(R.string.menu_facebook_tlh, R.id.facebook, 0));
-          items.add(new SlideMenuItem(R.string.menu_kag_tlh, R.id.kag, 0));
-          items.add(new SlideMenuItem(R.string.menu_kidc_tlh, R.id.kidc, 0));
-      */
-      items.add(new SlideMenuCategory(R.string.menu_kli_tlh));
-      items.add(new SlideMenuItem(R.string.menu_kli_lessons_tlh, R.id.kli_lessons, 0));
-      items.add(new SlideMenuItem(R.string.menu_kli_questions_tlh, R.id.kli_questions, 0));
-      // items.add(new SlideMenuItem(R.string.menu_kli_discord_tlh, R.id.kli_discord, 0));
-    } else {
-      items.add(new SlideMenuCategory(R.string.menu_reference));
-      items.add(new SlideMenuItem(R.string.menu_pronunciation, R.id.pronunciation, 0));
-      items.add(new SlideMenuItem(R.string.menu_prefixes, R.id.prefixes, 0));
-      items.add(new SlideMenuItem(R.string.menu_prefix_chart, R.id.prefix_chart, 0));
-      items.add(new SlideMenuItem(R.string.menu_noun_suffixes, R.id.noun_suffixes, 0));
-      items.add(new SlideMenuItem(R.string.menu_verb_suffixes, R.id.verb_suffixes, 0));
-      items.add(new SlideMenuItem(R.string.menu_sources, R.id.sources, 0));
-      items.add(new SlideMenuCategory(R.string.menu_phrases));
-      items.add(new SlideMenuItem(R.string.beginners_conversation, R.id.beginners_conversation, 0));
-      items.add(new SlideMenuItem(R.string.jokes, R.id.jokes, 0));
-      items.add(new SlideMenuItem(R.string.nentay, R.id.nentay, 0));
-      items.add(new SlideMenuItem(R.string.military_celebration, R.id.military_celebration, 0));
-      items.add(new SlideMenuItem(R.string.toasts, R.id.toasts, 0));
-      items.add(new SlideMenuItem(R.string.lyrics, R.id.lyrics, 0));
-      items.add(new SlideMenuItem(R.string.curse_warfare, R.id.curse_warfare, 0));
-      items.add(new SlideMenuItem(R.string.replacement_proverbs, R.id.replacement_proverbs, 0));
-      items.add(new SlideMenuItem(R.string.secrecy_proverbs, R.id.secrecy_proverbs, 0));
-      items.add(new SlideMenuItem(R.string.empire_union_day, R.id.empire_union_day, 0));
-      items.add(new SlideMenuItem(R.string.rejection, R.id.rejection, 0));
-      // Not all general proverbs are properly tagged yet.
-      // Too many idioms; also no known Klingon term for "idiom".
-      items.add(new SlideMenuCategory(R.string.menu_media));
-      items.add(new SlideMenuItem(R.string.media_1_title, R.id.media_1, 0));
-      items.add(new SlideMenuItem(R.string.media_2_title, R.id.media_2, 0));
-      items.add(new SlideMenuItem(R.string.media_3_title, R.id.media_3, 0));
-      items.add(new SlideMenuItem(R.string.media_4_title, R.id.media_4, 0));
-      items.add(new SlideMenuItem(R.string.media_5_title, R.id.media_5, 0));
-      items.add(new SlideMenuItem(R.string.media_6_title, R.id.media_6, 0));
-      /*
-      items.add(new SlideMenuCategory(R.string.menu_social));
-          items.add(new SlideMenuItem(R.string.menu_gplus, R.id.gplus, 0));
-          items.add(new SlideMenuItem(R.string.menu_facebook, R.id.facebook, 0));
-          items.add(new SlideMenuItem(R.string.menu_kag, R.id.kag, 0));
-          items.add(new SlideMenuItem(R.string.menu_kidc, R.id.kidc, 0));
-      */
-      items.add(new SlideMenuCategory(R.string.menu_kli));
-      items.add(new SlideMenuItem(R.string.menu_kli_lessons, R.id.kli_lessons, 0));
-      items.add(new SlideMenuItem(R.string.menu_kli_questions, R.id.kli_questions, 0));
-      // items.add(new SlideMenuItem(R.string.menu_kli_discord, R.id.kli_discord, 0));
-    }
-    mList = new ListView(this);
-
-    mAdapter = new SlideMenuAdapter(this, items);
-    mAdapter.setListener(this);
-    mAdapter.setActivePosition(mActivePosition);
-
-    mList.setAdapter(mAdapter);
-    mList.setOnItemClickListener(mItemClickListener);
-
-    mDrawer.setMenuView(mList);
-
-    // Allow the menu to slide out when any part of the screen is dragged.
-    mDrawer.setTouchMode(MenuDrawer.TOUCH_MODE_FULLSCREEN);
-
-    // The drawable that replaces the up indicator in the action bar.
-    mDrawer.setSlideDrawable(R.drawable.ic_drawer);
-    // Whether the previous drawable should be shown.
-    mDrawer.setDrawerIndicatorEnabled(true);
+    // // MenuDrawer.Type drawerType = MenuDrawer.Type.BEHIND;
+    // if (isHorizontalTablet()) {
+    //   // drawerType = MenuDrawer.Type.STATIC;
+    //   drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+    // }
 
     // Activate type-to-search for local search. Typing will automatically
     // start a search of the database.
     setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
-
-    // Register a receiver for the kill order.
-    mKillReceiver = new KillReceiver();
-    registerReceiver(mKillReceiver, IntentFilter.create(ACTION_KILL, KILL_TYPE));
   }
 
-  @Override
-  protected void onDestroy() {
-    unregisterReceiver(mKillReceiver);
-    super.onDestroy();
+  private void applyTypefaceToMenuItem(MenuItem menuItem, boolean enlarge) {
+    final SharedPreferences sharedPrefs =
+        PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+    boolean useKlingonUI =
+        sharedPrefs.getBoolean(Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false);
+    boolean useKlingonFont =
+        sharedPrefs.getBoolean(
+            Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false);
+    Typeface klingonTypeface = KlingonAssistant.getKlingonFontTypeface(getBaseContext());
+    String title = menuItem.getTitle().toString();
+    SpannableString spannableString;
+    if (useKlingonFont) {
+      spannableString =
+          new SpannableString(KlingonContentProvider.convertStringToKlingonFont(title));
+      spannableString.setSpan(
+          new KlingonTypefaceSpan("", klingonTypeface),
+          0,
+          spannableString.length(),
+          Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    } else {
+      spannableString = new SpannableString(title);
+      if (useKlingonUI) {
+        // If the UI is in Klingon (Latin), use a serif typeface.
+        spannableString.setSpan(
+            new TypefaceSpan("serif"),
+            0,
+            spannableString.length(),
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+      }
+    }
+    if (enlarge) {
+      spannableString.setSpan(
+          new RelativeSizeSpan(1.2f),
+          0,
+          spannableString.length(),
+          Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
+    menuItem.setTitle(spannableString);
   }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    // TODO: Use Klingon typeface in options menu too.
     MenuInflater inflater = getMenuInflater();
-    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-    if (sharedPrefs.getBoolean(
-        Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false)) {
-      inflater.inflate(R.menu.options_menu_tlh, menu);
-    } else {
-      inflater.inflate(R.menu.options_menu, menu);
+    inflater.inflate(R.menu.options_menu, menu);
+    for (int i = 0; i < menu.size(); i++) {
+      MenuItem menuItem = menu.getItem(i);
+      applyTypefaceToMenuItem(menuItem, false);
     }
-
-    /* TUTORIAL
-    // if (isHoneycombOrAbove()) {
-    //   // Note: Request translation has been removed from the menu. It is now accessed indirectly through the G+ button.
-    //   if (KlingonAssistant.INCLUDE_TUTORIAL) {
-    //     if (isJellyBeanOrAbove()) {
-    //       // The Google Play Services version we are using does not work in Froyo and below.
-    //       // Furthermore, the TTS services we use require Jelly Bean.
-    //       MenuItem requestTranslationItem = (MenuItem) menu.findItem(R.id.request_translation);
-    //       MenuItemCompat.setVisible(requestTranslationItem, true);
-    //     }
-    //   }
-
-    //   // Note: This is commented out because the way that we are implementing the search button
-    //   // is incompatible with the appcompat search view.
-    //   // SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-    //   // SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.search));
-    //   // searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-    //   // searchView.setIconifiedByDefault(false);
-    // }
-    */
-
     return true;
-  }
-
-  public static boolean isHoneycombOrAbove() {
-    // API 11+.
-    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
-  }
-
-  public static boolean isJellyBeanOrAbove() {
-    // API 16+.
-    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
   }
 
   // Set the content view for the menu drawer.
   protected void setDrawerContentView(int layoutResId) {
-    mDrawer.setContentView(layoutResId);
+    ConstraintLayout constraintLayout = (ConstraintLayout) findViewById(R.id.drawer_content);
+    constraintLayout.removeAllViews();
+    LayoutInflater.from(getBaseContext()).inflate(layoutResId, constraintLayout, true);
   }
 
-  protected void onSlideMenuItemClicked(int position, SlideMenuItem item) {
-    mDrawer.closeMenu();
+  @SuppressWarnings("StatementWithEmptyBody")
+  @Override
+  public boolean onNavigationItemSelected(MenuItem item) {
+    // Handle navigation view item clicks here.
 
     switch (item.getItemId()) {
       case R.id.pronunciation:
@@ -439,6 +386,10 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
 
       default:
     }
+
+    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+    drawer.closeDrawer(GravityCompat.START);
+    return true;
   }
 
   // Private method to launch a YouTube playlist.
@@ -554,16 +505,16 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
   }
 
-  private AdapterView.OnItemClickListener mItemClickListener =
-      new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-          mActivePosition = position;
-          mDrawer.setActiveView(view, position);
-          mAdapter.setActivePosition(position);
-          onSlideMenuItemClicked(position, (SlideMenuItem) mAdapter.getItem(position));
-        }
-      };
+  // private AdapterView.OnItemClickListener mItemClickListener =
+  //     new AdapterView.OnItemClickListener() {
+  //       @Override
+  //       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+  //         mActivePosition = position;
+  //         mDrawer.setActiveView(view, position);
+  //         mAdapter.setActivePosition(position);
+  //         onSlideMenuItemClicked(position, (SlideMenuItem) mAdapter.getItem(position));
+  //       }
+  //     };
 
   @Override
   protected void onSaveInstanceState(Bundle outState) {
@@ -571,19 +522,21 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
     outState.putInt(STATE_ACTIVE_POSITION, mActivePosition);
   }
 
-  @Override
-  public void onActiveViewChanged(View v) {
-    mDrawer.setActiveView(v, mActivePosition);
-  }
+  // @Override
+  // public void onActiveViewChanged(View v) {
+  //   mDrawer.setActiveView(v, mActivePosition);
+  // }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
+    // noinspection SimplifiableIfStatement
     switch (item.getItemId()) {
       case R.id.search:
         onSearchRequested();
         return true;
       case android.R.id.home:
-        mDrawer.toggleMenu();
+        // TODO: Toggle menu.
+        // mDrawer.toggleMenu();
         break;
         /*
         case R.id.social_network:
@@ -624,20 +577,11 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
   // Collapse slide-out menu if "Back" key is pressed and it's open.
   @Override
   public void onBackPressed() {
-    final int drawerState = mDrawer.getDrawerState();
-    if (drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING) {
-      mDrawer.closeMenu();
-      return;
-    }
-
-    super.onBackPressed();
-  }
-
-  private final class KillReceiver extends BroadcastReceiver {
-    @Override
-    public void onReceive(Context context, Intent intent) {
-      Log.d(TAG, "Received kill order, finishing.");
-      finish();
+    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+    if (drawer.isDrawerOpen(GravityCompat.START)) {
+      drawer.closeDrawer(GravityCompat.START);
+    } else {
+      super.onBackPressed();
     }
   }
 }

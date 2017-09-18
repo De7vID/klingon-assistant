@@ -5,17 +5,15 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-    // The compileSdkVersion and targetSdkVersion must be 20, in order to use
-    // appcompat-v7:20 as a dependency.
-    compileSdkVersion 20
+    compileSdkVersion 26
     buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "org.tlhInganHol.android.klingonassistant"
-        // Minimum Android version needed for TTS is 4.1 (16), targeted version 4.4.4 (20). -->
-        minSdkVersion 16
-        targetSdkVersion 20
-        versionCode 391
-        versionName "2017.09.15h"
+        // We are targeting only Marshmallow and above.
+        minSdkVersion 23
+        targetSdkVersion 26
+        versionCode 393
+        versionName "2017.09.15h (v2)"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -46,14 +44,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support:design:26.+'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:20.+'
-    compile 'net.simonvt.menudrawer:menudrawer:3.0.+@aar'
 }
-
-task updateDatabase(type: Exec) {
-    workingDir '..'
-    commandLine './write_db.sh'
-}
-
-preBuild.dependsOn 'updateDatabase'

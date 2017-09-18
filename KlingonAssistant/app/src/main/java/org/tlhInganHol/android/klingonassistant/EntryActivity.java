@@ -26,6 +26,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
 import android.text.Html;
@@ -43,6 +45,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import java.util.Locale;
 import java.util.regex.Matcher;
 
@@ -59,6 +62,13 @@ public class EntryActivity extends BaseActivity
   // The parent query that this entry is a part of.
   private String mParentQuery = null;
   private String mEntryName = null;
+
+  // Intents for the bottom navigation buttons.
+  // Note that the renumber.py script ensures a max difference of 10 between
+  // the IDs of adjacent entries, within the same "mem" file.
+  private Intent mPreviousEntryIntent = null;
+  private Intent mNextEntryIntent = null;
+  private static final int MAX_ENTRY_ID_DIFF = 10;
 
   // TTS:
   /** The {@link TextToSpeech} used for speaking. */
@@ -85,8 +95,8 @@ public class EntryActivity extends BaseActivity
     setDrawerContentView(R.layout.entry);
     Resources resources = getResources();
 
-    JellyBeanSpanFixTextView entryTitle = (JellyBeanSpanFixTextView) findViewById(R.id.entry_title);
-    JellyBeanSpanFixTextView entryText = (JellyBeanSpanFixTextView) findViewById(R.id.definition);
+    TextView entryTitle = (TextView) findViewById(R.id.entry_title);
+    TextView entryText = (TextView) findViewById(R.id.definition);
 
     // TODO: Save and restore bundle state to preserve links.
 
@@ -98,7 +108,55 @@ public class EntryActivity extends BaseActivity
     // Retrieve the entry's data.
     // Note: managedQuery is deprecated since API 11.
     Cursor cursor = managedQuery(uri, KlingonContentDatabase.ALL_KEYS, null, null, null);
-    KlingonContentProvider.Entry entry = new KlingonContentProvider.Entry(cursor, getBaseContext());
+    final KlingonContentProvider.Entry entry =
+        new KlingonContentProvider.Entry(cursor, getBaseContext());
+    int entryId = entry.getId();
+
+    // Set up the bottom navigation buttons.
+    BottomNavigationView bottomNavView =
+        (BottomNavigationView) findViewById(R.id.bottom_navigation);
+    for (int i = 1; i <= MAX_ENTRY_ID_DIFF; i++) {
+      Intent entryIntent = getEntryByIdIntent(entryId + i);
+      if (entryIntent != null) {
+        mNextEntryIntent = entryIntent;
+        break;
+      }
+    }
+    if (mNextEntryIntent == null) {
+      MenuItem nextButton = (MenuItem) bottomNavView.getMenu().findItem(R.id.action_next);
+      nextButton.setEnabled(false);
+      bottomNavView.findViewById(R.id.action_next).setVisibility(View.INVISIBLE);
+    }
+    for (int i = 1; i <= MAX_ENTRY_ID_DIFF; i++) {
+      Intent entryIntent = getEntryByIdIntent(entryId - i);
+      if (entryIntent != null) {
+        mPreviousEntryIntent = entryIntent;
+        break;
+      }
+    }
+    if (mPreviousEntryIntent == null) {
+      MenuItem previousButton = (MenuItem) bottomNavView.getMenu().findItem(R.id.action_previous);
+      previousButton.setEnabled(false);
+      bottomNavView.findViewById(R.id.action_previous).setVisibility(View.INVISIBLE);
+    }
+    bottomNavView.setOnNavigationItemSelectedListener(
+        new BottomNavigationView.OnNavigationItemSelectedListener() {
+          @Override
+          public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+              case R.id.action_previous:
+                goToPreviousEntry();
+                break;
+              case R.id.action_random:
+                goToRandomEntry();
+                break;
+              case R.id.action_next:
+                goToNextEntry();
+                break;
+            }
+            return false;
+          }
+        });
 
     // Handle alternative spellings here.
     if (entry.isAlternativeSpelling()) {
@@ -135,7 +193,8 @@ public class EntryActivity extends BaseActivity
     String pos = entry.getFormattedPartOfSpeech(/* isHtml */ false);
     String expandedDefinition = pos;
 
-    // Determine whether to show the German definition. If shown, it is primary, and the English definition is shown as secondary.
+    // Determine whether to show the German definition. If shown, it is primary, and the English
+    // definition is shown as secondary.
     String englishDefinition = entry.getDefinition();
     boolean displayGermanEntry = entry.shouldDisplayGermanDefinition();
     int englishDefinitionStart = -1;
@@ -144,7 +203,8 @@ public class EntryActivity extends BaseActivity
       // The simple case: just the English definition.
       expandedDefinition += englishDefinition;
     } else {
-      // We display the German definition as the primary one, but keep track of the location of the English definition to change its font size later.
+      // We display the German definition as the primary one, but keep track of the location of the
+      // English definition to change its font size later.
       expandedDefinition += entry.getDefinition_DE();
       englishDefinitionStart = expandedDefinition.length();
       expandedDefinition += englishDefinitionHeader + englishDefinition;
@@ -414,8 +474,10 @@ public class EntryActivity extends BaseActivity
       if (useColours) {
         // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         //   // Work around a bug in Android 6.0.
-        //   // http://stackoverflow.com/questions/34631851/multiple-foregroundcolorspan-on-editable-issue-on-android-6-0
-        //   ForegroundColorSpan[] oldSpans = ssb.getSpans(m.start(), end, ForegroundColorSpan.class);
+        //   //
+        // http://stackoverflow.com/questions/34631851/multiple-foregroundcolorspan-on-editable-issue-on-android-6-0
+        //   ForegroundColorSpan[] oldSpans = ssb.getSpans(m.start(), end,
+        // ForegroundColorSpan.class);
         //   for (ForegroundColorSpan span : oldSpans) {
         //     ssb.removeSpan(span);
         //   }
@@ -448,6 +510,57 @@ public class EntryActivity extends BaseActivity
     entryText.invalidate();
     entryText.setText(ssb);
     entryText.setMovementMethod(LinkMovementMethod.getInstance());
+  }
+
+  private Intent getEntryByIdIntent(int entryId) {
+    Cursor cursor;
+    cursor =
+        managedQuery(
+            Uri.parse(KlingonContentProvider.CONTENT_URI + "/get_entry_by_id/" + entryId),
+            null /* all columns */,
+            null,
+            null,
+            null);
+    if (cursor.getCount() == 1) {
+      Uri uri =
+          Uri.parse(
+              KlingonContentProvider.CONTENT_URI
+                  + "/get_entry_by_id/"
+                  + cursor.getString(KlingonContentDatabase.COLUMN_ID));
+
+      Intent entryIntent = new Intent(this, EntryActivity.class);
+
+      // Form the URI for the entry.
+      entryIntent.setData(uri);
+
+      return entryIntent;
+    }
+    return null;
+  }
+
+  private void goToPreviousEntry() {
+    if (mPreviousEntryIntent != null) {
+      startActivity(mPreviousEntryIntent);
+      // TODO: Ideally, this should transition the other way, but then pressing the back key looks
+      // weird.
+      overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+  }
+
+  private void goToRandomEntry() {
+    Cursor cursor;
+    Uri uri = Uri.parse(KlingonContentProvider.CONTENT_URI + "/get_random_entry");
+    Intent randomEntryIntent = new Intent(this, EntryActivity.class);
+    randomEntryIntent.setData(uri);
+    startActivity(randomEntryIntent);
+    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+  }
+
+  private void goToNextEntry() {
+    if (mNextEntryIntent != null) {
+      startActivity(mNextEntryIntent);
+      overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
   }
 
   @Override
@@ -526,14 +639,13 @@ public class EntryActivity extends BaseActivity
     Resources resources = getResources();
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     mShareEntryIntent = new Intent(Intent.ACTION_SEND);
-    if (sharedPrefs.getBoolean(
-        Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false)) {
-      mShareEntryIntent.putExtra(
-          Intent.EXTRA_TITLE, resources.getString(R.string.share_popup_title_tlh));
-    } else {
-      mShareEntryIntent.putExtra(
-          Intent.EXTRA_TITLE, resources.getString(R.string.share_popup_title));
-    }
+    // if (sharedPrefs.getBoolean(
+    //     Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false)) {
+    //   mShareEntryIntent.putExtra(
+    //       Intent.EXTRA_TITLE, resources.getString(R.string.share_popup_title_tlh));
+    // } else {
+    mShareEntryIntent.putExtra(Intent.EXTRA_TITLE, resources.getString(R.string.share_popup_title));
+    // }
 
     mShareEntryIntent.setType("text/plain");
     String subject = "{" + entry.getFormattedEntryName(/* isHtml */ false) + "}";
@@ -564,6 +676,8 @@ public class EntryActivity extends BaseActivity
 
   @Override
   public void onBackPressed() {
+    // TODO: Make the animation go in the other direction if this entry was reached using the
+    // "Previous" button.
     super.onBackPressed();
     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
   }
@@ -573,9 +687,15 @@ public class EntryActivity extends BaseActivity
     if (item.getItemId() == R.id.speak) {
       // TTS:
       if (!ttsInitialized) {
-        // The TTS engine is not installed (or disabled). Send user to Google Play Store.
-        launchExternal(
-            "https://play.google.com/store/apps/details?id=org.tlhInganHol.android.klingonttsengine");
+        // The TTS engine is not installed (or disabled). Send user to Google Play Store or other market.
+        try {
+          launchExternal(
+              "market://details?id=org.tlhInganHol.android.klingonttsengine");
+        } catch (android.content.ActivityNotFoundException e) {
+          // Fall back to browser.
+          launchExternal(
+              "https://play.google.com/store/apps/details?id=org.tlhInganHol.android.klingonttsengine");
+        }
       } else if (mEntryName != null) {
         // The TTS engine is working, and there's something to say, say it.
         // Log.d(TAG, "Speaking");

@@ -1,4 +1,4 @@
-package org.tlhInganHol.android.klingonassistant_v2;
+package org.tlhInganHol.android.klingonassistant;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
