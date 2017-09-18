@@ -95,15 +95,15 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
   private int mActivePosition = 0;
 
   // Helper method to determine whether the device is (likely) a tablet in horizontal orientation.
-  public boolean isHorizontalTablet() {
-    Configuration config = getResources().getConfiguration();
-    if (config.orientation == Configuration.ORIENTATION_LANDSCAPE
-        && (config.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
-            >= Configuration.SCREENLAYOUT_SIZE_LARGE) {
-      return true;
-    }
-    return false;
-  }
+  // public boolean isHorizontalTablet() {
+  //   Configuration config = getResources().getConfiguration();
+  //   if (config.orientation == Configuration.ORIENTATION_LANDSCAPE
+  //       && (config.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
+  //           >= Configuration.SCREENLAYOUT_SIZE_LARGE) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
