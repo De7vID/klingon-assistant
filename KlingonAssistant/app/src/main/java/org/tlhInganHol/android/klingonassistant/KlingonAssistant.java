@@ -63,6 +63,9 @@ public class KlingonAssistant extends BaseActivity {
   private TextView mTextView;
   private ListView mListView;
 
+  // The query to pre-populate when the user presses the "Search" button.
+  private String mPrepopulatedQuery = null;
+
   // private int mTutorialCounter;
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -396,6 +399,8 @@ public class KlingonAssistant extends BaseActivity {
         mTextView.setText(
             Html.fromHtml(getString(R.string.no_results, new Object[] {entryNameWithPoS})));
       }
+      // The user probably made a typo, so allow them to edit the query.
+      mPrepopulatedQuery = queryEntry.getEntryName();
 
     } else {
       // Display the number of results.
@@ -424,6 +429,11 @@ public class KlingonAssistant extends BaseActivity {
             getResources()
                 .getQuantityString(
                     R.plurals.search_results, count, new Object[] {count, entryNameWithPoS});
+        if (queryEntry.basePartOfSpeechIsUnknown()) {
+          // If the query was not tagged with a part of speech, then allow the use to edit it by
+          // pressing the search button.
+          mPrepopulatedQuery = queryEntry.getEntryName();
+        }
       }
       mTextView.setText(Html.fromHtml(countString));
 
@@ -453,11 +463,11 @@ public class KlingonAssistant extends BaseActivity {
           Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false)) {
         // Use the Klingon UI strings.
         searchManager.startSearch(
-            null, false, new ComponentName(this, KlingonAssistant.class), null, false);
+            mPrepopulatedQuery, true, new ComponentName(this, KlingonAssistant.class), null, false);
       } else {
         // Use the non-Klingon UI strings.
         searchManager.startSearch(
-            null, false, new ComponentName(this, KlingonAssistantAlt.class), null, false);
+            mPrepopulatedQuery, true, new ComponentName(this, KlingonAssistantAlt.class), null, false);
       }
       return true;
     }
