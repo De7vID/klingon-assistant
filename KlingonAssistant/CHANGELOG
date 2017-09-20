@@ -1,5 +1,6 @@
 CHANGELOG
 
+2017-09-20: allow edit of mistyped input
 2017-09-18: move v2 to main version; bug fixes
 2017-09-16: alpha release of v2
 2017-09-14: Target new version to API 26 and above. (For one, it allows us to not deal with the Jelly Bean span bug, which still exists. Also, "tlh" as a locale does not exist on older devices.)
