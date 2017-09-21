@@ -30,8 +30,7 @@
     <!-- The label for use as a searchable item, e.g., "Dictionary". -->
     <string name="search_label">Data banks</string>
 
-    <!-- The hint text that appears in the search box, e.g., "Search the dictionary".
-         We leave the Klingon one empty because we don't have access to the language preference when it is displayed. -->
+    <!-- The hint text that appears in the search box, e.g., "Search the dictionary". -->
     <string name="search_hint">Search the data banks</string>
 
     <!-- The primary menu entry that invokes search, e.g., "Search". -->
