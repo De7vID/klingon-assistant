@@ -28,7 +28,6 @@ import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-// import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -36,6 +35,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.TypefaceSpan;
 import android.view.LayoutInflater;
@@ -46,6 +46,7 @@ import android.view.SubMenu;
 import android.view.View;
 import android.widget.TextView;
 import java.util.Locale;
+// import android.support.design.widget.Snackbar;
 
 public class BaseActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
@@ -226,6 +227,12 @@ public class BaseActivity extends AppCompatActivity
     if (enlarge) {
       spannableString.setSpan(
           new RelativeSizeSpan(1.2f),
+          0,
+          spannableString.length(),
+          Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+      int accent = getResources().getColor(R.color.colorAccent);
+      spannableString.setSpan(
+          new ForegroundColorSpan(accent),
           0,
           spannableString.length(),
           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
