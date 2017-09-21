@@ -230,6 +230,50 @@ public class KlingonContentDatabase {
         .replaceAll("x", "tlh");
   }
 
+  public static String sanitizeInput(String s) {
+    // Sanitize for SQL. Assume double-quote is a typo for single-quote. Convert {pIqaD} to Latin.
+    // Also trim.
+    return s.replaceAll("\"", "'")
+            .replaceAll("", "gh")
+            .replaceAll("", "ng")
+            .replaceAll("", "tlh")
+            .replaceAll("", "a")
+            .replaceAll("", "b")
+            .replaceAll("", "ch")
+            .replaceAll("", "D")
+            .replaceAll("", "e")
+            .replaceAll("", "H")
+            .replaceAll("", "I")
+            .replaceAll("", "j")
+            .replaceAll("", "l")
+            .replaceAll("", "m")
+            .replaceAll("", "n")
+            .replaceAll("", "o")
+            .replaceAll("", "p")
+            .replaceAll("", "q")
+            .replaceAll("", "Q")
+            .replaceAll("", "r")
+            .replaceAll("", "S")
+            .replaceAll("", "t")
+            .replaceAll("", "u")
+            .replaceAll("", "v")
+            .replaceAll("", "w")
+            .replaceAll("", "y")
+            .replaceAll("", "'")
+            .replaceAll("", "0")
+            .replaceAll("", "1")
+            .replaceAll("", "2")
+            .replaceAll("", "3")
+            .replaceAll("", "4")
+            .replaceAll("", "5")
+            .replaceAll("", "6")
+            .replaceAll("", "7")
+            .replaceAll("", "8")
+            .replaceAll("", "9")
+            .replaceAll("’", "'")  // "smart" quote
+            .trim();
+  }
+
   /**
    * Returns a Cursor over all entries that match the given query.
    *
@@ -237,8 +281,8 @@ public class KlingonContentDatabase {
    * @return Cursor over all entries that match, or null if none found.
    */
   public Cursor getEntryMatches(String query) {
-    // Sanitize for SQL. Assume double-quote is a typo for single-quote. Also trim.
-    query = query.replaceAll("\"", "'").trim();
+    // Sanitize input.
+    query = sanitizeInput(query);
 
     // Log.d(TAG, "getEntryMatches called with query: \"" + query + "\"");
     MatrixCursor resultsCursor = new MatrixCursor(ALL_KEYS);
