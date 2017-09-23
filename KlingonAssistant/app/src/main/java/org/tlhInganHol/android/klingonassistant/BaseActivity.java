@@ -121,7 +121,13 @@ public class BaseActivity extends AppCompatActivity
     setContentView(R.layout.activity_base);
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    if (isHorizontalTablet()) {
+      // Remove "back" caret on a tablet in horizontal orientation.
+      getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+    } else {
+      // Show the "back" caret.
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
     // getSupportActionBar().setIcon(R.drawable.ic_ka);
 
     // Display the title in Klingon font.
@@ -152,15 +158,17 @@ public class BaseActivity extends AppCompatActivity
     //     });
 
     mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-    ActionBarDrawerToggle toggle =
-        new ActionBarDrawerToggle(
-            this,
-            mDrawer,
-            toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close);
-    mDrawer.setDrawerListener(toggle);
-    toggle.syncState();
+    if (mDrawer != null) {
+      ActionBarDrawerToggle toggle =
+          new ActionBarDrawerToggle(
+              this,
+              mDrawer,
+              toolbar,
+              R.string.navigation_drawer_open,
+              R.string.navigation_drawer_close);
+      mDrawer.setDrawerListener(toggle);
+      toggle.syncState();
+    }
 
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
@@ -397,7 +405,9 @@ public class BaseActivity extends AppCompatActivity
       default:
     }
 
-    mDrawer.closeDrawer(GravityCompat.START);
+    if (mDrawer != null) {
+      mDrawer.closeDrawer(GravityCompat.START);
+    }
     return true;
   }
 
@@ -586,7 +596,7 @@ public class BaseActivity extends AppCompatActivity
   // Collapse slide-out menu if "Back" key is pressed and it's open.
   @Override
   public void onBackPressed() {
-    if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+    if (mDrawer != null && mDrawer.isDrawerOpen(GravityCompat.START)) {
       mDrawer.closeDrawer(GravityCompat.START);
     } else {
       super.onBackPressed();
