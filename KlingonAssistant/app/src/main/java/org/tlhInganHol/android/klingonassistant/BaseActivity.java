@@ -26,7 +26,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -47,6 +46,7 @@ import android.view.View;
 import android.widget.TextView;
 import java.util.Locale;
 // import android.support.design.widget.Snackbar;
+// import android.support.design.widget.FloatingActionButton;
 
 public class BaseActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
@@ -83,6 +83,9 @@ public class BaseActivity extends AppCompatActivity
   // protected ListView mList;
 
   private int mActivePosition = 0;
+
+  // References to UI components.
+  private DrawerLayout mDrawer = null;
 
   // Helper method to determine whether the device is (likely) a tablet in horizontal orientation.
   public boolean isHorizontalTablet() {
@@ -148,15 +151,15 @@ public class BaseActivity extends AppCompatActivity
     //       }
     //     });
 
-    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+    mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle =
         new ActionBarDrawerToggle(
             this,
-            drawer,
+            mDrawer,
             toolbar,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close);
-    drawer.setDrawerListener(toggle);
+    mDrawer.setDrawerListener(toggle);
     toggle.syncState();
 
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -394,8 +397,7 @@ public class BaseActivity extends AppCompatActivity
       default:
     }
 
-    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-    drawer.closeDrawer(GravityCompat.START);
+    mDrawer.closeDrawer(GravityCompat.START);
     return true;
   }
 
@@ -584,9 +586,8 @@ public class BaseActivity extends AppCompatActivity
   // Collapse slide-out menu if "Back" key is pressed and it's open.
   @Override
   public void onBackPressed() {
-    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-    if (drawer.isDrawerOpen(GravityCompat.START)) {
-      drawer.closeDrawer(GravityCompat.START);
+    if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+      mDrawer.closeDrawer(GravityCompat.START);
     } else {
       super.onBackPressed();
     }
