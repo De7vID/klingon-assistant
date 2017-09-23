@@ -687,10 +687,10 @@ public class EntryActivity extends BaseActivity
     if (item.getItemId() == R.id.speak) {
       // TTS:
       if (!ttsInitialized) {
-        // The TTS engine is not installed (or disabled). Send user to Google Play Store or other market.
+        // The TTS engine is not installed (or disabled). Send user to Google Play Store or other
+        // market.
         try {
-          launchExternal(
-              "market://details?id=org.tlhInganHol.android.klingonttsengine");
+          launchExternal("market://details?id=org.tlhInganHol.android.klingonttsengine");
         } catch (android.content.ActivityNotFoundException e) {
           // Fall back to browser.
           launchExternal(
