@@ -103,7 +103,7 @@ public class Preferences extends AppCompatPreferenceActivity
 
       SharedPreferences.Editor sharedPrefsEd = sharedPrefs.edit();
       sharedPrefsEd.putBoolean(KEY_LANGUAGE_DEFAULT_ALREADY_SET, true);
-      sharedPrefsEd.commit();
+      sharedPrefsEd.apply();
     }
 
     // TUTORIAL
@@ -208,7 +208,7 @@ public class Preferences extends AppCompatPreferenceActivity
   public void onBackPressed() {
     super.onBackPressed();
     if (!isTaskRoot()) {
-      overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+      overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
   }
 }

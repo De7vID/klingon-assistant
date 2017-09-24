@@ -45,6 +45,7 @@ import android.view.SubMenu;
 import android.view.View;
 import android.widget.TextView;
 import java.util.Locale;
+
 // import android.support.design.widget.Snackbar;
 // import android.support.design.widget.FloatingActionButton;
 
@@ -152,7 +153,8 @@ public class BaseActivity extends AppCompatActivity
     //         // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
     //         //     .setAction("Action", null)
     //         //     .show();
-    //         displaySearchResults("This button doesn't work yet!:sen@@wej:adv, Qap:v:2, leQ:n, -vam:n");
+    //         displaySearchResults("This button doesn't work yet!:sen@@wej:adv, Qap:v:2, leQ:n,
+    // -vam:n");
     //         // onSearchRequested();
     //       }
     //     });
@@ -496,21 +498,21 @@ public class BaseActivity extends AppCompatActivity
     entryIntent.setData(uri);
 
     startActivity(entryIntent);
-    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   // Protected method to display the prefix chart.
   protected void displayPrefixChart() {
     Intent prefixChartIntent = new Intent(this, PrefixChartActivity.class);
     startActivity(prefixChartIntent);
-    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   // Protected method to display the sources page.
   protected void displaySources() {
     Intent sourcesIntent = new Intent(this, SourcesActivity.class);
     startActivity(sourcesIntent);
-    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   // Protected method to display search results.
@@ -521,7 +523,7 @@ public class BaseActivity extends AppCompatActivity
     intent.putExtra(SearchManager.QUERY, helpQuery);
 
     startActivity(intent);
-    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   // private AdapterView.OnItemClickListener mItemClickListener =
@@ -585,7 +587,7 @@ public class BaseActivity extends AppCompatActivity
       case R.id.preferences:
         // Show "Preferences" screen.
         startActivity(new Intent(this, Preferences.class));
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         return true;
       default:
     }

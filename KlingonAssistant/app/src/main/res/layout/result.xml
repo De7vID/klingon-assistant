@@ -34,7 +34,6 @@
     <TextView
             android:id="@+id/definition"
             style="@android:style/TextAppearance.Small"
-            android:singleLine="false"
             android:typeface="sans"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
