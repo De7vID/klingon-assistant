@@ -48,7 +48,7 @@
                 android:paddingTop="5dp"
                 android:paddingBottom="70dp"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:fillViewport="true"
                 android:layout_weight="1.0"
                 android:text="
