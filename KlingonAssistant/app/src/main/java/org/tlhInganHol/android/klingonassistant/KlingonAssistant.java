@@ -159,7 +159,7 @@ public class KlingonAssistant extends BaseActivity {
   //                sharedPrefsEd.putBoolean(KEY_SHOW_HELP, false);
   //                sharedPrefsEd.putBoolean(Preferences.KEY_RUN_TUTORIAL_CHECKBOX_PREFERENCE,
   // false);
-  //                sharedPrefsEd.commit();
+  //                sharedPrefsEd.apply();
 
   //                /*
   //                break;
@@ -254,7 +254,7 @@ public class KlingonAssistant extends BaseActivity {
         //   SharedPreferences.Editor sharedPrefsEd = PreferenceManager.getDefaultSharedPreferences(
         //           getBaseContext()).edit();
         //   sharedPrefsEd.putBoolean(KEY_SHOW_HELP, false);
-        //   sharedPrefsEd.commit();
+        //   sharedPrefsEd.apply();
         // }
       } catch (Exception e) {
         // No big deal if help screen isn't shown on start. Do nothing.
@@ -281,7 +281,7 @@ public class KlingonAssistant extends BaseActivity {
     Uri uri = Uri.parse(KlingonContentProvider.CONTENT_URI + "/get_entry_by_id/" + entryId);
     entryIntent.setData(uri);
     startActivity(entryIntent);
-    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   class EntryAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
@@ -466,7 +466,7 @@ public class KlingonAssistant extends BaseActivity {
   public void onBackPressed() {
     super.onBackPressed();
     if (!isTaskRoot()) {
-      overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+      overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
   }
 }
