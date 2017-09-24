@@ -518,7 +518,7 @@ public class KlingonContentDatabase {
         if (!filter || queryEntry.isSatisfiedBy(resultEntry)) {
           // Prevent duplicates.
           Object[] entryObject = convertEntryToCursorRow(resultEntry, /* indent */ false);
-          Integer intId = new Integer(resultEntry.getId());
+          Integer intId = Integer.valueOf(resultEntry.getId());
           if (!destSet.contains(intId)) {
             destSet.add(intId);
             destCursor.addRow(entryObject);
@@ -776,7 +776,7 @@ public class KlingonContentDatabase {
           Object[] exactMatchObject = complexWordCursorRow(resultEntry, complexWord);
 
           // If this is a bare word, prevent duplicates.
-          Integer intId = new Integer(resultEntry.getId());
+          Integer intId = Integer.valueOf(resultEntry.getId());
           if (!complexWord.isBareWord() || !resultsSet.contains(intId) || !isLenient) {
             /*
              * if (BuildConfig.DEBUG) { Log.d(TAG, "addComplexWordToResults: " +
