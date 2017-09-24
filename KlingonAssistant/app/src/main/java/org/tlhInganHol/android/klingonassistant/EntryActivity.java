@@ -541,9 +541,7 @@ public class EntryActivity extends BaseActivity
   private void goToPreviousEntry() {
     if (mPreviousEntryIntent != null) {
       startActivity(mPreviousEntryIntent);
-      // TODO: Ideally, this should transition the other way, but then pressing the back key looks
-      // weird.
-      overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+      overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
   }
 
@@ -553,13 +551,13 @@ public class EntryActivity extends BaseActivity
     Intent randomEntryIntent = new Intent(this, EntryActivity.class);
     randomEntryIntent.setData(uri);
     startActivity(randomEntryIntent);
-    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   private void goToNextEntry() {
     if (mNextEntryIntent != null) {
       startActivity(mNextEntryIntent);
-      overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+      overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
   }
 
@@ -670,16 +668,14 @@ public class EntryActivity extends BaseActivity
       intent.putExtra(SearchManager.QUERY, mQuery);
 
       view.getContext().startActivity(intent);
-      overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+      overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
   }
 
   @Override
   public void onBackPressed() {
-    // TODO: Make the animation go in the other direction if this entry was reached using the
-    // "Previous" button.
     super.onBackPressed();
-    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   @Override
