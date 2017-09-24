@@ -42,7 +42,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+            android:layout_height="wrap_content" >
             <!-- The bottom padding is needed so the entry doesn't overlap with
                  the floating action button. -->
             <TextView
