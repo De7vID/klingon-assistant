@@ -159,7 +159,7 @@ public class KlingonAssistant extends BaseActivity {
   //                sharedPrefsEd.putBoolean(KEY_SHOW_HELP, false);
   //                sharedPrefsEd.putBoolean(Preferences.KEY_RUN_TUTORIAL_CHECKBOX_PREFERENCE,
   // false);
-  //                sharedPrefsEd.commit();
+  //                sharedPrefsEd.apply();
 
   //                /*
   //                break;
@@ -254,7 +254,7 @@ public class KlingonAssistant extends BaseActivity {
         //   SharedPreferences.Editor sharedPrefsEd = PreferenceManager.getDefaultSharedPreferences(
         //           getBaseContext()).edit();
         //   sharedPrefsEd.putBoolean(KEY_SHOW_HELP, false);
-        //   sharedPrefsEd.commit();
+        //   sharedPrefsEd.apply();
         // }
       } catch (Exception e) {
         // No big deal if help screen isn't shown on start. Do nothing.

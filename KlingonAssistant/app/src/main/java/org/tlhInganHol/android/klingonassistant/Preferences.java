@@ -103,7 +103,7 @@ public class Preferences extends AppCompatPreferenceActivity
 
       SharedPreferences.Editor sharedPrefsEd = sharedPrefs.edit();
       sharedPrefsEd.putBoolean(KEY_LANGUAGE_DEFAULT_ALREADY_SET, true);
-      sharedPrefsEd.commit();
+      sharedPrefsEd.apply();
     }
 
     // TUTORIAL
