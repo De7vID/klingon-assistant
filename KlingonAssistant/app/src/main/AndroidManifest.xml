@@ -74,7 +74,8 @@
 
         <!-- Displays the Preferences screen. -->
         <activity android:name=".Preferences"
-                android:label="@string/menu_preferences">
+                  android:label="@string/menu_preferences"
+                  android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.PREFERENCE" />
@@ -92,7 +93,8 @@
 
         <!-- Provides search suggestions for words and their definitions. -->
         <provider android:name=".KlingonContentProvider"
-                  android:authorities="org.tlhInganHol.android.klingonassistant.KlingonContentProvider" />
+                  android:authorities="org.tlhInganHol.android.klingonassistant.KlingonContentProvider"
+                  android:exported="false" />
 
         <!-- Points to searchable activity so the whole app can invoke search. -->
         <meta-data android:name="android.app.default_searchable"
