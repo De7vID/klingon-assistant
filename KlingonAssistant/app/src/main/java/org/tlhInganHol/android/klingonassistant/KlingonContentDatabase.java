@@ -1079,7 +1079,7 @@ public class KlingonContentDatabase {
       SharedPreferences.Editor sharedPrefsEd =
           PreferenceManager.getDefaultSharedPreferences(mHelperContext).edit();
       sharedPrefsEd.putBoolean(KlingonAssistant.KEY_SHOW_HELP, true);
-      sharedPrefsEd.commit();
+      sharedPrefsEd.apply();
       // Log.d(TAG, "Flag set to show help.");
     }
 
