@@ -12,8 +12,8 @@ android {
         // We are targeting only Marshmallow and above.
         minSdkVersion 23
         targetSdkVersion 26
-        versionCode 404
-        versionName "2017.09.25b"
+        versionCode 405
+        versionName "2017.09.25c"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
