@@ -180,8 +180,8 @@ public class KlingonContentProvider extends ContentProvider {
     // search box.
     Entry entry = new Entry(cursor, getContext());
     int entryId = entry.getId();
-    String indent1 = entry.isIndented() ? "    " : "";
-    String indent2 = entry.isIndented() ? "      " : "";
+    String indent1 = entry.isIndented() ? (entry.isVerb() ? "  " : "    ") : "";
+    String indent2 = entry.isIndented() ? (entry.isVerb() ? "   " : "      ") : "";
     String entryName = indent1 + entry.getFormattedEntryName(/* isHtml */ false);
     String formattedDefinition = indent2 + entry.getFormattedDefinition(/* isHtml */ false);
     // TODO: Format the "alt" results.
@@ -589,7 +589,7 @@ public class KlingonContentProvider extends ContentProvider {
         } else if (attr.equals("suff")) {
           mIsSuffix = true;
         } else if (attr.equals("indent")) {
-          // This attribute is used internally to indent affixes which are attached to a word.
+          // This attribute is used internally to indent affixes which are attached to a word, and to half-indent verbs with prefixes.
           mIsIndented = true;
 
           // Verb attributes.
