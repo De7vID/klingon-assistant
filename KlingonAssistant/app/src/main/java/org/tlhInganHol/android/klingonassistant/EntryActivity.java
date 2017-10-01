@@ -16,38 +16,26 @@
 
 package org.tlhInganHol.android.klingonassistant;
 
-import android.app.SearchManager;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.ShareActionProvider;
-import android.text.Html;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
-import android.text.style.StyleSpan;
-import android.text.style.SuperscriptSpan;
-import android.text.style.TypefaceSpan;
-import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
 
 /** Displays an entry and its definition. */
 public class EntryActivity extends BaseActivity
@@ -56,19 +44,16 @@ public class EntryActivity extends BaseActivity
 
   private static final String TAG = "EntryActivity";
 
-  // The intent holding the data to be shared.
-  private Intent mShareEntryIntent = null;
-
-  // The parent query that this entry is a part of.
-  private String mParentQuery = null;
+  // The name of this entry.
   private String mEntryName = null;
 
-  // Intents for the bottom navigation buttons.
-  // Note that the renumber.py script ensures a max difference of 10 between
-  // the IDs of adjacent entries, within the same "mem" file.
-  private Intent mPreviousEntryIntent = null;
-  private Intent mNextEntryIntent = null;
-  private static final int MAX_ENTRY_ID_DIFF = 10;
+  // The parent query that this entry is a part of.
+  // private String mParentQuery = null;
+
+  // The intent holding the data to be shared, and the associated UI and action provider.
+  private Intent mShareEntryIntent = null;
+  MenuItem mShareButton = null;
+  ShareActionProvider mShareActionProvider;
 
   // TTS:
   /** The {@link TextToSpeech} used for speaking. */
@@ -76,6 +61,12 @@ public class EntryActivity extends BaseActivity
 
   private MenuItem mSpeakButton;
   private boolean ttsInitialized = false;
+
+  // Handle swipe. The pager widget handles animation and allows swiping
+  // horizontally. The pager adapter provides the pages to the pager widget.
+  private ViewPager mPager;
+  private PagerAdapter mPagerAdapter;
+  private int mEntryIndex = -1;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -92,473 +83,63 @@ public class EntryActivity extends BaseActivity
             this, // TextToSpeech.OnInitListener
             "org.tlhInganHol.android.klingonttsengine"); // Requires API 14.
 
-    setDrawerContentView(R.layout.entry);
-    Resources resources = getResources();
+    setDrawerContentView(R.layout.entry_swipe);
 
-    TextView entryTitle = (TextView) findViewById(R.id.entry_title);
-    TextView entryText = (TextView) findViewById(R.id.definition);
-
-    // TODO: Save and restore bundle state to preserve links.
-
-    Uri uri = getIntent().getData();
-    // Log.d(TAG, "EntryActivity - uri: " + uri.toString());
+    Uri inputUri = getIntent().getData();
+    // Log.d(TAG, "EntryActivity - inputUri: " + inputUri.toString());
     // TODO: Disable the "About" menu item if this is the "About" entry.
-    mParentQuery = getIntent().getStringExtra(SearchManager.QUERY);
+    // mParentQuery = getIntent().getStringExtra(SearchManager.QUERY);
+
+    // Determine whether we're launching a single entry, or a list of entries.
+    // If it's a single entry, the URI will end in "get_entry_by_id/" followed
+    // by the one ID. In the case of a list, the URI will end in "get_entry_by_id/"
+    // follwoed by a list of comma-separated IDs, with one additional item at the
+    // end for the position of the current entry. For a random entry, the URI will
+    // end in "get_random_entry", with no ID at all.
+    String[] ids = inputUri.getLastPathSegment().split(",");
+    Uri queryUri = null;
+    List<String> entryIdsList = new ArrayList<String>(Arrays.asList(ids));
+    if (ids.length == 1) {
+      // There is only one entry to display. Either its ID was explicitly
+      // given, or we want a random entry.
+      queryUri = inputUri;
+      mEntryIndex = 0;
+    } else {
+      // Parse the comma-separated list, the last entry of which is the
+      // position index. We nees to construct the queryUri based on the
+      // intended current entry.
+      mEntryIndex = Integer.parseInt(entryIdsList.get(ids.length - 1));
+      entryIdsList.remove(ids.length - 1);
+      queryUri =
+          Uri.parse(
+              KlingonContentProvider.CONTENT_URI
+                  + "/get_entry_by_id/"
+                  + entryIdsList.get(mEntryIndex));
+    }
 
     // Retrieve the entry's data.
     // Note: managedQuery is deprecated since API 11.
-    Cursor cursor = managedQuery(uri, KlingonContentDatabase.ALL_KEYS, null, null, null);
+    Cursor cursor = managedQuery(queryUri, KlingonContentDatabase.ALL_KEYS, null, null, null);
     final KlingonContentProvider.Entry entry =
         new KlingonContentProvider.Entry(cursor, getBaseContext());
     int entryId = entry.getId();
-
-    // Set up the bottom navigation buttons.
-    BottomNavigationView bottomNavView =
-        (BottomNavigationView) findViewById(R.id.bottom_navigation);
-    for (int i = 1; i <= MAX_ENTRY_ID_DIFF; i++) {
-      Intent entryIntent = getEntryByIdIntent(entryId + i);
-      if (entryIntent != null) {
-        mNextEntryIntent = entryIntent;
-        break;
-      }
-    }
-    if (mNextEntryIntent == null) {
-      MenuItem nextButton = (MenuItem) bottomNavView.getMenu().findItem(R.id.action_next);
-      nextButton.setEnabled(false);
-      bottomNavView.findViewById(R.id.action_next).setVisibility(View.INVISIBLE);
-    }
-    for (int i = 1; i <= MAX_ENTRY_ID_DIFF; i++) {
-      Intent entryIntent = getEntryByIdIntent(entryId - i);
-      if (entryIntent != null) {
-        mPreviousEntryIntent = entryIntent;
-        break;
-      }
-    }
-    if (mPreviousEntryIntent == null) {
-      MenuItem previousButton = (MenuItem) bottomNavView.getMenu().findItem(R.id.action_previous);
-      previousButton.setEnabled(false);
-      bottomNavView.findViewById(R.id.action_previous).setVisibility(View.INVISIBLE);
-    }
-    bottomNavView.setOnNavigationItemSelectedListener(
-        new BottomNavigationView.OnNavigationItemSelectedListener() {
-          @Override
-          public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-              case R.id.action_previous:
-                goToPreviousEntry();
-                break;
-              case R.id.action_random:
-                goToRandomEntry();
-                break;
-              case R.id.action_next:
-                goToNextEntry();
-                break;
-            }
-            return false;
-          }
-        });
-
-    // Handle alternative spellings here.
-    if (entry.isAlternativeSpelling()) {
-      // TODO: Immediate redirect to query in entry.getDefinition();
-    }
-
-    // Get the shared preferences.
-    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-    // Set the entry's name (along with info like "slang", formatted in HTML).
-    entryTitle.invalidate();
-    boolean useKlingonFont =
-        sharedPrefs.getBoolean(
-            Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false);
-    Typeface klingonTypeface = KlingonAssistant.getKlingonFontTypeface(getBaseContext());
-    if (useKlingonFont) {
-      // Preference is set to display this in {pIqaD}!
-      entryTitle.setTypeface(klingonTypeface);
-      entryTitle.setText(entry.getEntryNameInKlingonFont());
-    } else {
-      // Boring transcription based on English (Latin) alphabet.
-      entryTitle.setText(Html.fromHtml(entry.getFormattedEntryName(/* isHtml */ true)));
-    }
     mEntryName = entry.getEntryName();
-
-    // Set the colour for the entry name depending on its part of speech.
-    boolean useColours =
-        sharedPrefs.getBoolean(Preferences.KEY_USE_COLOURS_CHECKBOX_PREFERENCE, /* default */ true);
-    if (useColours) {
-      entryTitle.setTextColor(entry.getTextColor());
-    }
-
-    // Create the expanded definition.
-    String pos = entry.getFormattedPartOfSpeech(/* isHtml */ false);
-    String expandedDefinition = pos;
-
-    // Determine whether to show the German definition. If shown, it is primary, and the English
-    // definition is shown as secondary.
-    String englishDefinition = entry.getDefinition();
-    boolean displayGermanEntry = entry.shouldDisplayGermanDefinition();
-    int englishDefinitionStart = -1;
-    String englishDefinitionHeader = "\n" + resources.getString(R.string.label_english) + ": ";
-    if (!displayGermanEntry) {
-      // The simple case: just the English definition.
-      expandedDefinition += englishDefinition;
-    } else {
-      // We display the German definition as the primary one, but keep track of the location of the
-      // English definition to change its font size later.
-      expandedDefinition += entry.getDefinition_DE();
-      englishDefinitionStart = expandedDefinition.length();
-      expandedDefinition += englishDefinitionHeader + englishDefinition;
+    if (entryIdsList.size() == 1 && entryIdsList.get(0).equals("get_random_entry")) {
+      // For a random entry, replace "get_random_entry" with the ID of randomly
+      // chosen entry.
+      entryIdsList.clear();
+      entryIdsList.add(Integer.toString(entryId));
     }
 
     // Set the share intent.
     setShareEntryIntent(entry);
 
-    // Show the basic notes.
-    String notes;
-    if (entry.shouldDisplayGermanNotes()) {
-      notes = entry.getNotes_DE();
-    } else {
-      notes = entry.getNotes();
-    }
-    if (!notes.equals("")) {
-      expandedDefinition += "\n\n" + notes;
-    }
-
-    // If this entry is hypothetical or extended canon, display warnings.
-    if (entry.isHypothetical() || entry.isExtendedCanon()) {
-      expandedDefinition += "\n\n";
-      if (entry.isHypothetical()) {
-        expandedDefinition += resources.getString(R.string.warning_hypothetical);
-      }
-      if (entry.isExtendedCanon()) {
-        expandedDefinition += resources.getString(R.string.warning_extended_canon);
-      }
-    }
-
-    // Show synonyms, antonyms, and related entries.
-    String synonyms = entry.getSynonyms();
-    String antonyms = entry.getAntonyms();
-    String seeAlso = entry.getSeeAlso();
-    if (!synonyms.equals("")) {
-      expandedDefinition += "\n\n" + resources.getString(R.string.label_synonyms) + ": " + synonyms;
-    }
-    if (!antonyms.equals("")) {
-      expandedDefinition += "\n\n" + resources.getString(R.string.label_antonyms) + ": " + antonyms;
-    }
-    if (!seeAlso.equals("")) {
-      expandedDefinition += "\n\n" + resources.getString(R.string.label_see_also) + ": " + seeAlso;
-    }
-
-    // Display components if that field is not empty, unless we are showing an analysis link, in
-    // which case we want to hide the components.
-    boolean showAnalysis = entry.isSentence() || entry.isDerivative();
-    String components = entry.getComponents();
-    if (!components.equals("")) {
-      // Treat the components column of inherent plurals and their
-      // singulars differently than for other entries.
-      if (entry.isInherentPlural()) {
-        expandedDefinition +=
-            "\n\n" + String.format(resources.getString(R.string.info_inherent_plural), components);
-      } else if (entry.isSingularFormOfInherentPlural()) {
-        expandedDefinition +=
-            "\n\n" + String.format(resources.getString(R.string.info_singular_form), components);
-      } else if (!showAnalysis) {
-        // This is just a regular list of components.
-        expandedDefinition +=
-            "\n\n" + resources.getString(R.string.label_components) + ": " + components;
-      }
-    }
-
-    // Display plural information.
-    if (!entry.isPlural() && !entry.isInherentPlural() && !entry.isPlural()) {
-      if (entry.isBeingCapableOfLanguage()) {
-        expandedDefinition += "\n\n" + resources.getString(R.string.info_being);
-      } else if (entry.isBodyPart()) {
-        expandedDefinition += "\n\n" + resources.getString(R.string.info_body);
-      }
-    }
-
-    // If the entry is a useful phrase, link back to its category.
-    if (entry.isSentence()) {
-      String sentenceType = entry.getSentenceType();
-      if (!sentenceType.equals("")) {
-        // Put the query as a placeholder for the actual category.
-        expandedDefinition +=
-            "\n\n"
-                + resources.getString(R.string.label_category)
-                + ": {"
-                + entry.getSentenceTypeQuery()
-                + "}";
-      }
-    }
-
-    // If the entry is a sentence, make a link to analyse its components.
-    if (showAnalysis) {
-      String analysisQuery = entry.getEntryName();
-      if (!components.equals("")) {
-        // Strip the brackets around each component so they won't be processed.
-        analysisQuery += ":" + entry.getPartOfSpeech();
-        int homophoneNumber = entry.getHomophoneNumber();
-        if (homophoneNumber != -1) {
-          analysisQuery += ":" + homophoneNumber;
-        }
-        analysisQuery +=
-            KlingonContentProvider.Entry.COMPONENTS_MARKER + components.replaceAll("[{}]", "");
-      }
-      expandedDefinition +=
-          "\n\n" + resources.getString(R.string.label_analyze) + ": {" + analysisQuery + "}";
-    }
-
-    // Show the examples.
-    String examples;
-    if (entry.shouldDisplayGermanExamples()) {
-      examples = entry.getExamples_DE();
-    } else {
-      examples = entry.getExamples();
-    }
-    if (!examples.equals("")) {
-      expandedDefinition += "\n\n" + resources.getString(R.string.label_examples) + ": " + examples;
-    }
-
-    // Show the source.
-    String source = entry.getSource();
-    if (!source.equals("")) {
-      expandedDefinition += "\n\n" + resources.getString(R.string.label_sources) + ": " + source;
-    }
-
-    // If this is a verb (but not a prefix or suffix), show the transitivity information.
-    String transitivity = "";
-    if (entry.isVerb()
-        && sharedPrefs.getBoolean(
-            Preferences.KEY_SHOW_TRANSITIVITY_CHECKBOX_PREFERENCE, /* default */ true)) {
-      // This is a verb and show transitivity preference is set to true.
-      transitivity = entry.getTransitivityString();
-    }
-    int transitivityStart = -1;
-    String transitivityHeader = "\n\n" + resources.getString(R.string.label_transitivity) + ": ";
-    boolean showTransitivityInformation = !transitivity.equals("");
-    if (showTransitivityInformation) {
-      transitivityStart = expandedDefinition.length();
-      expandedDefinition += transitivityHeader + transitivity;
-    }
-
-    // Show the hidden notes.
-    String hiddenNotes = "";
-    if (sharedPrefs.getBoolean(
-        Preferences.KEY_SHOW_ADDITIONAL_INFORMATION_CHECKBOX_PREFERENCE, /* default */ true)) {
-      // Show additional information preference set to true.
-      hiddenNotes = entry.getHiddenNotes();
-    }
-    int hiddenNotesStart = -1;
-    String hiddenNotesHeader =
-        "\n\n" + resources.getString(R.string.label_additional_information) + ": ";
-    if (!hiddenNotes.equals("")) {
-      hiddenNotesStart = expandedDefinition.length();
-      expandedDefinition += hiddenNotesHeader + hiddenNotes;
-    }
-
-    // Format the expanded definition, including linkifying the links to other entries.
-    float smallTextScale = (float) 0.8;
-    SpannableStringBuilder ssb = new SpannableStringBuilder(expandedDefinition);
-    int intermediateFlags = Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | Spanned.SPAN_INTERMEDIATE;
-    int finalFlags = Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
-    if (!pos.equals("")) {
-      // Italicise the part of speech.
-      ssb.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), 0, pos.length(), finalFlags);
-    }
-    if (displayGermanEntry) {
-      // Reduce the size of the secondary (English) definition.
-      ssb.setSpan(
-          new RelativeSizeSpan(smallTextScale),
-          englishDefinitionStart,
-          englishDefinitionStart + englishDefinitionHeader.length() + englishDefinition.length(),
-          finalFlags);
-    }
-    if (showTransitivityInformation) {
-      // Reduce the size of the transitivity information.
-      ssb.setSpan(
-          new RelativeSizeSpan(smallTextScale),
-          transitivityStart,
-          transitivityStart + transitivityHeader.length() + transitivity.length(),
-          finalFlags);
-    }
-    if (!hiddenNotes.equals("")) {
-      // Reduce the size of the hidden notes.
-      ssb.setSpan(
-          new RelativeSizeSpan(smallTextScale),
-          hiddenNotesStart,
-          hiddenNotesStart + hiddenNotesHeader.length() + hiddenNotes.length(),
-          finalFlags);
-    }
-    Matcher m = KlingonContentProvider.Entry.ENTRY_PATTERN.matcher(expandedDefinition);
-    while (m.find()) {
-
-      // Strip the brackets {} to get the query.
-      String query = expandedDefinition.substring(m.start() + 1, m.end() - 1);
-      LookupClickableSpan viewLauncher = new LookupClickableSpan(query);
-
-      // Process the linked entry information.
-      KlingonContentProvider.Entry linkedEntry =
-          new KlingonContentProvider.Entry(query, getBaseContext());
-      // Log.d(TAG, "linkedEntry.getEntryName() = " + linkedEntry.getEntryName());
-
-      // Delete the brackets and metadata parts of the string (which includes analysis components).
-      ssb.delete(m.start() + 1 + linkedEntry.getEntryName().length(), m.end());
-      ssb.delete(m.start(), m.start() + 1);
-      int end = m.start() + linkedEntry.getEntryName().length();
-
-      // Insert link to the category for a useful phrase.
-      if (entry.isSentence()
-          && !entry.getSentenceType().equals("")
-          && linkedEntry.getEntryName().equals("*")) {
-        // Delete the "*" placeholder.
-        ssb.delete(m.start(), m.start() + 1);
-
-        // Insert the category name.
-        ssb.insert(m.start(), entry.getSentenceType());
-        end += entry.getSentenceType().length() - 1;
-      }
-
-      // Set the font and link.
-      // This is true if this entry doesn't launch an EntryActivity.
-      boolean disableEntryLink =
-          linkedEntry.doNotLink() || linkedEntry.isSource() || linkedEntry.isURL();
-      // The last span set on a range must have finalFlags.
-      int maybeFinalFlags = disableEntryLink ? finalFlags : intermediateFlags;
-      if (linkedEntry.isSource()) {
-        // If possible, link to the source.
-        String url = linkedEntry.getURL();
-        if (!url.equals("")) {
-          ssb.setSpan(new URLSpan(url), m.start(), end, intermediateFlags);
-        }
-        // Names of sources are in italics.
-        ssb.setSpan(
-            new StyleSpan(android.graphics.Typeface.ITALIC), m.start(), end, maybeFinalFlags);
-      } else if (linkedEntry.isURL()) {
-        // Linkify URL if there is one.
-        String url = linkedEntry.getURL();
-        if (!url.equals("")) {
-          ssb.setSpan(new URLSpan(url), m.start(), end, maybeFinalFlags);
-        }
-      } else if (useKlingonFont) {
-        // Display the text using the Klingon font. Categories (which have an entry of "*") must
-        // be handled specially.
-        String klingonEntryName =
-            !linkedEntry.getEntryName().equals("*")
-                ? linkedEntry.getEntryNameInKlingonFont()
-                : KlingonContentProvider.convertStringToKlingonFont(entry.getSentenceType());
-        ssb.delete(m.start(), end);
-        ssb.insert(m.start(), klingonEntryName);
-        end = m.start() + klingonEntryName.length();
-        ssb.setSpan(new KlingonTypefaceSpan("", klingonTypeface), m.start(), end, maybeFinalFlags);
-      } else {
-        // Klingon is in bold serif.
-        ssb.setSpan(
-            new StyleSpan(android.graphics.Typeface.BOLD), m.start(), end, intermediateFlags);
-        ssb.setSpan(new TypefaceSpan("serif"), m.start(), end, maybeFinalFlags);
-      }
-      // If linked entry is hypothetical or extended canon, insert a "?" in front.
-      if (linkedEntry.isHypothetical() || linkedEntry.isExtendedCanon()) {
-        ssb.insert(m.start(), "?");
-        ssb.setSpan(
-            new RelativeSizeSpan(smallTextScale), m.start(), m.start() + 1, intermediateFlags);
-        ssb.setSpan(new SuperscriptSpan(), m.start(), m.start() + 1, maybeFinalFlags);
-        end++;
-      }
-      // Only apply colours to verbs, nouns, and affixes (exclude BLUE and WHITE).
-      if (!disableEntryLink) {
-        // Link to view launcher.
-        ssb.setSpan(viewLauncher, m.start(), end, useColours ? intermediateFlags : finalFlags);
-      }
-      // Set the colour last, so it's not overridden by other spans.
-      if (useColours) {
-        // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        //   // Work around a bug in Android 6.0.
-        //   //
-        // http://stackoverflow.com/questions/34631851/multiple-foregroundcolorspan-on-editable-issue-on-android-6-0
-        //   ForegroundColorSpan[] oldSpans = ssb.getSpans(m.start(), end,
-        // ForegroundColorSpan.class);
-        //   for (ForegroundColorSpan span : oldSpans) {
-        //     ssb.removeSpan(span);
-        //   }
-        // }
-        ssb.setSpan(
-            new ForegroundColorSpan(linkedEntry.getTextColor()), m.start(), end, finalFlags);
-      }
-      String linkedPos = linkedEntry.getBracketedPartOfSpeech(/* isHtml */ false);
-      if (!linkedPos.equals("") && linkedPos.length() > 1) {
-        ssb.insert(end, linkedPos);
-
-        int rightBracketLoc = linkedPos.indexOf(")");
-        if (rightBracketLoc != -1) {
-          // linkedPos is always of the form " (pos)[ (def'n N)]", we want to italicise
-          // the "pos" part only.
-          ssb.setSpan(
-              new StyleSpan(android.graphics.Typeface.ITALIC),
-              end + 2,
-              end + rightBracketLoc,
-              finalFlags);
-        }
-      }
-
-      // Rinse and repeat.
-      expandedDefinition = ssb.toString();
-      m = KlingonContentProvider.Entry.ENTRY_PATTERN.matcher(expandedDefinition);
-    }
-
-    // Display the entry name and definition.
-    entryText.invalidate();
-    entryText.setText(ssb);
-    entryText.setMovementMethod(LinkMovementMethod.getInstance());
-  }
-
-  private Intent getEntryByIdIntent(int entryId) {
-    Cursor cursor;
-    cursor =
-        managedQuery(
-            Uri.parse(KlingonContentProvider.CONTENT_URI + "/get_entry_by_id/" + entryId),
-            null /* all columns */,
-            null,
-            null,
-            null);
-    if (cursor.getCount() == 1) {
-      Uri uri =
-          Uri.parse(
-              KlingonContentProvider.CONTENT_URI
-                  + "/get_entry_by_id/"
-                  + cursor.getString(KlingonContentDatabase.COLUMN_ID));
-
-      Intent entryIntent = new Intent(this, EntryActivity.class);
-
-      // Form the URI for the entry.
-      entryIntent.setData(uri);
-
-      return entryIntent;
-    }
-    return null;
-  }
-
-  private void goToPreviousEntry() {
-    if (mPreviousEntryIntent != null) {
-      startActivity(mPreviousEntryIntent);
-      overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-    }
-  }
-
-  private void goToRandomEntry() {
-    Cursor cursor;
-    Uri uri = Uri.parse(KlingonContentProvider.CONTENT_URI + "/get_random_entry");
-    Intent randomEntryIntent = new Intent(this, EntryActivity.class);
-    randomEntryIntent.setData(uri);
-    startActivity(randomEntryIntent);
-    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-  }
-
-  private void goToNextEntry() {
-    if (mNextEntryIntent != null) {
-      startActivity(mNextEntryIntent);
-      overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-    }
+    // Instantiate a ViewPager and a PagerAdapter.
+    mPager = (ViewPager) findViewById(R.id.pager);
+    mPagerAdapter = new SwipeAdapter(getSupportFragmentManager(), entryIdsList);
+    mPager.setAdapter(mPagerAdapter);
+    mPager.setCurrentItem(mEntryIndex, /* smoothScroll */ false);
+    mPager.setOnPageChangeListener(new SwipePageChangeListener(entryIdsList));
   }
 
   @Override
@@ -607,14 +188,13 @@ public class EntryActivity extends BaseActivity
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
-    MenuItem shareButton = menu.findItem(R.id.share);
-    ShareActionProvider shareActionProvider =
-        (ShareActionProvider) MenuItemCompat.getActionProvider(shareButton);
+    mShareButton = menu.findItem(R.id.share);
+    mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(mShareButton);
 
-    if (shareActionProvider != null && mShareEntryIntent != null) {
+    if (mShareActionProvider != null && mShareEntryIntent != null) {
       // Enable "Share" button.
-      shareActionProvider.setShareIntent(mShareEntryIntent);
-      shareButton.setVisible(true);
+      mShareActionProvider.setShareIntent(mShareEntryIntent);
+      mShareButton.setVisible(true);
     }
 
     // TTS:
@@ -631,45 +211,20 @@ public class EntryActivity extends BaseActivity
   // Set the share intent for this entry.
   private void setShareEntryIntent(KlingonContentProvider.Entry entry) {
     if (entry.isAlternativeSpelling()) {
+      // Disable sharing alternative spelling entries.
+      mShareEntryIntent = null;
       return;
     }
 
     Resources resources = getResources();
-    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     mShareEntryIntent = new Intent(Intent.ACTION_SEND);
-    // if (sharedPrefs.getBoolean(
-    //     Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false)) {
-    //   mShareEntryIntent.putExtra(
-    //       Intent.EXTRA_TITLE, resources.getString(R.string.share_popup_title_tlh));
-    // } else {
     mShareEntryIntent.putExtra(Intent.EXTRA_TITLE, resources.getString(R.string.share_popup_title));
-    // }
-
     mShareEntryIntent.setType("text/plain");
     String subject = "{" + entry.getFormattedEntryName(/* isHtml */ false) + "}";
     mShareEntryIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
     String snippet = subject + "\n" + entry.getFormattedDefinition(/* isHtml */ false);
     mShareEntryIntent.putExtra(
         Intent.EXTRA_TEXT, snippet + "\n\n" + resources.getString(R.string.shared_from));
-  }
-
-  // Private class for handling clickable spans.
-  private class LookupClickableSpan extends ClickableSpan {
-    private String mQuery;
-
-    LookupClickableSpan(String query) {
-      mQuery = query;
-    }
-
-    @Override
-    public void onClick(View view) {
-      Intent intent = new Intent(view.getContext(), KlingonAssistant.class);
-      intent.setAction(Intent.ACTION_SEARCH);
-      intent.putExtra(SearchManager.QUERY, mQuery);
-
-      view.getContext().startActivity(intent);
-      overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-    }
   }
 
   @Override
@@ -729,5 +284,76 @@ public class EntryActivity extends BaseActivity
       // Initialization failed.
       Log.e(TAG, "Could not initialize TextToSpeech.");
     }
+  }
+
+  // Swipe
+  private class SwipeAdapter extends FragmentStatePagerAdapter {
+    private List<EntryFragment> entryFragments = null;
+
+    public SwipeAdapter(FragmentManager fm, List<String> entryIdsList) {
+      super(fm);
+
+      // Set up all of the entry fragments.
+      entryFragments = new ArrayList<EntryFragment>();
+      for (int i = 0; i < entryIdsList.size(); i++) {
+        Uri uri =
+            Uri.parse(
+                KlingonContentProvider.CONTENT_URI + "/get_entry_by_id/" + entryIdsList.get(i));
+        entryFragments.add(EntryFragment.newInstance(uri));
+      }
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+      return entryFragments.get(position);
+    }
+
+    @Override
+    public int getCount() {
+      return entryFragments.size();
+    }
+  }
+
+  private class SwipePageChangeListener implements ViewPager.OnPageChangeListener {
+    List<String> mEntryIdsList = null;
+
+    public SwipePageChangeListener(List<String> entryIdsList) {
+      mEntryIdsList = entryIdsList;
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+    @Override
+    public void onPageSelected(int position) {
+      Uri uri =
+          Uri.parse(
+              KlingonContentProvider.CONTENT_URI
+                  + "/get_entry_by_id/"
+                  + mEntryIdsList.get(position));
+
+      // Note: managedQuery is deprecated since API 11.
+      Cursor cursor = managedQuery(uri, KlingonContentDatabase.ALL_KEYS, null, null, null);
+      final KlingonContentProvider.Entry entry =
+          new KlingonContentProvider.Entry(cursor, getBaseContext());
+      int entryId = entry.getId();
+
+      // Update the entry name (used for TTS output).
+      mEntryName = entry.getEntryName();
+
+      // Update share menu and set the visibility of the share button.
+      setShareEntryIntent(entry);
+      if (mShareActionProvider != null && mShareEntryIntent != null) {
+        // Enable "Share" button.
+        mShareActionProvider.setShareIntent(mShareEntryIntent);
+        mShareButton.setVisible(true);
+      } else {
+        // Disable "Share" button.
+        mShareButton.setVisible(false);
+      }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {}
   }
 }
