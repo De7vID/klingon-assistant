@@ -1,5 +1,6 @@
 CHANGELOG
 
+2017-10-01: Handle swipe to move between search results; put verb before verb stem in results
 2017-09-25: Add opening monologue of DSC, make misc. edits related to DSC
 2017-09-24: Fix tablet layout bug, make database IDs sequential without gaps, misc lint fixes
 2017-09-20: allow edit of mistyped input, selection of text, search in {pIqaD}
