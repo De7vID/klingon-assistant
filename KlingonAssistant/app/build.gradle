@@ -13,7 +13,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 26
         versionCode 405
-        versionName "2017.09.25c"
+        versionName "2017.10.01a"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

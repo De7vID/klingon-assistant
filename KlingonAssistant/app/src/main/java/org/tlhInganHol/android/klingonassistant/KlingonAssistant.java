@@ -337,8 +337,8 @@ public class KlingonAssistant extends BaseActivity {
       // Note that we override the typeface and text size here, instead of in
       // the xml, because putting it there would also change the appearance of
       // the Preferences page.
-      String indent1 = entry.isIndented() ? "&nbsp;&nbsp;&nbsp;&nbsp;" : "";
-      String indent2 = entry.isIndented() ? "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" : "";
+      String indent1 = entry.isIndented() ? (entry.isVerb() ? "&nbsp;&nbsp;" : "&nbsp;&nbsp;&nbsp;&nbsp;") : "";
+      String indent2 = entry.isIndented() ? (entry.isVerb() ? "&nbsp;&nbsp;&nbsp;&nbsp;" : "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;") : "";
 
       SharedPreferences sharedPrefs =
           PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -373,8 +373,24 @@ public class KlingonAssistant extends BaseActivity {
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-      mCursor.moveToPosition(position);
-      launchEntry(mCursor.getString(KlingonContentDatabase.COLUMN_ID));
+      if (getCount() == 1) {
+        // Launch entry the regular way, as there's only one result.
+        mCursor.moveToPosition(position);
+        launchEntry(mCursor.getString(KlingonContentDatabase.COLUMN_ID));
+      } else {
+        // There's a list of results, so launch a list of entries. Instead of passing in
+        // one ID, we pass in a comma-separated list. We also append the position of the
+        // selected entry to the end.
+        StringBuilder entryList = new StringBuilder();
+        for (int i = 0; i < getCount(); i++) {
+          mCursor.moveToPosition(i);
+          entryList.append(mCursor.getString(KlingonContentDatabase.COLUMN_ID));
+          entryList.append(",");
+        }
+        entryList.append(position);
+        mCursor.moveToPosition(position);
+        launchEntry(entryList.toString());
+      }
     }
   }
 
