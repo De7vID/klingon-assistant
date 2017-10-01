@@ -344,12 +344,16 @@ public class EntryActivity extends BaseActivity
       // Update share menu and set the visibility of the share button.
       setShareEntryIntent(entry);
       if (mShareActionProvider != null && mShareEntryIntent != null) {
-        // Enable "Share" button.
+        // Enable "Share" button. Note that mShareButton can be null if the device has been rotated.
         mShareActionProvider.setShareIntent(mShareEntryIntent);
-        mShareButton.setVisible(true);
+        if (mShareButton != null) {
+          mShareButton.setVisible(true);
+        }
       } else {
         // Disable "Share" button.
-        mShareButton.setVisible(false);
+        if (mShareButton != null) {
+          mShareButton.setVisible(false);
+        }
       }
     }
 
