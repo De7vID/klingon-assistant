@@ -26,6 +26,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -47,7 +48,6 @@ import android.widget.TextView;
 import java.util.Locale;
 
 // import android.support.design.widget.Snackbar;
-// import android.support.design.widget.FloatingActionButton;
 
 public class BaseActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
@@ -145,19 +145,25 @@ public class BaseActivity extends AppCompatActivity
     getSupportActionBar().setTitle(klingonAppName);
 
     // FAB:
-    // FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-    // fab.setOnClickListener(
-    //     new View.OnClickListener() {
-    //       @Override
-    //       public void onClick(View view) {
-    //         // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-    //         //     .setAction("Action", null)
-    //         //     .show();
-    //         displaySearchResults("This button doesn't work yet!:sen@@wej:adv, Qap:v:2, leQ:n,
-    // -vam:n");
-    //         // onSearchRequested();
-    //       }
-    //     });
+    if (sharedPrefs.getBoolean(Preferences.KEY_SHOW_FAB_CHECKBOX_PREFERENCE, /* default */ false)) {
+      FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+      fab.setVisibility(View.VISIBLE);
+      fab.setOnClickListener(
+          new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+              //     .setAction("Action", null)
+              //     .show();
+              // displaySearchResults("This button doesn't work yet!:sen@@wej:adv, Qap:v:2, leQ:n,
+              // -vam:n");
+
+              Intent intent = new Intent(getBaseContext(), LessonActivity.class);
+              startActivity(intent);
+              overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
+          });
+    }
 
     mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     if (mDrawer != null) {
