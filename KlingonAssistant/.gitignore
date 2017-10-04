@@ -8,8 +8,5 @@ build/
 captures/
 .externalNativeBuild
 
-# This file is generated and doesn't need to be checked in.
-app/src/main/assets/qawHaq.db
-
 # Unexclude specific jar
 !gradle/wrapper/gradle-wrapper.jar
