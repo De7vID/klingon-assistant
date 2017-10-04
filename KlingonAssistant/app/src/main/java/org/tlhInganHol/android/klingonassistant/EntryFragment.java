@@ -39,6 +39,7 @@ import android.text.style.SuperscriptSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,6 +88,15 @@ public class EntryFragment extends Fragment {
     // Set up the bottom navigation buttons.
     BottomNavigationView bottomNavView =
         (BottomNavigationView) rootView.findViewById(R.id.bottom_navigation);
+    Menu bottomNavMenu = bottomNavView.getMenu();
+
+    // Work around a bug where one of the buttons is selected, and is in a different state,
+    // which displays as a different colour and font size. We override the colour in entry.xml,
+    // and select the middle button here by unchecking it so that the font difference isn't so
+    // noticeable.
+    MenuItem randomButton = (MenuItem) bottomNavMenu.findItem(R.id.action_random);
+    randomButton.setChecked(false);
+
     for (int i = 1; i <= MAX_ENTRY_ID_DIFF; i++) {
       Intent entryIntent = getEntryByIdIntent(entryId - i);
       if (entryIntent != null) {
@@ -95,7 +105,7 @@ public class EntryFragment extends Fragment {
       }
     }
     if (mPreviousEntryIntent == null) {
-      MenuItem previousButton = (MenuItem) bottomNavView.getMenu().findItem(R.id.action_previous);
+      MenuItem previousButton = (MenuItem) bottomNavMenu.findItem(R.id.action_previous);
       previousButton.setEnabled(false);
       bottomNavView.findViewById(R.id.action_previous).setVisibility(View.INVISIBLE);
     }
@@ -107,7 +117,7 @@ public class EntryFragment extends Fragment {
       }
     }
     if (mNextEntryIntent == null) {
-      MenuItem nextButton = (MenuItem) bottomNavView.getMenu().findItem(R.id.action_next);
+      MenuItem nextButton = (MenuItem) bottomNavMenu.findItem(R.id.action_next);
       nextButton.setEnabled(false);
       bottomNavView.findViewById(R.id.action_next).setVisibility(View.INVISIBLE);
     }
