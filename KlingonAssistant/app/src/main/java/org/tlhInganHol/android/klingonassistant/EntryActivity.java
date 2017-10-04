@@ -145,8 +145,8 @@ public class EntryActivity extends BaseActivity
     // Don't display the tab dots if there's only one entry, or if there are 25
     // or more (at which point the dots become not that useful). Note that the
     // entry with the most components at the moment ({cheqotlhchugh...}) has
-    // 22 components.
-    if (entryIdsList.size() > 1 && entryIdsList.size() < 25) {
+    // 22 components. The category with most entries is 32.
+    if (entryIdsList.size() > 1 && entryIdsList.size() < 35) {
       TabLayout tabLayout = (TabLayout) findViewById(R.id.entry_tab_dots);
       tabLayout.setupWithViewPager(mPager, true);
     }
