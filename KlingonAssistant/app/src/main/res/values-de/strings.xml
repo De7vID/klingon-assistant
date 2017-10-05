@@ -136,8 +136,6 @@
         <string name="social_network_preference_title">Soziales Netzwerk</string>
         <string name="social_network_preference_summary">Soziales Netzwerk einstellen.</string>
       <string name="informational_preferences">Zusätzliche Informationen</string>
-        <string name="use_colours_preference_title">Farben verwenden</string>
-        <string name="use_colours_preference_summary">Verschiedene Wortarten farblich unterscheiden.</string>
         <string name="show_transitivity_preference_title">Transitivität</string>
         <string name="show_transitivity_preference_summary">Eine \"beste Vermutung\" anzeigen, ob ein Verb ein Objekt haben kann.</string>
         <string name="show_additional_information_preference_title">Zusatzinfos</string>
