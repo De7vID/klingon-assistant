@@ -91,6 +91,9 @@
         <!-- Displays the sources page. -->
         <activity android:name=".SourcesActivity" />
 
+        <!-- Klingon language lessons. -->
+        <activity android:name=".LessonActivity" />
+
         <!-- Provides search suggestions for words and their definitions. -->
         <provider android:name=".KlingonContentProvider"
                   android:authorities="org.tlhInganHol.android.klingonassistant.KlingonContentProvider"

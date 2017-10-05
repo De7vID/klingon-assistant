@@ -589,7 +589,8 @@ public class KlingonContentProvider extends ContentProvider {
         } else if (attr.equals("suff")) {
           mIsSuffix = true;
         } else if (attr.equals("indent")) {
-          // This attribute is used internally to indent affixes which are attached to a word, and to half-indent verbs with prefixes.
+          // This attribute is used internally to indent affixes which are attached to a word, and
+          // to half-indent verbs with prefixes.
           mIsIndented = true;
 
           // Verb attributes.

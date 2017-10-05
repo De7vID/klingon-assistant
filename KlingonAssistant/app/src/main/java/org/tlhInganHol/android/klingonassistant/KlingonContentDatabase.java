@@ -101,7 +101,7 @@ public class KlingonContentDatabase {
 
   // This should be kept in sync with the version number in the database
   // entry {boQwI':n}.
-  private static final int DATABASE_VERSION = 201710011;
+  private static final int DATABASE_VERSION = 201710050;
 
   private final KlingonDatabaseOpenHelper mDatabaseOpenHelper;
   private static final HashMap<String, String> mColumnMap = buildColumnMap();
@@ -782,7 +782,8 @@ public class KlingonContentDatabase {
             String prefix = complexWord.getVerbPrefix();
             if (!prefix.equals("") && !prefixAdded) {
               // Log.d(TAG, "verb prefix = " + prefix);
-              KlingonContentProvider.Entry prefixFilterEntry = new KlingonContentProvider.Entry(prefix + ":v:pref", mContext);
+              KlingonContentProvider.Entry prefixFilterEntry =
+                  new KlingonContentProvider.Entry(prefix + ":v:pref", mContext);
               addExactMatch(prefix, prefixFilterEntry, resultsCursor, /* indent */ false);
               prefixAdded = true;
             }
@@ -870,7 +871,9 @@ public class KlingonContentDatabase {
   }
 
   private Object[] complexWordCursorRow(
-      KlingonContentProvider.Entry entry, KlingonContentProvider.ComplexWord complexWord, boolean indent) {
+      KlingonContentProvider.Entry entry,
+      KlingonContentProvider.ComplexWord complexWord,
+      boolean indent) {
     // TODO: Add warnings for mismatched affixes here.
     return new Object[] {
       entry.getId(),

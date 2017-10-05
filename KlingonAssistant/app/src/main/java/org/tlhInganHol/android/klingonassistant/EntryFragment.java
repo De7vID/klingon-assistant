@@ -39,6 +39,7 @@ import android.text.style.SuperscriptSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,10 @@ public class EntryFragment extends Fragment {
   private Intent mPreviousEntryIntent = null;
   private Intent mNextEntryIntent = null;
   private static final int MAX_ENTRY_ID_DIFF = 5;
+
+  private static final int INTERMEDIATE_FLAGS =
+      Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | Spanned.SPAN_INTERMEDIATE;
+  private static final int FINAL_FLAGS = Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
 
   // Static method for constructing EntryFragment.
   public static EntryFragment newInstance(Uri uri) {
@@ -72,7 +77,7 @@ public class EntryFragment extends Fragment {
     Resources resources = getActivity().getResources();
 
     TextView entryTitle = (TextView) rootView.findViewById(R.id.entry_title);
-    TextView entryText = (TextView) rootView.findViewById(R.id.definition);
+    TextView entryBody = (TextView) rootView.findViewById(R.id.entry_body);
 
     Uri uri = Uri.parse(getArguments().getString("uri"));
 
@@ -87,6 +92,15 @@ public class EntryFragment extends Fragment {
     // Set up the bottom navigation buttons.
     BottomNavigationView bottomNavView =
         (BottomNavigationView) rootView.findViewById(R.id.bottom_navigation);
+    Menu bottomNavMenu = bottomNavView.getMenu();
+
+    // Work around a bug where one of the buttons is selected, and is in a different state,
+    // which displays as a different colour and font size. We override the colour in entry.xml,
+    // and select the middle button here by unchecking it so that the font difference isn't so
+    // noticeable.
+    MenuItem randomButton = (MenuItem) bottomNavMenu.findItem(R.id.action_random);
+    randomButton.setChecked(false);
+
     for (int i = 1; i <= MAX_ENTRY_ID_DIFF; i++) {
       Intent entryIntent = getEntryByIdIntent(entryId - i);
       if (entryIntent != null) {
@@ -95,7 +109,7 @@ public class EntryFragment extends Fragment {
       }
     }
     if (mPreviousEntryIntent == null) {
-      MenuItem previousButton = (MenuItem) bottomNavView.getMenu().findItem(R.id.action_previous);
+      MenuItem previousButton = (MenuItem) bottomNavMenu.findItem(R.id.action_previous);
       previousButton.setEnabled(false);
       bottomNavView.findViewById(R.id.action_previous).setVisibility(View.INVISIBLE);
     }
@@ -107,7 +121,7 @@ public class EntryFragment extends Fragment {
       }
     }
     if (mNextEntryIntent == null) {
-      MenuItem nextButton = (MenuItem) bottomNavView.getMenu().findItem(R.id.action_next);
+      MenuItem nextButton = (MenuItem) bottomNavMenu.findItem(R.id.action_next);
       nextButton.setEnabled(false);
       bottomNavView.findViewById(R.id.action_next).setVisibility(View.INVISIBLE);
     }
@@ -331,11 +345,9 @@ public class EntryFragment extends Fragment {
     // Format the expanded definition, including linkifying the links to other entries.
     float smallTextScale = (float) 0.8;
     SpannableStringBuilder ssb = new SpannableStringBuilder(expandedDefinition);
-    int intermediateFlags = Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | Spanned.SPAN_INTERMEDIATE;
-    int finalFlags = Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
     if (!pos.equals("")) {
       // Italicise the part of speech.
-      ssb.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), 0, pos.length(), finalFlags);
+      ssb.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), 0, pos.length(), FINAL_FLAGS);
     }
     if (displayGermanEntry) {
       // Reduce the size of the secondary (English) definition.
@@ -343,7 +355,7 @@ public class EntryFragment extends Fragment {
           new RelativeSizeSpan(smallTextScale),
           englishDefinitionStart,
           englishDefinitionStart + englishDefinitionHeader.length() + englishDefinition.length(),
-          finalFlags);
+          FINAL_FLAGS);
     }
     if (showTransitivityInformation) {
       // Reduce the size of the transitivity information.
@@ -351,7 +363,7 @@ public class EntryFragment extends Fragment {
           new RelativeSizeSpan(smallTextScale),
           transitivityStart,
           transitivityStart + transitivityHeader.length() + transitivity.length(),
-          finalFlags);
+          FINAL_FLAGS);
     }
     if (!hiddenNotes.equals("")) {
       // Reduce the size of the hidden notes.
@@ -359,13 +371,37 @@ public class EntryFragment extends Fragment {
           new RelativeSizeSpan(smallTextScale),
           hiddenNotesStart,
           hiddenNotesStart + hiddenNotesHeader.length() + hiddenNotes.length(),
-          finalFlags);
+          FINAL_FLAGS);
     }
-    Matcher m = KlingonContentProvider.Entry.ENTRY_PATTERN.matcher(expandedDefinition);
+    processMixedText(ssb, expandedDefinition, entry);
+
+    // Display the entry name and definition.
+    entryBody.invalidate();
+    entryBody.setText(ssb);
+    entryBody.setMovementMethod(LinkMovementMethod.getInstance());
+
+    return rootView;
+  }
+
+  // Helper function to process text that includes Klingon text.
+  protected void processMixedText(
+      SpannableStringBuilder ssb, String mixedText, KlingonContentProvider.Entry entry) {
+    float smallTextScale = (float) 0.8;
+    SharedPreferences sharedPrefs =
+        PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+    boolean useColours =
+        sharedPrefs.getBoolean(Preferences.KEY_USE_COLOURS_CHECKBOX_PREFERENCE, /* default */ true);
+    boolean useKlingonFont =
+        sharedPrefs.getBoolean(
+            Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false);
+    Typeface klingonTypeface =
+        KlingonAssistant.getKlingonFontTypeface(getActivity().getBaseContext());
+
+    Matcher m = KlingonContentProvider.Entry.ENTRY_PATTERN.matcher(mixedText);
     while (m.find()) {
 
       // Strip the brackets {} to get the query.
-      String query = expandedDefinition.substring(m.start() + 1, m.end() - 1);
+      String query = mixedText.substring(m.start() + 1, m.end() - 1);
       LookupClickableSpan viewLauncher = new LookupClickableSpan(query);
 
       // Process the linked entry information.
@@ -379,7 +415,8 @@ public class EntryFragment extends Fragment {
       int end = m.start() + linkedEntry.getEntryName().length();
 
       // Insert link to the category for a useful phrase.
-      if (entry.isSentence()
+      if (entry != null
+          && entry.isSentence()
           && !entry.getSentenceType().equals("")
           && linkedEntry.getEntryName().equals("*")) {
         // Delete the "*" placeholder.
@@ -394,13 +431,13 @@ public class EntryFragment extends Fragment {
       // This is true if this entry doesn't launch an EntryActivity.
       boolean disableEntryLink =
           linkedEntry.doNotLink() || linkedEntry.isSource() || linkedEntry.isURL();
-      // The last span set on a range must have finalFlags.
-      int maybeFinalFlags = disableEntryLink ? finalFlags : intermediateFlags;
+      // The last span set on a range must have FINAL_FLAGS.
+      int maybeFinalFlags = disableEntryLink ? FINAL_FLAGS : INTERMEDIATE_FLAGS;
       if (linkedEntry.isSource()) {
         // If possible, link to the source.
         String url = linkedEntry.getURL();
         if (!url.equals("")) {
-          ssb.setSpan(new URLSpan(url), m.start(), end, intermediateFlags);
+          ssb.setSpan(new URLSpan(url), m.start(), end, INTERMEDIATE_FLAGS);
         }
         // Names of sources are in italics.
         ssb.setSpan(
@@ -425,21 +462,21 @@ public class EntryFragment extends Fragment {
       } else {
         // Klingon is in bold serif.
         ssb.setSpan(
-            new StyleSpan(android.graphics.Typeface.BOLD), m.start(), end, intermediateFlags);
+            new StyleSpan(android.graphics.Typeface.BOLD), m.start(), end, INTERMEDIATE_FLAGS);
         ssb.setSpan(new TypefaceSpan("serif"), m.start(), end, maybeFinalFlags);
       }
       // If linked entry is hypothetical or extended canon, insert a "?" in front.
       if (linkedEntry.isHypothetical() || linkedEntry.isExtendedCanon()) {
         ssb.insert(m.start(), "?");
         ssb.setSpan(
-            new RelativeSizeSpan(smallTextScale), m.start(), m.start() + 1, intermediateFlags);
+            new RelativeSizeSpan(smallTextScale), m.start(), m.start() + 1, INTERMEDIATE_FLAGS);
         ssb.setSpan(new SuperscriptSpan(), m.start(), m.start() + 1, maybeFinalFlags);
         end++;
       }
       // Only apply colours to verbs, nouns, and affixes (exclude BLUE and WHITE).
       if (!disableEntryLink) {
         // Link to view launcher.
-        ssb.setSpan(viewLauncher, m.start(), end, useColours ? intermediateFlags : finalFlags);
+        ssb.setSpan(viewLauncher, m.start(), end, useColours ? INTERMEDIATE_FLAGS : FINAL_FLAGS);
       }
       // Set the colour last, so it's not overridden by other spans.
       if (useColours) {
@@ -454,7 +491,7 @@ public class EntryFragment extends Fragment {
         //   }
         // }
         ssb.setSpan(
-            new ForegroundColorSpan(linkedEntry.getTextColor()), m.start(), end, finalFlags);
+            new ForegroundColorSpan(linkedEntry.getTextColor()), m.start(), end, FINAL_FLAGS);
       }
       String linkedPos = linkedEntry.getBracketedPartOfSpeech(/* isHtml */ false);
       if (!linkedPos.equals("") && linkedPos.length() > 1) {
@@ -468,21 +505,14 @@ public class EntryFragment extends Fragment {
               new StyleSpan(android.graphics.Typeface.ITALIC),
               end + 2,
               end + rightBracketLoc,
-              finalFlags);
+              FINAL_FLAGS);
         }
       }
 
       // Rinse and repeat.
-      expandedDefinition = ssb.toString();
-      m = KlingonContentProvider.Entry.ENTRY_PATTERN.matcher(expandedDefinition);
+      mixedText = ssb.toString();
+      m = KlingonContentProvider.Entry.ENTRY_PATTERN.matcher(mixedText);
     }
-
-    // Display the entry name and definition.
-    entryText.invalidate();
-    entryText.setText(ssb);
-    entryText.setMovementMethod(LinkMovementMethod.getInstance());
-
-    return rootView;
   }
 
   private Intent getEntryByIdIntent(int entryId) {
