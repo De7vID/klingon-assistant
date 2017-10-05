@@ -31,15 +31,12 @@ import android.widget.TextView;
 
 public class LessonFragment extends EntryFragment {
 
-  public static LessonFragment newInstance(
-      Context context, int unit, int lesson, int topic, int body) {
+  public static LessonFragment newInstance(String title, String topic, String body) {
     LessonFragment lessonFragment = new LessonFragment();
     Bundle args = new Bundle();
-    args.putString(
-        "title",
-        String.format(context.getResources().getString(R.string.lesson_header), unit, lesson));
-    args.putString("topic", context.getResources().getString(topic));
-    args.putString("body", context.getResources().getString(body));
+    args.putString("title", title);
+    args.putString("topic", topic);
+    args.putString("body", body);
     lessonFragment.setArguments(args);
     return lessonFragment;
   }

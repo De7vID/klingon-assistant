@@ -67,6 +67,27 @@ public class LessonActivity extends AppCompatActivity {
     getSupportActionBar().setTitle("    " + title);
   }
 
+  private class LessonBuilder {
+    private List<LessonFragment> lessonFragments = null;
+    private String mTitle = null;
+
+    public LessonBuilder(String title) {
+      mTitle = title;
+      lessonFragments = new ArrayList<LessonFragment>();
+    }
+
+    public LessonBuilder addTextOnlyPage(int topicResId, int bodyResId) {
+      String topic = getBaseContext().getResources().getString(topicResId);
+      String body = getBaseContext().getResources().getString(bodyResId);
+      lessonFragments.add(LessonFragment.newInstance(mTitle, topic, body));
+      return this;
+    }
+
+    public List<LessonFragment> build() {
+      return lessonFragments;
+    }
+  }
+
   // Swipe
   private class SwipeAdapter extends FragmentStatePagerAdapter {
     // The unit and lesson numbers are 1-based. The page number is 0-based.
@@ -79,19 +100,12 @@ public class LessonActivity extends AppCompatActivity {
       super(fm);
 
       // TODO: Initialise unit, lesson, and page number here.
-      activity.setTitle(getTitle(1, 1));
-      lessonFragments = new ArrayList<LessonFragment>();
-      switch (mUnitNumber) {
-        case 1:
-        default:
-          lessonFragments.add(
-              LessonFragment.newInstance(
-                  activity, 1, 1, R.string.topic_introduction, R.string.body_introduction));
-          lessonFragments.add(
-              LessonFragment.newInstance(
-                  activity, 1, 1, R.string.topic_basic_sentence, R.string.body_basic_sentence));
-          break;
-      }
+      String title = getTitle(1, 1);
+      activity.setTitle(title);
+      lessonFragments = new LessonBuilder(title)
+          .addTextOnlyPage(R.string.topic_introduction, R.string.body_introduction)
+          .addTextOnlyPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
+          .build();
 
       // TODO: Use notifyDataSetChanged to switch between lessons.
     }
@@ -99,10 +113,6 @@ public class LessonActivity extends AppCompatActivity {
     private String getTitle(int unit, int lesson) {
       return String.format(
           getBaseContext().getResources().getString(R.string.lesson_header), unit, lesson);
-    }
-
-    private String getTopic(int id) {
-      return getBaseContext().getResources().getString(id);
     }
 
     @Override
