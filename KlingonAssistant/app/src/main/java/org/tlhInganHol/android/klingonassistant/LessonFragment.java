@@ -15,6 +15,7 @@
  */
 package org.tlhInganHol.android.klingonassistant;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -30,6 +31,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class LessonFragment extends EntryFragment {
+
+  // Interface to report feedback to the LessonActivity.
+  public interface Callback {
+    void goToNextPage();
+  }
+  private Callback mCallback;
 
   public static LessonFragment newInstance(String title, String topic, String body) {
     LessonFragment lessonFragment = new LessonFragment();
@@ -74,6 +81,7 @@ public class LessonFragment extends EntryFragment {
           public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
               case R.id.action_next:
+                mCallback.goToNextPage();
                 break;
             }
             return false;
@@ -83,11 +91,9 @@ public class LessonFragment extends EntryFragment {
     return rootView;
   }
 
-  public String getStringResult() {
-    return "";
-  }
-
-  public boolean getBooleanResult() {
-    return false;
+  @Override
+  public void onAttach(Activity activity) {
+    super.onAttach(activity);
+    mCallback = (Callback) activity;
   }
 }

@@ -28,7 +28,7 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LessonActivity extends AppCompatActivity {
+public class LessonActivity extends AppCompatActivity implements LessonFragment.Callback {
   private static final String TAG = "LessonActivity";
 
   private LessonViewPager mPager;
@@ -67,6 +67,7 @@ public class LessonActivity extends AppCompatActivity {
     getSupportActionBar().setTitle("    " + title);
   }
 
+  // A helper class to build a lesson.
   private class LessonBuilder {
     private List<LessonFragment> lessonFragments = null;
     private String mTitle = null;
@@ -86,6 +87,11 @@ public class LessonActivity extends AppCompatActivity {
     public List<LessonFragment> build() {
       return lessonFragments;
     }
+  }
+
+  @Override
+  public void goToNextPage() {
+    mPager.setCurrentItem(mPager.getCurrentItem() + 1);
   }
 
   // Swipe
