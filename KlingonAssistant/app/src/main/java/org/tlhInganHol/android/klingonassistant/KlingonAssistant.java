@@ -336,7 +336,7 @@ public class KlingonAssistant extends BaseActivity {
 
       // Note that we override the typeface and text size here, instead of in
       // the xml, because putting it there would also change the appearance of
-      // the Preferences page.
+      // the Preferences page. We fully indent suffixes, but only half-indent verbs.
       String indent1 =
           entry.isIndented() ? (entry.isVerb() ? "&nbsp;&nbsp;" : "&nbsp;&nbsp;&nbsp;&nbsp;") : "";
       String indent2 =
