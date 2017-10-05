@@ -337,8 +337,14 @@ public class KlingonAssistant extends BaseActivity {
       // Note that we override the typeface and text size here, instead of in
       // the xml, because putting it there would also change the appearance of
       // the Preferences page.
-      String indent1 = entry.isIndented() ? (entry.isVerb() ? "&nbsp;&nbsp;" : "&nbsp;&nbsp;&nbsp;&nbsp;") : "";
-      String indent2 = entry.isIndented() ? (entry.isVerb() ? "&nbsp;&nbsp;&nbsp;&nbsp;" : "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;") : "";
+      String indent1 =
+          entry.isIndented() ? (entry.isVerb() ? "&nbsp;&nbsp;" : "&nbsp;&nbsp;&nbsp;&nbsp;") : "";
+      String indent2 =
+          entry.isIndented()
+              ? (entry.isVerb()
+                  ? "&nbsp;&nbsp;&nbsp;&nbsp;"
+                  : "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
+              : "";
 
       SharedPreferences sharedPrefs =
           PreferenceManager.getDefaultSharedPreferences(getBaseContext());

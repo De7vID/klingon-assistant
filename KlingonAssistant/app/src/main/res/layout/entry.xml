@@ -46,7 +46,7 @@
             <!-- The bottom padding is needed so the entry doesn't overlap with
                  the floating action button. -->
             <TextView
-                    android:id="@+id/definition"
+                    android:id="@+id/entry_body"
                     android:textSize="18sp"
                     android:textColor="?android:textColorSecondary"
                     android:typeface="sans"

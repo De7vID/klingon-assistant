@@ -22,6 +22,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -99,7 +100,7 @@ public class EntryActivity extends BaseActivity
     String[] ids = inputUri.getLastPathSegment().split(",");
     Uri queryUri = null;
     List<String> entryIdsList = new ArrayList<String>(Arrays.asList(ids));
-    if (ids.length == 1) {
+    if (entryIdsList.size() == 1) {
       // There is only one entry to display. Either its ID was explicitly
       // given, or we want a random entry.
       queryUri = inputUri;
@@ -135,11 +136,21 @@ public class EntryActivity extends BaseActivity
     setShareEntryIntent(entry);
 
     // Instantiate a ViewPager and a PagerAdapter.
-    mPager = (ViewPager) findViewById(R.id.pager);
+    mPager = (ViewPager) findViewById(R.id.entry_pager);
     mPagerAdapter = new SwipeAdapter(getSupportFragmentManager(), entryIdsList);
     mPager.setAdapter(mPagerAdapter);
     mPager.setCurrentItem(mEntryIndex, /* smoothScroll */ false);
     mPager.setOnPageChangeListener(new SwipePageChangeListener(entryIdsList));
+
+    // Don't display the tab dots if there's only one entry, or if there are 25
+    // or more (at which point the dots become not that useful). Note that the
+    // entry with the most components at the moment ({cheqotlhchugh...}) has
+    // 22 components. The Beginner's Conversation category has over 30 entries,
+    // but being able to quickly go between them isn't that useful.
+    if (entryIdsList.size() > 1 && entryIdsList.size() < 25) {
+      TabLayout tabLayout = (TabLayout) findViewById(R.id.entry_tab_dots);
+      tabLayout.setupWithViewPager(mPager, true);
+    }
   }
 
   @Override
@@ -344,12 +355,16 @@ public class EntryActivity extends BaseActivity
       // Update share menu and set the visibility of the share button.
       setShareEntryIntent(entry);
       if (mShareActionProvider != null && mShareEntryIntent != null) {
-        // Enable "Share" button.
+        // Enable "Share" button. Note that mShareButton can be null if the device has been rotated.
         mShareActionProvider.setShareIntent(mShareEntryIntent);
-        mShareButton.setVisible(true);
+        if (mShareButton != null) {
+          mShareButton.setVisible(true);
+        }
       } else {
         // Disable "Share" button.
-        mShareButton.setVisible(false);
+        if (mShareButton != null) {
+          mShareButton.setVisible(false);
+        }
       }
     }
 
