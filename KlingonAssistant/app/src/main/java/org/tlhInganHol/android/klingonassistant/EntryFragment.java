@@ -171,11 +171,7 @@ public class EntryFragment extends Fragment {
     mEntryName = entry.getEntryName();
 
     // Set the colour for the entry name depending on its part of speech.
-    boolean useColours =
-        sharedPrefs.getBoolean(Preferences.KEY_USE_COLOURS_CHECKBOX_PREFERENCE, /* default */ true);
-    if (useColours) {
-      entryTitle.setTextColor(entry.getTextColor());
-    }
+    entryTitle.setTextColor(entry.getTextColor());
 
     // Create the expanded definition.
     String pos = entry.getFormattedPartOfSpeech(/* isHtml */ false);
@@ -389,8 +385,6 @@ public class EntryFragment extends Fragment {
     float smallTextScale = (float) 0.8;
     SharedPreferences sharedPrefs =
         PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
-    boolean useColours =
-        sharedPrefs.getBoolean(Preferences.KEY_USE_COLOURS_CHECKBOX_PREFERENCE, /* default */ true);
     boolean useKlingonFont =
         sharedPrefs.getBoolean(
             Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false);
@@ -476,23 +470,21 @@ public class EntryFragment extends Fragment {
       // Only apply colours to verbs, nouns, and affixes (exclude BLUE and WHITE).
       if (!disableEntryLink) {
         // Link to view launcher.
-        ssb.setSpan(viewLauncher, m.start(), end, useColours ? INTERMEDIATE_FLAGS : FINAL_FLAGS);
+        ssb.setSpan(viewLauncher, m.start(), end, INTERMEDIATE_FLAGS);
       }
       // Set the colour last, so it's not overridden by other spans.
-      if (useColours) {
-        // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        //   // Work around a bug in Android 6.0.
-        //   //
-        // http://stackoverflow.com/questions/34631851/multiple-foregroundcolorspan-on-editable-issue-on-android-6-0
-        //   ForegroundColorSpan[] oldSpans = ssb.getSpans(m.start(), end,
-        // ForegroundColorSpan.class);
-        //   for (ForegroundColorSpan span : oldSpans) {
-        //     ssb.removeSpan(span);
-        //   }
-        // }
-        ssb.setSpan(
-            new ForegroundColorSpan(linkedEntry.getTextColor()), m.start(), end, FINAL_FLAGS);
-      }
+      // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      //   // Work around a bug in Android 6.0.
+      //   //
+      // http://stackoverflow.com/questions/34631851/multiple-foregroundcolorspan-on-editable-issue-on-android-6-0
+      //   ForegroundColorSpan[] oldSpans = ssb.getSpans(m.start(), end,
+      // ForegroundColorSpan.class);
+      //   for (ForegroundColorSpan span : oldSpans) {
+      //     ssb.removeSpan(span);
+      //   }
+      // }
+      ssb.setSpan(
+          new ForegroundColorSpan(linkedEntry.getTextColor()), m.start(), end, FINAL_FLAGS);
       String linkedPos = linkedEntry.getBracketedPartOfSpeech(/* isHtml */ false);
       if (!linkedPos.equals("") && linkedPos.length() > 1) {
         ssb.insert(end, linkedPos);

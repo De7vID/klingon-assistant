@@ -362,12 +362,7 @@ public class KlingonAssistant extends BaseActivity {
       view.getText1().setTextSize(22);
 
       // TODO: Colour attached affixes differently from verb.
-      boolean useColours =
-          sharedPrefs.getBoolean(
-              Preferences.KEY_USE_COLOURS_CHECKBOX_PREFERENCE, /* default */ true);
-      if (useColours) {
-        view.getText1().setTextColor(entry.getTextColor());
-      }
+      view.getText1().setTextColor(entry.getTextColor());
 
       // Use sans serif for the definition.
       view.getText2().setTypeface(Typeface.SANS_SERIF);
