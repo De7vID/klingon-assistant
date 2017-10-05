@@ -26,6 +26,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LessonActivity extends AppCompatActivity implements LessonFragment.Callback {
@@ -77,14 +78,29 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       lessonFragments = new ArrayList<LessonFragment>();
     }
 
+    private String getStringFromResId(int resId) {
+      return getBaseContext().getResources().getString(resId);
+    }
+
+    // Add a page which only has lesson text.
     public LessonBuilder addTextOnlyPage(int topicResId, int bodyResId) {
-      String topic = getBaseContext().getResources().getString(topicResId);
-      String body = getBaseContext().getResources().getString(bodyResId);
-      lessonFragments.add(LessonFragment.newInstance(mTitle, topic, body));
+      lessonFragments.add(LessonFragment.newInstance(mTitle,
+          getStringFromResId(topicResId), getStringFromResId(bodyResId)));
+      return this;
+    }
+
+    // Add a page which allows the user to select a database entry.
+    public LessonBuilder addEntrySelectionPage(int topicResId, int bodyResId,
+        List<String> entries) {
+      LessonFragment f = LessonFragment.newInstance(mTitle,
+          getStringFromResId(topicResId), getStringFromResId(bodyResId));
+      f.addEntrySelection(entries);
+      lessonFragments.add(f);
       return this;
     }
 
     public List<LessonFragment> build() {
+      // TODO: Add summary page.
       return lessonFragments;
     }
   }
@@ -96,10 +112,9 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
   // Swipe
   private class SwipeAdapter extends FragmentStatePagerAdapter {
-    // The unit and lesson numbers are 1-based. The page number is 0-based.
+    // The unit and lesson numbers are 1-based.
     int mUnitNumber = 1;
     int mLessonNumber = 1;
-    int mPageNumber = 0;
     private List<LessonFragment> lessonFragments = null;
 
     public SwipeAdapter(FragmentManager fm, LessonActivity activity) {
@@ -110,7 +125,8 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       activity.setTitle(title);
       lessonFragments = new LessonBuilder(title)
           .addTextOnlyPage(R.string.topic_introduction, R.string.body_introduction)
-          .addTextOnlyPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
+          .addEntrySelectionPage(R.string.topic_basic_sentence,
+              R.string.body_basic_sentence, Arrays.asList("{Qong:v}", "{Sop:v}"))
           .build();
 
       // TODO: Use notifyDataSetChanged to switch between lessons.

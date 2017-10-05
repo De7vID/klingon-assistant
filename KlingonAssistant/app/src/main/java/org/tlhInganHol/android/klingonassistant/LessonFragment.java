@@ -29,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import java.util.List;
 
 public class LessonFragment extends EntryFragment {
 
@@ -69,7 +70,8 @@ public class LessonFragment extends EntryFragment {
     entryBody.setText(ssb);
     entryBody.setMovementMethod(LinkMovementMethod.getInstance());
 
-    // Set up the bottom navigation buttons.
+    // Set up the bottom navigation buttons. By default, enable just the "Next"
+    // button.
     BottomNavigationView bottomNavView =
         (BottomNavigationView) rootView.findViewById(R.id.bottom_navigation);
     Menu bottomNavMenu = bottomNavView.getMenu();
@@ -95,5 +97,8 @@ public class LessonFragment extends EntryFragment {
   public void onAttach(Activity activity) {
     super.onAttach(activity);
     mCallback = (Callback) activity;
+  }
+
+  public void addEntrySelection(List<String> entries) {
   }
 }
