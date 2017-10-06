@@ -36,7 +36,7 @@
     <ScrollView
             android:id="@+id/scroller"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:scrollbars="vertical"
             android:fillViewport="true">
         <LinearLayout
@@ -51,10 +51,13 @@
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:fillViewport="true"
+                    android:layout_height="wrap_content"
                     android:textIsSelectable="true"
                     android:layout_weight="1.0" />
+            <LinearLayout
+              android:gravity="center_vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content" >
             <!-- The bottom padding is needed so the entry doesn't overlap with
                  the floating action button. -->
             <!-- Set the itemIconTint and itemTextColor to white to work around
@@ -62,17 +65,18 @@
                  Unfortunately, this means that when the button is disabled,
                  it's not visually distinct, so we make it invisible
                  programmatically. -->
-            <android.support.design.widget.BottomNavigationView
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/bottom_navigation"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginBottom="70dp"
-                    android:layout_gravity="start"
-                    app:itemIconTint="@android:color/white"
-                    app:itemTextColor="@android:color/white"
-                    app:menu="@menu/bottom_navigation_items" />
+              <android.support.design.widget.BottomNavigationView
+                      xmlns:android="http://schemas.android.com/apk/res/android"
+                      xmlns:app="http://schemas.android.com/apk/res-auto"
+                      android:id="@+id/bottom_navigation"
+                      android:layout_width="match_parent"
+                      android:layout_height="56dp"
+                      android:layout_marginBottom="70dp"
+                      android:layout_gravity="start"
+                      app:itemIconTint="@android:color/white"
+                      app:itemTextColor="@android:color/white"
+                      app:menu="@menu/bottom_navigation_items" />
+              </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
