@@ -86,24 +86,6 @@ public class LessonFragment extends EntryFragment {
     lessonBody.setText(ssb);
     lessonBody.setMovementMethod(LinkMovementMethod.getInstance());
 
-    // Set up possible additional views.
-    mListView = (ListView) rootView.findViewById(R.id.list);
-    if (mEntries != null) {
-      // TODO: 
-      Cursor cursor = getActivity().managedQuery(
-                  Uri.parse(KlingonContentProvider.CONTENT_URI + "/lookup"),
-                  null /* all columns */,
-                  null,
-                  // new String[] {"bIjatlhHa'chugh qaHoH."},
-                  new String[] {"Qong, Sop@@Qong:v, Sop:v"},
-                  null);
-      MultipleChoiceAdapter multipleChoiceAdapter = new MultipleChoiceAdapter(cursor);
-      mListView.setAdapter(multipleChoiceAdapter);
-      mListView.setOnItemClickListener(multipleChoiceAdapter);
-      mListView.setVisibility(View.VISIBLE);
-      // TODO: set list height based on content.
-    }
-
     // Set up the bottom navigation buttons. By default, enable just the "Next"
     // button.
     BottomNavigationView bottomNavView =
@@ -123,6 +105,25 @@ public class LessonFragment extends EntryFragment {
             return false;
           }
         });
+
+    // Set up possible additional views.
+    mListView = (ListView) rootView.findViewById(R.id.list);
+    if (mEntries != null) {
+      // TODO: use entries
+      Cursor cursor = getActivity().managedQuery(
+                  Uri.parse(KlingonContentProvider.CONTENT_URI + "/lookup"),
+                  null /* all columns */,
+                  null,
+                  // new String[] {"bIjatlhHa'chugh qaHoH."},
+                  new String[] {"Qong, Sop@@Qong:v, Sop:v"},
+                  null);
+      MultipleChoiceAdapter multipleChoiceAdapter = new MultipleChoiceAdapter(cursor);
+      mListView.setAdapter(multipleChoiceAdapter);
+      mListView.setOnItemClickListener(multipleChoiceAdapter);
+      mListView.setVisibility(View.VISIBLE);
+      mListView.invalidate();
+      // bottomNavView.findViewById(R.id.action_previous).setEnabled(false);
+    }
 
     return rootView;
   }
