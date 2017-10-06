@@ -35,9 +35,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.LinearLayout;
+import android.widget.TwoLineListItem;
 
 // TUTORIAL:
 // import com.espian.showcaseview.ShowcaseView;
@@ -289,8 +288,6 @@ public class KlingonAssistant extends BaseActivity {
 
     private final Cursor mCursor;
     private final LayoutInflater mInflater;
-    private int mSelectedPosition = -1;
-    private RadioButton mSelectedButton = null;
 
     public EntryAdapter(Cursor cursor) {
       mCursor = cursor;
@@ -315,31 +312,25 @@ public class KlingonAssistant extends BaseActivity {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-      LinearLayout view =
-          (convertView != null) ? (LinearLayout) convertView : createView(parent);
-
-      // Have to set the check state here because the views are recycled.
-      RadioButton button = (RadioButton) view.findViewById(R.id.radio);
-      if (position == mSelectedPosition) {
-        button.setChecked(true);
-      } else {
-        button.setChecked(false);
-      }
-
+      TwoLineListItem view =
+          (convertView != null) ? (TwoLineListItem) convertView : createView(parent);
       mCursor.moveToPosition(position);
       bindView(view, mCursor);
       return view;
     }
 
-    private LinearLayout createView(ViewGroup parent) {
-      // Use a modified version of android.R.simple_list_item_2_single_choice
-      // which has been adapted for our needs.
-      LinearLayout item =
-          (LinearLayout) mInflater.inflate(R.layout.simple_list_item_2_single_choice, parent, false);
+    private TwoLineListItem createView(ViewGroup parent) {
+      TwoLineListItem item =
+          (TwoLineListItem) mInflater.inflate(android.R.layout.simple_list_item_2, parent, false);
+
+      // Set single line to true if you want shorter definitions.
+      item.getText2().setSingleLine(false);
+      item.getText2().setEllipsize(TextUtils.TruncateAt.END);
+
       return item;
     }
 
-    private void bindView(LinearLayout view, Cursor cursor) {
+    private void bindView(TwoLineListItem view, Cursor cursor) {
       KlingonContentProvider.Entry entry =
           new KlingonContentProvider.Entry(cursor, getBaseContext());
 
@@ -355,42 +346,34 @@ public class KlingonAssistant extends BaseActivity {
                   : "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
               : "";
 
-      TextView text1 = view.findViewById(android.R.id.text1);
-      TextView text2 = view.findViewById(android.R.id.text2);
       SharedPreferences sharedPrefs =
           PreferenceManager.getDefaultSharedPreferences(getBaseContext());
       if (!sharedPrefs.getBoolean(
           Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false)) {
         // Use serif for the entry, so capital-I and lowercase-l are distinguishable.
-        text1.setTypeface(Typeface.SERIF);
-        text1.setText(Html.fromHtml(indent1 + entry.getFormattedEntryName(/* isHtml */ true)));
+        view.getText1().setTypeface(Typeface.SERIF);
+        view.getText1()
+            .setText(Html.fromHtml(indent1 + entry.getFormattedEntryName(/* isHtml */ true)));
       } else {
         // Preference is set to display this in {pIqaD}!
-        text1.setTypeface(KlingonAssistant.getKlingonFontTypeface(getBaseContext()));
-        text1.setText(Html.fromHtml(indent1 + entry.getEntryNameInKlingonFont()));
+        view.getText1().setTypeface(KlingonAssistant.getKlingonFontTypeface(getBaseContext()));
+        view.getText1().setText(Html.fromHtml(indent1 + entry.getEntryNameInKlingonFont()));
       }
-      text1.setTextSize(22);
+      view.getText1().setTextSize(22);
 
       // TODO: Colour attached affixes differently from verb.
-      text1.setTextColor(entry.getTextColor());
+      view.getText1().setTextColor(entry.getTextColor());
 
       // Use sans serif for the definition.
-      text2.setTypeface(Typeface.SANS_SERIF);
-      text2.setText(Html.fromHtml(indent2 + entry.getFormattedDefinition(/* isHtml */ true)));
-      text2.setTextSize(14);
-      text2.setTextColor(0xFFC0C0C0);
+      view.getText2().setTypeface(Typeface.SANS_SERIF);
+      view.getText2()
+          .setText(Html.fromHtml(indent2 + entry.getFormattedDefinition(/* isHtml */ true)));
+      view.getText2().setTextSize(14);
+      view.getText2().setTextColor(0xFFC0C0C0);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-      RadioButton button = (RadioButton) view.findViewById(R.id.radio);
-      if (position != mSelectedPosition && mSelectedButton != null) {
-        mSelectedButton.setChecked(false);
-      }
-      button.setChecked(true);
-      mSelectedPosition = position;
-      mSelectedButton = button;
-
       if (getCount() == 1) {
         // Launch entry the regular way, as there's only one result.
         mCursor.moveToPosition(position);
@@ -474,7 +457,6 @@ public class KlingonAssistant extends BaseActivity {
 
       // Create a cursor adapter for the entries and apply them to the ListView.
       EntryAdapter entryAdapter = new EntryAdapter(cursor);
-      mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
       mListView.setAdapter(entryAdapter);
       mListView.setOnItemClickListener(entryAdapter);
 

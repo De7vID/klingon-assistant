@@ -16,6 +16,9 @@
 
 package org.tlhInganHol.android.klingonassistant;
 
+import android.app.Activity;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -84,18 +87,20 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
     // Add a page which only has lesson text.
     public LessonBuilder addTextOnlyPage(int topicResId, int bodyResId) {
-      lessonFragments.add(LessonFragment.newInstance(mTitle,
-          getStringFromResId(topicResId), getStringFromResId(bodyResId)));
+      lessonFragments.add(
+          LessonFragment.newInstance(
+              mTitle, getStringFromResId(topicResId), getStringFromResId(bodyResId)));
       return this;
     }
 
     // Add a page which allows the user to select a database entry.
-    public LessonBuilder addEntrySelectionPage(int topicResId, int bodyResId,
-        List<String> entries) {
-      LessonFragment f = LessonFragment.newInstance(mTitle,
-          getStringFromResId(topicResId), getStringFromResId(bodyResId));
-      f.addEntrySelection(entries);
-      lessonFragments.add(f);
+    public LessonBuilder addEntrySelectionPage(
+        int topicResId, int bodyResId, List<String> entries) {
+      LessonFragment fragment =
+          LessonFragment.newInstance(
+              mTitle, getStringFromResId(topicResId), getStringFromResId(bodyResId));
+      fragment.addEntrySelection(entries);
+      lessonFragments.add(fragment);
       return this;
     }
 
@@ -123,11 +128,14 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       // TODO: Initialise unit, lesson, and page number here.
       String title = getTitle(1, 1);
       activity.setTitle(title);
-      lessonFragments = new LessonBuilder(title)
-          .addTextOnlyPage(R.string.topic_introduction, R.string.body_introduction)
-          .addEntrySelectionPage(R.string.topic_basic_sentence,
-              R.string.body_basic_sentence, Arrays.asList("{Qong:v}", "{Sop:v}"))
-          .build();
+      lessonFragments =
+          new LessonBuilder(title)
+              .addTextOnlyPage(R.string.topic_introduction, R.string.body_introduction)
+              .addEntrySelectionPage(
+                  R.string.topic_basic_sentence,
+                  R.string.body_basic_sentence,
+                  Arrays.asList("{Qong:v}", "{Sop:v}"))
+              .build();
 
       // TODO: Use notifyDataSetChanged to switch between lessons.
     }
