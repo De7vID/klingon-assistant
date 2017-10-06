@@ -483,8 +483,7 @@ public class EntryFragment extends Fragment {
       //     ssb.removeSpan(span);
       //   }
       // }
-      ssb.setSpan(
-          new ForegroundColorSpan(linkedEntry.getTextColor()), m.start(), end, FINAL_FLAGS);
+      ssb.setSpan(new ForegroundColorSpan(linkedEntry.getTextColor()), m.start(), end, FINAL_FLAGS);
       String linkedPos = linkedEntry.getBracketedPartOfSpeech(/* isHtml */ false);
       if (!linkedPos.equals("") && linkedPos.length() > 1) {
         ssb.insert(end, linkedPos);

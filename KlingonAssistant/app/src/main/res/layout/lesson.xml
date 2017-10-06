@@ -16,7 +16,7 @@
 ** limitations under the License.
 */
 -->
-<!-- Layout for EntryFragment. -->
+<!-- Layout for LessonFragment. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="fill_parent"
@@ -24,7 +24,7 @@
         android:padding="5dp">
     <!-- Entry must be serif, to distinguish capital-I from lowercase-l. -->
     <TextView
-            android:id="@+id/entry_title"
+            android:id="@+id/lesson_title"
             android:textSize="35sp"
             android:textColor="?android:textColorPrimary"
             android:typeface="serif"
@@ -44,7 +44,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
             <TextView
-                    android:id="@+id/entry_body"
+                    android:id="@+id/lesson_body"
                     android:textSize="18sp"
                     android:textColor="?android:textColorSecondary"
                     android:typeface="sans"
@@ -55,8 +55,15 @@
                     android:fillViewport="true"
                     android:textIsSelectable="true"
                     android:layout_weight="1.0" />
-            <!-- The bottom padding is needed so the entry doesn't overlap with
-                 the floating action button. -->
+            <!-- Font in a ListView must be set in the adapter -->
+            <ListView
+                    android:id="@+id/list"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:choiceMode="singleChoice"
+                    android:visibility="gone" />
+            <!-- TODO: The bottom padding isn't needed. -->
             <!-- Set the itemIconTint and itemTextColor to white to work around
                  a bug where the selected item is coloured different.
                  Unfortunately, this means that when the button is disabled,
@@ -76,3 +83,4 @@
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
+
