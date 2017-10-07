@@ -18,6 +18,7 @@
 -->
 <!-- Layout for LessonFragment. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -53,13 +54,12 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textIsSelectable="true" />
-            <!-- Font in a ListView must be set in the adapter -->
-            <ListView
-                    android:id="@+id/list"
+            <!-- For choosing among several options or multiple-choice quizzes. -->
+            <RadioGroup
+                    android:id="@+id/choices"
                     android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:choiceMode="singleChoice"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     android:visibility="gone" />
             <LinearLayout
               android:gravity="center_vertical"

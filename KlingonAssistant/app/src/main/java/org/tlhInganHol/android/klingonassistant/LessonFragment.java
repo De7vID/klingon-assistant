@@ -39,6 +39,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class LessonFragment extends EntryFragment {
   private Callback mCallback;
 
   // Additional possible views.
-  private ListView mListView = null;
+  private RadioGroup mChoicesGroup = null;
   private List<String> mEntries = null;
 
   public static LessonFragment newInstance(String title, String topic, String body) {
@@ -107,9 +108,8 @@ public class LessonFragment extends EntryFragment {
         });
 
     // Set up possible additional views.
-    mListView = (ListView) rootView.findViewById(R.id.list);
+    mChoicesGroup = (RadioGroup) rootView.findViewById(R.id.choices);
     if (mEntries != null) {
-      // TODO: Replace ListView with just a LinearLayout.
       // TODO: use entries
       Cursor cursor = getActivity().managedQuery(
                   Uri.parse(KlingonContentProvider.CONTENT_URI + "/lookup"),
@@ -118,19 +118,11 @@ public class LessonFragment extends EntryFragment {
                   new String[] {"bIjatlhHa'chugh qaHoH."},
                   // new String[] {"Qong, Sop@@Qong:v, Sop:v"},
                   null);
-      MultipleChoiceAdapter multipleChoiceAdapter = new MultipleChoiceAdapter(cursor);
-      mListView.setAdapter(multipleChoiceAdapter);
-      mListView.setOnItemClickListener(multipleChoiceAdapter);
-      // int listHeight = 0;
-      // for (int i = 0; i < mListView.getChildCount(); i++) {
-      //   listHeight += mListView.getChildAt(i).getMeasuredHeight();
-      //   listHeight += mListView.getDividerHeight();
-      // }
-      // ViewGroup.LayoutParams params = mListView.getLayoutParams();
-      // mListView.setLayoutParams(params);
-      mListView.setVisibility(View.VISIBLE);
-      // mListView.requestLayout();
-      mListView.invalidate();
+      // MultipleChoiceAdapter multipleChoiceAdapter = new MultipleChoiceAdapter(cursor);
+      // mListView.setAdapter(multipleChoiceAdapter);
+      // mListView.setOnItemClickListener(multipleChoiceAdapter);
+      mChoicesGroup.setVisibility(View.VISIBLE);
+      mChoicesGroup.invalidate();
       // TODO: Fix selector font size, colours.
       // bottomNavView.findViewById(R.id.action_previous).setEnabled(false);
     }
