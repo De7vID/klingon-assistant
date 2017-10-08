@@ -271,6 +271,7 @@ public class KlingonContentDatabase {
         .replaceAll("", "8")
         .replaceAll("", "9")
         .replaceAll("’", "'") // "smart" quote
+        .replaceAll("\u2011", "-") // non-breaking hyphen
         .trim();
   }
 
