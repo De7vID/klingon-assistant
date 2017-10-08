@@ -59,7 +59,7 @@
               android:layout_width="fill_parent"
               android:layout_height="wrap_content" >
               <!-- The bottom padding is needed so the entry doesn't overlap with
-                   the floating action button. -->
+                   the tab dots or floating action button. -->
               <!-- Set the itemIconTint and itemTextColor to white to work around
                    a bug where the selected item is coloured different.
                    Unfortunately, this means that when the button is disabled,
