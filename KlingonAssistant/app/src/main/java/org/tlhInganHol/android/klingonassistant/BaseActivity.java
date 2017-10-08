@@ -160,7 +160,6 @@ public class BaseActivity extends AppCompatActivity
 
               Intent intent = new Intent(getBaseContext(), LessonActivity.class);
               startActivity(intent);
-              overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
           });
     }
@@ -504,21 +503,18 @@ public class BaseActivity extends AppCompatActivity
     entryIntent.setData(uri);
 
     startActivity(entryIntent);
-    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   // Protected method to display the prefix chart.
   protected void displayPrefixChart() {
     Intent prefixChartIntent = new Intent(this, PrefixChartActivity.class);
     startActivity(prefixChartIntent);
-    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   // Protected method to display the sources page.
   protected void displaySources() {
     Intent sourcesIntent = new Intent(this, SourcesActivity.class);
     startActivity(sourcesIntent);
-    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   // Protected method to display search results.
@@ -529,7 +525,6 @@ public class BaseActivity extends AppCompatActivity
     intent.putExtra(SearchManager.QUERY, helpQuery);
 
     startActivity(intent);
-    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   // private AdapterView.OnItemClickListener mItemClickListener =
@@ -593,7 +588,6 @@ public class BaseActivity extends AppCompatActivity
       case R.id.preferences:
         // Show "Preferences" screen.
         startActivity(new Intent(this, Preferences.class));
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         return true;
       default:
     }

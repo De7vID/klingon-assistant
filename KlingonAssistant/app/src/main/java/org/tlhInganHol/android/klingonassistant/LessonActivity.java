@@ -25,10 +25,12 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
+import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class LessonActivity extends AppCompatActivity {
+public class LessonActivity extends AppCompatActivity implements LessonFragment.Callback {
   private static final String TAG = "LessonActivity";
 
   private LessonViewPager mPager;
@@ -67,31 +69,127 @@ public class LessonActivity extends AppCompatActivity {
     getSupportActionBar().setTitle("    " + title);
   }
 
+  // A helper class to build a lesson.
+  private class LessonBuilder {
+    private String mTitle = null;
+    private List<LessonFragment> mLessonFragments = null;
+    private LessonFragment mLessonSummary = null;
+
+    public LessonBuilder(String title) {
+      mTitle = title;
+      mLessonFragments = new ArrayList<LessonFragment>();
+    }
+
+    // Helper to get string from resource ID.
+    private String getStringFromResId(int resId) {
+      return getBaseContext().getResources().getString(resId);
+    }
+
+    // Start a new page which only has lesson text.
+    public LessonBuilder startNewPage(int topicResId, int bodyResId) {
+      mLessonFragments.add(
+          LessonFragment.newInstance(
+              mTitle, getStringFromResId(topicResId), getStringFromResId(bodyResId)));
+      return this;
+    }
+
+    // Helper to get the lesson currently being built.
+    private LessonFragment getCurrentLesson() {
+      if (mLessonFragments.size() == 0) {
+        // Log.e();
+        return null;
+      }
+      return mLessonFragments.get(mLessonFragments.size() - 1);
+    }
+
+    // Add a plain list.
+    public LessonBuilder addPlainList(List<String> entries) {
+      getCurrentLesson().addPlainList(entries);
+      return this;
+    }
+
+    // Add a page which allows the user to select from multiple choices.
+    public LessonBuilder addMultipleChoiceSelection(List<String> entries) {
+      getCurrentLesson().addMultipleChoiceSelection(entries);
+      return this;
+    }
+
+    // Add a quiz.
+    // TODO: Identify correct answer. Allow "none/all of the above" options.
+    public LessonBuilder addQuiz(List<String> entries) {
+      getCurrentLesson().addQuiz(entries);
+      return this;
+    }
+
+    // Add text after other sections.
+    public LessonBuilder addClosingText(int body2ResId) {
+      getCurrentLesson().addClosingText(getStringFromResId(body2ResId));
+      return this;
+    }
+
+    public List<LessonFragment> build() {
+      // TODO: Make summary page dependent on prior pages.
+      LessonFragment summaryFragment = LessonFragment.newInstance(mTitle, "Summary", "summary");
+      summaryFragment.setSummary(mLessonFragments);
+      mLessonFragments.add(summaryFragment);
+      return mLessonFragments;
+    }
+  }
+
+  @Override
+  public void goToNextPage() {
+    mPager.setCurrentItem(mPager.getCurrentItem() + 1);
+  }
+
   // Swipe
   private class SwipeAdapter extends FragmentStatePagerAdapter {
-    // The unit and lesson numbers are 1-based. The page number is 0-based.
+    // The unit and lesson numbers are 1-based.
     int mUnitNumber = 1;
     int mLessonNumber = 1;
-    int mPageNumber = 0;
-    private List<LessonFragment> lessonFragments = null;
+    private List<LessonFragment> mLessonFragments = null;
 
     public SwipeAdapter(FragmentManager fm, LessonActivity activity) {
       super(fm);
 
       // TODO: Initialise unit, lesson, and page number here.
-      activity.setTitle(getTitle(1, 1));
-      lessonFragments = new ArrayList<LessonFragment>();
-      switch (mUnitNumber) {
-        case 1:
-        default:
-          lessonFragments.add(
-              LessonFragment.newInstance(
-                  activity, 1, 1, R.string.topic_introduction, R.string.body_introduction));
-          lessonFragments.add(
-              LessonFragment.newInstance(
-                  activity, 1, 1, R.string.topic_basic_sentence, R.string.body_basic_sentence));
-          break;
-      }
+      String title = getTitle(1, 1);
+      activity.setTitle(title);
+      List choiceList1 = Arrays.asList("{Qong:v}", "{Sop:v}", "{Suv:v}");
+      List choiceList2 = Arrays.asList("{Doch:n}", "{taj:n}", "{vIqraq:n}");
+      mLessonFragments =
+          new LessonBuilder(title)
+              // intro
+              .startNewPage(R.string.topic_introduction, R.string.body_introduction)
+
+              // plain list
+              .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
+              .addPlainList(choiceList1)
+              .addClosingText(R.string.body_basic_sentence2)
+
+              // choice
+              .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
+              .addMultipleChoiceSelection(choiceList1)
+              .addClosingText(R.string.body_basic_sentence2)
+
+              // quiz
+              .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
+              .addQuiz(choiceList1)
+              .addClosingText(R.string.body_basic_sentence2)
+
+              // choice
+              .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
+              .addMultipleChoiceSelection(choiceList2)
+              .addClosingText(R.string.body_basic_sentence2)
+
+              // quiz
+              .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
+              .addQuiz(choiceList2)
+              .addClosingText(R.string.body_basic_sentence2)
+
+              // intro - race condition
+              // .startNewPage(R.string.topic_introduction, R.string.body_introduction)
+
+              .build();
 
       // TODO: Use notifyDataSetChanged to switch between lessons.
     }
@@ -101,18 +199,14 @@ public class LessonActivity extends AppCompatActivity {
           getBaseContext().getResources().getString(R.string.lesson_header), unit, lesson);
     }
 
-    private String getTopic(int id) {
-      return getBaseContext().getResources().getString(id);
-    }
-
     @Override
     public Fragment getItem(int position) {
-      return lessonFragments.get(position);
+      return mLessonFragments.get(position);
     }
 
     @Override
     public int getCount() {
-      return lessonFragments.size();
+      return mLessonFragments.size();
     }
   }
 }

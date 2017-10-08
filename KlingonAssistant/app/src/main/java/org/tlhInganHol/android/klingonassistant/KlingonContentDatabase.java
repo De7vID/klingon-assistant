@@ -101,7 +101,7 @@ public class KlingonContentDatabase {
 
   // This should be kept in sync with the version number in the database
   // entry {boQwI':n}.
-  private static final int DATABASE_VERSION = 201710050;
+  private static final int DATABASE_VERSION = 201710090;
 
   private final KlingonDatabaseOpenHelper mDatabaseOpenHelper;
   private static final HashMap<String, String> mColumnMap = buildColumnMap();
@@ -271,6 +271,7 @@ public class KlingonContentDatabase {
         .replaceAll("", "8")
         .replaceAll("", "9")
         .replaceAll("’", "'") // "smart" quote
+        .replaceAll("\u2011", "-") // non-breaking hyphen
         .trim();
   }
 

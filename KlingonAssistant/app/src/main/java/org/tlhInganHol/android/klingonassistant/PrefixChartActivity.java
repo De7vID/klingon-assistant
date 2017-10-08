@@ -55,10 +55,4 @@ public class PrefixChartActivity extends BaseActivity {
       entryTitle.setText(resources.getString(R.string.menu_prefix_chart));
     }
   }
-
-  @Override
-  public void onBackPressed() {
-    super.onBackPressed();
-    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-  }
 }

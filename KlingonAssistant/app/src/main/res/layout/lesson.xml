@@ -16,15 +16,16 @@
 ** limitations under the License.
 */
 -->
-<!-- Layout for EntryFragment. -->
+<!-- Layout for LessonFragment. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:padding="5dp">
     <!-- Entry must be serif, to distinguish capital-I from lowercase-l. -->
     <TextView
-            android:id="@+id/entry_title"
+            android:id="@+id/lesson_title"
             android:textSize="35sp"
             android:textColor="?android:textColorPrimary"
             android:typeface="serif"
@@ -44,7 +45,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
             <TextView
-                    android:id="@+id/entry_body"
+                    android:id="@+id/lesson_body"
                     android:textSize="18sp"
                     android:textColor="?android:textColorSecondary"
                     android:typeface="sans"
@@ -52,14 +53,33 @@
                     android:paddingBottom="5dp"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textIsSelectable="true"
+                    android:textIsSelectable="false" />
+            <!-- For choosing among several options or multiple-choice quizzes. -->
+            <RadioGroup
+                    android:id="@+id/choices"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone" />
+            <!-- For text following other elements, but before the nav buttons.
+                 Set layout weight to 1 so it takes up the rest of the viewport. -->
+            <TextView
+                    android:id="@+id/lesson_body2"
+                    android:textSize="18sp"
+                    android:textColor="?android:textColorSecondary"
+                    android:typeface="sans"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textIsSelectable="false"
                     android:layout_weight="1.0" />
             <LinearLayout
               android:gravity="center_vertical"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content" >
               <!-- The bottom padding is needed so the entry doesn't overlap with
-                   the tab dots or floating action button. -->
+                   the tab dots. -->
               <!-- Set the itemIconTint and itemTextColor to white to work around
                    a bug where the selected item is coloured different.
                    Unfortunately, this means that when the button is disabled,
@@ -71,11 +91,13 @@
                       android:id="@+id/bottom_navigation"
                       android:layout_width="match_parent"
                       android:layout_height="56dp"
-                      android:layout_marginBottom="70dp"
+                      android:layout_marginBottom="30dp"
                       android:layout_gravity="start"
+                      app:menu="@menu/bottom_navigation_items" />
+                      <!--
                       app:itemIconTint="@android:color/white"
                       app:itemTextColor="@android:color/white"
-                      app:menu="@menu/bottom_navigation_items" />
+                      -->
               </LinearLayout>
         </LinearLayout>
     </ScrollView>
