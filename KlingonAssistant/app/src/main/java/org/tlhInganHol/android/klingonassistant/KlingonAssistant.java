@@ -281,7 +281,6 @@ public class KlingonAssistant extends BaseActivity {
     Uri uri = Uri.parse(KlingonContentProvider.CONTENT_URI + "/get_entry_by_id/" + entryId);
     entryIntent.setData(uri);
     startActivity(entryIntent);
-    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   class EntryAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
@@ -336,7 +335,7 @@ public class KlingonAssistant extends BaseActivity {
 
       // Note that we override the typeface and text size here, instead of in
       // the xml, because putting it there would also change the appearance of
-      // the Preferences page.
+      // the Preferences page. We fully indent suffixes, but only half-indent verbs.
       String indent1 =
           entry.isIndented() ? (entry.isVerb() ? "&nbsp;&nbsp;" : "&nbsp;&nbsp;&nbsp;&nbsp;") : "";
       String indent2 =
@@ -362,12 +361,7 @@ public class KlingonAssistant extends BaseActivity {
       view.getText1().setTextSize(22);
 
       // TODO: Colour attached affixes differently from verb.
-      boolean useColours =
-          sharedPrefs.getBoolean(
-              Preferences.KEY_USE_COLOURS_CHECKBOX_PREFERENCE, /* default */ true);
-      if (useColours) {
-        view.getText1().setTextColor(entry.getTextColor());
-      }
+      view.getText1().setTextColor(entry.getTextColor());
 
       // Use sans serif for the definition.
       view.getText2().setTypeface(Typeface.SANS_SERIF);
@@ -482,13 +476,5 @@ public class KlingonAssistant extends BaseActivity {
       return true;
     }
     return false;
-  }
-
-  @Override
-  public void onBackPressed() {
-    super.onBackPressed();
-    if (!isTaskRoot()) {
-      overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-    }
   }
 }

@@ -23,13 +23,12 @@
   <string name="lesson_header">Unit %1$d, Lesson %2$d</string>
 
   <string name="topic_introduction">Under construction</string>
-  <string name="body_introduction">This is a test.
-
-This is a {verb:v:nolink}. This is a {noun:n:nolink}. This is a reference to {The Klingon Dictionary:src}.
-
-To continue, press the "next" button below.</string>
+  <string name="body_introduction">This is a test.\n
+\nThis is a {verb:v:nolink}. This is a {noun:n:nolink}. This is a reference to {The Klingon Dictionary:src}.\n
+\nTo continue, press the "next" button below.</string>
 
   <string name="topic_basic_sentence">The Basic Sentence</string>
-  <string name="body_basic_sentence">As Klingon is an action-centric culture...</string>
+  <string name="body_basic_sentence">The basic Klingon sentence has only a verb...</string>
+  <string name="body_basic_sentence2">Some additional text.</string>
 
 </resources>

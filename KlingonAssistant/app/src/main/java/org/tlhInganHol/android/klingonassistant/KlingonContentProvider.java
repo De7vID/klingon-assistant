@@ -177,7 +177,7 @@ public class KlingonContentProvider extends ContentProvider {
 
   private Object[] formatEntryForSearchResults(Cursor cursor) {
     // Format the search results for display here. These are the two-line dropdown results from the
-    // search box.
+    // search box. We fully indent suffixes, but only half-indent verbs.
     Entry entry = new Entry(cursor, getContext());
     int entryId = entry.getId();
     String indent1 = entry.isIndented() ? (entry.isVerb() ? "  " : "    ") : "";
@@ -489,6 +489,9 @@ public class KlingonContentProvider extends ContentProvider {
     /**
      * Constructor
      *
+     * <p>This creates an entry based only on the given query. Note that the database is NOT queried
+     * when this constructor is called.
+     *
      * @param query A query of the form "entryName:basepos:metadata".
      */
     public Entry(String query, Context context) {
@@ -516,6 +519,9 @@ public class KlingonContentProvider extends ContentProvider {
 
     /**
      * Constructor
+     *
+     * <p>This creates an entry based on the given cursor, which is assumed to be the result of a
+     * query to the database.
      *
      * @param cursor A cursor with position at the desired entry.
      */

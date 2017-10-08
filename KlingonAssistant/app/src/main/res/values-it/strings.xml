@@ -129,8 +129,6 @@
         <string name="social_network_preference_title">Social network</string>
         <string name="social_network_preference_summary">Scegli il tuo social network preferito.</string>
       <string name="informational_preferences">Preferenze informazionali</string>
-        <string name="use_colours_preference_title">Usa colori</string>
-        <string name="use_colours_preference_summary">Indica le parti differenti del parlato con differenti colori.</string>
         <string name="show_transitivity_preference_title">Visualizza transitività</string>
         <string name="show_transitivity_preference_summary">Visualizza \"best guess\" circa quando un verbo diventa oggetto.</string>
         <string name="show_additional_information_preference_title">Visualizza informazioni addizionali</string>

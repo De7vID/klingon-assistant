@@ -171,11 +171,7 @@ public class EntryFragment extends Fragment {
     mEntryName = entry.getEntryName();
 
     // Set the colour for the entry name depending on its part of speech.
-    boolean useColours =
-        sharedPrefs.getBoolean(Preferences.KEY_USE_COLOURS_CHECKBOX_PREFERENCE, /* default */ true);
-    if (useColours) {
-      entryTitle.setTextColor(entry.getTextColor());
-    }
+    entryTitle.setTextColor(entry.getTextColor());
 
     // Create the expanded definition.
     String pos = entry.getFormattedPartOfSpeech(/* isHtml */ false);
@@ -373,7 +369,7 @@ public class EntryFragment extends Fragment {
           hiddenNotesStart + hiddenNotesHeader.length() + hiddenNotes.length(),
           FINAL_FLAGS);
     }
-    processMixedText(ssb, expandedDefinition, entry);
+    processMixedText(ssb, entry);
 
     // Display the entry name and definition.
     entryBody.invalidate();
@@ -384,19 +380,17 @@ public class EntryFragment extends Fragment {
   }
 
   // Helper function to process text that includes Klingon text.
-  protected void processMixedText(
-      SpannableStringBuilder ssb, String mixedText, KlingonContentProvider.Entry entry) {
+  protected void processMixedText(SpannableStringBuilder ssb, KlingonContentProvider.Entry entry) {
     float smallTextScale = (float) 0.8;
     SharedPreferences sharedPrefs =
         PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
-    boolean useColours =
-        sharedPrefs.getBoolean(Preferences.KEY_USE_COLOURS_CHECKBOX_PREFERENCE, /* default */ true);
     boolean useKlingonFont =
         sharedPrefs.getBoolean(
             Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false);
     Typeface klingonTypeface =
         KlingonAssistant.getKlingonFontTypeface(getActivity().getBaseContext());
 
+    String mixedText = ssb.toString();
     Matcher m = KlingonContentProvider.Entry.ENTRY_PATTERN.matcher(mixedText);
     while (m.find()) {
 
@@ -428,9 +422,14 @@ public class EntryFragment extends Fragment {
       }
 
       // Set the font and link.
-      // This is true if this entry doesn't launch an EntryActivity.
+      // This is true if this entry doesn't launch an EntryActivity. Don't link to an entry if the
+      // current text isn't an entry, or there is an explicit "nolink" tag, or the link opens a URL
+      // (either a source link or a direct URL link).
       boolean disableEntryLink =
-          linkedEntry.doNotLink() || linkedEntry.isSource() || linkedEntry.isURL();
+          (entry == null)
+              || linkedEntry.doNotLink()
+              || linkedEntry.isSource()
+              || linkedEntry.isURL();
       // The last span set on a range must have FINAL_FLAGS.
       int maybeFinalFlags = disableEntryLink ? FINAL_FLAGS : INTERMEDIATE_FLAGS;
       if (linkedEntry.isSource()) {
@@ -473,26 +472,30 @@ public class EntryFragment extends Fragment {
         ssb.setSpan(new SuperscriptSpan(), m.start(), m.start() + 1, maybeFinalFlags);
         end++;
       }
+
+      // For a suffix, protect the hyphen from being separated from the rest of the suffix.
+      if (ssb.charAt(m.start()) == '-') {
+        // U+2011 is the non-breaking hyphen.
+        ssb.replace(m.start(), m.start() + 1, "\u2011");
+      }
+
       // Only apply colours to verbs, nouns, and affixes (exclude BLUE and WHITE).
       if (!disableEntryLink) {
         // Link to view launcher.
-        ssb.setSpan(viewLauncher, m.start(), end, useColours ? INTERMEDIATE_FLAGS : FINAL_FLAGS);
+        ssb.setSpan(viewLauncher, m.start(), end, INTERMEDIATE_FLAGS);
       }
       // Set the colour last, so it's not overridden by other spans.
-      if (useColours) {
-        // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        //   // Work around a bug in Android 6.0.
-        //   //
-        // http://stackoverflow.com/questions/34631851/multiple-foregroundcolorspan-on-editable-issue-on-android-6-0
-        //   ForegroundColorSpan[] oldSpans = ssb.getSpans(m.start(), end,
-        // ForegroundColorSpan.class);
-        //   for (ForegroundColorSpan span : oldSpans) {
-        //     ssb.removeSpan(span);
-        //   }
-        // }
-        ssb.setSpan(
-            new ForegroundColorSpan(linkedEntry.getTextColor()), m.start(), end, FINAL_FLAGS);
-      }
+      // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      //   // Work around a bug in Android 6.0.
+      //   //
+      // http://stackoverflow.com/questions/34631851/multiple-foregroundcolorspan-on-editable-issue-on-android-6-0
+      //   ForegroundColorSpan[] oldSpans = ssb.getSpans(m.start(), end,
+      // ForegroundColorSpan.class);
+      //   for (ForegroundColorSpan span : oldSpans) {
+      //     ssb.removeSpan(span);
+      //   }
+      // }
+      ssb.setSpan(new ForegroundColorSpan(linkedEntry.getTextColor()), m.start(), end, FINAL_FLAGS);
       String linkedPos = linkedEntry.getBracketedPartOfSpeech(/* isHtml */ false);
       if (!linkedPos.equals("") && linkedPos.length() > 1) {
         ssb.insert(end, linkedPos);
@@ -545,7 +548,6 @@ public class EntryFragment extends Fragment {
   private void goToPreviousEntry() {
     if (mPreviousEntryIntent != null) {
       startActivity(mPreviousEntryIntent);
-      getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
   }
 
@@ -554,13 +556,11 @@ public class EntryFragment extends Fragment {
     Intent randomEntryIntent = new Intent(getActivity(), EntryActivity.class);
     randomEntryIntent.setData(uri);
     startActivity(randomEntryIntent);
-    getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   private void goToNextEntry() {
     if (mNextEntryIntent != null) {
       startActivity(mNextEntryIntent);
-      getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
   }
 
@@ -579,7 +579,6 @@ public class EntryFragment extends Fragment {
       intent.putExtra(SearchManager.QUERY, mQuery);
 
       view.getContext().startActivity(intent);
-      getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
   }
 }
