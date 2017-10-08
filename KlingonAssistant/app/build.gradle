@@ -13,7 +13,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 26
         versionCode 410
-        versionName "2017.10.09a"
+        versionName "2017.10.09b"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
