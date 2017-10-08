@@ -422,9 +422,14 @@ public class EntryFragment extends Fragment {
       }
 
       // Set the font and link.
-      // This is true if this entry doesn't launch an EntryActivity.
+      // This is true if this entry doesn't launch an EntryActivity. Don't link to an entry if the
+      // current text isn't an entry, or there is an explicit "nolink" tag, or the link opens a URL
+      // (either a source link or a direct URL link).
       boolean disableEntryLink =
-          linkedEntry.doNotLink() || linkedEntry.isSource() || linkedEntry.isURL();
+          (entry == null)
+              || linkedEntry.doNotLink()
+              || linkedEntry.isSource()
+              || linkedEntry.isURL();
       // The last span set on a range must have FINAL_FLAGS.
       int maybeFinalFlags = disableEntryLink ? FINAL_FLAGS : INTERMEDIATE_FLAGS;
       if (linkedEntry.isSource()) {
