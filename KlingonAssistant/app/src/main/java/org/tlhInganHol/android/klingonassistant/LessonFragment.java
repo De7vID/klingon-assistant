@@ -41,9 +41,21 @@ public class LessonFragment extends EntryFragment {
 
   private Callback mCallback;
 
-  // Additional possible sections.
-  private RadioGroup mChoicesGroup = null;
+  // Choices section.
   private List<String> mChoices = null;
+  private enum ChoiceType {
+    // The "choices" radio group can be used for different things.
+    // NONE means it's not displayed at all. PLAIN_LIST means it's just a list,
+    // with no radio buttons. SELECTION and QUIZ will both display radio buttons,
+    // but QUIZ will randomize the list order.
+    NONE,
+    PLAIN_LIST,
+    SELECTION,
+    QUIZ
+  }
+  private ChoiceType mChoiceType = ChoiceType.NONE;
+
+  // Closing text section.
   private String mClosingText = null;
 
   public static LessonFragment newInstance(String title, String topic, String body) {
@@ -99,24 +111,40 @@ public class LessonFragment extends EntryFragment {
         });
 
     // Set up possible additional views.
-    mChoicesGroup = (RadioGroup) rootView.findViewById(R.id.choices);
-    if (mChoices != null) {
+    setupChoicesGroup(rootView);
+
+    // Put additional text after other sections.
+    setupClosingText(rootView);
+
+    return rootView;
+  }
+
+  private void setupChoicesGroup(View rootView) {
+    RadioGroup choicesGroup = (RadioGroup) rootView.findViewById(R.id.choices);
+    if (mChoiceType != ChoiceType.NONE && mChoices != null) {
       for (int i = 0; i < mChoices.size(); i++) {
-        // TODO: Include entry definition, format text.
-        // TODO: No linking.
         RadioButton choiceButton = new RadioButton(getActivity());
+        if (mChoiceType == ChoiceType.PLAIN_LIST) {
+          // For a plain list, hide the radio button and just show the text.
+          choiceButton.setButtonDrawable(android.R.color.transparent);
+          // choiceButton.setPadding(12, 0, 0, 0);
+        }
+
+        // TODO: Include entry definition, format text.
         SpannableStringBuilder choiceText = new SpannableStringBuilder(mChoices.get(i));
         processMixedText(choiceText, mChoices.get(i), null);
         choiceButton.setText(choiceText);
-        mChoicesGroup.addView(choiceButton);
+        choicesGroup.addView(choiceButton);
       }
-      mChoicesGroup.setVisibility(View.VISIBLE);
-      mChoicesGroup.invalidate();
+      choicesGroup.setVisibility(View.VISIBLE);
+      choicesGroup.invalidate();
       // TODO: Fix selector font size, colours.
       // bottomNavView.findViewById(R.id.action_previous).setEnabled(false);
     }
 
-    // Put additional text after other sections.
+  }
+
+  private void setupClosingText(View rootView) {
     if (mClosingText != null) {
       TextView lessonBody2 = (TextView) rootView.findViewById(R.id.lesson_body2);
       lessonBody2.invalidate();
@@ -126,8 +154,6 @@ public class LessonFragment extends EntryFragment {
       // entry links.
       lessonBody2.setText(closingText);
     }
-
-    return rootView;
   }
 
   @Override
@@ -138,6 +164,7 @@ public class LessonFragment extends EntryFragment {
 
   public void addMultipleChoiceSelection(List<String> choices) {
     mChoices = choices;
+    mChoiceType = ChoiceType.SELECTION;
   }
 
   public void addClosingText(String closingText) {
