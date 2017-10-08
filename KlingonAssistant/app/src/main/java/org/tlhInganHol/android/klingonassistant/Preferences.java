@@ -204,12 +204,4 @@ public class Preferences extends AppCompatPreferenceActivity
       }
     }
   }
-
-  @Override
-  public void onBackPressed() {
-    super.onBackPressed();
-    if (!isTaskRoot()) {
-      overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-    }
-  }
 }

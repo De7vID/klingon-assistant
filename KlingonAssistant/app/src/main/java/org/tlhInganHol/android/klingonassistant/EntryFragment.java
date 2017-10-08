@@ -472,6 +472,12 @@ public class EntryFragment extends Fragment {
         ssb.setSpan(new SuperscriptSpan(), m.start(), m.start() + 1, maybeFinalFlags);
         end++;
       }
+
+      // For a suffix, protect the hyphen from being separated from the rest of the suffix.
+      // if (ssb.charAt(m.start()) == '-') {
+      //   ssb.replace(m.start(), m.start() + 1, "\u2011");
+      // }
+
       // Only apply colours to verbs, nouns, and affixes (exclude BLUE and WHITE).
       if (!disableEntryLink) {
         // Link to view launcher.
@@ -541,7 +547,6 @@ public class EntryFragment extends Fragment {
   private void goToPreviousEntry() {
     if (mPreviousEntryIntent != null) {
       startActivity(mPreviousEntryIntent);
-      getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
   }
 
@@ -550,13 +555,11 @@ public class EntryFragment extends Fragment {
     Intent randomEntryIntent = new Intent(getActivity(), EntryActivity.class);
     randomEntryIntent.setData(uri);
     startActivity(randomEntryIntent);
-    getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   private void goToNextEntry() {
     if (mNextEntryIntent != null) {
       startActivity(mNextEntryIntent);
-      getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
   }
 
@@ -575,7 +578,6 @@ public class EntryFragment extends Fragment {
       intent.putExtra(SearchManager.QUERY, mQuery);
 
       view.getContext().startActivity(intent);
-      getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
   }
 }

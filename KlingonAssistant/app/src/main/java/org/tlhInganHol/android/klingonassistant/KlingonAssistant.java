@@ -281,7 +281,6 @@ public class KlingonAssistant extends BaseActivity {
     Uri uri = Uri.parse(KlingonContentProvider.CONTENT_URI + "/get_entry_by_id/" + entryId);
     entryIntent.setData(uri);
     startActivity(entryIntent);
-    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   class EntryAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
@@ -477,13 +476,5 @@ public class KlingonAssistant extends BaseActivity {
       return true;
     }
     return false;
-  }
-
-  @Override
-  public void onBackPressed() {
-    super.onBackPressed();
-    if (!isTaskRoot()) {
-      overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-    }
   }
 }
