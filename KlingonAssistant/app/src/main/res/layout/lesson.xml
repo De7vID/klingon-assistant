@@ -61,7 +61,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone" />
-            <!-- For text following other elements, but before the nav buttons. -->
+            <!-- For text following other elements, but before the nav buttons.
+                 Set layout weight to 1 so it takes up the rest of the viewport. -->
             <TextView
                     android:id="@+id/lesson_body2"
                     android:textSize="18sp"
@@ -71,7 +72,7 @@
                     android:paddingBottom="5dp"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textIsSelectable="false" 
+                    android:textIsSelectable="false"
                     android:layout_weight="1.0" />
             <LinearLayout
               android:gravity="center_vertical"
