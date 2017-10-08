@@ -100,9 +100,22 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       return lessonFragments.get(lessonFragments.size() - 1);
     }
 
+    // Add a plain list.
+    public LessonBuilder addPlainList(List<String> entries) {
+      getCurrentLesson().addPlainList(entries);
+      return this;
+    }
+
     // Add a page which allows the user to select from multiple choices.
     public LessonBuilder addMultipleChoiceSelection(List<String> entries) {
       getCurrentLesson().addMultipleChoiceSelection(entries);
+      return this;
+    }
+
+    // Add a quiz.
+    // TODO: Identify correct answer. Allow "none/all of the above" options.
+    public LessonBuilder addQuiz(List<String> entries) {
+      getCurrentLesson().addQuiz(entries);
       return this;
     }
 
@@ -138,13 +151,11 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       activity.setTitle(title);
       lessonFragments =
           new LessonBuilder(title)
-
               .startNewPage(R.string.topic_introduction, R.string.body_introduction)
-
               .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
-              .addMultipleChoiceSelection(Arrays.asList("{Qong:v}", "{Sop:v}"))
+              // .addMultipleChoiceSelection(Arrays.asList("{Qong:v}", "{Sop:v}"))
+              .addPlainList(Arrays.asList("{Qong:v}", "{Sop:v}"))
               .addClosingText(R.string.body_basic_sentence2)
-
               .build();
 
       // TODO: Use notifyDataSetChanged to switch between lessons.

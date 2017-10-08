@@ -369,7 +369,7 @@ public class EntryFragment extends Fragment {
           hiddenNotesStart + hiddenNotesHeader.length() + hiddenNotes.length(),
           FINAL_FLAGS);
     }
-    processMixedText(ssb, expandedDefinition, entry);
+    processMixedText(ssb, entry);
 
     // Display the entry name and definition.
     entryBody.invalidate();
@@ -380,8 +380,7 @@ public class EntryFragment extends Fragment {
   }
 
   // Helper function to process text that includes Klingon text.
-  protected void processMixedText(
-      SpannableStringBuilder ssb, String mixedText, KlingonContentProvider.Entry entry) {
+  protected void processMixedText(SpannableStringBuilder ssb, KlingonContentProvider.Entry entry) {
     float smallTextScale = (float) 0.8;
     SharedPreferences sharedPrefs =
         PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
@@ -391,6 +390,7 @@ public class EntryFragment extends Fragment {
     Typeface klingonTypeface =
         KlingonAssistant.getKlingonFontTypeface(getActivity().getBaseContext());
 
+    String mixedText = ssb.toString();
     Matcher m = KlingonContentProvider.Entry.ENTRY_PATTERN.matcher(mixedText);
     while (m.find()) {
 

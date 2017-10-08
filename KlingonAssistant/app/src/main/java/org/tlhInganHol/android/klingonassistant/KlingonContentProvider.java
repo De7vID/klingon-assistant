@@ -489,6 +489,9 @@ public class KlingonContentProvider extends ContentProvider {
     /**
      * Constructor
      *
+     * This creates an entry based only on the given query. Note that the
+     * database is NOT queried when this constructor is called.
+     *
      * @param query A query of the form "entryName:basepos:metadata".
      */
     public Entry(String query, Context context) {
@@ -516,6 +519,9 @@ public class KlingonContentProvider extends ContentProvider {
 
     /**
      * Constructor
+     *
+     * This creates an entry based on the given cursor, which is assumed to be
+     * the result of a query to the database.
      *
      * @param cursor A cursor with position at the desired entry.
      */
