@@ -17,11 +17,12 @@ package org.tlhInganHol.android.klingonassistant;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.text.SpannableStringBuilder;
-import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,6 +44,7 @@ public class LessonFragment extends EntryFragment {
 
   // Choices section.
   private List<String> mChoices = null;
+
   private enum ChoiceType {
     // The "choices" radio group can be used for different things.
     // NONE means it's not displayed at all. PLAIN_LIST means it's just a list,
@@ -53,7 +55,12 @@ public class LessonFragment extends EntryFragment {
     SELECTION,
     QUIZ
   }
+
   private ChoiceType mChoiceType = ChoiceType.NONE;
+
+  // Dimensions for list items in px.
+  private static final float LEFT_RIGHT_MARGINS = 12.0f;
+  private static final float TOP_BOTTOM_MARGINS = 5.0f;
 
   // Closing text section.
   private String mClosingText = null;
@@ -85,7 +92,7 @@ public class LessonFragment extends EntryFragment {
     lessonBody.invalidate();
     String bodyText = getArguments().getString("body");
     SpannableStringBuilder ssb = new SpannableStringBuilder(bodyText);
-    processMixedText(ssb, bodyText, null);
+    processMixedText(ssb, null);
     // We don't call setMovementMethod on lessonBody, since we disable all
     // entry links.
     lessonBody.setText(ssb);
@@ -120,6 +127,11 @@ public class LessonFragment extends EntryFragment {
   }
 
   private void setupChoicesGroup(View rootView, BottomNavigationView bottomNavView) {
+    // Compute margins in dp.
+    final float scale = getActivity().getResources().getDisplayMetrics().density;
+    final int leftRightMargins = (int) (LEFT_RIGHT_MARGINS * scale + 0.5f);
+    final int topBottomMargins = (int) (TOP_BOTTOM_MARGINS * scale + 0.5f);
+
     if (mChoiceType != ChoiceType.NONE && mChoices != null) {
       RadioGroup choicesGroup = (RadioGroup) rootView.findViewById(R.id.choices);
       final MenuItem nextButton = (MenuItem) bottomNavView.getMenu().findItem(R.id.action_next);
@@ -128,12 +140,13 @@ public class LessonFragment extends EntryFragment {
         if (mChoiceType == ChoiceType.PLAIN_LIST) {
           // For a plain list, hide the radio button and just show the text.
           choiceButton.setButtonDrawable(android.R.color.transparent);
-          // choiceButton.setPadding(12, 0, 0, 0);
+          choiceButton.setPadding(
+              leftRightMargins, topBottomMargins, leftRightMargins, topBottomMargins);
         }
 
         // TODO: Include entry definition, format text.
-        SpannableStringBuilder choiceText = new SpannableStringBuilder(mChoices.get(i));
-        processMixedText(choiceText, mChoices.get(i), null);
+        SpannableStringBuilder choiceText = processChoiceText(mChoices.get(i), true, true);
+        processMixedText(choiceText, null);
         choiceButton.setText(choiceText);
         choicesGroup.addView(choiceButton);
       }
@@ -142,14 +155,45 @@ public class LessonFragment extends EntryFragment {
       // TODO: Fix selector font size, colours.
       if (mChoiceType == ChoiceType.SELECTION || mChoiceType == ChoiceType.QUIZ) {
         nextButton.setEnabled(false);
-        choicesGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-              nextButton.setEnabled(true);
-            }
-        });
+        choicesGroup.setOnCheckedChangeListener(
+            new RadioGroup.OnCheckedChangeListener() {
+              @Override
+              public void onCheckedChanged(RadioGroup group, int checkedId) {
+                nextButton.setEnabled(true);
+              }
+            });
       }
     }
+  }
+
+  // Given a string choice text, process it.
+  private SpannableStringBuilder processChoiceText(
+      String choiceText, boolean showEntryName, boolean showDefinition) {
+    SpannableStringBuilder ssb = new SpannableStringBuilder(choiceText);
+    if (choiceText.length() > 2
+        && choiceText.charAt(0) == '{'
+        && choiceText.charAt(choiceText.length() - 1) == '}') {
+      // This is a database entry.
+      String query = choiceText.substring(1, choiceText.length() - 1);
+      Cursor cursor =
+          getActivity()
+              .managedQuery(
+                  Uri.parse(KlingonContentProvider.CONTENT_URI + "/lookup"),
+                  null /* all columns */,
+                  null,
+                  new String[] {query},
+                  null);
+      // Assume cursor.getCount() == 1.
+      KlingonContentProvider.Entry entry =
+          new KlingonContentProvider.Entry(cursor, getActivity().getBaseContext());
+      ssb.append("\n");
+      if (!entry.shouldDisplayGermanDefinition()) {
+        ssb.append(entry.getDefinition());
+      } else {
+        ssb.append(entry.getDefinition_DE());
+      }
+    }
+    return ssb;
   }
 
   private void setupClosingText(View rootView) {
@@ -157,7 +201,7 @@ public class LessonFragment extends EntryFragment {
       TextView lessonBody2 = (TextView) rootView.findViewById(R.id.lesson_body2);
       lessonBody2.invalidate();
       SpannableStringBuilder closingText = new SpannableStringBuilder(mClosingText);
-      processMixedText(closingText, mClosingText, null);
+      processMixedText(closingText, null);
       // We don't call setMovementMethod on lessonBody2, since we disable all
       // entry links.
       lessonBody2.setText(closingText);
@@ -170,9 +214,19 @@ public class LessonFragment extends EntryFragment {
     mCallback = (Callback) activity;
   }
 
+  public void addPlainList(List<String> choices) {
+    mChoices = choices;
+    mChoiceType = ChoiceType.PLAIN_LIST;
+  }
+
   public void addMultipleChoiceSelection(List<String> choices) {
     mChoices = choices;
     mChoiceType = ChoiceType.SELECTION;
+  }
+
+  public void addQuiz(List<String> choices) {
+    mChoices = choices;
+    mChoiceType = ChoiceType.QUIZ;
   }
 
   public void addClosingText(String closingText) {
