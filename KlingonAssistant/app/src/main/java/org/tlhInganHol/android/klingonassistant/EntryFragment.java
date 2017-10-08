@@ -474,9 +474,10 @@ public class EntryFragment extends Fragment {
       }
 
       // For a suffix, protect the hyphen from being separated from the rest of the suffix.
-      // if (ssb.charAt(m.start()) == '-') {
-      //   ssb.replace(m.start(), m.start() + 1, "\u2011");
-      // }
+      if (ssb.charAt(m.start()) == '-') {
+        // U+2011 is the non-breaking hyphen.
+        ssb.replace(m.start(), m.start() + 1, "\u2011");
+      }
 
       // Only apply colours to verbs, nouns, and affixes (exclude BLUE and WHITE).
       if (!disableEntryLink) {
