@@ -111,7 +111,7 @@ public class LessonFragment extends EntryFragment {
         });
 
     // Set up possible additional views.
-    setupChoicesGroup(rootView);
+    setupChoicesGroup(rootView, bottomNavView);
 
     // Put additional text after other sections.
     setupClosingText(rootView);
@@ -119,9 +119,10 @@ public class LessonFragment extends EntryFragment {
     return rootView;
   }
 
-  private void setupChoicesGroup(View rootView) {
-    RadioGroup choicesGroup = (RadioGroup) rootView.findViewById(R.id.choices);
+  private void setupChoicesGroup(View rootView, BottomNavigationView bottomNavView) {
     if (mChoiceType != ChoiceType.NONE && mChoices != null) {
+      RadioGroup choicesGroup = (RadioGroup) rootView.findViewById(R.id.choices);
+      final MenuItem nextButton = (MenuItem) bottomNavView.getMenu().findItem(R.id.action_next);
       for (int i = 0; i < mChoices.size(); i++) {
         RadioButton choiceButton = new RadioButton(getActivity());
         if (mChoiceType == ChoiceType.PLAIN_LIST) {
@@ -139,9 +140,16 @@ public class LessonFragment extends EntryFragment {
       choicesGroup.setVisibility(View.VISIBLE);
       choicesGroup.invalidate();
       // TODO: Fix selector font size, colours.
-      // bottomNavView.findViewById(R.id.action_previous).setEnabled(false);
+      if (mChoiceType == ChoiceType.SELECTION || mChoiceType == ChoiceType.QUIZ) {
+        nextButton.setEnabled(false);
+        choicesGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+              nextButton.setEnabled(true);
+            }
+        });
+      }
     }
-
   }
 
   private void setupClosingText(View rootView) {
