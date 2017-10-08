@@ -22,7 +22,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +34,7 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LessonFragment extends EntryFragment {
@@ -44,6 +48,8 @@ public class LessonFragment extends EntryFragment {
 
   // Choices section.
   private List<String> mChoices = null;
+  private String mChoice = null;
+  private String mCorrectAnswer = null;
 
   private enum ChoiceType {
     // The "choices" radio group can be used for different things.
@@ -58,12 +64,26 @@ public class LessonFragment extends EntryFragment {
 
   private ChoiceType mChoiceType = ChoiceType.NONE;
 
+  private enum ChoiceTextType {
+    // By default, entries will show both entry name and definition. For QUIZ
+    // choices, entries may only show one or the other.
+    BOTH,
+    ENTRY_NAME_ONLY,
+    DEFINITION_ONLY
+  }
+
+  private ChoiceTextType mChoiceTextType = ChoiceTextType.BOTH;
+
   // Dimensions for list items in px.
-  private static final float LEFT_RIGHT_MARGINS = 12.0f;
-  private static final float TOP_BOTTOM_MARGINS = 5.0f;
+  private static final float LEFT_RIGHT_MARGINS = 15.0f;
+  private static final float TOP_BOTTOM_MARGINS = 6.0f;
 
   // Closing text section.
   private String mClosingText = null;
+
+  // For the summary page.
+  private boolean isSummary = false;
+  List<LessonFragment> mLessonFragments = null;
 
   public static LessonFragment newInstance(String title, String topic, String body) {
     LessonFragment lessonFragment = new LessonFragment();
@@ -90,15 +110,34 @@ public class LessonFragment extends EntryFragment {
     lessonTitle.setText(getArguments().getString("topic"));
 
     lessonBody.invalidate();
-    String bodyText = getArguments().getString("body");
-    SpannableStringBuilder ssb = new SpannableStringBuilder(bodyText);
-    processMixedText(ssb, null);
-    // We don't call setMovementMethod on lessonBody, since we disable all
-    // entry links.
-    lessonBody.setText(ssb);
+    if (!isSummary) {
+      String bodyText = getArguments().getString("body");
+      SpannableStringBuilder ssb = new SpannableStringBuilder(bodyText);
+      processMixedText(ssb, null);
+      // We don't call setMovementMethod on lessonBody, since we disable all
+      // entry links.
+      lessonBody.setText(ssb);
+    } else {
+      // TODO: Fix race condition.
+      List<String> choices = new ArrayList<String>();
+      int totalQuestions = 0;
+      int correctlyAnswered = 0;
+      for (LessonFragment lessonFragment : mLessonFragments) {
+        if (lessonFragment.isSelection()) {
+          choices.add(lessonFragment.getChoice());
+        } else if (lessonFragment.isQuiz()) {
+          if (lessonFragment.hasCorrectAnswer()) {
+            correctlyAnswered++;
+          }
+          totalQuestions++;
+        }
+        lessonBody.setText(choices.size() + " - " + choices.toString() + " ; " + correctlyAnswered + "/" + totalQuestions);
+      }
+    }
 
     // Set up the bottom navigation buttons. By default, enable just the "Next"
     // button.
+    // TODO: Replace this with a regular button.
     BottomNavigationView bottomNavView =
         (BottomNavigationView) rootView.findViewById(R.id.bottom_navigation);
     Menu bottomNavMenu = bottomNavView.getMenu();
@@ -131,21 +170,33 @@ public class LessonFragment extends EntryFragment {
     final float scale = getActivity().getResources().getDisplayMetrics().density;
     final int leftRightMargins = (int) (LEFT_RIGHT_MARGINS * scale + 0.5f);
     final int topBottomMargins = (int) (TOP_BOTTOM_MARGINS * scale + 0.5f);
+    final LessonFragment thisLesson = this;
 
     if (mChoiceType != ChoiceType.NONE && mChoices != null) {
       RadioGroup choicesGroup = (RadioGroup) rootView.findViewById(R.id.choices);
       final MenuItem nextButton = (MenuItem) bottomNavView.getMenu().findItem(R.id.action_next);
       for (int i = 0; i < mChoices.size(); i++) {
         RadioButton choiceButton = new RadioButton(getActivity());
+        choiceButton.setPadding(
+            leftRightMargins, topBottomMargins, leftRightMargins, topBottomMargins);
+
+        // Update the choice when clicked.
+        final String choice = mChoices.get(i);
+        choiceButton.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+            thisLesson.setChoice(choice);
+          }
+        });
+
+        // For a plain list, hide the radio button and just show the text.
         if (mChoiceType == ChoiceType.PLAIN_LIST) {
-          // For a plain list, hide the radio button and just show the text.
           choiceButton.setButtonDrawable(android.R.color.transparent);
-          choiceButton.setPadding(
-              leftRightMargins, topBottomMargins, leftRightMargins, topBottomMargins);
         }
 
-        // TODO: Include entry definition, format text.
-        SpannableStringBuilder choiceText = processChoiceText(mChoices.get(i), true, true);
+        // Display entry name and/or definition depending on choice text type,
+        // and also format the displayed text.
+        SpannableStringBuilder choiceText = processChoiceText(mChoices.get(i));
         processMixedText(choiceText, null);
         choiceButton.setText(choiceText);
         choicesGroup.addView(choiceButton);
@@ -166,10 +217,30 @@ public class LessonFragment extends EntryFragment {
     }
   }
 
+  // Helper method to update the selected choice.
+  private void setChoice(String choice) {
+    mChoice = choice;
+  }
+
+  private boolean isSelection() {
+    return mChoiceType == ChoiceType.SELECTION;
+  }
+
+  private String getChoice() {
+    return mChoice;
+  }
+
+  private boolean isQuiz() {
+    return mChoiceType == ChoiceType.QUIZ;
+  }
+
+  private boolean hasCorrectAnswer() {
+    return (mChoice != null) && mChoice.equals(mCorrectAnswer);
+  }
+
   // Given a string choice text, process it.
-  private SpannableStringBuilder processChoiceText(
-      String choiceText, boolean showEntryName, boolean showDefinition) {
-    SpannableStringBuilder ssb = new SpannableStringBuilder(choiceText);
+  private SpannableStringBuilder processChoiceText(String choiceText) {
+    SpannableStringBuilder ssb = new SpannableStringBuilder();
     if (choiceText.length() > 2
         && choiceText.charAt(0) == '{'
         && choiceText.charAt(choiceText.length() - 1) == '}') {
@@ -186,12 +257,28 @@ public class LessonFragment extends EntryFragment {
       // Assume cursor.getCount() == 1.
       KlingonContentProvider.Entry entry =
           new KlingonContentProvider.Entry(cursor, getActivity().getBaseContext());
-      ssb.append("\n");
-      if (!entry.shouldDisplayGermanDefinition()) {
-        ssb.append(entry.getDefinition());
-      } else {
-        ssb.append(entry.getDefinition_DE());
+      if (mChoiceTextType != ChoiceTextType.DEFINITION_ONLY) {
+        ssb.append(choiceText);
       }
+      if (mChoiceTextType == ChoiceTextType.BOTH) {
+        ssb.append("\n");
+      }
+      if (mChoiceTextType != ChoiceTextType.ENTRY_NAME_ONLY) {
+        int start = ssb.length();
+        String definition;
+        if (!entry.shouldDisplayGermanDefinition()) {
+          definition = entry.getDefinition();
+        } else {
+          definition = entry.getDefinition_DE();
+        }
+        ssb.append(definition);
+        ssb.setSpan(
+            new ForegroundColorSpan(0xFFC0C0C0),
+            start,
+            start + definition.length(),
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+      }
+      ssb.setSpan(new RelativeSizeSpan(1.2f), 0, ssb.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
     return ssb;
   }
@@ -227,139 +314,15 @@ public class LessonFragment extends EntryFragment {
   public void addQuiz(List<String> choices) {
     mChoices = choices;
     mChoiceType = ChoiceType.QUIZ;
+    mCorrectAnswer = choices.get(0);
   }
 
   public void addClosingText(String closingText) {
     mClosingText = closingText;
   }
 
-  // List adapter for word selection and multiple-choice quizzes.
-  // class MultipleChoiceAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
-
-  //   private final Cursor mCursor;
-  //   private final LayoutInflater mInflater;
-  //   private int mSelectedPosition = -1;
-  //   private RadioButton mSelectedButton = null;
-
-  //   public MultipleChoiceAdapter(Cursor cursor) {
-  //     mCursor = cursor;
-  //     mInflater = (LayoutInflater)
-  // getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-  //   }
-
-  //   @Override
-  //   public int getCount() {
-  //     return mCursor.getCount();
-  //   }
-
-  //   @Override
-  //   public Object getItem(int position) {
-  //     return position;
-  //   }
-
-  //   @Override
-  //   public long getItemId(int position) {
-  //     return position;
-  //   }
-
-  //   @Override
-  //   public View getView(int position, View convertView, ViewGroup parent) {
-  //     LinearLayout view = (convertView != null) ? (LinearLayout) convertView :
-  // createView(parent);
-
-  //     // Have to set the check state here because the views are recycled.
-  //     RadioButton button = (RadioButton) view.findViewById(R.id.radio);
-  //     if (position == mSelectedPosition) {
-  //       button.setChecked(true);
-  //     } else {
-  //       button.setChecked(false);
-  //     }
-
-  //     mCursor.moveToPosition(position);
-  //     bindView(view, mCursor);
-  //     return view;
-  //   }
-
-  //   private LinearLayout createView(ViewGroup parent) {
-  //     // Use a modified version of android.R.simple_list_item_2_single_choice
-  //     // which has been adapted for our needs.
-  //     LinearLayout item =
-  //         (LinearLayout)
-  //             mInflater.inflate(R.layout.simple_list_item_2_single_choice, parent, false);
-  //     return item;
-  //   }
-
-  //   private void bindView(LinearLayout view, Cursor cursor) {
-  //     KlingonContentProvider.Entry entry = new KlingonContentProvider.Entry(cursor,
-  // getActivity());
-
-  //     // Note that we override the typeface and text size here, instead of in
-  //     // the xml, because putting it there would also change the appearance of
-  //     // the Preferences page. We fully indent suffixes, but only half-indent verbs.
-  //     String indent1 =
-  //         entry.isIndented() ? (entry.isVerb() ? "&nbsp;&nbsp;" : "&nbsp;&nbsp;&nbsp;&nbsp;") :
-  // "";
-  //     String indent2 =
-  //         entry.isIndented()
-  //             ? (entry.isVerb()
-  //                 ? "&nbsp;&nbsp;&nbsp;&nbsp;"
-  //                 : "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
-  //             : "";
-
-  //     TextView text1 = view.findViewById(android.R.id.text1);
-  //     TextView text2 = view.findViewById(android.R.id.text2);
-  //     SharedPreferences sharedPrefs =
-  // PreferenceManager.getDefaultSharedPreferences(getActivity());
-  //     if (!sharedPrefs.getBoolean(
-  //         Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false)) {
-  //       // Use serif for the entry, so capital-I and lowercase-l are distinguishable.
-  //       text1.setTypeface(Typeface.SERIF);
-  //       text1.setText(Html.fromHtml(indent1 + entry.getFormattedEntryName(/* isHtml */ true)));
-  //     } else {
-  //       // Preference is set to display this in {pIqaD}!
-  //       text1.setTypeface(KlingonAssistant.getKlingonFontTypeface(getActivity()));
-  //       text1.setText(Html.fromHtml(indent1 + entry.getEntryNameInKlingonFont()));
-  //     }
-  //     text1.setTextSize(22);
-
-  //     // TODO: Colour attached affixes differently from verb.
-  //     text1.setTextColor(entry.getTextColor());
-
-  //     // Use sans serif for the definition.
-  //     text2.setTypeface(Typeface.SANS_SERIF);
-  //     text2.setText(Html.fromHtml(indent2 + entry.getFormattedDefinition(/* isHtml */ true)));
-  //     text2.setTextSize(14);
-  //     text2.setTextColor(0xFFC0C0C0);
-  //   }
-
-  //   @Override
-  //   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-  //     RadioButton button = (RadioButton) view.findViewById(R.id.radio);
-  //     if (position != mSelectedPosition && mSelectedButton != null) {
-  //       mSelectedButton.setChecked(false);
-  //     }
-  //     button.setChecked(true);
-  //     mSelectedPosition = position;
-  //     mSelectedButton = button;
-
-  //     if (getCount() == 1) {
-  //       // Launch entry the regular way, as there's only one result.
-  //       mCursor.moveToPosition(position);
-  //       // launchEntry(mCursor.getString(KlingonContentDatabase.COLUMN_ID));
-  //     } else {
-  //       // There's a list of results, so launch a list of entries. Instead of passing in
-  //       // one ID, we pass in a comma-separated list. We also append the position of the
-  //       // selected entry to the end.
-  //       StringBuilder entryList = new StringBuilder();
-  //       for (int i = 0; i < getCount(); i++) {
-  //         mCursor.moveToPosition(i);
-  //         entryList.append(mCursor.getString(KlingonContentDatabase.COLUMN_ID));
-  //         entryList.append(",");
-  //       }
-  //       entryList.append(position);
-  //       mCursor.moveToPosition(position);
-  //       // launchEntry(entryList.toString());
-  //     }
-  //   }
-  // }
+  public void setSummary(List<LessonFragment> lessonFragments) {
+    isSummary = true;
+    mLessonFragments = lessonFragments;
+  }
 }

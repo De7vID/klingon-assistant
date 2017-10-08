@@ -25,6 +25,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -70,12 +71,13 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
   // A helper class to build a lesson.
   private class LessonBuilder {
-    private List<LessonFragment> lessonFragments = null;
     private String mTitle = null;
+    private List<LessonFragment> mLessonFragments = null;
+    private LessonFragment mLessonSummary = null;
 
     public LessonBuilder(String title) {
       mTitle = title;
-      lessonFragments = new ArrayList<LessonFragment>();
+      mLessonFragments = new ArrayList<LessonFragment>();
     }
 
     // Helper to get string from resource ID.
@@ -85,7 +87,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
     // Start a new page which only has lesson text.
     public LessonBuilder startNewPage(int topicResId, int bodyResId) {
-      lessonFragments.add(
+      mLessonFragments.add(
           LessonFragment.newInstance(
               mTitle, getStringFromResId(topicResId), getStringFromResId(bodyResId)));
       return this;
@@ -93,11 +95,11 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
     // Helper to get the lesson currently being built.
     private LessonFragment getCurrentLesson() {
-      if (lessonFragments.size() == 0) {
+      if (mLessonFragments.size() == 0) {
         // Log.e();
         return null;
       }
-      return lessonFragments.get(lessonFragments.size() - 1);
+      return mLessonFragments.get(mLessonFragments.size() - 1);
     }
 
     // Add a plain list.
@@ -126,8 +128,11 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     }
 
     public List<LessonFragment> build() {
-      // TODO: Add summary page.
-      return lessonFragments;
+      // TODO: Make summary page dependent on prior pages.
+      LessonFragment summaryFragment = LessonFragment.newInstance(mTitle, "Summary", "summary");
+      summaryFragment.setSummary(mLessonFragments);
+      mLessonFragments.add(summaryFragment);
+      return mLessonFragments;
     }
   }
 
@@ -141,7 +146,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     // The unit and lesson numbers are 1-based.
     int mUnitNumber = 1;
     int mLessonNumber = 1;
-    private List<LessonFragment> lessonFragments = null;
+    private List<LessonFragment> mLessonFragments = null;
 
     public SwipeAdapter(FragmentManager fm, LessonActivity activity) {
       super(fm);
@@ -149,13 +154,41 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       // TODO: Initialise unit, lesson, and page number here.
       String title = getTitle(1, 1);
       activity.setTitle(title);
-      lessonFragments =
+      List choiceList1 = Arrays.asList("{Qong:v}", "{Sop:v}", "{Suv:v}");
+      List choiceList2 = Arrays.asList("{Doch:n}", "{taj:n}", "{vIqraq:n}");
+      mLessonFragments =
           new LessonBuilder(title)
+              // intro
               .startNewPage(R.string.topic_introduction, R.string.body_introduction)
+
+              // plain list
               .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
-              // .addMultipleChoiceSelection(Arrays.asList("{Qong:v}", "{Sop:v}"))
-              .addPlainList(Arrays.asList("{Qong:v}", "{Sop:v}"))
+              .addPlainList(choiceList1)
               .addClosingText(R.string.body_basic_sentence2)
+
+              // choice
+              .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
+              .addMultipleChoiceSelection(choiceList1)
+              .addClosingText(R.string.body_basic_sentence2)
+
+              // quiz
+              .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
+              .addQuiz(choiceList1)
+              .addClosingText(R.string.body_basic_sentence2)
+
+              // choice
+              .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
+              .addMultipleChoiceSelection(choiceList2)
+              .addClosingText(R.string.body_basic_sentence2)
+
+              // quiz
+              .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
+              .addQuiz(choiceList2)
+              .addClosingText(R.string.body_basic_sentence2)
+
+              // intro - race condition
+              // .startNewPage(R.string.topic_introduction, R.string.body_introduction)
+
               .build();
 
       // TODO: Use notifyDataSetChanged to switch between lessons.
@@ -168,12 +201,12 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
     @Override
     public Fragment getItem(int position) {
-      return lessonFragments.get(position);
+      return mLessonFragments.get(position);
     }
 
     @Override
     public int getCount() {
-      return lessonFragments.size();
+      return mLessonFragments.size();
     }
   }
 }
