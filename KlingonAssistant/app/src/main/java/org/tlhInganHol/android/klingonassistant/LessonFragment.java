@@ -41,9 +41,10 @@ public class LessonFragment extends EntryFragment {
 
   private Callback mCallback;
 
-  // Additional possible views.
+  // Additional possible sections.
   private RadioGroup mChoicesGroup = null;
-  private List<String> mEntries = null;
+  private List<String> mChoices = null;
+  private String mClosingText = null;
 
   public static LessonFragment newInstance(String title, String topic, String body) {
     LessonFragment lessonFragment = new LessonFragment();
@@ -73,8 +74,9 @@ public class LessonFragment extends EntryFragment {
     String bodyText = getArguments().getString("body");
     SpannableStringBuilder ssb = new SpannableStringBuilder(bodyText);
     processMixedText(ssb, bodyText, null);
+    // We don't call setMovementMethod on lessonBody, since we disable all
+    // entry links.
     lessonBody.setText(ssb);
-    lessonBody.setMovementMethod(LinkMovementMethod.getInstance());
 
     // Set up the bottom navigation buttons. By default, enable just the "Next"
     // button.
@@ -98,13 +100,13 @@ public class LessonFragment extends EntryFragment {
 
     // Set up possible additional views.
     mChoicesGroup = (RadioGroup) rootView.findViewById(R.id.choices);
-    if (mEntries != null) {
-      for (int i = 0; i < mEntries.size(); i++) {
+    if (mChoices != null) {
+      for (int i = 0; i < mChoices.size(); i++) {
         // TODO: Include entry definition, format text.
         // TODO: No linking.
         RadioButton choiceButton = new RadioButton(getActivity());
-        SpannableStringBuilder choiceText = new SpannableStringBuilder(mEntries.get(i));
-        processMixedText(choiceText, mEntries.get(i), null);
+        SpannableStringBuilder choiceText = new SpannableStringBuilder(mChoices.get(i));
+        processMixedText(choiceText, mChoices.get(i), null);
         choiceButton.setText(choiceText);
         mChoicesGroup.addView(choiceButton);
       }
@@ -112,6 +114,17 @@ public class LessonFragment extends EntryFragment {
       mChoicesGroup.invalidate();
       // TODO: Fix selector font size, colours.
       // bottomNavView.findViewById(R.id.action_previous).setEnabled(false);
+    }
+
+    // Put additional text after other sections.
+    if (mClosingText != null) {
+      TextView lessonBody2 = (TextView) rootView.findViewById(R.id.lesson_body2);
+      lessonBody2.invalidate();
+      SpannableStringBuilder closingText = new SpannableStringBuilder(mClosingText);
+      processMixedText(closingText, mClosingText, null);
+      // We don't call setMovementMethod on lessonBody2, since we disable all
+      // entry links.
+      lessonBody2.setText(closingText);
     }
 
     return rootView;
@@ -123,8 +136,12 @@ public class LessonFragment extends EntryFragment {
     mCallback = (Callback) activity;
   }
 
-  public void addEntrySelection(List<String> entries) {
-    mEntries = entries;
+  public void addMultipleChoiceSelection(List<String> choices) {
+    mChoices = choices;
+  }
+
+  public void addClosingText(String closingText) {
+    mClosingText = closingText;
   }
 
   // List adapter for word selection and multiple-choice quizzes.

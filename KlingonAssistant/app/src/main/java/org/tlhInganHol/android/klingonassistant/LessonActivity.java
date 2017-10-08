@@ -78,26 +78,37 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       lessonFragments = new ArrayList<LessonFragment>();
     }
 
+    // Helper to get string from resource ID.
     private String getStringFromResId(int resId) {
       return getBaseContext().getResources().getString(resId);
     }
 
-    // Add a page which only has lesson text.
-    public LessonBuilder addTextOnlyPage(int topicResId, int bodyResId) {
+    // Start a new page which only has lesson text.
+    public LessonBuilder startNewPage(int topicResId, int bodyResId) {
       lessonFragments.add(
           LessonFragment.newInstance(
               mTitle, getStringFromResId(topicResId), getStringFromResId(bodyResId)));
       return this;
     }
 
-    // Add a page which allows the user to select a database entry.
-    public LessonBuilder addEntrySelectionPage(
-        int topicResId, int bodyResId, List<String> entries) {
-      LessonFragment fragment =
-          LessonFragment.newInstance(
-              mTitle, getStringFromResId(topicResId), getStringFromResId(bodyResId));
-      fragment.addEntrySelection(entries);
-      lessonFragments.add(fragment);
+    // Helper to get the lesson currently being built.
+    private LessonFragment getCurrentLesson() {
+      if (lessonFragments.size() == 0) {
+        // Log.e();
+        return null;
+      }
+      return lessonFragments.get(lessonFragments.size() - 1);
+    }
+
+    // Add a page which allows the user to select from multiple choices.
+    public LessonBuilder addMultipleChoiceSelection(List<String> entries) {
+      getCurrentLesson().addMultipleChoiceSelection(entries);
+      return this;
+    }
+
+    // Add text after other sections.
+    public LessonBuilder addClosingText(int body2ResId) {
+      getCurrentLesson().addClosingText(getStringFromResId(body2ResId));
       return this;
     }
 
@@ -127,11 +138,13 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       activity.setTitle(title);
       lessonFragments =
           new LessonBuilder(title)
-              .addTextOnlyPage(R.string.topic_introduction, R.string.body_introduction)
-              .addEntrySelectionPage(
-                  R.string.topic_basic_sentence,
-                  R.string.body_basic_sentence,
-                  Arrays.asList("{Qong:v}", "{Sop:v}"))
+
+              .startNewPage(R.string.topic_introduction, R.string.body_introduction)
+
+              .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
+              .addMultipleChoiceSelection(Arrays.asList("{Qong:v}", "{Sop:v}"))
+              .addClosingText(R.string.body_basic_sentence2)
+
               .build();
 
       // TODO: Use notifyDataSetChanged to switch between lessons.
