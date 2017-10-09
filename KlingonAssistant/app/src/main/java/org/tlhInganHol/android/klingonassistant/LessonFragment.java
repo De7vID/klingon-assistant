@@ -99,7 +99,6 @@ public class LessonFragment extends EntryFragment {
 
   // For the summary page.
   private boolean isSummary = false;
-  // List<LessonFragment> mLessonFragments = null;
 
   public static LessonFragment newInstance(String title, String topic, String body) {
     LessonFragment lessonFragment = new LessonFragment();
@@ -146,6 +145,7 @@ public class LessonFragment extends EntryFragment {
       // entry links.
       lessonBody.setText(ssb);
     } else {
+      // TODO: change buttons, etc.
       lessonBody.setText(mCallback.getSummary());
     }
 
@@ -397,7 +397,7 @@ public class LessonFragment extends EntryFragment {
     mClosingText = closingText;
   }
 
-  public void setSummary(List<LessonFragment> lessonFragments) {
+  public void setSummary() {
     isSummary = true;
   }
 

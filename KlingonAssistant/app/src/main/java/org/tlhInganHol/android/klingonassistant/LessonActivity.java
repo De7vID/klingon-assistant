@@ -64,7 +64,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
     // Set up pager.
     mPager = (LessonViewPager) findViewById(R.id.lesson_pager);
-    mPagerAdapter = new SwipeAdapter(getSupportFragmentManager(), this);
+    mPagerAdapter = new SwipeAdapter(getSupportFragmentManager(), this, /* summary */ false);
     mPager.setAdapter(mPagerAdapter);
     mPager.setCurrentItem(0, /* smoothScroll */ false);
     TabLayout tabLayout = (TabLayout) findViewById(R.id.lesson_tab_dots);
@@ -86,7 +86,6 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
   private class LessonBuilder {
     private String mTitle = null;
     private List<LessonFragment> mLessonFragments = null;
-    private LessonFragment mLessonSummary = null;
 
     public LessonBuilder(String title) {
       mTitle = title;
@@ -142,18 +141,21 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     }
 
     public List<LessonFragment> build() {
-      // TODO: Make summary page dependent on prior pages.
-      LessonFragment summaryFragment = LessonFragment.newInstance(mTitle, "Summary", "summary");
-      // Copy the list so that summaryFragment doesn't reference itself.
-      summaryFragment.setSummary(new ArrayList<LessonFragment>(mLessonFragments));
-      mLessonFragments.add(summaryFragment);
       return mLessonFragments;
     }
   }
 
   @Override
   public void goToNextPage() {
-    mPager.setCurrentItem(mPager.getCurrentItem() + 1);
+    int currentItem = mPager.getCurrentItem();
+    if (currentItem != mPagerAdapter.getCount() - 1) {
+      mPager.setCurrentItem(currentItem + 1);
+    } else {
+      // Fake summary.
+      mPagerAdapter = new SwipeAdapter(getSupportFragmentManager(), this, /* summary */ true);
+      mPager.setAdapter(mPagerAdapter);
+      // TODO: Hide tab dots, change summary buttons.
+    }
   }
 
   @Override
@@ -200,14 +202,25 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     int mLessonNumber = 1;
     private List<LessonFragment> mLessonFragments = null;
 
-    public SwipeAdapter(FragmentManager fm, LessonActivity activity) {
+    // For now, use a "summary" variable to simulate requesting a summary.
+    public SwipeAdapter(FragmentManager fm, LessonActivity activity, boolean summary) {
       super(fm);
 
-      // TODO: Initialise unit, lesson, and page number here.
+      // TODO: Switch on unit and lesson numbers here.
       String title = getTitle(1, 1);
       activity.setTitle(title);
       ArrayList choiceList1 = new ArrayList(Arrays.asList("{Qong:v}", "{Sop:v}", "{Suv:v}"));
       ArrayList choiceList2 = new ArrayList(Arrays.asList("{Doch:n}", "{taj:n}", "{vIqraq:n}"));
+
+      if (summary) {
+        // Fake summary.
+        mLessonFragments = new ArrayList<LessonFragment>();
+        LessonFragment summaryFragment = LessonFragment.newInstance(title, "Summary", "summary");
+        summaryFragment.setSummary();
+        mLessonFragments.add(summaryFragment);
+        return;
+      }
+
       mLessonFragments =
           new LessonBuilder(title)
               // intro
@@ -238,12 +251,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
               .addQuiz(choiceList2, LessonFragment.ChoiceTextType.DEFINITION_ONLY)
               .addClosingText(R.string.body_basic_sentence2)
 
-              // intro - race condition
-              // .startNewPage(R.string.topic_introduction, R.string.body_introduction)
-
               .build();
-
-      // TODO: Use notifyDataSetChanged to switch between lessons.
     }
 
     private String getTitle(int unit, int lesson) {
