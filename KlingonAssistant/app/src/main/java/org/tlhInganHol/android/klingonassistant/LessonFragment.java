@@ -34,7 +34,9 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LessonFragment extends EntryFragment {
@@ -186,6 +188,7 @@ public class LessonFragment extends EntryFragment {
           @Override
           public void onClick(View view) {
             thisLesson.setChoice(choice);
+            nextButton.setEnabled(true);
           }
         });
 
@@ -206,13 +209,13 @@ public class LessonFragment extends EntryFragment {
       // TODO: Fix selector font size, colours.
       if (mChoiceType == ChoiceType.SELECTION || mChoiceType == ChoiceType.QUIZ) {
         nextButton.setEnabled(false);
-        choicesGroup.setOnCheckedChangeListener(
-            new RadioGroup.OnCheckedChangeListener() {
-              @Override
-              public void onCheckedChanged(RadioGroup group, int checkedId) {
-                nextButton.setEnabled(true);
-              }
-            });
+        // choicesGroup.setOnCheckedChangeListener(
+        //     new RadioGroup.OnCheckedChangeListener() {
+        //       @Override
+        //       public void onCheckedChanged(RadioGroup group, int checkedId) {
+        //         nextButton.setEnabled(true);
+        //       }
+        //     });
       }
     }
   }
@@ -312,9 +315,12 @@ public class LessonFragment extends EntryFragment {
   }
 
   public void addQuiz(List<String> choices) {
-    mChoices = choices;
-    mChoiceType = ChoiceType.QUIZ;
     mCorrectAnswer = choices.get(0);
+    mChoiceType = ChoiceType.QUIZ;
+
+    // Shuffle has to be done on a copy to preserve the original.
+    mChoices = new ArrayList(choices);
+    Collections.shuffle(mChoices);
   }
 
   public void addClosingText(String closingText) {
