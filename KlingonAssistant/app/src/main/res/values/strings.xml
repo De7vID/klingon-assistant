@@ -199,8 +199,8 @@
 
     <!-- Buttons for lessons. -->
     <string name="button_check_answer">Check answer</string>
-    <string name="button_correct">Correct\!</string>
-    <string name="button_incorrect">Incorrect\!</string>
+    <string name="button_check_answer_correct">Correct\!</string>
+    <string name="button_check_answer_incorrect">Incorrect\!</string>
     <string name="button_continue">Continue</string>
 
     <!-- Strings for the ShowcaseView tutorial. -->
