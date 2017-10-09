@@ -56,12 +56,16 @@ public class LessonFragment extends EntryFragment {
   private static final String STATE_CHOICE_TEXT_TYPE = "choice_text_type";
   private static final String STATE_CHOICES = "choices";
   private static final String STATE_CORRECT_ANSWER = "correct_answer";
+  private static final String STATE_SELECTED_CHOICE = "selected_choice";
+  private static final String STATE_ALREADY_ANSWERED = "already_answered";
   private static final String STATE_CLOSING_TEXT = "closing_text";
   private static final String STATE_IS_SUMMARY = "is_summary";
 
   // Choices section.
   private ArrayList<String> mChoices = null;
   private String mCorrectAnswer = null;
+  private String mSelectedChoice = null;
+  private boolean mAlreadyAnswered = false;
 
   private enum ChoiceType {
     // The "choices" radio group can be used for different things.
@@ -117,6 +121,8 @@ public class LessonFragment extends EntryFragment {
       mChoiceTextType = (ChoiceTextType) savedInstanceState.getSerializable(STATE_CHOICE_TEXT_TYPE);
       mChoices = savedInstanceState.getStringArrayList(STATE_CHOICES);
       mCorrectAnswer = savedInstanceState.getString(STATE_CORRECT_ANSWER);
+      mSelectedChoice = savedInstanceState.getString(STATE_SELECTED_CHOICE);
+      mAlreadyAnswered = savedInstanceState.getBoolean(STATE_ALREADY_ANSWERED);
       mClosingText = savedInstanceState.getString(STATE_CLOSING_TEXT);
       isSummary = savedInstanceState.getBoolean(STATE_IS_SUMMARY);
     }
@@ -173,7 +179,7 @@ public class LessonFragment extends EntryFragment {
       return;
     }
 
-    RadioGroup choicesGroup = (RadioGroup) rootView.findViewById(R.id.choices);
+    final RadioGroup choicesGroup = (RadioGroup) rootView.findViewById(R.id.choices);
     final Button checkAnswerButton = (Button) rootView.findViewById(R.id.action_check_answer);
     final Button continueButton = (Button) rootView.findViewById(R.id.action_continue);
     final String CORRECT_STRING =
@@ -188,11 +194,25 @@ public class LessonFragment extends EntryFragment {
       // Make "Check Answer" button visible for QUIZ only.
       checkAnswerButton.setVisibility(View.VISIBLE);
     }
+
+    // We have to make 3 passes through the buttons. On the first pass, we just add them.
     for (int i = 0; i < mChoices.size(); i++) {
       RadioButton choiceButton = new RadioButton(getActivity());
       choiceButton.setPadding(
           leftRightMargins, topBottomMargins, leftRightMargins, topBottomMargins);
 
+      // Display entry name and/or definition depending on choice text type,
+      // and also format the displayed text.
+      SpannableStringBuilder choiceText = processChoiceText(mChoices.get(i));
+      processMixedText(choiceText, null);
+      choiceButton.setText(choiceText);
+      choicesGroup.addView(choiceButton);
+    }
+
+    // On the second pass, we add their click listeners. Since each button may affect the others,
+    // all the buttons had to be added first.
+    for (int i = 0; i < mChoices.size(); i++) {
+      RadioButton choiceButton = (RadioButton) choicesGroup.getChildAt(i);
       final String choice = mChoices.get(i);
       if (mChoiceType == ChoiceType.SELECTION) {
         // For a selection, update the choice and go to next page when clicked.
@@ -200,6 +220,7 @@ public class LessonFragment extends EntryFragment {
             new View.OnClickListener() {
               @Override
               public void onClick(View view) {
+                LessonFragment.this.setSelectedChoice(choice);
                 continueButton.setEnabled(true);
                 continueButton.setOnClickListener(
                     new View.OnClickListener() {
@@ -212,11 +233,12 @@ public class LessonFragment extends EntryFragment {
               }
             });
       } else if (mChoiceType == ChoiceType.QUIZ) {
-        // For a quiz, enable the "Check answer" button when clicked.
+        // This is a QUIZ which hasn't been answered, enable the "Check answer" button when choice is clicked.
         choiceButton.setOnClickListener(
             new View.OnClickListener() {
               @Override
               public void onClick(View view) {
+                LessonFragment.this.setSelectedChoice(choice);
                 checkAnswerButton.setEnabled(true);
                 checkAnswerButton.setOnClickListener(
                     new View.OnClickListener() {
@@ -224,6 +246,14 @@ public class LessonFragment extends EntryFragment {
                       public void onClick(View view) {
                         final boolean isAnswerCorrect = choice.equals(mCorrectAnswer);
                         checkAnswerButton.setEnabled(false);
+                        for (int i = 0; i < choicesGroup.getChildCount(); i++) {
+                          ((RadioButton) choicesGroup.getChildAt(i)).setEnabled(false);
+                        }
+                        choicesGroup.setEnabled(false);
+                        if (!mAlreadyAnswered) {
+                          mCallback.scoreQuiz(isAnswerCorrect);
+                          LessonFragment.this.setAlreadyAnswered();
+                        }
                         if (isAnswerCorrect) {
                           checkAnswerButton.setText(CORRECT_STRING);
                           checkAnswerButton.setBackgroundColor(Color.GREEN);
@@ -236,50 +266,49 @@ public class LessonFragment extends EntryFragment {
                             new View.OnClickListener() {
                               @Override
                               public void onClick(View view) {
-                                mCallback.scoreQuiz(isAnswerCorrect);
                                 mCallback.goToNextPage();
                               }
                             });
                       }
                     });
+                if (mAlreadyAnswered) {
+                  checkAnswerButton.performClick();
+                }
               }
             });
       } else if (mChoiceType == ChoiceType.PLAIN_LIST) {
         // For a plain list, hide the radio button and just show the text.
         choiceButton.setButtonDrawable(android.R.color.transparent);
       }
+    }
 
-      // Display entry name and/or definition depending on choice text type,
-      // and also format the displayed text.
-      SpannableStringBuilder choiceText = processChoiceText(mChoices.get(i));
-      processMixedText(choiceText, null);
-      choiceButton.setText(choiceText);
-      choicesGroup.addView(choiceButton);
+    // On the third pass, we restore the previous state of the choices by faking a click. This is
+    // necessary if, for example, the device is rotated. This has to happen after the listeners have
+    // all been set.
+    for (int i = 0; i < mChoices.size(); i++) {
+      RadioButton choiceButton = (RadioButton) choicesGroup.getChildAt(i);
+      final String choice = mChoices.get(i);
+      if (mSelectedChoice != null && choice == mSelectedChoice) {
+        // Restore previously selected choice, if one exists.
+        choicesGroup.check(choiceButton.getId());
+        if (mChoiceType == ChoiceType.SELECTION || mChoiceType == ChoiceType.QUIZ) {
+          // This is a SELECTION which has already been made, so enable "Continue".
+          choiceButton.performClick();
+        }
+      }
     }
     choicesGroup.setVisibility(View.VISIBLE);
     choicesGroup.invalidate();
   }
 
-  // Helper method to update the selected choice.
-  // private void setSelectedChoice(String choice) {
-  //   mSelectedChoice = choice;
-  // }
+  private void setSelectedChoice(String selectedChoice) {
+    mSelectedChoice = selectedChoice;
+  }
 
-  // private boolean isSelection() {
-  //   return mChoiceType == ChoiceType.SELECTION;
-  // }
-
-  // private String getSelectedChoice() {
-  //   return mSelectedChoice;
-  // }
-
-  // private boolean isQuiz() {
-  //   return mChoiceType == ChoiceType.QUIZ;
-  // }
-
-  // private boolean hasCorrectAnswer() {
-  //   return (mSelectedChoice != null) && mSelectedChoice.equals(mCorrectAnswer);
-  // }
+  private void setAlreadyAnswered() {
+    // User has already answered the QUIZ question on this page.
+    mAlreadyAnswered = true;
+  }
 
   // Given a string choice text, process it.
   private SpannableStringBuilder processChoiceText(String choiceText) {
@@ -380,6 +409,8 @@ public class LessonFragment extends EntryFragment {
     savedInstanceState.putSerializable(STATE_CHOICE_TEXT_TYPE, mChoiceTextType);
     savedInstanceState.putStringArrayList(STATE_CHOICES, mChoices);
     savedInstanceState.putString(STATE_CORRECT_ANSWER, mCorrectAnswer);
+    savedInstanceState.putString(STATE_SELECTED_CHOICE, mSelectedChoice);
+    savedInstanceState.putBoolean(STATE_ALREADY_ANSWERED, mAlreadyAnswered);
     savedInstanceState.putString(STATE_CLOSING_TEXT, mClosingText);
     savedInstanceState.putBoolean(STATE_IS_SUMMARY, isSummary);
   }
