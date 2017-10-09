@@ -31,9 +31,6 @@
 
     <!-- TODO: Change these. -->
     <style name="AlertDialogStyle" parent="@android:style/Theme.Dialog">
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
-        <item name="android:textColorTertiary">@android:color/white</item>
     </style>
 
     <style name="FadeAnimation" parent="@android:style/Animation.Activity">
