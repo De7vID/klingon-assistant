@@ -137,9 +137,7 @@ public class LessonFragment extends EntryFragment {
       }
     }
 
-    // Set up the bottom navigation buttons. By default, enable just the "Next"
-    // button.
-    // TODO: Replace this with a regular button.
+    // Set up the "Continue" button.
     Button continueButton = (Button) rootView.findViewById(R.id.action_continue);
     continueButton.setOnClickListener(
         new View.OnClickListener() {
