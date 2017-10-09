@@ -118,20 +118,20 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     }
 
     // Add a plain list.
-    public LessonBuilder addPlainList(List<String> entries) {
+    public LessonBuilder addPlainList(ArrayList<String> entries) {
       getCurrentLesson().addPlainList(entries);
       return this;
     }
 
     // Add a page which allows the user to select from multiple choices.
-    public LessonBuilder addMultipleChoiceSelection(List<String> entries) {
+    public LessonBuilder addMultipleChoiceSelection(ArrayList<String> entries) {
       getCurrentLesson().addMultipleChoiceSelection(entries);
       return this;
     }
 
     // Add a quiz.
     // TODO: Identify correct answer. Allow "none/all of the above" options.
-    public LessonBuilder addQuiz(List<String> entries) {
+    public LessonBuilder addQuiz(ArrayList<String> entries) {
       getCurrentLesson().addQuiz(entries);
       return this;
     }
@@ -201,8 +201,8 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       // TODO: Initialise unit, lesson, and page number here.
       String title = getTitle(1, 1);
       activity.setTitle(title);
-      List choiceList1 = Arrays.asList("{Qong:v}", "{Sop:v}", "{Suv:v}");
-      List choiceList2 = Arrays.asList("{Doch:n}", "{taj:n}", "{vIqraq:n}");
+      ArrayList choiceList1 = new ArrayList(Arrays.asList("{Qong:v}", "{Sop:v}", "{Suv:v}"));
+      ArrayList choiceList2 = new ArrayList(Arrays.asList("{Doch:n}", "{taj:n}", "{vIqraq:n}"));
       mLessonFragments =
           new LessonBuilder(title)
               // intro
