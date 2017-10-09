@@ -92,7 +92,8 @@
         <activity android:name=".SourcesActivity" />
 
         <!-- Klingon language lessons. -->
-        <activity android:name=".LessonActivity" />
+        <activity android:name=".LessonActivity"
+                  android:launchMode="singleInstance" />
 
         <!-- Provides search suggestions for words and their definitions. -->
         <provider android:name=".KlingonContentProvider"

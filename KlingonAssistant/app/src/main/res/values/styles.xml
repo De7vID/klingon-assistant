@@ -11,6 +11,7 @@
         <item name="android:navigationBarColor">@android:color/black</item>
         <item name="android:windowAnimationStyle">@style/FadeAnimation</item>
         <item name="buttonStyle">@android:style/Widget.Button</item>
+        <item name="alertDialogStyle">@style/AlertDialogStyle</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -26,6 +27,25 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:textSize">16sp</item>
         <item name="android:typeface">serif</item>
+    </style>
+
+    <!-- TODO: Change these. -->
+    <style name="AlertDialogStyle" parent="@android:style/Theme.Dialog">
+        <item name="textColorPrimary">@color/primary_text_dark</item>
+        <item name="textColorSecondary">@color/secondary_text_dark</item>
+        <item name="textColorTertiary">@color/tertiary_text_dark</item>
+        <item name="textColorPrimaryInverse">@color/primary_text_light</item>
+        <item name="textColorSecondaryInverse">@color/secondary_text_light</item>
+        <item name="textColorTertiaryInverse">@color/tertiary_text_light</item>
+        <item name="textColorPrimaryDisableOnly">@color/primary_text_dark_disable_only</item>
+        <item name="textColorPrimaryInverseDisableOnly">@color/primary_text_light_disable_only</item>
+        <item name="textColorPrimaryNoDisable">@color/primary_text_dark_nodisable</item>
+        <item name="textColorSecondaryNoDisable">@color/secondary_text_dark_nodisable</item>
+        <item name="textColorPrimaryInverseNoDisable">@color/primary_text_light_nodisable</item>
+        <item name="textColorSecondaryInverseNoDisable">@color/secondary_text_light_nodisable</item>
+        <item name="textColorHint">@color/hint_foreground_dark</item>
+        <item name="textColorHintInverse">@color/hint_foreground_light</item>
+        <item name="textColorSearchUrl">@color/search_url_text</item>
     </style>
 
     <style name="FadeAnimation" parent="@android:style/Animation.Activity">

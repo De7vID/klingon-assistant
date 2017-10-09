@@ -227,6 +227,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     Intent intent = new Intent(this, LessonActivity.class);
     finish();
     startActivity(intent);
+    // overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   @Override
