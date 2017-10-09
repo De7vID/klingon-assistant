@@ -205,6 +205,9 @@
     <string name="button_redo">Redo this lesson</string>
     <string name="button_next_lesson">Continue to next lesson</string>
     <string name="button_next_unit">Continue to next unit</string>
+    <string name="exit_lesson_confirmation">Are you sure you want to exit this lesson? All progress will be lost.</string>
+    <string name="exit_lesson_yes">Yes</string>
+    <string name="exit_lesson_no">No</string>
 
     <!-- Strings for the ShowcaseView tutorial. -->
     <!--

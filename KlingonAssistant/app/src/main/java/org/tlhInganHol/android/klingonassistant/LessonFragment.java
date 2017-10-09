@@ -153,13 +153,12 @@ public class LessonFragment extends EntryFragment {
       Button redoButton = (Button) rootView.findViewById(R.id.action_redo);
       redoButton.setVisibility(View.VISIBLE);
       redoButton.setOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
-            mCallback.redoThisLesson();
-          }
-        }
-      );
+          new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              mCallback.redoThisLesson();
+            }
+          });
     }
 
     // Set up the "Continue" button.
