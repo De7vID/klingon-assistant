@@ -21,7 +21,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -31,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -140,26 +140,17 @@ public class LessonFragment extends EntryFragment {
     // Set up the bottom navigation buttons. By default, enable just the "Next"
     // button.
     // TODO: Replace this with a regular button.
-    BottomNavigationView bottomNavView =
-        (BottomNavigationView) rootView.findViewById(R.id.bottom_navigation);
-    Menu bottomNavMenu = bottomNavView.getMenu();
-    bottomNavView.findViewById(R.id.action_random).setVisibility(View.INVISIBLE);
-    bottomNavView.findViewById(R.id.action_previous).setVisibility(View.INVISIBLE);
-    bottomNavView.setOnNavigationItemSelectedListener(
-        new BottomNavigationView.OnNavigationItemSelectedListener() {
+    Button continueButton = (Button) rootView.findViewById(R.id.action_continue);
+    continueButton.setOnClickListener(
+        new View.OnClickListener() {
           @Override
-          public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-              case R.id.action_next:
-                mCallback.goToNextPage();
-                break;
-            }
-            return false;
+          public void onClick(View view) {
+            mCallback.goToNextPage();
           }
         });
 
     // Set up possible additional views.
-    setupChoicesGroup(rootView, bottomNavView);
+    setupChoicesGroup(rootView);
 
     // Put additional text after other sections.
     setupClosingText(rootView);
@@ -167,7 +158,7 @@ public class LessonFragment extends EntryFragment {
     return rootView;
   }
 
-  private void setupChoicesGroup(View rootView, BottomNavigationView bottomNavView) {
+  private void setupChoicesGroup(View rootView) {
     // Compute margins in dp.
     final float scale = getActivity().getResources().getDisplayMetrics().density;
     final int leftRightMargins = (int) (LEFT_RIGHT_MARGINS * scale + 0.5f);
@@ -176,7 +167,7 @@ public class LessonFragment extends EntryFragment {
 
     if (mChoiceType != ChoiceType.NONE && mChoices != null) {
       RadioGroup choicesGroup = (RadioGroup) rootView.findViewById(R.id.choices);
-      final MenuItem nextButton = (MenuItem) bottomNavView.getMenu().findItem(R.id.action_next);
+      final Button continueButton = (Button) rootView.findViewById(R.id.action_continue);
       for (int i = 0; i < mChoices.size(); i++) {
         RadioButton choiceButton = new RadioButton(getActivity());
         choiceButton.setPadding(
@@ -189,7 +180,7 @@ public class LessonFragment extends EntryFragment {
           @Override
           public void onClick(View view) {
             thisLesson.setChoice(choice);
-            nextButton.setEnabled(true);
+            continueButton.setEnabled(true);
           }
         });
 
@@ -209,7 +200,7 @@ public class LessonFragment extends EntryFragment {
       choicesGroup.invalidate();
       // TODO: Fix selector font size, colours.
       if (mChoiceType == ChoiceType.SELECTION || mChoiceType == ChoiceType.QUIZ) {
-        nextButton.setEnabled(false);
+        continueButton.setEnabled(false);
         // choicesGroup.setOnCheckedChangeListener(
         //     new RadioGroup.OnCheckedChangeListener() {
         //       @Override
