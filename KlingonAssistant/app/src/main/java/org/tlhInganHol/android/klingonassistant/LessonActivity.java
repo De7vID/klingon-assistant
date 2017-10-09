@@ -25,7 +25,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,9 +35,23 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
   private LessonViewPager mPager;
   private PagerAdapter mPagerAdapter;
 
+  // For keeping a summary of user's choices and quiz answers.
+  private ArrayList<String> mSelectedChoices = new ArrayList<String>();
+  private int mCorrectlyAnswered = 0;
+  private int mTotalQuestions = 0;
+  private static final String STATE_CORRECTLY_ANSWERED = "correctly_answered";
+  private static final String STATE_TOTAL_QUESTIONS = "total_questions";
+  private static final String STATE_SELECTED_CHOICES = "selected_choices";
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    if (savedInstanceState != null) {
+      mCorrectlyAnswered = savedInstanceState.getInt(STATE_CORRECTLY_ANSWERED);
+      mTotalQuestions = savedInstanceState.getInt(STATE_TOTAL_QUESTIONS);
+      mSelectedChoices = savedInstanceState.getStringArrayList(STATE_SELECTED_CHOICES);
+    }
 
     setContentView(R.layout.activity_lesson);
 
@@ -51,7 +64,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
     // Set up pager.
     mPager = (LessonViewPager) findViewById(R.id.lesson_pager);
-    mPagerAdapter = new SwipeAdapter(getSupportFragmentManager(), this);
+    mPagerAdapter = new SwipeAdapter(getSupportFragmentManager(), this, /* summary */ false);
     mPager.setAdapter(mPagerAdapter);
     mPager.setCurrentItem(0, /* smoothScroll */ false);
     TabLayout tabLayout = (TabLayout) findViewById(R.id.lesson_tab_dots);
@@ -73,7 +86,6 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
   private class LessonBuilder {
     private String mTitle = null;
     private List<LessonFragment> mLessonFragments = null;
-    private LessonFragment mLessonSummary = null;
 
     public LessonBuilder(String title) {
       mTitle = title;
@@ -103,21 +115,22 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     }
 
     // Add a plain list.
-    public LessonBuilder addPlainList(List<String> entries) {
+    public LessonBuilder addPlainList(ArrayList<String> entries) {
       getCurrentLesson().addPlainList(entries);
       return this;
     }
 
     // Add a page which allows the user to select from multiple choices.
-    public LessonBuilder addMultipleChoiceSelection(List<String> entries) {
+    public LessonBuilder addMultipleChoiceSelection(ArrayList<String> entries) {
       getCurrentLesson().addMultipleChoiceSelection(entries);
       return this;
     }
 
     // Add a quiz.
-    // TODO: Identify correct answer. Allow "none/all of the above" options.
-    public LessonBuilder addQuiz(List<String> entries) {
-      getCurrentLesson().addQuiz(entries);
+    public LessonBuilder addQuiz(
+        ArrayList<String> entries, LessonFragment.ChoiceTextType choiceTextType) {
+      // TODO: Allow "none/all of the above" options.
+      getCurrentLesson().addQuiz(entries, choiceTextType);
       return this;
     }
 
@@ -128,17 +141,62 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     }
 
     public List<LessonFragment> build() {
-      // TODO: Make summary page dependent on prior pages.
-      LessonFragment summaryFragment = LessonFragment.newInstance(mTitle, "Summary", "summary");
-      summaryFragment.setSummary(mLessonFragments);
-      mLessonFragments.add(summaryFragment);
       return mLessonFragments;
     }
   }
 
   @Override
   public void goToNextPage() {
-    mPager.setCurrentItem(mPager.getCurrentItem() + 1);
+    int currentItem = mPager.getCurrentItem();
+    if (currentItem != mPagerAdapter.getCount() - 1) {
+      mPager.setCurrentItem(currentItem + 1);
+    } else {
+      // The summary page cannot be in the same ViewPager as the lesson itself, since the ViewPager
+      // pre-loads fragments. This means that the summary page will not have access to results of
+      // the user's actions on the page just prior to it.
+
+      // Fake summary.
+      mPagerAdapter = new SwipeAdapter(getSupportFragmentManager(), this, /* summary */ true);
+      mPager.setAdapter(mPagerAdapter);
+      // TODO: Hide tab dots, change summary buttons.
+    }
+  }
+
+  @Override
+  public void commitChoice(String choice) {
+    mSelectedChoices.add(choice);
+    // Log.d(TAG, "commitChoice: " + choice);
+    // Log.d(TAG, "getSummary(): " + getSummary());
+  }
+
+  @Override
+  public void scoreQuiz(boolean correctlyAnswered) {
+    mTotalQuestions++;
+    if (correctlyAnswered) {
+      mCorrectlyAnswered++;
+    }
+    // Log.d(TAG, "scoreQuiz: " + correctlyAnswered);
+    // Log.d(TAG, "getSummary(): " + getSummary());
+  }
+
+  @Override
+  public String getSummary() {
+    return mSelectedChoices.size()
+        + " - "
+        + mSelectedChoices.toString()
+        + " ; "
+        + mCorrectlyAnswered
+        + "/"
+        + mTotalQuestions;
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle savedInstanceState) {
+    super.onSaveInstanceState(savedInstanceState);
+
+    savedInstanceState.putInt(STATE_CORRECTLY_ANSWERED, mCorrectlyAnswered);
+    savedInstanceState.putInt(STATE_TOTAL_QUESTIONS, mTotalQuestions);
+    savedInstanceState.putStringArrayList(STATE_SELECTED_CHOICES, mSelectedChoices);
   }
 
   // Swipe
@@ -148,14 +206,25 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     int mLessonNumber = 1;
     private List<LessonFragment> mLessonFragments = null;
 
-    public SwipeAdapter(FragmentManager fm, LessonActivity activity) {
+    // For now, use a "summary" variable to simulate requesting a summary.
+    public SwipeAdapter(FragmentManager fm, LessonActivity activity, boolean summary) {
       super(fm);
 
-      // TODO: Initialise unit, lesson, and page number here.
+      // TODO: Switch on unit and lesson numbers here.
       String title = getTitle(1, 1);
       activity.setTitle(title);
-      List choiceList1 = Arrays.asList("{Qong:v}", "{Sop:v}", "{Suv:v}");
-      List choiceList2 = Arrays.asList("{Doch:n}", "{taj:n}", "{vIqraq:n}");
+      ArrayList choiceList1 = new ArrayList(Arrays.asList("{Qong:v}", "{Sop:v}", "{Suv:v}"));
+      ArrayList choiceList2 = new ArrayList(Arrays.asList("{Doch:n}", "{taj:n}", "{vIqraq:n}"));
+
+      if (summary) {
+        // Fake summary.
+        mLessonFragments = new ArrayList<LessonFragment>();
+        LessonFragment summaryFragment = LessonFragment.newInstance(title, "Summary", "summary");
+        summaryFragment.setSummary();
+        mLessonFragments.add(summaryFragment);
+        return;
+      }
+
       mLessonFragments =
           new LessonBuilder(title)
               // intro
@@ -173,7 +242,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
               // quiz
               .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
-              .addQuiz(choiceList1)
+              .addQuiz(choiceList1, LessonFragment.ChoiceTextType.ENTRY_NAME_ONLY)
               .addClosingText(R.string.body_basic_sentence2)
 
               // choice
@@ -183,15 +252,10 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
               // quiz
               .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
-              .addQuiz(choiceList2)
+              .addQuiz(choiceList2, LessonFragment.ChoiceTextType.DEFINITION_ONLY)
               .addClosingText(R.string.body_basic_sentence2)
 
-              // intro - race condition
-              // .startNewPage(R.string.topic_introduction, R.string.body_introduction)
-
               .build();
-
-      // TODO: Use notifyDataSetChanged to switch between lessons.
     }
 
     private String getTitle(int unit, int lesson) {
