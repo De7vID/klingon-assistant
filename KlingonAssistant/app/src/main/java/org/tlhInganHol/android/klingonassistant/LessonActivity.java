@@ -38,7 +38,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
   private PagerAdapter mPagerAdapter;
 
   // For keeping a summary of user's choices and quiz answers.
-  private List<String> mSelectedChoices = new ArrayList<String>();
+  private ArrayList<String> mSelectedChoices = new ArrayList<String>();
   private int mCorrectlyAnswered = 0;
   private int mTotalQuestions = 0;
   private static final String STATE_CORRECTLY_ANSWERED = "correctly_answered";
@@ -48,6 +48,12 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    if (savedInstanceState != null) {
+      mCorrectlyAnswered = savedInstanceState.getInt(STATE_CORRECTLY_ANSWERED);
+      mTotalQuestions = savedInstanceState.getInt(STATE_TOTAL_QUESTIONS);
+      mSelectedChoices = savedInstanceState.getStringArrayList(STATE_SELECTED_CHOICES);
+    }
 
     setContentView(R.layout.activity_lesson);
 
