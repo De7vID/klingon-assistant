@@ -34,6 +34,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
   private LessonViewPager mPager;
   private PagerAdapter mPagerAdapter;
+  private LinearLayout mTabStrip;
 
   // For keeping a summary of user's choices and quiz answers.
   private ArrayList<String> mSelectedChoices = new ArrayList<String>();
@@ -67,12 +68,14 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     mPagerAdapter = new SwipeAdapter(getSupportFragmentManager(), this, /* summary */ false);
     mPager.setAdapter(mPagerAdapter);
     mPager.setCurrentItem(0, /* smoothScroll */ false);
-    TabLayout tabLayout = (TabLayout) findViewById(R.id.lesson_tab_dots);
-    tabLayout.setupWithViewPager(mPager, true);
-    LinearLayout tabStrip = (LinearLayout) tabLayout.getChildAt(0);
-    tabStrip.setEnabled(false);
-    for (int i = 0; i < tabStrip.getChildCount(); i++) {
-      tabStrip.getChildAt(i).setClickable(false);
+    if (mPagerAdapter.getCount() > 1) {
+      TabLayout tabLayout = (TabLayout) findViewById(R.id.lesson_tab_dots);
+      tabLayout.setupWithViewPager(mPager, true);
+      LinearLayout mTabStrip = (LinearLayout) tabLayout.getChildAt(0);
+      mTabStrip.setEnabled(false);
+      for (int i = 0; i < mTabStrip.getChildCount(); i++) {
+        mTabStrip.getChildAt(i).setClickable(false);
+      }
     }
   }
 
@@ -113,6 +116,11 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       }
       return mLessonFragments.get(mLessonFragments.size() - 1);
     }
+
+    // TODO: Add a method for adding a reading and/or listening section.
+    // public LessonBuilder addReadingAndListening(boolean showText, boolean showTTS) {
+    //   return this;
+    // }
 
     // Add a plain list.
     public LessonBuilder addPlainList(ArrayList<String> entries) {
