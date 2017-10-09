@@ -90,6 +90,13 @@
                       android:enabled="false"
                       android:visibility="gone" />
               <Button
+                      android:id="@+id/action_redo"
+                      android:padding="15dp"
+                      android:layout_width="match_parent"
+                      android:layout_height="56dp"
+                      android:text="@string/button_redo"
+                      android:visibility="gone" />
+              <Button
                       android:id="@+id/action_continue"
                       android:padding="15dp"
                       android:layout_width="match_parent"
