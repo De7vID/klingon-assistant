@@ -92,8 +92,10 @@
         <activity android:name=".SourcesActivity" />
 
         <!-- Klingon language lessons. -->
-        <activity android:name=".LessonActivity"
-                  android:launchMode="singleInstance" />
+        <!-- Should probably have android:launchMode="singleInstance" to prevent the user from
+             starting multiple instances by pressing the button quickly, but the transition looks
+             strange. -->
+        <activity android:name=".LessonActivity" />
 
         <!-- Provides search suggestions for words and their definitions. -->
         <provider android:name=".KlingonContentProvider"
