@@ -197,6 +197,12 @@
     <string name="menu_random">Random</string>
     <string name="menu_next">Next</string>
 
+    <!-- Buttons for lessons. -->
+    <string name="button_check_answer">Check answer</string>
+    <string name="button_check_answer_correct">Correct\!</string>
+    <string name="button_check_answer_incorrect">Incorrect\!</string>
+    <string name="button_continue">Continue</string>
+
     <!-- Strings for the ShowcaseView tutorial. -->
     <!--
     <string name="tutorial_1_title">qavan! (I salute you!)</string>
