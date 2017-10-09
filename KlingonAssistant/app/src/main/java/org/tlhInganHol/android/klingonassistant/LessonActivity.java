@@ -151,6 +151,10 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     if (currentItem != mPagerAdapter.getCount() - 1) {
       mPager.setCurrentItem(currentItem + 1);
     } else {
+      // The summary page cannot be in the same ViewPager as the lesson itself, since the ViewPager
+      // pre-loads fragments. This means that the summary page will not have access to results of
+      // the user's actions on the page just prior to it.
+
       // Fake summary.
       mPagerAdapter = new SwipeAdapter(getSupportFragmentManager(), this, /* summary */ true);
       mPager.setAdapter(mPagerAdapter);
