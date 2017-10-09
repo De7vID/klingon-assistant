@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone" />
-            <!-- For text following other elements, but before the nav buttons.
+            <!-- For text following other elements, but before the bottom buttons.
                  Set layout weight to 1 so it takes up the rest of the viewport. -->
             <TextView
                     android:id="@+id/lesson_body2"
@@ -78,26 +78,16 @@
               android:gravity="center_vertical"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content" >
-              <!-- The bottom padding is needed so the entry doesn't overlap with
+              <!-- The bottom margin is needed so the entry doesn't overlap with
                    the tab dots. -->
-              <!-- Set the itemIconTint and itemTextColor to white to work around
-                   a bug where the selected item is coloured different.
-                   Unfortunately, this means that when the button is disabled,
-                   it's not visually distinct, so we make it invisible
-                   programmatically. -->
-              <android.support.design.widget.BottomNavigationView
-                      xmlns:android="http://schemas.android.com/apk/res/android"
-                      xmlns:app="http://schemas.android.com/apk/res-auto"
-                      android:id="@+id/bottom_navigation"
+              <Button
+                      android:id="@+id/action_continue"
+                      android:padding="15dp"
                       android:layout_width="match_parent"
-                      android:layout_height="56dp"
+                      android:layout_height="wrap_content"
                       android:layout_marginBottom="30dp"
-                      android:layout_gravity="start"
-                      app:menu="@menu/bottom_navigation_items" />
-                      <!--
-                      app:itemIconTint="@android:color/white"
-                      app:itemTextColor="@android:color/white"
-                      -->
+                      android:background="@color/colorAccent"
+                      android:text="@string/button_continue" />
               </LinearLayout>
         </LinearLayout>
     </ScrollView>

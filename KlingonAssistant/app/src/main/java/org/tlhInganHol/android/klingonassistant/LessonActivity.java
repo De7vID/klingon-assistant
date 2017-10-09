@@ -138,6 +138,8 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
   @Override
   public void goToNextPage() {
+    // mPagerAdapter.notifyDataSetChanged();
+    // mPager.invalidate();
     mPager.setCurrentItem(mPager.getCurrentItem() + 1);
   }
 
