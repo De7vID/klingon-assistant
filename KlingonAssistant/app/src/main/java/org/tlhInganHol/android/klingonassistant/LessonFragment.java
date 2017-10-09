@@ -44,9 +44,15 @@ public class LessonFragment extends EntryFragment {
   // Interface to report feedback to the LessonActivity.
   public interface Callback {
     void goToNextPage();
+    void commitChoice(String choice);
+    void scoreQuiz(boolean correctlyAnswered);
+    String getSummary();
   }
 
   private Callback mCallback;
+
+  // For the saved instance state.
+  static final String STATE_IS_SUMMARY = "isSummary";
 
   // Choices section.
   private List<String> mChoices = null;
@@ -85,7 +91,7 @@ public class LessonFragment extends EntryFragment {
 
   // For the summary page.
   private boolean isSummary = false;
-  List<LessonFragment> mLessonFragments = null;
+  // List<LessonFragment> mLessonFragments = null;
 
   public static LessonFragment newInstance(String title, String topic, String body) {
     LessonFragment lessonFragment = new LessonFragment();
@@ -104,6 +110,11 @@ public class LessonFragment extends EntryFragment {
 
     Resources resources = getActivity().getResources();
 
+    // Restore instance state, if any.
+    if (savedInstanceState != null) {
+      isSummary = savedInstanceState.getBoolean(STATE_IS_SUMMARY, false);
+    }
+
     // Set up the title and body text.
     TextView lessonTitle = (TextView) rootView.findViewById(R.id.lesson_title);
     TextView lessonBody = (TextView) rootView.findViewById(R.id.lesson_body);
@@ -120,21 +131,7 @@ public class LessonFragment extends EntryFragment {
       // entry links.
       lessonBody.setText(ssb);
     } else {
-      // TODO: Fix race condition.
-      List<String> choices = new ArrayList<String>();
-      int totalQuestions = 0;
-      int correctlyAnswered = 0;
-      for (LessonFragment lessonFragment : mLessonFragments) {
-        if (lessonFragment.isSelection()) {
-          choices.add(lessonFragment.getChoice());
-        } else if (lessonFragment.isQuiz()) {
-          if (lessonFragment.hasCorrectAnswer()) {
-            correctlyAnswered++;
-          }
-          totalQuestions++;
-        }
-        lessonBody.setText(choices.size() + " - " + choices.toString() + " ; " + correctlyAnswered + "/" + totalQuestions);
-      }
+      lessonBody.setText(mCallback.getSummary());
     }
 
     // Set up the "Continue" button.
@@ -166,6 +163,10 @@ public class LessonFragment extends EntryFragment {
     if (mChoiceType != ChoiceType.NONE && mChoices != null) {
       RadioGroup choicesGroup = (RadioGroup) rootView.findViewById(R.id.choices);
       final Button continueButton = (Button) rootView.findViewById(R.id.action_continue);
+      if (mChoiceType == ChoiceType.SELECTION || mChoiceType == ChoiceType.QUIZ) {
+        // Disable until user selects something.
+        continueButton.setEnabled(false);
+      }
       for (int i = 0; i < mChoices.size(); i++) {
         RadioButton choiceButton = new RadioButton(getActivity());
         choiceButton.setPadding(
@@ -174,13 +175,27 @@ public class LessonFragment extends EntryFragment {
         // Update the choice when clicked.
         // TODO: Add a "Check answer" button for QUIZ.
         final String choice = mChoices.get(i);
-        choiceButton.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
-            thisLesson.setChoice(choice);
-            continueButton.setEnabled(true);
-          }
-        });
+        if (mChoiceType == ChoiceType.SELECTION || mChoiceType == ChoiceType.QUIZ) {
+          choiceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              // thisLesson.setChoice(choice);
+              continueButton.setEnabled(true);
+              continueButton.setOnClickListener(
+                  new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                      if (mChoiceType == ChoiceType.SELECTION) {
+                        mCallback.commitChoice(choice);
+                      } else {
+                        mCallback.scoreQuiz(choice.equals(mCorrectAnswer));
+                      }
+                      mCallback.goToNextPage();
+                    }
+                  });
+            }
+          });
+        }
 
         // For a plain list, hide the radio button and just show the text.
         if (mChoiceType == ChoiceType.PLAIN_LIST) {
@@ -196,40 +211,29 @@ public class LessonFragment extends EntryFragment {
       }
       choicesGroup.setVisibility(View.VISIBLE);
       choicesGroup.invalidate();
-      // TODO: Fix selector font size, colours.
-      if (mChoiceType == ChoiceType.SELECTION || mChoiceType == ChoiceType.QUIZ) {
-        continueButton.setEnabled(false);
-        // choicesGroup.setOnCheckedChangeListener(
-        //     new RadioGroup.OnCheckedChangeListener() {
-        //       @Override
-        //       public void onCheckedChanged(RadioGroup group, int checkedId) {
-        //         nextButton.setEnabled(true);
-        //       }
-        //     });
-      }
     }
   }
 
   // Helper method to update the selected choice.
-  private void setChoice(String choice) {
-    mChoice = choice;
-  }
+  // private void setChoice(String choice) {
+  //   mChoice = choice;
+  // }
 
-  private boolean isSelection() {
-    return mChoiceType == ChoiceType.SELECTION;
-  }
+  // private boolean isSelection() {
+  //   return mChoiceType == ChoiceType.SELECTION;
+  // }
 
-  private String getChoice() {
-    return mChoice;
-  }
+  // private String getChoice() {
+  //   return mChoice;
+  // }
 
-  private boolean isQuiz() {
-    return mChoiceType == ChoiceType.QUIZ;
-  }
+  // private boolean isQuiz() {
+  //   return mChoiceType == ChoiceType.QUIZ;
+  // }
 
-  private boolean hasCorrectAnswer() {
-    return (mChoice != null) && mChoice.equals(mCorrectAnswer);
-  }
+  // private boolean hasCorrectAnswer() {
+  //   return (mChoice != null) && mChoice.equals(mCorrectAnswer);
+  // }
 
   // Given a string choice text, process it.
   private SpannableStringBuilder processChoiceText(String choiceText) {
@@ -295,16 +299,19 @@ public class LessonFragment extends EntryFragment {
   }
 
   public void addPlainList(List<String> choices) {
+    // TODO: Write to bundle state.
     mChoices = choices;
     mChoiceType = ChoiceType.PLAIN_LIST;
   }
 
   public void addMultipleChoiceSelection(List<String> choices) {
+    // TODO: Write to bundle state.
     mChoices = choices;
     mChoiceType = ChoiceType.SELECTION;
   }
 
   public void addQuiz(List<String> choices) {
+    // TODO: Write to bundle state.
     mCorrectAnswer = choices.get(0);
     mChoiceType = ChoiceType.QUIZ;
 
@@ -314,11 +321,20 @@ public class LessonFragment extends EntryFragment {
   }
 
   public void addClosingText(String closingText) {
+    // TODO: Write to bundle state.
     mClosingText = closingText;
   }
 
   public void setSummary(List<LessonFragment> lessonFragments) {
+    // TODO: Write to bundle state.
     isSummary = true;
-    mLessonFragments = lessonFragments;
+    // mLessonFragments = lessonFragments;
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle savedInstanceState) {
+    super.onSaveInstanceState(savedInstanceState);
+
+    savedInstanceState.putBoolean(STATE_IS_SUMMARY, isSummary);
   }
 }

@@ -24,6 +24,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.LinearLayout;
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -35,6 +36,11 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
   private LessonViewPager mPager;
   private PagerAdapter mPagerAdapter;
+
+  // For keeping a summary of user's choices and quiz answers.
+  private List<String> mSelectedChoices = new ArrayList<String>();
+  private int mCorrectlyAnswered = 0;
+  private int mTotalQuestions = 0;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -139,9 +145,29 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
   @Override
   public void goToNextPage() {
-    // mPagerAdapter.notifyDataSetChanged();
-    // mPager.invalidate();
     mPager.setCurrentItem(mPager.getCurrentItem() + 1);
+  }
+
+  @Override
+  public void commitChoice(String choice) {
+    mSelectedChoices.add(choice);
+    Log.d(TAG, "commitChoice: " + choice);
+    Log.d(TAG, "getSummary(): " + getSummary());
+  }
+
+  @Override
+  public void scoreQuiz(boolean correctlyAnswered) {
+    mTotalQuestions++;
+    if (correctlyAnswered) {
+      mCorrectlyAnswered++;
+    }
+    Log.d(TAG, "scoreQuiz: " + correctlyAnswered);
+    Log.d(TAG, "getSummary(): " + getSummary());
+  }
+
+  @Override
+  public String getSummary() {
+    return mSelectedChoices.size() + " - " + mSelectedChoices.toString() + " ; " + mCorrectlyAnswered + "/" + mTotalQuestions;
   }
 
   // Swipe
