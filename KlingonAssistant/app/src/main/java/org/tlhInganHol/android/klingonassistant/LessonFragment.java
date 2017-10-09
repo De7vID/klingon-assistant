@@ -110,14 +110,19 @@ public class LessonFragment extends EntryFragment {
   @Override
   public View onCreateView(
       LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.lesson, container, false);
-
-    Resources resources = getActivity().getResources();
 
     // Restore instance state, if any.
     if (savedInstanceState != null) {
-      isSummary = savedInstanceState.getBoolean(STATE_IS_SUMMARY, false);
+      mChoiceType = (ChoiceType) savedInstanceState.getSerializable(STATE_CHOICE_TYPE);
+      mChoiceTextType = (ChoiceTextType) savedInstanceState.getSerializable(STATE_CHOICE_TEXT_TYPE);
+      mChoices = savedInstanceState.getStringArrayList(STATE_CHOICES);
+      mCorrectAnswer = savedInstanceState.getString(STATE_CORRECT_ANSWER);
+      mClosingText = savedInstanceState.getString(STATE_CLOSING_TEXT);
+      isSummary = savedInstanceState.getBoolean(STATE_IS_SUMMARY);
     }
+
+    ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.lesson, container, false);
+    Resources resources = getActivity().getResources();
 
     // Set up the title and body text.
     TextView lessonTitle = (TextView) rootView.findViewById(R.id.lesson_title);
