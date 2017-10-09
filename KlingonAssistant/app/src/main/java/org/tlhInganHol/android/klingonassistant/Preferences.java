@@ -63,6 +63,11 @@ public class Preferences extends AppCompatPreferenceActivity
   // Under construction.
   public static final String KEY_SHOW_FAB_CHECKBOX_PREFERENCE = "show_fab_checkbox_preference";
 
+  // For saving lesson progress.
+  public static final String KEY_UNIT_NUMBER = "unit_number";
+  public static final String KEY_LESSON_NUMBER = "lesson_number";
+  public static final String KEY_IS_SUMMARY_PAGE = "is_summary_page";
+
   private CheckBoxPreference mKlingonUICheckBoxPreference;
   private CheckBoxPreference mKlingonFontCheckBoxPreference;
   private static boolean warningActive = false;
