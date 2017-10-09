@@ -100,10 +100,9 @@ public class LessonFragment extends EntryFragment {
   // For the summary page.
   private boolean isSummary = false;
 
-  public static LessonFragment newInstance(String title, String topic, String body) {
+  public static LessonFragment newInstance(String topic, String body) {
     LessonFragment lessonFragment = new LessonFragment();
     Bundle args = new Bundle();
-    args.putString("title", title);
     args.putString("topic", topic);
     args.putString("body", body);
     lessonFragment.setArguments(args);

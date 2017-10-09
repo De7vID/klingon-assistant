@@ -16,7 +16,10 @@
 
 package org.tlhInganHol.android.klingonassistant;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -35,6 +38,12 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
   private LessonViewPager mPager;
   private PagerAdapter mPagerAdapter;
   private LinearLayout mTabStrip;
+
+  // The unit and lesson numbers are 1-based. A unit has multiple lessons.
+  // There is a summary page associated with each lesson.
+  int mUnitNumber = 1;
+  int mLessonNumber = 1;
+  boolean mIsSummaryPage = false;
 
   // For keeping a summary of user's choices and quiz answers.
   private ArrayList<String> mSelectedChoices = new ArrayList<String>();
@@ -65,7 +74,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
     // Set up pager.
     mPager = (LessonViewPager) findViewById(R.id.lesson_pager);
-    mPagerAdapter = new SwipeAdapter(getSupportFragmentManager(), this, /* summary */ false);
+    mPagerAdapter = new SwipeAdapter(getSupportFragmentManager(), this);
     mPager.setAdapter(mPagerAdapter);
     mPager.setCurrentItem(0, /* smoothScroll */ false);
     if (mPagerAdapter.getCount() > 1) {
@@ -87,11 +96,9 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
   // A helper class to build a lesson.
   private class LessonBuilder {
-    private String mTitle = null;
     private List<LessonFragment> mLessonFragments = null;
 
-    public LessonBuilder(String title) {
-      mTitle = title;
+    public LessonBuilder() {
       mLessonFragments = new ArrayList<LessonFragment>();
     }
 
@@ -104,7 +111,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     public LessonBuilder startNewPage(int topicResId, int bodyResId) {
       mLessonFragments.add(
           LessonFragment.newInstance(
-              mTitle, getStringFromResId(topicResId), getStringFromResId(bodyResId)));
+              getStringFromResId(topicResId), getStringFromResId(bodyResId)));
       return this;
     }
 
@@ -157,17 +164,32 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
   public void goToNextPage() {
     int currentItem = mPager.getCurrentItem();
     if (currentItem != mPagerAdapter.getCount() - 1) {
+      // Go to the next page of the current lesson.
       mPager.setCurrentItem(currentItem + 1);
     } else {
-      // The summary page cannot be in the same ViewPager as the lesson itself, since the ViewPager
-      // pre-loads fragments. This means that the summary page will not have access to results of
-      // the user's actions on the page just prior to it.
+      // Going to the next page from the last page of a lesson results in going
+      // to the summary page. The summary page cannot be in the same ViewPager
+      // as the lesson itself, since the ViewPager pre-loads fragments. This
+      // means that the summary page will not have access to results of the
+      // user's actions on the page just prior to it.
+      mIsSummaryPage = true;
+      saveProgress();
 
-      // Fake summary.
-      mPagerAdapter = new SwipeAdapter(getSupportFragmentManager(), this, /* summary */ true);
+      // Intent summaryPageIntent = new Intent(this, LessonActivity.class);
+      // finish();
+      // startActivity(summaryPageIntent);
+      mPagerAdapter = new SwipeAdapter(getSupportFragmentManager(), this);
       mPager.setAdapter(mPagerAdapter);
       // TODO: Hide tab dots, change summary buttons.
     }
+  }
+
+  private void saveProgress() {
+      SharedPreferences.Editor sharedPrefsEd = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
+      sharedPrefsEd.putInt(Preferences.KEY_UNIT_NUMBER, mUnitNumber);
+      sharedPrefsEd.putInt(Preferences.KEY_LESSON_NUMBER, mLessonNumber);
+      sharedPrefsEd.putBoolean(Preferences.KEY_IS_SUMMARY_PAGE, true);
+      sharedPrefsEd.apply();
   }
 
   @Override
@@ -209,32 +231,64 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
   // Swipe
   private class SwipeAdapter extends FragmentStatePagerAdapter {
-    // The unit and lesson numbers are 1-based.
-    int mUnitNumber = 1;
-    int mLessonNumber = 1;
     private List<LessonFragment> mLessonFragments = null;
 
     // For now, use a "summary" variable to simulate requesting a summary.
-    public SwipeAdapter(FragmentManager fm, LessonActivity activity, boolean summary) {
+    public SwipeAdapter(FragmentManager fm, LessonActivity activity) {
       super(fm);
+
+      // Restore progress from storage.
+      restoreProgress(activity);
 
       // TODO: Switch on unit and lesson numbers here.
       String title = getTitle(1, 1);
       activity.setTitle(title);
+
+      switch(mUnitNumber) {
+        case 1:
+        default:
+          switch(mLessonNumber) {
+            case 1:
+            default:
+              if (!mIsSummaryPage) {
+                Unit_1_Lesson_1();
+              } else {
+                Unit_1_Lesson_1_Summary();
+              }
+              break;
+          }
+          break;
+      }
+    }
+
+    private void restoreProgress(LessonActivity activity) {
+      SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(activity.getBaseContext());
+      mUnitNumber = sharedPrefs.getInt(Preferences.KEY_UNIT_NUMBER, /* default */ 1);
+      mLessonNumber = sharedPrefs.getInt(Preferences.KEY_LESSON_NUMBER, /* default */ 1);
+      mIsSummaryPage = sharedPrefs.getBoolean(Preferences.KEY_IS_SUMMARY_PAGE, /* default */ false);
+    }
+
+    private String getTitle(int unit, int lesson) {
+      return String.format(
+          getBaseContext().getResources().getString(R.string.lesson_header), unit, lesson);
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+      return mLessonFragments.get(position);
+    }
+
+    @Override
+    public int getCount() {
+      return mLessonFragments.size();
+    }
+
+
+    // The layout of all the lessons are defined below.
+    private void Unit_1_Lesson_1() {
       ArrayList choiceList1 = new ArrayList(Arrays.asList("{Qong:v}", "{Sop:v}", "{Suv:v}"));
       ArrayList choiceList2 = new ArrayList(Arrays.asList("{Doch:n}", "{taj:n}", "{vIqraq:n}"));
-
-      if (summary) {
-        // Fake summary.
-        mLessonFragments = new ArrayList<LessonFragment>();
-        LessonFragment summaryFragment = LessonFragment.newInstance(title, "Summary", "summary");
-        summaryFragment.setSummary();
-        mLessonFragments.add(summaryFragment);
-        return;
-      }
-
-      mLessonFragments =
-          new LessonBuilder(title)
+      mLessonFragments = new LessonBuilder()
               // intro
               .startNewPage(R.string.topic_introduction, R.string.body_introduction)
 
@@ -266,19 +320,14 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
               .build();
     }
 
-    private String getTitle(int unit, int lesson) {
-      return String.format(
-          getBaseContext().getResources().getString(R.string.lesson_header), unit, lesson);
-    }
 
-    @Override
-    public Fragment getItem(int position) {
-      return mLessonFragments.get(position);
-    }
-
-    @Override
-    public int getCount() {
-      return mLessonFragments.size();
+    private void Unit_1_Lesson_1_Summary() {
+        // Fake summary.
+        mLessonFragments = new ArrayList<LessonFragment>();
+        LessonFragment summaryFragment = LessonFragment.newInstance("Summary", "summary");
+        summaryFragment.setSummary();
+        mLessonFragments.add(summaryFragment);
+        return;
     }
   }
 }
