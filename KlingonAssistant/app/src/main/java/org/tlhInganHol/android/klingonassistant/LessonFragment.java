@@ -46,6 +46,8 @@ public class LessonFragment extends EntryFragment {
     void scoreQuiz(boolean correctlyAnswered);
 
     String getSummary();
+
+    void redoThisLesson();
   }
 
   private Callback mCallback;
@@ -97,7 +99,10 @@ public class LessonFragment extends EntryFragment {
   private String mClosingText = null;
 
   // For the summary page.
-  private boolean isSummary = false;
+  private boolean mIsSummaryPage = false;
+
+  // Set to true if there are no more lessons after this page.
+  private boolean mCannotContinue = false;
 
   public static LessonFragment newInstance(String topic, String body) {
     LessonFragment lessonFragment = new LessonFragment();
@@ -121,7 +126,7 @@ public class LessonFragment extends EntryFragment {
       mSelectedChoice = savedInstanceState.getString(STATE_SELECTED_CHOICE);
       mAlreadyAnswered = savedInstanceState.getBoolean(STATE_ALREADY_ANSWERED);
       mClosingText = savedInstanceState.getString(STATE_CLOSING_TEXT);
-      isSummary = savedInstanceState.getBoolean(STATE_IS_SUMMARY);
+      mIsSummaryPage = savedInstanceState.getBoolean(STATE_IS_SUMMARY);
     }
 
     ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.lesson, container, false);
@@ -135,7 +140,7 @@ public class LessonFragment extends EntryFragment {
     lessonTitle.setText(getArguments().getString("topic"));
 
     lessonBody.invalidate();
-    if (!isSummary) {
+    if (!mIsSummaryPage) {
       String bodyText = getArguments().getString("body");
       SpannableStringBuilder ssb = new SpannableStringBuilder(bodyText);
       processMixedText(ssb, null);
@@ -145,17 +150,32 @@ public class LessonFragment extends EntryFragment {
     } else {
       // TODO: change buttons, etc.
       lessonBody.setText(mCallback.getSummary());
-    }
-
-    // Set up the "Continue" button.
-    Button continueButton = (Button) rootView.findViewById(R.id.action_continue);
-    continueButton.setOnClickListener(
+      Button redoButton = (Button) rootView.findViewById(R.id.action_redo);
+      redoButton.setVisibility(View.VISIBLE);
+      redoButton.setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View view) {
-            mCallback.goToNextPage();
+            mCallback.redoThisLesson();
           }
-        });
+        }
+      );
+    }
+
+    // Set up the "Continue" button.
+    // TODO: Change button text depending on context.
+    Button continueButton = (Button) rootView.findViewById(R.id.action_continue);
+    if (mCannotContinue) {
+      continueButton.setEnabled(false);
+    } else {
+      continueButton.setOnClickListener(
+          new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              mCallback.goToNextPage();
+            }
+          });
+    }
 
     // Set up possible additional views.
     setupChoicesGroup(rootView);
@@ -396,8 +416,12 @@ public class LessonFragment extends EntryFragment {
     mClosingText = closingText;
   }
 
-  public void setSummary() {
-    isSummary = true;
+  public void setAsSummaryPage() {
+    mIsSummaryPage = true;
+  }
+
+  public void setNoMoreLessons() {
+    mCannotContinue = true;
   }
 
   @Override
@@ -411,6 +435,6 @@ public class LessonFragment extends EntryFragment {
     savedInstanceState.putString(STATE_SELECTED_CHOICE, mSelectedChoice);
     savedInstanceState.putBoolean(STATE_ALREADY_ANSWERED, mAlreadyAnswered);
     savedInstanceState.putString(STATE_CLOSING_TEXT, mClosingText);
-    savedInstanceState.putBoolean(STATE_IS_SUMMARY, isSummary);
+    savedInstanceState.putBoolean(STATE_IS_SUMMARY, mIsSummaryPage);
   }
 }

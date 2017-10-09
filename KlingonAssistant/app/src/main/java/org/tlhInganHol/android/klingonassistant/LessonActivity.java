@@ -183,12 +183,18 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       // user's actions on the page just prior to it.
       mIsSummaryPage = true;
       saveProgress();
-
-      Intent summaryPageIntent = new Intent(this, LessonActivity.class);
-      finish();
-      startActivity(summaryPageIntent);
-      // TODO: Hide tab dots, change summary buttons.
+      reloadLessonActivity();
     }
+  }
+
+  @Override
+  public void redoThisLesson() {
+    mIsSummaryPage = false;
+    mCorrectlyAnswered = 0;
+    mTotalQuestions = 0;
+    mSelectedChoices = new ArrayList<String>();
+    saveProgress();
+    reloadLessonActivity();
   }
 
   private void saveProgress() {
@@ -196,7 +202,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
         PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
     sharedPrefsEd.putInt(KEY_UNIT_NUMBER, mUnitNumber);
     sharedPrefsEd.putInt(KEY_LESSON_NUMBER, mLessonNumber);
-    sharedPrefsEd.putBoolean(KEY_IS_SUMMARY_PAGE, true);
+    sharedPrefsEd.putBoolean(KEY_IS_SUMMARY_PAGE, mIsSummaryPage);
     sharedPrefsEd.putInt(KEY_CORRECTLY_ANSWERED, mCorrectlyAnswered);
     sharedPrefsEd.putInt(KEY_TOTAL_QUESTIONS, mTotalQuestions);
 
@@ -211,6 +217,14 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     }
 
     sharedPrefsEd.apply();
+  }
+
+  // Helper method to finish and restart this activity due to lesson progress
+  // having changed state. Usually called after saveProgress().
+  private void reloadLessonActivity() {
+    Intent intent = new Intent(this, LessonActivity.class);
+    finish();
+    startActivity(intent);
   }
 
   @Override
@@ -361,9 +375,12 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       // Fake summary.
       mLessonFragments = new ArrayList<LessonFragment>();
       LessonFragment summaryFragment = LessonFragment.newInstance("Summary", "summary");
-      summaryFragment.setSummary();
+      summaryFragment.setAsSummaryPage();
+      summaryFragment.setNoMoreLessons();
       mLessonFragments.add(summaryFragment);
       return;
     }
+
+    // TODO: Show progress tree for lesson 2 onwards.
   }
 }

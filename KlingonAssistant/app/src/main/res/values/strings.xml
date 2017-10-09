@@ -202,6 +202,9 @@
     <string name="button_check_answer_correct">Correct\!</string>
     <string name="button_check_answer_incorrect">Incorrect\!</string>
     <string name="button_continue">Continue</string>
+    <string name="button_redo">Redo this lesson</string>
+    <string name="button_next_lesson">Continue to next lesson</string>
+    <string name="button_next_unit">Continue to next unit</string>
 
     <!-- Strings for the ShowcaseView tutorial. -->
     <!--
