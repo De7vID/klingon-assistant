@@ -34,7 +34,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class LessonFragment extends EntryFragment {
 
@@ -232,7 +231,8 @@ public class LessonFragment extends EntryFragment {
               }
             });
       } else if (mChoiceType == ChoiceType.QUIZ) {
-        // This is a QUIZ which hasn't been answered, enable the "Check answer" button when choice is clicked.
+        // This is a QUIZ which hasn't been answered, enable the "Check answer" button when choice
+        // is clicked.
         choiceButton.setOnClickListener(
             new View.OnClickListener() {
               @Override

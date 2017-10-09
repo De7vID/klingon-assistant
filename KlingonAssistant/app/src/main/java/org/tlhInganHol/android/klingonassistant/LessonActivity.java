@@ -31,6 +31,8 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 public class LessonActivity extends AppCompatActivity implements LessonFragment.Callback {
   private static final String TAG = "LessonActivity";
@@ -45,22 +47,29 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
   int mLessonNumber = 1;
   boolean mIsSummaryPage = false;
 
+  // Keys for saving lesson progress.
+  public static final String KEY_UNIT_NUMBER = "unit_number";
+  public static final String KEY_LESSON_NUMBER = "lesson_number";
+  public static final String KEY_IS_SUMMARY_PAGE = "is_summary_page";
+
   // For keeping a summary of user's choices and quiz answers.
   private ArrayList<String> mSelectedChoices = new ArrayList<String>();
   private int mCorrectlyAnswered = 0;
   private int mTotalQuestions = 0;
-  private static final String STATE_CORRECTLY_ANSWERED = "correctly_answered";
-  private static final String STATE_TOTAL_QUESTIONS = "total_questions";
-  private static final String STATE_SELECTED_CHOICES = "selected_choices";
+
+  // Keys for saving and restoring summary page.
+  private static final String KEY_CORRECTLY_ANSWERED = "correctly_answered";
+  private static final String KEY_TOTAL_QUESTIONS = "total_questions";
+  private static final String KEY_SELECTED_CHOICES = "selected_choices";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     if (savedInstanceState != null) {
-      mCorrectlyAnswered = savedInstanceState.getInt(STATE_CORRECTLY_ANSWERED);
-      mTotalQuestions = savedInstanceState.getInt(STATE_TOTAL_QUESTIONS);
-      mSelectedChoices = savedInstanceState.getStringArrayList(STATE_SELECTED_CHOICES);
+      mCorrectlyAnswered = savedInstanceState.getInt(KEY_CORRECTLY_ANSWERED);
+      mTotalQuestions = savedInstanceState.getInt(KEY_TOTAL_QUESTIONS);
+      mSelectedChoices = savedInstanceState.getStringArrayList(KEY_SELECTED_CHOICES);
     }
 
     setContentView(R.layout.activity_lesson);
@@ -175,21 +184,33 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       mIsSummaryPage = true;
       saveProgress();
 
-      // Intent summaryPageIntent = new Intent(this, LessonActivity.class);
-      // finish();
-      // startActivity(summaryPageIntent);
-      mPagerAdapter = new SwipeAdapter(getSupportFragmentManager(), this);
-      mPager.setAdapter(mPagerAdapter);
+      Intent summaryPageIntent = new Intent(this, LessonActivity.class);
+      finish();
+      startActivity(summaryPageIntent);
       // TODO: Hide tab dots, change summary buttons.
     }
   }
 
   private void saveProgress() {
-      SharedPreferences.Editor sharedPrefsEd = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
-      sharedPrefsEd.putInt(Preferences.KEY_UNIT_NUMBER, mUnitNumber);
-      sharedPrefsEd.putInt(Preferences.KEY_LESSON_NUMBER, mLessonNumber);
-      sharedPrefsEd.putBoolean(Preferences.KEY_IS_SUMMARY_PAGE, true);
-      sharedPrefsEd.apply();
+    SharedPreferences.Editor sharedPrefsEd =
+        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
+    sharedPrefsEd.putInt(KEY_UNIT_NUMBER, mUnitNumber);
+    sharedPrefsEd.putInt(KEY_LESSON_NUMBER, mLessonNumber);
+    sharedPrefsEd.putBoolean(KEY_IS_SUMMARY_PAGE, true);
+    sharedPrefsEd.putInt(KEY_CORRECTLY_ANSWERED, mCorrectlyAnswered);
+    sharedPrefsEd.putInt(KEY_TOTAL_QUESTIONS, mTotalQuestions);
+
+    JSONArray choicesArray = new JSONArray();
+    for (int i = 0; i < mSelectedChoices.size(); i++) {
+      choicesArray.put(mSelectedChoices.get(i));
+    }
+    if (!mSelectedChoices.isEmpty()) {
+      sharedPrefsEd.putString(KEY_SELECTED_CHOICES, choicesArray.toString());
+    } else {
+      sharedPrefsEd.putString(KEY_SELECTED_CHOICES, null);
+    }
+
+    sharedPrefsEd.apply();
   }
 
   @Override
@@ -224,9 +245,9 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
   public void onSaveInstanceState(Bundle savedInstanceState) {
     super.onSaveInstanceState(savedInstanceState);
 
-    savedInstanceState.putInt(STATE_CORRECTLY_ANSWERED, mCorrectlyAnswered);
-    savedInstanceState.putInt(STATE_TOTAL_QUESTIONS, mTotalQuestions);
-    savedInstanceState.putStringArrayList(STATE_SELECTED_CHOICES, mSelectedChoices);
+    savedInstanceState.putInt(KEY_CORRECTLY_ANSWERED, mCorrectlyAnswered);
+    savedInstanceState.putInt(KEY_TOTAL_QUESTIONS, mTotalQuestions);
+    savedInstanceState.putStringArrayList(KEY_SELECTED_CHOICES, mSelectedChoices);
   }
 
   // Swipe
@@ -244,10 +265,10 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       String title = getTitle(1, 1);
       activity.setTitle(title);
 
-      switch(mUnitNumber) {
+      switch (mUnitNumber) {
         case 1:
         default:
-          switch(mLessonNumber) {
+          switch (mLessonNumber) {
             case 1:
             default:
               if (!mIsSummaryPage) {
@@ -262,10 +283,27 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     }
 
     private void restoreProgress(LessonActivity activity) {
-      SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(activity.getBaseContext());
-      mUnitNumber = sharedPrefs.getInt(Preferences.KEY_UNIT_NUMBER, /* default */ 1);
-      mLessonNumber = sharedPrefs.getInt(Preferences.KEY_LESSON_NUMBER, /* default */ 1);
-      mIsSummaryPage = sharedPrefs.getBoolean(Preferences.KEY_IS_SUMMARY_PAGE, /* default */ false);
+      SharedPreferences sharedPrefs =
+          PreferenceManager.getDefaultSharedPreferences(activity.getBaseContext());
+      mUnitNumber = sharedPrefs.getInt(KEY_UNIT_NUMBER, /* default */ 1);
+      mLessonNumber = sharedPrefs.getInt(KEY_LESSON_NUMBER, /* default */ 1);
+      mIsSummaryPage = sharedPrefs.getBoolean(KEY_IS_SUMMARY_PAGE, /* default */ false);
+      mCorrectlyAnswered = sharedPrefs.getInt(KEY_CORRECTLY_ANSWERED, 0);
+      mTotalQuestions = sharedPrefs.getInt(KEY_TOTAL_QUESTIONS, 0);
+
+      String json = sharedPrefs.getString(KEY_SELECTED_CHOICES, null);
+      mSelectedChoices = new ArrayList<String>();
+      if (json != null) {
+        try {
+          JSONArray choicesArray = new JSONArray(json);
+          for (int i = 0; i < choicesArray.length(); i++) {
+            String s = choicesArray.optString(i);
+            mSelectedChoices.add(s);
+          }
+        } catch (JSONException e) {
+          mSelectedChoices = null;
+        }
+      }
     }
 
     private String getTitle(int unit, int lesson) {
@@ -283,12 +321,12 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       return mLessonFragments.size();
     }
 
-
     // The layout of all the lessons are defined below.
     private void Unit_1_Lesson_1() {
       ArrayList choiceList1 = new ArrayList(Arrays.asList("{Qong:v}", "{Sop:v}", "{Suv:v}"));
       ArrayList choiceList2 = new ArrayList(Arrays.asList("{Doch:n}", "{taj:n}", "{vIqraq:n}"));
-      mLessonFragments = new LessonBuilder()
+      mLessonFragments =
+          new LessonBuilder()
               // intro
               .startNewPage(R.string.topic_introduction, R.string.body_introduction)
 
@@ -316,18 +354,16 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
               .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
               .addQuiz(choiceList2, LessonFragment.ChoiceTextType.DEFINITION_ONLY)
               .addClosingText(R.string.body_basic_sentence2)
-
               .build();
     }
 
-
     private void Unit_1_Lesson_1_Summary() {
-        // Fake summary.
-        mLessonFragments = new ArrayList<LessonFragment>();
-        LessonFragment summaryFragment = LessonFragment.newInstance("Summary", "summary");
-        summaryFragment.setSummary();
-        mLessonFragments.add(summaryFragment);
-        return;
+      // Fake summary.
+      mLessonFragments = new ArrayList<LessonFragment>();
+      LessonFragment summaryFragment = LessonFragment.newInstance("Summary", "summary");
+      summaryFragment.setSummary();
+      mLessonFragments.add(summaryFragment);
+      return;
     }
   }
 }
