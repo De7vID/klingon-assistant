@@ -183,6 +183,7 @@ public class LessonFragment extends EntryFragment {
             leftRightMargins, topBottomMargins, leftRightMargins, topBottomMargins);
 
         // Update the choice when clicked.
+        // TODO: Add a "Check answer" button for QUIZ.
         final String choice = mChoices.get(i);
         choiceButton.setOnClickListener(new View.OnClickListener() {
           @Override
