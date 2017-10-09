@@ -41,6 +41,9 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
   private List<String> mSelectedChoices = new ArrayList<String>();
   private int mCorrectlyAnswered = 0;
   private int mTotalQuestions = 0;
+  private static final String STATE_CORRECTLY_ANSWERED = "correctly_answered";
+  private static final String STATE_TOTAL_QUESTIONS = "total_questions";
+  private static final String STATE_SELECTED_CHOICES = "selected_choices";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -151,8 +154,8 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
   @Override
   public void commitChoice(String choice) {
     mSelectedChoices.add(choice);
-    Log.d(TAG, "commitChoice: " + choice);
-    Log.d(TAG, "getSummary(): " + getSummary());
+    // Log.d(TAG, "commitChoice: " + choice);
+    // Log.d(TAG, "getSummary(): " + getSummary());
   }
 
   @Override
@@ -161,13 +164,22 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     if (correctlyAnswered) {
       mCorrectlyAnswered++;
     }
-    Log.d(TAG, "scoreQuiz: " + correctlyAnswered);
-    Log.d(TAG, "getSummary(): " + getSummary());
+    // Log.d(TAG, "scoreQuiz: " + correctlyAnswered);
+    // Log.d(TAG, "getSummary(): " + getSummary());
   }
 
   @Override
   public String getSummary() {
     return mSelectedChoices.size() + " - " + mSelectedChoices.toString() + " ; " + mCorrectlyAnswered + "/" + mTotalQuestions;
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle savedInstanceState) {
+    super.onSaveInstanceState(savedInstanceState);
+
+    savedInstanceState.putInt(STATE_CORRECTLY_ANSWERED, mCorrectlyAnswered);
+    savedInstanceState.putInt(STATE_TOTAL_QUESTIONS, mTotalQuestions);
+    savedInstanceState.putStringArrayList(STATE_SELECTED_CHOICES, mSelectedChoices);
   }
 
   // Swipe
