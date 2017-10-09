@@ -18,23 +18,20 @@ package org.tlhInganHol.android.klingonassistant;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -44,8 +41,11 @@ public class LessonFragment extends EntryFragment {
   // Interface to report feedback to the LessonActivity.
   public interface Callback {
     void goToNextPage();
+
     void commitChoice(String choice);
+
     void scoreQuiz(boolean correctlyAnswered);
+
     String getSummary();
   }
 
@@ -169,80 +169,95 @@ public class LessonFragment extends EntryFragment {
     final int topBottomMargins = (int) (TOP_BOTTOM_MARGINS * scale + 0.5f);
     final LessonFragment thisLesson = this;
 
-    if (mChoiceType != ChoiceType.NONE && mChoices != null) {
-      RadioGroup choicesGroup = (RadioGroup) rootView.findViewById(R.id.choices);
-      final Button checkAnswerButton = (Button) rootView.findViewById(R.id.action_check_answer);
-      final Button continueButton = (Button) rootView.findViewById(R.id.action_continue);
-      if (mChoiceType == ChoiceType.SELECTION || mChoiceType == ChoiceType.QUIZ) {
-        // Disable until user selects something.
-        continueButton.setEnabled(false);
-      }
-      if (mChoiceType == ChoiceType.QUIZ) {
-        // Make "Check Answer" button visible for QUIZ only.
-        checkAnswerButton.setVisibility(View.VISIBLE);
-      }
-      for (int i = 0; i < mChoices.size(); i++) {
-        RadioButton choiceButton = new RadioButton(getActivity());
-        choiceButton.setPadding(
-            leftRightMargins, topBottomMargins, leftRightMargins, topBottomMargins);
-
-        final String choice = mChoices.get(i);
-        if (mChoiceType == ChoiceType.SELECTION) {
-          // For a selection, update the choice and go to next page when clicked.
-          choiceButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-              continueButton.setEnabled(true);
-              continueButton.setOnClickListener(
-                  new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                      mCallback.commitChoice(choice);
-                      mCallback.goToNextPage();
-                    }
-                  });
-            }
-          });
-        } else if (mChoiceType == ChoiceType.QUIZ) {
-          // For a quiz, enable the "Check answer" button when clicked.
-          choiceButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-              checkAnswerButton.setEnabled(true);
-              checkAnswerButton.setOnClickListener(
-                  new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                      // TODO: Change text to say "Correct!" or "Incorrect!"
-                      checkAnswerButton.setEnabled(false);
-                      continueButton.setEnabled(true);
-                      continueButton.setOnClickListener(
-                          new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                              mCallback.scoreQuiz(choice.equals(mCorrectAnswer));
-                              mCallback.goToNextPage();
-                            }
-                          });
-                    }
-                  });
-            }
-          });
-        } else if (mChoiceType == ChoiceType.PLAIN_LIST) {
-          // For a plain list, hide the radio button and just show the text.
-          choiceButton.setButtonDrawable(android.R.color.transparent);
-        }
-
-        // Display entry name and/or definition depending on choice text type,
-        // and also format the displayed text.
-        SpannableStringBuilder choiceText = processChoiceText(mChoices.get(i));
-        processMixedText(choiceText, null);
-        choiceButton.setText(choiceText);
-        choicesGroup.addView(choiceButton);
-      }
-      choicesGroup.setVisibility(View.VISIBLE);
-      choicesGroup.invalidate();
+    if (mChoiceType == ChoiceType.NONE || mChoices == null) {
+      return;
     }
+
+    RadioGroup choicesGroup = (RadioGroup) rootView.findViewById(R.id.choices);
+    final Button checkAnswerButton = (Button) rootView.findViewById(R.id.action_check_answer);
+    final Button continueButton = (Button) rootView.findViewById(R.id.action_continue);
+    final String CORRECT_STRING =
+        getActivity().getResources().getString(R.string.button_check_answer_correct);
+    final String INCORRECT_STRING =
+        getActivity().getResources().getString(R.string.button_check_answer_incorrect);
+    if (mChoiceType == ChoiceType.SELECTION || mChoiceType == ChoiceType.QUIZ) {
+      // Disable until user selects something.
+      continueButton.setEnabled(false);
+    }
+    if (mChoiceType == ChoiceType.QUIZ) {
+      // Make "Check Answer" button visible for QUIZ only.
+      checkAnswerButton.setVisibility(View.VISIBLE);
+    }
+    for (int i = 0; i < mChoices.size(); i++) {
+      RadioButton choiceButton = new RadioButton(getActivity());
+      choiceButton.setPadding(
+          leftRightMargins, topBottomMargins, leftRightMargins, topBottomMargins);
+
+      final String choice = mChoices.get(i);
+      if (mChoiceType == ChoiceType.SELECTION) {
+        // For a selection, update the choice and go to next page when clicked.
+        choiceButton.setOnClickListener(
+            new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                continueButton.setEnabled(true);
+                continueButton.setOnClickListener(
+                    new View.OnClickListener() {
+                      @Override
+                      public void onClick(View view) {
+                        mCallback.commitChoice(choice);
+                        mCallback.goToNextPage();
+                      }
+                    });
+              }
+            });
+      } else if (mChoiceType == ChoiceType.QUIZ) {
+        // For a quiz, enable the "Check answer" button when clicked.
+        choiceButton.setOnClickListener(
+            new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                checkAnswerButton.setEnabled(true);
+                checkAnswerButton.setOnClickListener(
+                    new View.OnClickListener() {
+                      @Override
+                      public void onClick(View view) {
+                        final boolean isAnswerCorrect = choice.equals(mCorrectAnswer);
+                        checkAnswerButton.setEnabled(false);
+                        if (isAnswerCorrect) {
+                          checkAnswerButton.setText(CORRECT_STRING);
+                          checkAnswerButton.setBackgroundColor(Color.GREEN);
+                        } else {
+                          checkAnswerButton.setText(INCORRECT_STRING);
+                          checkAnswerButton.setBackgroundColor(Color.RED);
+                        }
+                        continueButton.setEnabled(true);
+                        continueButton.setOnClickListener(
+                            new View.OnClickListener() {
+                              @Override
+                              public void onClick(View view) {
+                                mCallback.scoreQuiz(isAnswerCorrect);
+                                mCallback.goToNextPage();
+                              }
+                            });
+                      }
+                    });
+              }
+            });
+      } else if (mChoiceType == ChoiceType.PLAIN_LIST) {
+        // For a plain list, hide the radio button and just show the text.
+        choiceButton.setButtonDrawable(android.R.color.transparent);
+      }
+
+      // Display entry name and/or definition depending on choice text type,
+      // and also format the displayed text.
+      SpannableStringBuilder choiceText = processChoiceText(mChoices.get(i));
+      processMixedText(choiceText, null);
+      choiceButton.setText(choiceText);
+      choicesGroup.addView(choiceButton);
+    }
+    choicesGroup.setVisibility(View.VISIBLE);
+    choicesGroup.invalidate();
   }
 
   // Helper method to update the selected choice.

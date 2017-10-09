@@ -24,9 +24,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.widget.LinearLayout;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -130,7 +128,8 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     }
 
     // Add a quiz.
-    public LessonBuilder addQuiz(ArrayList<String> entries, LessonFragment.ChoiceTextType choiceTextType) {
+    public LessonBuilder addQuiz(
+        ArrayList<String> entries, LessonFragment.ChoiceTextType choiceTextType) {
       // TODO: Allow "none/all of the above" options.
       getCurrentLesson().addQuiz(entries, choiceTextType);
       return this;
@@ -176,7 +175,13 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
   @Override
   public String getSummary() {
-    return mSelectedChoices.size() + " - " + mSelectedChoices.toString() + " ; " + mCorrectlyAnswered + "/" + mTotalQuestions;
+    return mSelectedChoices.size()
+        + " - "
+        + mSelectedChoices.toString()
+        + " ; "
+        + mCorrectlyAnswered
+        + "/"
+        + mTotalQuestions;
   }
 
   @Override
