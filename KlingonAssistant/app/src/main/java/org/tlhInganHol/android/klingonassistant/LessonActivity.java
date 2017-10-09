@@ -16,6 +16,8 @@
 
 package org.tlhInganHol.android.klingonassistant;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -262,6 +264,36 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     savedInstanceState.putInt(KEY_CORRECTLY_ANSWERED, mCorrectlyAnswered);
     savedInstanceState.putInt(KEY_TOTAL_QUESTIONS, mTotalQuestions);
     savedInstanceState.putStringArrayList(KEY_SELECTED_CHOICES, mSelectedChoices);
+  }
+
+  @Override
+  public void onBackPressed() {
+    if (mIsSummaryPage) {
+      // Don't intercept "Back" on the summary page.
+      super.onBackPressed();
+      return;
+    }
+
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder
+        .setMessage(getResources().getString(R.string.exit_lesson_confirmation))
+        .setCancelable(false)
+        .setPositiveButton(
+            getResources().getString(R.string.exit_lesson_yes),
+            new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int id) {
+                LessonActivity.this.finish();
+              }
+            })
+        .setNegativeButton(
+            getResources().getString(R.string.exit_lesson_no),
+            new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+              }
+            });
+    AlertDialog alert = builder.create();
+    alert.show();
   }
 
   // Swipe
