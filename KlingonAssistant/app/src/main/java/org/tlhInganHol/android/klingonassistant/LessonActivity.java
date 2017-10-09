@@ -130,7 +130,8 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     public List<LessonFragment> build() {
       // TODO: Make summary page dependent on prior pages.
       LessonFragment summaryFragment = LessonFragment.newInstance(mTitle, "Summary", "summary");
-      summaryFragment.setSummary(mLessonFragments);
+      // Copy the list so that summaryFragment doesn't reference itself.
+      summaryFragment.setSummary(new ArrayList<LessonFragment>(mLessonFragments));
       mLessonFragments.add(summaryFragment);
       return mLessonFragments;
     }
