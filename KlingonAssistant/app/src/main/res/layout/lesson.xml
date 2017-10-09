@@ -75,17 +75,26 @@
                     android:textIsSelectable="false"
                     android:layout_weight="1.0" />
             <LinearLayout
+              android:orientation="vertical"
               android:gravity="center_vertical"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content" >
               <!-- The bottom margin is needed so the entry doesn't overlap with
                    the tab dots. -->
               <Button
+                      android:id="@+id/action_check_answer"
+                      android:padding="15dp"
+                      android:layout_width="match_parent"
+                      android:layout_height="56dp"
+                      android:text="@string/button_check_answer"
+                      android:enabled="false"
+                      android:visibility="gone" />
+              <Button
                       android:id="@+id/action_continue"
                       android:padding="15dp"
                       android:layout_width="match_parent"
                       android:layout_height="56dp"
-                      android:layout_marginBottom="20dp"
+                      android:layout_marginBottom="30dp"
                       android:text="@string/button_continue" />
               </LinearLayout>
         </LinearLayout>

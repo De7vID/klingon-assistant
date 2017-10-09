@@ -130,9 +130,9 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     }
 
     // Add a quiz.
-    // TODO: Identify correct answer. Allow "none/all of the above" options.
-    public LessonBuilder addQuiz(ArrayList<String> entries) {
-      getCurrentLesson().addQuiz(entries);
+    public LessonBuilder addQuiz(ArrayList<String> entries, LessonFragment.ChoiceTextType choiceTextType) {
+      // TODO: Allow "none/all of the above" options.
+      getCurrentLesson().addQuiz(entries, choiceTextType);
       return this;
     }
 
@@ -220,7 +220,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
               // quiz
               .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
-              .addQuiz(choiceList1)
+              .addQuiz(choiceList1, LessonFragment.ChoiceTextType.ENTRY_NAME_ONLY)
               .addClosingText(R.string.body_basic_sentence2)
 
               // choice
@@ -230,7 +230,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
               // quiz
               .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
-              .addQuiz(choiceList2)
+              .addQuiz(choiceList2, LessonFragment.ChoiceTextType.DEFINITION_ONLY)
               .addClosingText(R.string.body_basic_sentence2)
 
               // intro - race condition

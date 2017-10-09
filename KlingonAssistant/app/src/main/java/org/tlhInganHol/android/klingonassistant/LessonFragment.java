@@ -76,7 +76,7 @@ public class LessonFragment extends EntryFragment {
 
   private ChoiceType mChoiceType = ChoiceType.NONE;
 
-  private enum ChoiceTextType {
+  public enum ChoiceTextType {
     // By default, entries will show both entry name and definition. For QUIZ
     // choices, entries may only show one or the other.
     BOTH,
@@ -171,43 +171,65 @@ public class LessonFragment extends EntryFragment {
 
     if (mChoiceType != ChoiceType.NONE && mChoices != null) {
       RadioGroup choicesGroup = (RadioGroup) rootView.findViewById(R.id.choices);
+      final Button checkAnswerButton = (Button) rootView.findViewById(R.id.action_check_answer);
       final Button continueButton = (Button) rootView.findViewById(R.id.action_continue);
       if (mChoiceType == ChoiceType.SELECTION || mChoiceType == ChoiceType.QUIZ) {
         // Disable until user selects something.
         continueButton.setEnabled(false);
+      }
+      if (mChoiceType == ChoiceType.QUIZ) {
+        // Make "Check Answer" button visible for QUIZ only.
+        checkAnswerButton.setVisibility(View.VISIBLE);
       }
       for (int i = 0; i < mChoices.size(); i++) {
         RadioButton choiceButton = new RadioButton(getActivity());
         choiceButton.setPadding(
             leftRightMargins, topBottomMargins, leftRightMargins, topBottomMargins);
 
-        // Update the choice when clicked.
-        // TODO: Add a "Check answer" button for QUIZ.
         final String choice = mChoices.get(i);
-        if (mChoiceType == ChoiceType.SELECTION || mChoiceType == ChoiceType.QUIZ) {
+        if (mChoiceType == ChoiceType.SELECTION) {
+          // For a selection, update the choice and go to next page when clicked.
           choiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              // thisLesson.setChoice(choice);
               continueButton.setEnabled(true);
               continueButton.setOnClickListener(
                   new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                      if (mChoiceType == ChoiceType.SELECTION) {
-                        mCallback.commitChoice(choice);
-                      } else {
-                        mCallback.scoreQuiz(choice.equals(mCorrectAnswer));
-                      }
+                      mCallback.commitChoice(choice);
                       mCallback.goToNextPage();
                     }
                   });
             }
           });
-        }
-
-        // For a plain list, hide the radio button and just show the text.
-        if (mChoiceType == ChoiceType.PLAIN_LIST) {
+        } else if (mChoiceType == ChoiceType.QUIZ) {
+          // For a quiz, enable the "Check answer" button when clicked.
+          choiceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              checkAnswerButton.setEnabled(true);
+              checkAnswerButton.setOnClickListener(
+                  new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                      // TODO: Change text to say "Correct!" or "Incorrect!"
+                      checkAnswerButton.setEnabled(false);
+                      continueButton.setEnabled(true);
+                      continueButton.setOnClickListener(
+                          new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                              mCallback.scoreQuiz(choice.equals(mCorrectAnswer));
+                              mCallback.goToNextPage();
+                            }
+                          });
+                    }
+                  });
+            }
+          });
+        } else if (mChoiceType == ChoiceType.PLAIN_LIST) {
+          // For a plain list, hide the radio button and just show the text.
           choiceButton.setButtonDrawable(android.R.color.transparent);
         }
 
@@ -317,10 +339,10 @@ public class LessonFragment extends EntryFragment {
     mChoiceType = ChoiceType.SELECTION;
   }
 
-  public void addQuiz(ArrayList<String> choices) {
-    // TODO: Allow different choice text types.
+  public void addQuiz(ArrayList<String> choices, ChoiceTextType choiceTextType) {
     mCorrectAnswer = choices.get(0);
     mChoiceType = ChoiceType.QUIZ;
+    mChoiceTextType = choiceTextType;
 
     // Shuffle has to be done on a copy to preserve the original.
     mChoices = new ArrayList(choices);
