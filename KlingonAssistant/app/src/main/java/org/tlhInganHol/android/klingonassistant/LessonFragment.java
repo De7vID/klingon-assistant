@@ -52,11 +52,15 @@ public class LessonFragment extends EntryFragment {
   private Callback mCallback;
 
   // For the saved instance state.
-  static final String STATE_IS_SUMMARY = "isSummary";
+  private static final String STATE_CHOICE_TYPE = "choice_type";
+  private static final String STATE_CHOICE_TEXT_TYPE = "choice_text_type";
+  private static final String STATE_CHOICES = "choices";
+  private static final String STATE_CORRECT_ANSWER = "correct_answer";
+  private static final String STATE_CLOSING_TEXT = "closing_text";
+  private static final String STATE_IS_SUMMARY = "is_summary";
 
   // Choices section.
-  private List<String> mChoices = null;
-  private String mChoice = null;
+  private ArrayList<String> mChoices = null;
   private String mCorrectAnswer = null;
 
   private enum ChoiceType {
@@ -215,16 +219,16 @@ public class LessonFragment extends EntryFragment {
   }
 
   // Helper method to update the selected choice.
-  // private void setChoice(String choice) {
-  //   mChoice = choice;
+  // private void setSelectedChoice(String choice) {
+  //   mSelectedChoice = choice;
   // }
 
   // private boolean isSelection() {
   //   return mChoiceType == ChoiceType.SELECTION;
   // }
 
-  // private String getChoice() {
-  //   return mChoice;
+  // private String getSelectedChoice() {
+  //   return mSelectedChoice;
   // }
 
   // private boolean isQuiz() {
@@ -232,7 +236,7 @@ public class LessonFragment extends EntryFragment {
   // }
 
   // private boolean hasCorrectAnswer() {
-  //   return (mChoice != null) && mChoice.equals(mCorrectAnswer);
+  //   return (mSelectedChoice != null) && mSelectedChoice.equals(mCorrectAnswer);
   // }
 
   // Given a string choice text, process it.
@@ -298,20 +302,18 @@ public class LessonFragment extends EntryFragment {
     mCallback = (Callback) activity;
   }
 
-  public void addPlainList(List<String> choices) {
-    // TODO: Write to bundle state.
+  public void addPlainList(ArrayList<String> choices) {
     mChoices = choices;
     mChoiceType = ChoiceType.PLAIN_LIST;
   }
 
-  public void addMultipleChoiceSelection(List<String> choices) {
-    // TODO: Write to bundle state.
+  public void addMultipleChoiceSelection(ArrayList<String> choices) {
     mChoices = choices;
     mChoiceType = ChoiceType.SELECTION;
   }
 
-  public void addQuiz(List<String> choices) {
-    // TODO: Write to bundle state.
+  public void addQuiz(ArrayList<String> choices) {
+    // TODO: Allow different choice text types.
     mCorrectAnswer = choices.get(0);
     mChoiceType = ChoiceType.QUIZ;
 
@@ -321,20 +323,22 @@ public class LessonFragment extends EntryFragment {
   }
 
   public void addClosingText(String closingText) {
-    // TODO: Write to bundle state.
     mClosingText = closingText;
   }
 
   public void setSummary(List<LessonFragment> lessonFragments) {
-    // TODO: Write to bundle state.
     isSummary = true;
-    // mLessonFragments = lessonFragments;
   }
 
   @Override
   public void onSaveInstanceState(Bundle savedInstanceState) {
     super.onSaveInstanceState(savedInstanceState);
 
+    savedInstanceState.putSerializable(STATE_CHOICE_TYPE, mChoiceType);
+    savedInstanceState.putSerializable(STATE_CHOICE_TEXT_TYPE, mChoiceTextType);
+    savedInstanceState.putStringArrayList(STATE_CHOICES, mChoices);
+    savedInstanceState.putString(STATE_CORRECT_ANSWER, mCorrectAnswer);
+    savedInstanceState.putString(STATE_CLOSING_TEXT, mClosingText);
     savedInstanceState.putBoolean(STATE_IS_SUMMARY, isSummary);
   }
 }
