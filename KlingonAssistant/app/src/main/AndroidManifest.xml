@@ -92,11 +92,10 @@
         <activity android:name=".SourcesActivity" />
 
         <!-- Klingon language lessons. -->
-        <!-- Lock to portrait orientation to prevent weird bugs due to lifecycle changes on
-             selections and quizzes. Also set to "singleTop" mode to prevent the user from starting
-             multiple instances by pressing the FAB button quickly. -->
+        <!-- Handle (actually ignore) config changes to prevent weird bugs due to lifecycle changes
+             on selections and quizzes. Also set to "singleTop" mode to prevent the user from
+             starting multiple instances by pressing the FAB button quickly. -->
         <activity android:name=".LessonActivity"
-                  android:screenOrientation="portrait"
                   android:launchMode="singleTop"
                   android:configChanges="keyboardHidden|orientation|screenSize" />
 
