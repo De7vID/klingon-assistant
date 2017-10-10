@@ -153,12 +153,13 @@ public class LessonFragment extends EntryFragment {
     } else {
       // TODO: change buttons, etc.
       lessonBody.setText(mCallback.getSummary());
-      Button redoButton = (Button) rootView.findViewById(R.id.action_redo);
+      final Button redoButton = (Button) rootView.findViewById(R.id.action_redo);
       redoButton.setVisibility(View.VISIBLE);
       redoButton.setOnClickListener(
           new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+              redoButton.setEnabled(false);
               mCallback.redoThisLesson();
             }
           });
@@ -166,7 +167,7 @@ public class LessonFragment extends EntryFragment {
 
     // Set up the "Continue" button.
     // TODO: Change button text depending on context.
-    Button continueButton = (Button) rootView.findViewById(R.id.action_continue);
+    final Button continueButton = (Button) rootView.findViewById(R.id.action_continue);
     if (mCannotContinue) {
       continueButton.setEnabled(false);
     } else {
@@ -174,6 +175,7 @@ public class LessonFragment extends EntryFragment {
           new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+              continueButton.setEnabled(false);
               mCallback.goToNextPage();
             }
           });
@@ -247,6 +249,7 @@ public class LessonFragment extends EntryFragment {
                     new View.OnClickListener() {
                       @Override
                       public void onClick(View view) {
+                        continueButton.setEnabled(false);
                         mCallback.commitChoice(choice);
                         mCallback.goToNextPage();
                       }
@@ -288,6 +291,7 @@ public class LessonFragment extends EntryFragment {
                             new View.OnClickListener() {
                               @Override
                               public void onClick(View view) {
+                                continueButton.setEnabled(false);
                                 mCallback.goToNextPage();
                               }
                             });
