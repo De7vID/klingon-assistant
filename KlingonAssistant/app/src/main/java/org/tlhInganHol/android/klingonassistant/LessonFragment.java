@@ -21,6 +21,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -105,11 +106,11 @@ public class LessonFragment extends EntryFragment {
   // Set to true if there are no more lessons after this page.
   private boolean mCannotContinue = false;
 
-  public static LessonFragment newInstance(String topic, CharSequence body) {
+  public static LessonFragment newInstance(String topic, String body) {
     LessonFragment lessonFragment = new LessonFragment();
     Bundle args = new Bundle();
     args.putString("topic", topic);
-    args.putCharSequence("body", body);
+    args.putString("body", body);
     lessonFragment.setArguments(args);
     return lessonFragment;
   }
@@ -143,8 +144,8 @@ public class LessonFragment extends EntryFragment {
 
     lessonBody.invalidate();
     if (!mIsSummaryPage) {
-      CharSequence bodyText = getArguments().getCharSequence("body");
-      SpannableStringBuilder ssb = new SpannableStringBuilder(bodyText);
+      SpannableStringBuilder ssb = new SpannableStringBuilder(
+          Html.fromHtml(getArguments().getString("body")));
       processMixedText(ssb, null);
       // We don't call setMovementMethod on lessonBody, since we disable all
       // entry links.

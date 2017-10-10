@@ -117,7 +117,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     // Start a new page which only has lesson text.
     public LessonBuilder startNewPage(int topicResId, int bodyResId) {
       mLessonFragments.add(
-          LessonFragment.newInstance(getString(topicResId), Html.fromHtml(getString(bodyResId))));
+          LessonFragment.newInstance(getString(topicResId), getString(bodyResId)));
       return this;
     }
 
