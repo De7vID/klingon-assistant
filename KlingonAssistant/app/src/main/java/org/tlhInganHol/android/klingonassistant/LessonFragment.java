@@ -105,11 +105,11 @@ public class LessonFragment extends EntryFragment {
   // Set to true if there are no more lessons after this page.
   private boolean mCannotContinue = false;
 
-  public static LessonFragment newInstance(String topic, String body) {
+  public static LessonFragment newInstance(String topic, CharSequence body) {
     LessonFragment lessonFragment = new LessonFragment();
     Bundle args = new Bundle();
     args.putString("topic", topic);
-    args.putString("body", body);
+    args.putCharSequence("body", body);
     lessonFragment.setArguments(args);
     return lessonFragment;
   }
@@ -143,7 +143,7 @@ public class LessonFragment extends EntryFragment {
 
     lessonBody.invalidate();
     if (!mIsSummaryPage) {
-      String bodyText = getArguments().getString("body");
+      CharSequence bodyText = getArguments().getCharSequence("body");
       SpannableStringBuilder ssb = new SpannableStringBuilder(bodyText);
       processMixedText(ssb, null);
       // We don't call setMovementMethod on lessonBody, since we disable all
@@ -177,6 +177,9 @@ public class LessonFragment extends EntryFragment {
             }
           });
     }
+    if (mIsSummaryPage) {
+      continueButton.setText(getActivity().getString(R.string.button_next_lesson));
+    }
 
     // Set up possible additional views.
     setupChoicesGroup(rootView);
@@ -201,10 +204,8 @@ public class LessonFragment extends EntryFragment {
     final RadioGroup choicesGroup = (RadioGroup) rootView.findViewById(R.id.choices);
     final Button checkAnswerButton = (Button) rootView.findViewById(R.id.action_check_answer);
     final Button continueButton = (Button) rootView.findViewById(R.id.action_continue);
-    final String CORRECT_STRING =
-        getActivity().getResources().getString(R.string.button_check_answer_correct);
-    final String INCORRECT_STRING =
-        getActivity().getResources().getString(R.string.button_check_answer_incorrect);
+    final String CORRECT_STRING = getActivity().getString(R.string.button_check_answer_correct);
+    final String INCORRECT_STRING = getActivity().getString(R.string.button_check_answer_incorrect);
     if (mChoiceType == ChoiceType.SELECTION || mChoiceType == ChoiceType.QUIZ) {
       // Disable until user selects something.
       continueButton.setEnabled(false);
