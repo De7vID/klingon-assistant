@@ -92,10 +92,13 @@
         <activity android:name=".SourcesActivity" />
 
         <!-- Klingon language lessons. -->
-        <!-- Should probably have android:launchMode="singleInstance" to prevent the user from
-             starting multiple instances by pressing the button quickly, but the transition looks
-             strange. -->
-        <activity android:name=".LessonActivity" />
+        <!-- Lock to portrait orientation to prevent weird bugs due to lifecycle changes on
+             selections and quizzes. Should probably also have android:launchMode="singleInstance"
+             to prevent the user from starting multiple instances by pressing the button quickly,
+             but the transition looks strange. -->
+        <activity android:name=".LessonActivity"
+                  android:screenOrientation="portrait"
+                  android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <!-- Provides search suggestions for words and their definitions. -->
         <provider android:name=".KlingonContentProvider"

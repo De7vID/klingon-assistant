@@ -61,6 +61,7 @@ public class LessonFragment extends EntryFragment {
   private static final String STATE_ALREADY_ANSWERED = "already_answered";
   private static final String STATE_CLOSING_TEXT = "closing_text";
   private static final String STATE_IS_SUMMARY = "is_summary";
+  private static final String STATE_CANNOT_CONTINUE = "cannot_continue";
 
   // Choices section.
   private ArrayList<String> mChoices = null;
@@ -127,6 +128,7 @@ public class LessonFragment extends EntryFragment {
       mAlreadyAnswered = savedInstanceState.getBoolean(STATE_ALREADY_ANSWERED);
       mClosingText = savedInstanceState.getString(STATE_CLOSING_TEXT);
       mIsSummaryPage = savedInstanceState.getBoolean(STATE_IS_SUMMARY);
+      mCannotContinue = savedInstanceState.getBoolean(STATE_CANNOT_CONTINUE);
     }
 
     ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.lesson, container, false);
@@ -263,15 +265,15 @@ public class LessonFragment extends EntryFragment {
                       @Override
                       public void onClick(View view) {
                         final boolean isAnswerCorrect = choice.equals(mCorrectAnswer);
+                        if (!mAlreadyAnswered) {
+                          mCallback.scoreQuiz(isAnswerCorrect);
+                          LessonFragment.this.setAlreadyAnswered();
+                        }
                         checkAnswerButton.setEnabled(false);
                         for (int i = 0; i < choicesGroup.getChildCount(); i++) {
                           ((RadioButton) choicesGroup.getChildAt(i)).setEnabled(false);
                         }
                         choicesGroup.setEnabled(false);
-                        if (!mAlreadyAnswered) {
-                          mCallback.scoreQuiz(isAnswerCorrect);
-                          LessonFragment.this.setAlreadyAnswered();
-                        }
                         if (isAnswerCorrect) {
                           checkAnswerButton.setText(CORRECT_STRING);
                           checkAnswerButton.setBackgroundColor(Color.GREEN);
@@ -415,10 +417,12 @@ public class LessonFragment extends EntryFragment {
     mClosingText = closingText;
   }
 
+  // This is called to set this page as a summary page, not a regular lesson.
   public void setAsSummaryPage() {
     mIsSummaryPage = true;
   }
 
+  // This is called on the very last lesson to disable the "Continue" button.
   public void setNoMoreLessons() {
     mCannotContinue = true;
   }
@@ -435,5 +439,6 @@ public class LessonFragment extends EntryFragment {
     savedInstanceState.putBoolean(STATE_ALREADY_ANSWERED, mAlreadyAnswered);
     savedInstanceState.putString(STATE_CLOSING_TEXT, mClosingText);
     savedInstanceState.putBoolean(STATE_IS_SUMMARY, mIsSummaryPage);
+    savedInstanceState.putBoolean(STATE_CANNOT_CONTINUE, mCannotContinue);
   }
 }
