@@ -28,7 +28,7 @@
 \nTo continue, press the "next" button below.</string>
 
   <string name="topic_basic_sentence">The Basic Sentence</string>
-  <string name="body_basic_sentence">The basic Klingon sentence has only a verb...</string>
+  <string name="body_basic_sentence"><![CDATA[The basic Klingon sentence has only a <i>verb</i>...]]></string>
   <string name="body_basic_sentence2">Some additional text.</string>
 
 </resources>

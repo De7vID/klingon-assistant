@@ -29,6 +29,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -113,16 +114,10 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       mLessonFragments = new ArrayList<LessonFragment>();
     }
 
-    // Helper to get string from resource ID.
-    private String getStringFromResId(int resId) {
-      return getBaseContext().getResources().getString(resId);
-    }
-
     // Start a new page which only has lesson text.
     public LessonBuilder startNewPage(int topicResId, int bodyResId) {
       mLessonFragments.add(
-          LessonFragment.newInstance(
-              getStringFromResId(topicResId), getStringFromResId(bodyResId)));
+          LessonFragment.newInstance(getString(topicResId), Html.fromHtml(getString(bodyResId))));
       return this;
     }
 
@@ -162,7 +157,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
     // Add text after other sections.
     public LessonBuilder addClosingText(int body2ResId) {
-      getCurrentLesson().addClosingText(getStringFromResId(body2ResId));
+      getCurrentLesson().addClosingText(getString(body2ResId));
       return this;
     }
 
