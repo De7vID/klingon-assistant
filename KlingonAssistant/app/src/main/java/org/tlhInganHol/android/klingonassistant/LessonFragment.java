@@ -135,18 +135,18 @@ public class LessonFragment extends EntryFragment {
 
     // Set up the title and body text.
     TextView lessonTitle = (TextView) rootView.findViewById(R.id.lesson_title);
-    TextView lessonBody = (TextView) rootView.findViewById(R.id.lesson_body);
+    TextView lessonBodyTop = (TextView) rootView.findViewById(R.id.lesson_body_top);
 
     lessonTitle.invalidate();
     lessonTitle.setText(getArguments().getString("title"));
 
-    lessonBody.invalidate();
+    lessonBodyTop.invalidate();
     SpannableStringBuilder ssb =
         new SpannableStringBuilder(Html.fromHtml(getArguments().getString("body")));
     processMixedText(ssb, null);
-    // We don't call setMovementMethod on lessonBody, since we disable all
+    // We don't call setMovementMethod on lessonBodyTop, since we disable all
     // entry links.
-    lessonBody.setText(ssb);
+    lessonBodyTop.setText(ssb);
     if (mIsSummaryPage) {
       // TODO: change buttons, etc.
       final Button redoButton = (Button) rootView.findViewById(R.id.action_redo);
@@ -379,13 +379,14 @@ public class LessonFragment extends EntryFragment {
 
   private void setupClosingText(View rootView) {
     if (mClosingText != null) {
-      TextView lessonBody2 = (TextView) rootView.findViewById(R.id.lesson_body2);
-      lessonBody2.invalidate();
+      TextView lessonBodyBottom = (TextView) rootView.findViewById(R.id.lesson_body_bottom);
+      lessonBodyBottom.setVisibility(View.VISIBLE);
+      lessonBodyBottom.invalidate();
       SpannableStringBuilder closingText = new SpannableStringBuilder(mClosingText);
       processMixedText(closingText, null);
-      // We don't call setMovementMethod on lessonBody2, since we disable all
+      // We don't call setMovementMethod on lessonBodyBottom, since we disable all
       // entry links.
-      lessonBody2.setText(closingText);
+      lessonBodyBottom.setText(closingText);
     }
   }
 
