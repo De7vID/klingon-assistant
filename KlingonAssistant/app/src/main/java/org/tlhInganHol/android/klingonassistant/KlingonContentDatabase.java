@@ -1024,11 +1024,6 @@ public class KlingonContentDatabase {
   /** This class helps create, open, and upgrade the Klingon database. */
   private static class KlingonDatabaseOpenHelper extends SQLiteOpenHelper {
 
-    // The system path of the Klingon database.
-    private static String DATABASE_PATH =
-        Environment.getDataDirectory()
-            + "/data/org.tlhInganHol.android.klingonassistant/databases/";
-
     // For storing the context the helper was called with for use.
     private final Context mHelperContext;
 
@@ -1044,6 +1039,16 @@ public class KlingonContentDatabase {
     KlingonDatabaseOpenHelper(Context context) {
       super(context, DATABASE_NAME, null, DATABASE_VERSION);
       mHelperContext = context;
+    }
+
+    // The system path of the Klingon database.
+    private String getDatabasePath(String name) {
+      // TODO: Change this path to support multi-user.
+      // See: https://github.com/De7vID/klingon-assistant/issues/385
+      // private static String DATABASE_PATH =
+      //     Environment.getDataDirectory()
+      //         + "/data/org.tlhInganHol.android.klingonassistant/databases/";
+      return mHelperContext.getDatabasePath(name).getAbsolutePath();
     }
 
     @Override
@@ -1159,13 +1164,13 @@ public class KlingonContentDatabase {
       // The commented way below is the proper way of checking for the
       // existence of the database. However, we do it this way to
       // prevent the "sqlite3_open_v2 open failed" error.
-      File dbFile = new File(DATABASE_PATH + DATABASE_NAME);
+      File dbFile = new File(getDatabasePath(DATABASE_NAME));
       return dbFile.exists();
 
       // TODO: Investigate the below. It may be the reason why there
       // are problems on some devices.
       /*
-       * SQLiteDatabase checkDB = null; try { String fullDBPath = DATABASE_PATH + DATABASE_NAME;
+       * SQLiteDatabase checkDB = null; try { String fullDBPath = getDatabasePath(DATABASE_NAME);
        * checkDB = SQLiteDatabase.openDatabase(fullDBPath, null, SQLiteDatabase.OPEN_READONLY);
        *
        * } catch(SQLiteCantOpenDatabaseException e) { // The database doesn't exist yet. It's fine
@@ -1191,7 +1196,7 @@ public class KlingonContentDatabase {
       InputStream inStream = mHelperContext.getAssets().open(DATABASE_NAME);
 
       // Path to the newly created empty database.
-      String fullDBPath = DATABASE_PATH + DATABASE_NAME;
+      String fullDBPath = getDatabasePath(DATABASE_NAME);
 
       // Open the empty database as the output stream.
       OutputStream outStream = new FileOutputStream(fullDBPath);
@@ -1213,7 +1218,7 @@ public class KlingonContentDatabase {
 
     /** Opens the database. */
     public void openDatabase() throws SQLException {
-      String fullDBPath = DATABASE_PATH + DATABASE_NAME;
+      String fullDBPath = getDatabasePath(DATABASE_NAME);
       // Log.d(TAG, "openDatabase() called on path " + fullDBPath + ".");
       mDatabase = SQLiteDatabase.openDatabase(fullDBPath, null, SQLiteDatabase.OPEN_READONLY);
     }
