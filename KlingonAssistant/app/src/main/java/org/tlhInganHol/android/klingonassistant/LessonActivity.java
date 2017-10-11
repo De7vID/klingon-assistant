@@ -45,14 +45,14 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
   // The unit and lesson numbers are 1-based. A unit has multiple lessons.
   // There is a summary page associated with each lesson.
-  int mUnitNumber = 1;
-  int mLessonNumber = 1;
-  boolean mIsSummaryPage = false;
+  private int mUnitNumber = 1;
+  private int mLessonNumber = 1;
+  private boolean mShowSummary = false;
 
   // Keys for saving lesson progress.
   public static final String KEY_UNIT_NUMBER = "unit_number";
   public static final String KEY_LESSON_NUMBER = "lesson_number";
-  public static final String KEY_IS_SUMMARY_PAGE = "is_summary_page";
+  public static final String KEY_SHOW_SUMMARY = "show_summary";
 
   // For keeping a summary of user's choices and quiz answers.
   private ArrayList<String> mSelectedChoices = new ArrayList<String>();
@@ -176,7 +176,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       // as the lesson itself, since the ViewPager pre-loads fragments. This
       // means that the summary page will not have access to results of the
       // user's actions on the page just prior to it.
-      mIsSummaryPage = true;
+      mShowSummary = true;
       saveProgress();
       reloadLessonActivity();
     }
@@ -184,7 +184,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
   @Override
   public void redoThisLesson() {
-    mIsSummaryPage = false;
+    mShowSummary = false;
     mCorrectlyAnswered = 0;
     mTotalQuestions = 0;
     mSelectedChoices = new ArrayList<String>();
@@ -197,7 +197,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
         PreferenceManager.getDefaultSharedPreferences(this).edit();
     sharedPrefsEd.putInt(KEY_UNIT_NUMBER, mUnitNumber);
     sharedPrefsEd.putInt(KEY_LESSON_NUMBER, mLessonNumber);
-    sharedPrefsEd.putBoolean(KEY_IS_SUMMARY_PAGE, mIsSummaryPage);
+    sharedPrefsEd.putBoolean(KEY_SHOW_SUMMARY, mShowSummary);
     sharedPrefsEd.putInt(KEY_CORRECTLY_ANSWERED, mCorrectlyAnswered);
     sharedPrefsEd.putInt(KEY_TOTAL_QUESTIONS, mTotalQuestions);
 
@@ -220,7 +220,6 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     Intent intent = new Intent(this, LessonActivity.class);
     finish();
     startActivity(intent);
-    // overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   @Override
@@ -261,7 +260,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
   @Override
   public void onBackPressed() {
-    if (mIsSummaryPage) {
+    if (mShowSummary) {
       // Don't intercept "Back" on the summary page.
       super.onBackPressed();
       return;
@@ -321,7 +320,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(activity);
       mUnitNumber = sharedPrefs.getInt(KEY_UNIT_NUMBER, /* default */ 1);
       mLessonNumber = sharedPrefs.getInt(KEY_LESSON_NUMBER, /* default */ 1);
-      mIsSummaryPage = sharedPrefs.getBoolean(KEY_IS_SUMMARY_PAGE, /* default */ false);
+      mShowSummary = sharedPrefs.getBoolean(KEY_SHOW_SUMMARY, /* default */ false);
       mCorrectlyAnswered = sharedPrefs.getInt(KEY_CORRECTLY_ANSWERED, 0);
       mTotalQuestions = sharedPrefs.getInt(KEY_TOTAL_QUESTIONS, 0);
 
@@ -361,7 +360,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
           new ArrayList(Arrays.asList("{Qong:v}", "{Sop:v}", "{HIv:v}", "{legh:v}", "{yaj:v}"));
       // ArrayList choiceList2 = new ArrayList(Arrays.asList("{Doch:n}", "{taj:n}", "{vIqraq:n}"));
 
-      if (!mIsSummaryPage) {
+      if (!mShowSummary) {
         mLessonFragments =
             new LessonBuilder()
                 .startNewPage(R.string.topic_introduction, R.string.body_introduction)

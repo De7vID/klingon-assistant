@@ -65,7 +65,7 @@ public class LessonFragment extends EntryFragment {
   private static final String STATE_SELECTED_CHOICE = "selected_choice";
   private static final String STATE_ALREADY_ANSWERED = "already_answered";
   private static final String STATE_CLOSING_TEXT = "closing_text";
-  private static final String STATE_IS_SUMMARY = "is_summary";
+  private static final String STATE_IS_SUMMARY_PAGE = "is_summary_page";
   private static final String STATE_SPECIAL_SENTENCE = "special_sentence";
   private static final String STATE_CANNOT_CONTINUE = "cannot_continue";
 
@@ -137,7 +137,7 @@ public class LessonFragment extends EntryFragment {
       mSelectedChoice = savedInstanceState.getString(STATE_SELECTED_CHOICE);
       mAlreadyAnswered = savedInstanceState.getBoolean(STATE_ALREADY_ANSWERED);
       mClosingText = savedInstanceState.getString(STATE_CLOSING_TEXT);
-      mIsSummaryPage = savedInstanceState.getBoolean(STATE_IS_SUMMARY);
+      mIsSummaryPage = savedInstanceState.getBoolean(STATE_IS_SUMMARY_PAGE);
       mSpecialSentence = savedInstanceState.getString(STATE_SPECIAL_SENTENCE);
       mCannotContinue = savedInstanceState.getBoolean(STATE_CANNOT_CONTINUE);
     }
@@ -174,33 +174,37 @@ public class LessonFragment extends EntryFragment {
     }
 
     // If the "special sentence" exists, set up the buttons for it.
-    BottomNavigationView specialSentenceNavView =
-        (BottomNavigationView) rootView.findViewById(R.id.special_sentence_navigation);
-    Menu specialSentenceNavMenu = specialSentenceNavView.getMenu();
-    MenuItem searchButton = (MenuItem) specialSentenceNavMenu.findItem(R.id.action_search);
-    MenuItem shareButton = (MenuItem) specialSentenceNavMenu.findItem(R.id.action_share);
-    MenuItem speakButton = (MenuItem) specialSentenceNavMenu.findItem(R.id.action_speak);
-    // Work around the button selected bug.
-    shareButton.setChecked(false);
-    specialSentenceNavView.setOnNavigationItemSelectedListener(
-        new BottomNavigationView.OnNavigationItemSelectedListener() {
-          @Override
-          public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-              case R.id.action_search:
-                Intent intent = new Intent(getActivity(), KlingonAssistant.class);
-                intent.setAction(Intent.ACTION_SEARCH);
-                intent.putExtra(SearchManager.QUERY, mSpecialSentence);
-                getActivity().startActivity(intent);
-                break;
-              case R.id.action_share:
-                break;
-              case R.id.action_speak:
-                break;
+    if (mSpecialSentence != null) {
+      BottomNavigationView specialSentenceNavView =
+          (BottomNavigationView) rootView.findViewById(R.id.special_sentence_navigation);
+      specialSentenceNavView.setVisibility(View.VISIBLE);
+      Menu specialSentenceNavMenu = specialSentenceNavView.getMenu();
+      MenuItem searchButton = (MenuItem) specialSentenceNavMenu.findItem(R.id.action_search);
+      MenuItem shareButton = (MenuItem) specialSentenceNavMenu.findItem(R.id.action_share);
+      MenuItem speakButton = (MenuItem) specialSentenceNavMenu.findItem(R.id.action_speak);
+      // Work around the button selected bug.
+      shareButton.setChecked(false);
+      specialSentenceNavView.setOnNavigationItemSelectedListener(
+          new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+              switch (item.getItemId()) {
+                case R.id.action_search:
+                  // TODO: Fix this.
+                  Intent intent = new Intent(getActivity(), KlingonAssistant.class);
+                  intent.setAction(Intent.ACTION_SEARCH);
+                  intent.putExtra(SearchManager.QUERY, mSpecialSentence + ":v");
+                  getActivity().startActivity(intent);
+                  break;
+                case R.id.action_share:
+                  break;
+                case R.id.action_speak:
+                  break;
+              }
+              return false;
             }
-            return false;
-          }
-        });
+          });
+    }
 
     // Set up the "Continue" button.
     // TODO: Change button text depending on context.
@@ -488,7 +492,7 @@ public class LessonFragment extends EntryFragment {
     savedInstanceState.putString(STATE_SELECTED_CHOICE, mSelectedChoice);
     savedInstanceState.putBoolean(STATE_ALREADY_ANSWERED, mAlreadyAnswered);
     savedInstanceState.putString(STATE_CLOSING_TEXT, mClosingText);
-    savedInstanceState.putBoolean(STATE_IS_SUMMARY, mIsSummaryPage);
+    savedInstanceState.putBoolean(STATE_IS_SUMMARY_PAGE, mIsSummaryPage);
     savedInstanceState.putString(STATE_SPECIAL_SENTENCE, mSpecialSentence);
     savedInstanceState.putBoolean(STATE_CANNOT_CONTINUE, mCannotContinue);
   }
