@@ -106,10 +106,10 @@ public class LessonFragment extends EntryFragment {
   // Set to true if there are no more lessons after this page.
   private boolean mCannotContinue = false;
 
-  public static LessonFragment newInstance(String topic, String body) {
+  public static LessonFragment newInstance(String title, String body) {
     LessonFragment lessonFragment = new LessonFragment();
     Bundle args = new Bundle();
-    args.putString("topic", topic);
+    args.putString("title", title);
     args.putString("body", body);
     lessonFragment.setArguments(args);
     return lessonFragment;
@@ -140,7 +140,7 @@ public class LessonFragment extends EntryFragment {
     TextView lessonBody = (TextView) rootView.findViewById(R.id.lesson_body);
 
     lessonTitle.invalidate();
-    lessonTitle.setText(getArguments().getString("topic"));
+    lessonTitle.setText(getArguments().getString("title"));
 
     lessonBody.invalidate();
     if (!mIsSummaryPage) {
