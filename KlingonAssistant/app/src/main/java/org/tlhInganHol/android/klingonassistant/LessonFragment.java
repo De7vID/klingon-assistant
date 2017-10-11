@@ -46,8 +46,6 @@ public class LessonFragment extends EntryFragment {
 
     void scoreQuiz(boolean correctlyAnswered);
 
-    String getSummary();
-
     void redoThisLesson();
   }
 
@@ -143,16 +141,14 @@ public class LessonFragment extends EntryFragment {
     lessonTitle.setText(getArguments().getString("title"));
 
     lessonBody.invalidate();
-    if (!mIsSummaryPage) {
-      SpannableStringBuilder ssb =
-          new SpannableStringBuilder(Html.fromHtml(getArguments().getString("body")));
-      processMixedText(ssb, null);
-      // We don't call setMovementMethod on lessonBody, since we disable all
-      // entry links.
-      lessonBody.setText(ssb);
-    } else {
+    SpannableStringBuilder ssb =
+        new SpannableStringBuilder(Html.fromHtml(getArguments().getString("body")));
+    processMixedText(ssb, null);
+    // We don't call setMovementMethod on lessonBody, since we disable all
+    // entry links.
+    lessonBody.setText(ssb);
+    if (mIsSummaryPage) {
       // TODO: change buttons, etc.
-      lessonBody.setText(mCallback.getSummary());
       final Button redoButton = (Button) rootView.findViewById(R.id.action_redo);
       redoButton.setVisibility(View.VISIBLE);
       redoButton.setOnClickListener(

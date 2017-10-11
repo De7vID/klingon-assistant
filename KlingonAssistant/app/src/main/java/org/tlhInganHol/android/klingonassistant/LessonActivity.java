@@ -194,7 +194,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
   private void saveProgress() {
     SharedPreferences.Editor sharedPrefsEd =
-        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
+        PreferenceManager.getDefaultSharedPreferences(this).edit();
     sharedPrefsEd.putInt(KEY_UNIT_NUMBER, mUnitNumber);
     sharedPrefsEd.putInt(KEY_LESSON_NUMBER, mLessonNumber);
     sharedPrefsEd.putBoolean(KEY_IS_SUMMARY_PAGE, mIsSummaryPage);
@@ -240,16 +240,15 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     // Log.d(TAG, "getSummary(): " + getSummary());
   }
 
-  @Override
-  public String getSummary() {
-    return mSelectedChoices.size()
-        + " - "
-        + mSelectedChoices.toString()
-        + " ; "
-        + mCorrectlyAnswered
-        + "/"
-        + mTotalQuestions;
-  }
+  // private String getSummary() {
+  //   return mSelectedChoices.size()
+  //       + " - "
+  //       + mSelectedChoices.toString()
+  //       + " ; "
+  //       + mCorrectlyAnswered
+  //       + "/"
+  //       + mTotalQuestions;
+  // }
 
   @Override
   public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -320,7 +319,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
     private void restoreProgress(LessonActivity activity) {
       SharedPreferences sharedPrefs =
-          PreferenceManager.getDefaultSharedPreferences(activity.getBaseContext());
+          PreferenceManager.getDefaultSharedPreferences(activity);
       mUnitNumber = sharedPrefs.getInt(KEY_UNIT_NUMBER, /* default */ 1);
       mLessonNumber = sharedPrefs.getInt(KEY_LESSON_NUMBER, /* default */ 1);
       mIsSummaryPage = sharedPrefs.getBoolean(KEY_IS_SUMMARY_PAGE, /* default */ false);
@@ -344,8 +343,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
     // Helper method to get the header for the toolbar.
     private String getHeader(int unit, int lesson) {
-      return String.format(
-          getBaseContext().getResources().getString(R.string.lesson_header), unit, lesson);
+      return String.format(getResources().getString(R.string.lesson_header), unit, lesson);
     }
 
     @Override
@@ -361,18 +359,10 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     // The layout of all the lessons are defined below.
     private void Unit_1_Lesson_1() {
       ArrayList someVerbs =
-          new ArrayList(Arrays.asList("{Qong:v}", "{Sop:v}", "{Suv:v}", "{legh:v}", "{qIp:v}"));
-      ArrayList choiceList2 = new ArrayList(Arrays.asList("{Doch:n}", "{taj:n}", "{vIqraq:n}"));
+          new ArrayList(Arrays.asList("{Qong:v}", "{Sop:v}", "{HIv:v}", "{legh:v}", "{yaj:v}"));
+      // ArrayList choiceList2 = new ArrayList(Arrays.asList("{Doch:n}", "{taj:n}", "{vIqraq:n}"));
 
-      if (mIsSummaryPage) {
-        mLessonFragments = new ArrayList<LessonFragment>();
-        LessonFragment summaryFragment = LessonFragment.newInstance("Summary", "summary");
-        summaryFragment.setAsSummaryPage();
-        summaryFragment.setNoMoreLessons();
-        mLessonFragments.add(summaryFragment);
-        // TODO: Show progress tree for lesson 2 onwards.
-      } else {
-
+      if (!mIsSummaryPage) {
         mLessonFragments =
             new LessonBuilder()
                 .startNewPage(R.string.topic_introduction, R.string.body_introduction)
@@ -399,6 +389,24 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
                 // .addQuiz(choiceList2, LessonFragment.ChoiceTextType.DEFINITION_ONLY)
                 // .addClosingText(R.string.body_basic_sentence2)
                 .build();
+      } else {
+        mLessonFragments = new ArrayList<LessonFragment>();
+        String verb = mSelectedChoices.get(0);
+        String[] translations = getResources().getStringArray(R.array.translation_your_first_sentence);
+        String translation = translations[0];
+        for (int i = 1; i < translations.length; i++) {
+          if (verb.equals(someVerbs.get(i))) {
+            translation = translations[i];
+          }
+        }
+        String summaryString = getString(R.string.body_your_first_sentence, new Object[] {verb.replace(":v", ":sen"), translation});
+
+        LessonFragment summaryFragment = LessonFragment.newInstance(
+            getString(R.string.topic_your_first_sentence), summaryString);
+        summaryFragment.setAsSummaryPage();
+        summaryFragment.setNoMoreLessons();
+        mLessonFragments.add(summaryFragment);
+        // TODO: Show progress tree for lesson 2 onwards.
       }
     }
   }
