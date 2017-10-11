@@ -159,19 +159,6 @@ public class LessonFragment extends EntryFragment {
     // We don't call setMovementMethod on lessonBodyTop, since we disable all
     // entry links.
     lessonBodyTop.setText(ssb);
-    if (mIsSummaryPage) {
-      // TODO: change buttons, etc.
-      final Button redoButton = (Button) rootView.findViewById(R.id.action_redo);
-      redoButton.setVisibility(View.VISIBLE);
-      redoButton.setOnClickListener(
-          new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-              redoButton.setEnabled(false);
-              mCallback.redoThisLesson();
-            }
-          });
-    }
 
     // If the "special sentence" exists, set up the buttons for it.
     if (mSpecialSentence != null) {
@@ -190,10 +177,9 @@ public class LessonFragment extends EntryFragment {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
               switch (item.getItemId()) {
                 case R.id.action_search:
-                  // TODO: Fix this.
                   Intent intent = new Intent(getActivity(), KlingonAssistant.class);
                   intent.setAction(Intent.ACTION_SEARCH);
-                  intent.putExtra(SearchManager.QUERY, mSpecialSentence + ":v");
+                  intent.putExtra(SearchManager.QUERY, mSpecialSentence);
                   getActivity().startActivity(intent);
                   break;
                 case R.id.action_share:
@@ -206,30 +192,14 @@ public class LessonFragment extends EntryFragment {
           });
     }
 
-    // Set up the "Continue" button.
-    // TODO: Change button text depending on context.
-    final Button continueButton = (Button) rootView.findViewById(R.id.action_continue);
-    if (mCannotContinue) {
-      continueButton.setEnabled(false);
-    } else {
-      continueButton.setOnClickListener(
-          new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-              continueButton.setEnabled(false);
-              mCallback.goToNextPage();
-            }
-          });
-    }
-    if (mIsSummaryPage) {
-      continueButton.setText(getActivity().getString(R.string.button_next_lesson));
-    }
-
     // Set up possible additional views.
     setupChoicesGroup(rootView);
 
     // Put additional text after other sections.
     setupClosingText(rootView);
+
+    // Set up the "Continue" button (and possible also the "Redo" button).
+    setupContinueButton(rootView);
 
     return rootView;
   }
@@ -432,6 +402,35 @@ public class LessonFragment extends EntryFragment {
       // We don't call setMovementMethod on lessonBodyBottom, since we disable all
       // entry links.
       lessonBodyBottom.setText(closingText);
+    }
+  }
+
+  private void setupContinueButton(View rootView) {
+    final Button continueButton = (Button) rootView.findViewById(R.id.action_continue);
+    if (mCannotContinue) {
+      continueButton.setEnabled(false);
+    } else {
+      continueButton.setOnClickListener(
+          new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              continueButton.setEnabled(false);
+              mCallback.goToNextPage();
+            }
+          });
+    }
+    if (mIsSummaryPage) {
+      continueButton.setText(getActivity().getString(R.string.button_next_lesson));
+      final Button redoButton = (Button) rootView.findViewById(R.id.action_redo);
+      redoButton.setVisibility(View.VISIBLE);
+      redoButton.setOnClickListener(
+          new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              redoButton.setEnabled(false);
+              mCallback.redoThisLesson();
+            }
+          });
     }
   }
 
