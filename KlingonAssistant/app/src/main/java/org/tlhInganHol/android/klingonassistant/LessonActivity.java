@@ -77,7 +77,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
     setContentView(R.layout.activity_lesson);
 
-    // Set some space between the icon and title text.
+    // Set some space between the icon and header text.
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
@@ -100,10 +100,10 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     }
   }
 
-  private void setTitle(String title) {
-    // Add some spaces in front of the title to work around the difficulty of
-    // setting the title margin start with the support toolbar.
-    getSupportActionBar().setTitle("    " + title);
+  private void setHeader(String header) {
+    // Add some spaces in front of the header to work around the difficulty of
+    // setting the header margin start with the support toolbar.
+    getSupportActionBar().setTitle("    " + header);
   }
 
   // A helper class to build a lesson.
@@ -304,8 +304,8 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       restoreProgress(activity);
 
       // TODO: Switch on unit and lesson numbers here.
-      String title = getTitle(1, 1);
-      activity.setTitle(title);
+      String header = getHeader(1, 1);
+      activity.setHeader(header);
 
       switch (mUnitNumber) {
         case 1:
@@ -348,7 +348,8 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       }
     }
 
-    private String getTitle(int unit, int lesson) {
+    // Helper method to get the header for the toolbar.
+    private String getHeader(int unit, int lesson) {
       return String.format(
           getBaseContext().getResources().getString(R.string.lesson_header), unit, lesson);
     }
