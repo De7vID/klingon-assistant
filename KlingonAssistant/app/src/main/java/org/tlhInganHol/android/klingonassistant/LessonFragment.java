@@ -160,43 +160,14 @@ public class LessonFragment extends EntryFragment {
     // entry links.
     lessonBodyTop.setText(ssb);
 
-    // If the "special sentence" exists, set up the buttons for it.
-    if (mSpecialSentence != null) {
-      BottomNavigationView specialSentenceNavView =
-          (BottomNavigationView) rootView.findViewById(R.id.special_sentence_navigation);
-      specialSentenceNavView.setVisibility(View.VISIBLE);
-      Menu specialSentenceNavMenu = specialSentenceNavView.getMenu();
-      MenuItem searchButton = (MenuItem) specialSentenceNavMenu.findItem(R.id.action_search);
-      MenuItem shareButton = (MenuItem) specialSentenceNavMenu.findItem(R.id.action_share);
-      MenuItem speakButton = (MenuItem) specialSentenceNavMenu.findItem(R.id.action_speak);
-      // Work around the button selected bug.
-      shareButton.setChecked(false);
-      specialSentenceNavView.setOnNavigationItemSelectedListener(
-          new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-              switch (item.getItemId()) {
-                case R.id.action_search:
-                  Intent intent = new Intent(getActivity(), KlingonAssistant.class);
-                  intent.setAction(Intent.ACTION_SEARCH);
-                  intent.putExtra(SearchManager.QUERY, mSpecialSentence);
-                  getActivity().startActivity(intent);
-                  break;
-                case R.id.action_share:
-                  break;
-                case R.id.action_speak:
-                  break;
-              }
-              return false;
-            }
-          });
-    }
-
     // Set up possible additional views.
     setupChoicesGroup(rootView);
 
     // Put additional text after other sections.
     setupClosingText(rootView);
+
+    // If the "special sentence" exists, set up the buttons for it.
+    setupSpecialSentenceButtons(rootView);
 
     // Set up the "Continue" button (and possible also the "Redo" button).
     setupContinueButton(rootView);
@@ -402,6 +373,49 @@ public class LessonFragment extends EntryFragment {
       // We don't call setMovementMethod on lessonBodyBottom, since we disable all
       // entry links.
       lessonBodyBottom.setText(closingText);
+    }
+  }
+
+  private void setupSpecialSentenceButtons(View rootView) {
+    if (mSpecialSentence != null) {
+      BottomNavigationView specialSentenceNavView =
+          (BottomNavigationView) rootView.findViewById(R.id.special_sentence_navigation);
+      specialSentenceNavView.setVisibility(View.VISIBLE);
+      Menu specialSentenceNavMenu = specialSentenceNavView.getMenu();
+      MenuItem searchButton = (MenuItem) specialSentenceNavMenu.findItem(R.id.action_search);
+      MenuItem shareButton = (MenuItem) specialSentenceNavMenu.findItem(R.id.action_share);
+      MenuItem speakButton = (MenuItem) specialSentenceNavMenu.findItem(R.id.action_speak);
+      // Work around the button selected bug.
+      shareButton.setChecked(false);
+      specialSentenceNavView.setOnNavigationItemSelectedListener(
+          new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+              Intent intent;
+              switch (item.getItemId()) {
+                case R.id.action_search:
+                  intent = new Intent(getActivity(), KlingonAssistant.class);
+                  intent.setAction(Intent.ACTION_SEARCH);
+                  intent.putExtra(SearchManager.QUERY, mSpecialSentence);
+                  getActivity().startActivity(intent);
+                  break;
+                case R.id.action_share:
+                  intent = new Intent(Intent.ACTION_SEND);
+                  intent.putExtra(
+                      Intent.EXTRA_TITLE, getResources().getString(R.string.share_popup_title));
+                  intent.setType("text/plain");
+                  String subject = "{" + mSpecialSentence + "}";
+                  intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+                  intent.putExtra(
+                      Intent.EXTRA_TEXT, subject + "\n\n" + getResources().getString(R.string.shared_from));
+                  getActivity().startActivity(intent);
+                  break;
+                case R.id.action_speak:
+                  break;
+              }
+              return false;
+            }
+          });
     }
   }
 
