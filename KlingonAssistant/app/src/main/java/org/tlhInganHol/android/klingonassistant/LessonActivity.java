@@ -396,13 +396,15 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
             translation = translations[i];
           }
         }
-        // Strip "{" from front and ":v}" from end, then add period.
-        String specialSentence = verb.substring(1, verb.length() - 3) + ".";
-        String summaryBody = getString(R.string.body_your_first_sentence, new Object[] {"{" + specialSentence + ":sen}", translation});
+        // Strip "{" from front and ":v}" from end.
+        String specialSentence = verb.substring(1, verb.length() - 3);
+        String summaryBody =
+            getString(
+                R.string.body_your_first_sentence,
+                new Object[] {"{" + specialSentence + ".:sen}", translation});
 
         LessonFragment summaryFragment =
-            LessonFragment.newInstance(
-                getString(R.string.topic_your_first_sentence), summaryBody);
+            LessonFragment.newInstance(getString(R.string.topic_your_first_sentence), summaryBody);
         summaryFragment.setAsSummaryPage();
         summaryFragment.setSpecialSentence(specialSentence);
         summaryFragment.setCannotContinue();
