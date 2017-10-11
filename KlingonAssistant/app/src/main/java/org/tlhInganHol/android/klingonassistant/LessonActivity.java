@@ -29,7 +29,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -116,8 +115,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
     // Start a new page which only has lesson text.
     public LessonBuilder startNewPage(int topicResId, int bodyResId) {
-      mLessonFragments.add(
-          LessonFragment.newInstance(getString(topicResId), getString(bodyResId)));
+      mLessonFragments.add(LessonFragment.newInstance(getString(topicResId), getString(bodyResId)));
       return this;
     }
 
@@ -313,11 +311,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
           switch (mLessonNumber) {
             case 1:
             default:
-              if (!mIsSummaryPage) {
-                Unit_1_Lesson_1();
-              } else {
-                Unit_1_Lesson_1_Summary();
-              }
+              Unit_1_Lesson_1();
               break;
           }
           break;
@@ -366,50 +360,46 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
     // The layout of all the lessons are defined below.
     private void Unit_1_Lesson_1() {
-      ArrayList choiceList1 = new ArrayList(Arrays.asList("{Qong:v}", "{Sop:v}", "{Suv:v}"));
+      ArrayList someVerbs =
+          new ArrayList(Arrays.asList("{Qong:v}", "{Sop:v}", "{Suv:v}", "{legh:v}", "{qIp:v}"));
       ArrayList choiceList2 = new ArrayList(Arrays.asList("{Doch:n}", "{taj:n}", "{vIqraq:n}"));
-      mLessonFragments =
-          new LessonBuilder()
-              // intro
-              .startNewPage(R.string.topic_introduction, R.string.body_introduction)
 
-              // plain list
-              .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
-              .addPlainList(choiceList1)
-              .addClosingText(R.string.body_basic_sentence2)
+      if (mIsSummaryPage) {
+        mLessonFragments = new ArrayList<LessonFragment>();
+        LessonFragment summaryFragment = LessonFragment.newInstance("Summary", "summary");
+        summaryFragment.setAsSummaryPage();
+        summaryFragment.setNoMoreLessons();
+        mLessonFragments.add(summaryFragment);
+        // TODO: Show progress tree for lesson 2 onwards.
+      } else {
 
-              // choice
-              .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
-              .addMultipleChoiceSelection(choiceList1)
-              .addClosingText(R.string.body_basic_sentence2)
+        mLessonFragments =
+            new LessonBuilder()
+                .startNewPage(R.string.topic_introduction, R.string.body_introduction)
 
-              // quiz
-              .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
-              .addQuiz(choiceList1, LessonFragment.ChoiceTextType.ENTRY_NAME_ONLY)
-              .addClosingText(R.string.body_basic_sentence2)
+                .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence_1)
+                .addPlainList(someVerbs)
+                .addClosingText(R.string.body_basic_sentence_2)
 
-              // choice
-              .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
-              .addMultipleChoiceSelection(choiceList2)
-              .addClosingText(R.string.body_basic_sentence2)
+                .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence_3)
+                .addMultipleChoiceSelection(someVerbs)
 
-              // quiz
-              .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence)
-              .addQuiz(choiceList2, LessonFragment.ChoiceTextType.DEFINITION_ONLY)
-              .addClosingText(R.string.body_basic_sentence2)
-              .build();
+                // // quiz
+                // .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence1)
+                // .addQuiz(someVerbs, LessonFragment.ChoiceTextType.ENTRY_NAME_ONLY)
+                // .addClosingText(R.string.body_basic_sentence2)
+
+                // // choice
+                // .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence1)
+                // .addMultipleChoiceSelection(choiceList2)
+                // .addClosingText(R.string.body_basic_sentence2)
+
+                // // quiz
+                // .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence1)
+                // .addQuiz(choiceList2, LessonFragment.ChoiceTextType.DEFINITION_ONLY)
+                // .addClosingText(R.string.body_basic_sentence2)
+                .build();
+      }
     }
-
-    private void Unit_1_Lesson_1_Summary() {
-      // Fake summary.
-      mLessonFragments = new ArrayList<LessonFragment>();
-      LessonFragment summaryFragment = LessonFragment.newInstance("Summary", "summary");
-      summaryFragment.setAsSummaryPage();
-      summaryFragment.setNoMoreLessons();
-      mLessonFragments.add(summaryFragment);
-      return;
-    }
-
-    // TODO: Show progress tree for lesson 2 onwards.
   }
 }

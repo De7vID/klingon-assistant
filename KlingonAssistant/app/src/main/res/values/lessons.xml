@@ -22,6 +22,7 @@
 
   <string name="lesson_header">Unit %1$d, Lesson %2$d</string>
 
+  <!-- Unit 1, Lesson 1 -->
   <string name="topic_introduction">Welcome!</string>
   <string name="body_introduction"><![CDATA[This course is an introduction to the Klingon language created by Dr. Marc Okrand for {Star Trek:src} and used in the films and TV series, most recently {Discovery:src}. It is assumed that you are in possession of {The Klingon Dictionary:src}, preferably the 1992 edition which includes an Addendum. In addition to most of the known vocabulary, this book also contains a largely complete description of the grammar. If you don\'t have it, go and purchase it now!<br/>
 <br/>
@@ -32,7 +33,10 @@ The {Star Trek:src} films which have a fair amount of spoken Klingon are {Star T
 Click \"Continue\" when you are ready to begin.]]></string>
 
   <string name="topic_basic_sentence">The Basic Sentence</string>
-  <string name="body_basic_sentence"><![CDATA[The basic Klingon sentence has only a <i>verb</i>...]]></string>
-  <string name="body_basic_sentence2">Some additional text.</string>
+  <string name="body_basic_sentence_1"><![CDATA[Klingon culture is a direct one, so let\'s get right down to business.<br/>
+<br/>
+The most basic Klingon sentence consists of just the verb. Here are some Klingon verbs:]]></string>
+  <string name="body_basic_sentence_2"><![CDATA[A verb by itself means that he is, she is, it is, or they are performing the action described by that verb. For example, {Qong:sen} means \"he/she/it sleeps\" or \"they sleep\".]]></string>
+  <string name="body_basic_sentence_3"><![CDATA[Now you try it. Pick a verb:]]></string>
 
 </resources>
