@@ -144,8 +144,8 @@ public class LessonFragment extends EntryFragment {
 
     lessonBody.invalidate();
     if (!mIsSummaryPage) {
-      SpannableStringBuilder ssb = new SpannableStringBuilder(
-          Html.fromHtml(getArguments().getString("body")));
+      SpannableStringBuilder ssb =
+          new SpannableStringBuilder(Html.fromHtml(getArguments().getString("body")));
       processMixedText(ssb, null);
       // We don't call setMovementMethod on lessonBody, since we disable all
       // entry links.
