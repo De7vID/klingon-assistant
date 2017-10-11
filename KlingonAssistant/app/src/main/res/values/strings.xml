@@ -37,10 +37,10 @@
     <string name="menu_search">Search</string>
 
     <!-- The "Speak" button. -->
-    <string name="menu_speak">Speak this entry</string>
+    <string name="menu_speak">Speak</string>
 
     <!-- The "Share" button, popup menu, and "shared from" string. -->
-    <string name="menu_share">Share this entry</string>
+    <string name="menu_share">Share</string>
     <string name="share_popup_title">Share using...</string>
     <string name="shared_from">Shared from {boQwI\'}.</string>
 
