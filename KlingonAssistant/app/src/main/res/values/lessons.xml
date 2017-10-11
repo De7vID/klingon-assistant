@@ -22,10 +22,14 @@
 
   <string name="lesson_header">Unit %1$d, Lesson %2$d</string>
 
-  <string name="topic_introduction">Under construction</string>
-  <string name="body_introduction">This is a test.\n
-\nThis is a {verb:v:nolink}. This is a {noun:n:nolink}. This is a reference to {The Klingon Dictionary:src}.\n
-\nTo continue, press the "next" button below.</string>
+  <string name="topic_introduction">Welcome!</string>
+  <string name="body_introduction"><![CDATA[This course is an introduction to the Klingon language created by Dr. Marc Okrand for {Star Trek:src} and used in the films and TV series, most recently {Discovery:src}. It is assumed that you are in possession of {The Klingon Dictionary:src}, preferably the 1992 edition which includes an Addendum. In addition to most of the known vocabulary, this book also contains a largely complete description of the grammar. If you don\'t have it, go and purchase it now!<br/>
+<br/>
+Other works by Dr. Okrand, such as {The Klingon Way:src} and {Klingon for the Galactic Traveler:src}, are also highly recommended. If you want to hear the sounds of spoken Klingon, the audiotapes {Conversational Klingon:src} and {Power Klingon:src} are essential. For more advanced students, additional clarifications on grammar and more vocabulary may be found in {HolQeD:src}, the journal of the Klingon Language Institute. The KLI also maintains a list of vocabulary revealed or expanded upon after the publication of {KGT:src}.<br/>
+<br/>
+The {Star Trek:src} films which have a fair amount of spoken Klingon are {Star Trek III:src}, {Star Trek V:src}, and {Star Trek VI:src}. The series {Discovery:src} also has a large amount of spoken Klingon dialogue. (Dr. Okrand did not work on {Discovery:src}, but its dialogue was translated by expert speakers Robyn Stewart and Alan Anderson. Klingon subtitles for the show were written by Klingon teacher Lieven Litaer.)<br/>
+<br/>
+Click \"Continue\" when you are ready to begin.]]></string>
 
   <string name="topic_basic_sentence">The Basic Sentence</string>
   <string name="body_basic_sentence"><![CDATA[The basic Klingon sentence has only a <i>verb</i>...]]></string>
