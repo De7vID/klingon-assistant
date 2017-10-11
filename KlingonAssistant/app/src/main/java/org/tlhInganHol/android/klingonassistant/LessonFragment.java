@@ -16,17 +16,23 @@
 package org.tlhInganHol.android.klingonassistant;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -60,6 +66,7 @@ public class LessonFragment extends EntryFragment {
   private static final String STATE_ALREADY_ANSWERED = "already_answered";
   private static final String STATE_CLOSING_TEXT = "closing_text";
   private static final String STATE_IS_SUMMARY = "is_summary";
+  private static final String STATE_SPECIAL_SENTENCE = "special_sentence";
   private static final String STATE_CANNOT_CONTINUE = "cannot_continue";
 
   // Choices section.
@@ -101,6 +108,10 @@ public class LessonFragment extends EntryFragment {
   // For the summary page.
   private boolean mIsSummaryPage = false;
 
+  // The "special sentence" is a sentence on the summary page which can be searched, shared, or
+  // spoken.
+  private String mSpecialSentence = null;
+
   // Set to true if there are no more lessons after this page.
   private boolean mCannotContinue = false;
 
@@ -127,6 +138,7 @@ public class LessonFragment extends EntryFragment {
       mAlreadyAnswered = savedInstanceState.getBoolean(STATE_ALREADY_ANSWERED);
       mClosingText = savedInstanceState.getString(STATE_CLOSING_TEXT);
       mIsSummaryPage = savedInstanceState.getBoolean(STATE_IS_SUMMARY);
+      mSpecialSentence = savedInstanceState.getString(STATE_SPECIAL_SENTENCE);
       mCannotContinue = savedInstanceState.getBoolean(STATE_CANNOT_CONTINUE);
     }
 
@@ -160,6 +172,35 @@ public class LessonFragment extends EntryFragment {
             }
           });
     }
+
+    // If the "special sentence" exists, set up the buttons for it.
+    BottomNavigationView specialSentenceNavView =
+        (BottomNavigationView) rootView.findViewById(R.id.special_sentence_navigation);
+    Menu specialSentenceNavMenu = specialSentenceNavView.getMenu();
+    MenuItem searchButton = (MenuItem) specialSentenceNavMenu.findItem(R.id.action_search);
+    MenuItem shareButton = (MenuItem) specialSentenceNavMenu.findItem(R.id.action_share);
+    MenuItem speakButton = (MenuItem) specialSentenceNavMenu.findItem(R.id.action_speak);
+    // Work around the button selected bug.
+    shareButton.setChecked(false);
+    specialSentenceNavView.setOnNavigationItemSelectedListener(
+        new BottomNavigationView.OnNavigationItemSelectedListener() {
+          @Override
+          public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+              case R.id.action_search:
+                Intent intent = new Intent(getActivity(), KlingonAssistant.class);
+                intent.setAction(Intent.ACTION_SEARCH);
+                intent.putExtra(SearchManager.QUERY, mSpecialSentence);
+                getActivity().startActivity(intent);
+                break;
+              case R.id.action_share:
+                break;
+              case R.id.action_speak:
+                break;
+            }
+            return false;
+          }
+        });
 
     // Set up the "Continue" button.
     // TODO: Change button text depending on context.
@@ -425,8 +466,14 @@ public class LessonFragment extends EntryFragment {
     mIsSummaryPage = true;
   }
 
+  // This is called to set the "special sentence" on a summary page, which can
+  // be searched, shared, or spoken.
+  public void setSpecialSentence(String specialSentence) {
+    mSpecialSentence = specialSentence;
+  }
+
   // This is called on the very last lesson to disable the "Continue" button.
-  public void setNoMoreLessons() {
+  public void setCannotContinue() {
     mCannotContinue = true;
   }
 
@@ -442,6 +489,7 @@ public class LessonFragment extends EntryFragment {
     savedInstanceState.putBoolean(STATE_ALREADY_ANSWERED, mAlreadyAnswered);
     savedInstanceState.putString(STATE_CLOSING_TEXT, mClosingText);
     savedInstanceState.putBoolean(STATE_IS_SUMMARY, mIsSummaryPage);
+    savedInstanceState.putString(STATE_SPECIAL_SENTENCE, mSpecialSentence);
     savedInstanceState.putBoolean(STATE_CANNOT_CONTINUE, mCannotContinue);
   }
 }

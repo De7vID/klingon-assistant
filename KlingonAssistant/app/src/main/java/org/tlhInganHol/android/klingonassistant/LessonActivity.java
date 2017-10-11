@@ -318,8 +318,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     }
 
     private void restoreProgress(LessonActivity activity) {
-      SharedPreferences sharedPrefs =
-          PreferenceManager.getDefaultSharedPreferences(activity);
+      SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(activity);
       mUnitNumber = sharedPrefs.getInt(KEY_UNIT_NUMBER, /* default */ 1);
       mLessonNumber = sharedPrefs.getInt(KEY_LESSON_NUMBER, /* default */ 1);
       mIsSummaryPage = sharedPrefs.getBoolean(KEY_IS_SUMMARY_PAGE, /* default */ false);
@@ -366,11 +365,9 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
         mLessonFragments =
             new LessonBuilder()
                 .startNewPage(R.string.topic_introduction, R.string.body_introduction)
-
                 .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence_1)
                 .addPlainList(someVerbs)
                 .addClosingText(R.string.body_basic_sentence_2)
-
                 .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence_3)
                 .addMultipleChoiceSelection(someVerbs)
 
@@ -392,19 +389,24 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       } else {
         mLessonFragments = new ArrayList<LessonFragment>();
         String verb = mSelectedChoices.get(0);
-        String[] translations = getResources().getStringArray(R.array.translation_your_first_sentence);
+        String[] translations =
+            getResources().getStringArray(R.array.translation_your_first_sentence);
         String translation = translations[0];
         for (int i = 1; i < translations.length; i++) {
           if (verb.equals(someVerbs.get(i))) {
             translation = translations[i];
           }
         }
-        String summaryString = getString(R.string.body_your_first_sentence, new Object[] {verb.replace(":v", ":sen"), translation});
+        String sentence = verb.replace(":v", ":sen");
+        String summaryString =
+            getString(R.string.body_your_first_sentence, new Object[] {sentence, translation});
 
-        LessonFragment summaryFragment = LessonFragment.newInstance(
-            getString(R.string.topic_your_first_sentence), summaryString);
+        LessonFragment summaryFragment =
+            LessonFragment.newInstance(
+                getString(R.string.topic_your_first_sentence), summaryString);
         summaryFragment.setAsSummaryPage();
-        summaryFragment.setNoMoreLessons();
+        summaryFragment.setSpecialSentence(sentence.substring(1, sentence.length() - 1));
+        summaryFragment.setCannotContinue();
         mLessonFragments.add(summaryFragment);
         // TODO: Show progress tree for lesson 2 onwards.
       }
