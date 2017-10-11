@@ -45,7 +45,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
             <TextView
-                    android:id="@+id/lesson_body"
+                    android:id="@+id/lesson_body_top"
                     android:textSize="18sp"
                     android:textColor="?android:textColorSecondary"
                     android:typeface="sans"
@@ -54,6 +54,18 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textIsSelectable="false" />
+            <!-- TODO: Reading and listening section. -->
+            <TextView
+                    android:id="@+id/lesson_body_middle"
+                    android:textSize="18sp"
+                    android:textColor="?android:textColorSecondary"
+                    android:typeface="sans"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textIsSelectable="false"
+                    android:visibility="gone" />
             <!-- For choosing among several options or multiple-choice quizzes. -->
             <RadioGroup
                     android:id="@+id/choices"
@@ -61,10 +73,20 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone" />
-            <!-- For text following other elements, but before the bottom buttons.
+            <TextView
+                    android:id="@+id/lesson_body_bottom"
+                    android:textSize="18sp"
+                    android:textColor="?android:textColorSecondary"
+                    android:typeface="sans"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textIsSelectable="false"
+                    android:visibility="gone" />
+            <!-- Extra TextView to pad the bottom of the viewport.
                  Set layout weight to 1 so it takes up the rest of the viewport. -->
             <TextView
-                    android:id="@+id/lesson_body2"
                     android:textSize="18sp"
                     android:textColor="?android:textColorSecondary"
                     android:typeface="sans"
