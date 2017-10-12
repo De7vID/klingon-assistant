@@ -1,5 +1,6 @@
 CHANGELOG
 
+2017-10-12: Add more lesson functionality.
 2017-10-10: Fix for multi-user database issue (#385) on devices with API 19+.
 2017-10-09: Add more lesson functionality.
 2017-10-05: Add lesson activity (hidden under preferences).
