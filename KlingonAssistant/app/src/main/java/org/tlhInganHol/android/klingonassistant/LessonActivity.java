@@ -20,6 +20,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -33,6 +34,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.LinearLayout;
+import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -134,9 +136,14 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     }
 
     // Start a new page which only has lesson text.
-    public LessonBuilder startNewPage(int topicResId, int bodyResId) {
-      mLessonFragments.add(LessonFragment.newInstance(getString(topicResId), getString(bodyResId)));
+    public LessonBuilder startNewPage(int topicResId, String bodyText) {
+      mLessonFragments.add(LessonFragment.newInstance(getString(topicResId), bodyText));
       return this;
+    }
+
+    // Ditto, but body text comes directly from resource.
+    public LessonBuilder startNewPage(int topicResId, int bodyResId) {
+      return startNewPage(topicResId, getString(bodyResId));
     }
 
     // Helper to get the lesson currently being built.
@@ -160,16 +167,16 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     }
 
     // Add a page which allows the user to select from multiple choices.
-    public LessonBuilder addMultipleChoiceSelection(ArrayList<String> entries) {
-      getCurrentLesson().addMultipleChoiceSelection(entries);
+    public LessonBuilder addSelection(ArrayList<String> entries) {
+      getCurrentLesson().addSelection(entries);
       return this;
     }
 
     // Add a quiz.
     public LessonBuilder addQuiz(
-        ArrayList<String> entries, LessonFragment.ChoiceTextType choiceTextType) {
+        ArrayList<String> entries, String correctAnswer, LessonFragment.ChoiceTextType choiceTextType) {
       // TODO: Allow "none/all of the above" options.
-      getCurrentLesson().addQuiz(entries, choiceTextType);
+      getCurrentLesson().addQuiz(entries, correctAnswer, choiceTextType);
       return this;
     }
 
@@ -261,8 +268,14 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     if (currentItem != mPagerAdapter.getCount() - 1) {
       // Go to the next page of the current lesson.
       mPager.setCurrentItem(currentItem + 1);
+    } else if (mShowSummary) {
+      // We are on a summary page, so go to next section.
+      mShowSummary = false;
+      mSectionNumber++;
+      saveProgress();
+      reloadLessonActivity();
     } else {
-      // Going to the next page from the last page of a lesson results in going
+      // Going to the next page from the last page of a section results in going
       // to the summary page. The summary page cannot be in the same ViewPager
       // as the lesson itself, since the ViewPager pre-loads fragments. This
       // means that the summary page will not have access to results of the
@@ -329,6 +342,27 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     }
     // Log.d(TAG, "scoreQuiz: " + correctlyAnswered);
     // Log.d(TAG, "getSummary(): " + getSummary());
+  }
+
+  // Given an entry name such as "Qong:v", return its definition, e.g., "sleep".
+  protected String getDefinition(String entryName) {
+    Cursor cursor =
+            managedQuery(
+                Uri.parse(KlingonContentProvider.CONTENT_URI + "/lookup"),
+                null /* all columns */,
+                null,
+                new String[] {entryName},
+                null);
+    // Assume cursor.getCount() == 1.
+    KlingonContentProvider.Entry entry =
+        new KlingonContentProvider.Entry(cursor, this);
+    String definition;
+    if (!entry.shouldDisplayGermanDefinition()) {
+      definition = entry.getDefinition();
+    } else {
+      definition = entry.getDefinition_DE();
+    }
+    return definition;
   }
 
   // private String getSummary() {
@@ -398,7 +432,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       switch (mUnitNumber) {
         case 1:
         default:
-          Unit_1(mLessonNumber, mSectionNumber);
+          Unit_1();
           break;
       }
     }
@@ -443,20 +477,23 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     }
 
     // The layout of all the lessons are defined below.
-    private void Unit_1(int lesson, int section) {
-      switch (lesson) {
+    private void Unit_1() {
+      switch (mLessonNumber) {
         case 1:
         default:
-          Unit_1_Lesson_1(section);
+          Unit_1_Lesson_1();
           break;
       }
     }
 
-    private void Unit_1_Lesson_1(int section) {
-      switch (section) {
+    private void Unit_1_Lesson_1() {
+      switch (mSectionNumber) {
         case 1:
         default:
           Unit_1_Lesson_1_1();
+          break;
+        case 2:
+          Unit_1_Lesson_1_2();
           break;
       }
     }
@@ -464,34 +501,24 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     // Unit 1, Lesson 1.1
     // The Basic Sentence
     private void Unit_1_Lesson_1_1() {
-      ArrayList someVerbs =
-          new ArrayList(Arrays.asList("{Qong:v}", "{Sop:v}", "{HIv:v}", "{legh:v}", "{yaj:v}"));
-      // ArrayList choiceList2 = new ArrayList(Arrays.asList("{Doch:n}", "{taj:n}", "{vIqraq:n}"));
+      ArrayList<String> someVerbs =
+          new ArrayList<String>(Arrays.asList("{Qong:v}", "{Sop:v}", "{HIv:v}", "{legh:v}", "{yaj:v}"));
 
       if (!mShowSummary) {
         mLessonFragments =
             new LessonBuilder()
+                // Intro page.
                 .startNewPage(R.string.topic_introduction, R.string.body_introduction)
+
+                // Show user the verbs.
                 .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence_1)
                 .addPlainList(someVerbs)
                 .addClosingText(R.string.body_basic_sentence_2)
+
+                // Ask user to choose one.
                 .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence_3)
-                .addMultipleChoiceSelection(someVerbs)
+                .addSelection(someVerbs)
 
-                // // quiz
-                // .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence1)
-                // .addQuiz(someVerbs, LessonFragment.ChoiceTextType.ENTRY_NAME_ONLY)
-                // .addClosingText(R.string.body_basic_sentence2)
-
-                // // choice
-                // .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence1)
-                // .addMultipleChoiceSelection(choiceList2)
-                // .addClosingText(R.string.body_basic_sentence2)
-
-                // // quiz
-                // .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence1)
-                // .addQuiz(choiceList2, LessonFragment.ChoiceTextType.DEFINITION_ONLY)
-                // .addClosingText(R.string.body_basic_sentence2)
                 .build();
       } else {
         mLessonFragments = new ArrayList<LessonFragment>();
@@ -515,9 +542,38 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
             LessonFragment.newInstance(getString(R.string.topic_your_first_sentence), summaryBody);
         summaryFragment.setAsSummaryPage();
         summaryFragment.setSpecialSentence(specialSentence);
-        summaryFragment.setCannotContinue();
         mLessonFragments.add(summaryFragment);
         // TODO: Show progress tree for lesson 2 onwards.
+      }
+    }
+
+    // Unit 1, Lesson 1.2
+    // The Subject
+    private void Unit_1_Lesson_1_2() {
+      ArrayList<String> someVerbs = new ArrayList<String>(Arrays.asList("{Qong:v}", "{Sop:v}", "{HIv:v}", "{legh:v}", "{yaj:v}"));
+      Collections.shuffle(someVerbs);
+      String review1Body = getString(R.string.body_basic_sentence_review_1, new Object[] {someVerbs.get(0)});
+      String review2Body = getString(R.string.body_basic_sentence_review_2, new Object[] {getDefinition(someVerbs.get(1).substring(1, someVerbs.get(1).length() - 1))});
+
+      if (!mShowSummary) {
+        mLessonFragments =
+            new LessonBuilder()
+                // Review quiz 1.
+                .startNewPage(R.string.topic_quick_review, review1Body)
+                .addQuiz(someVerbs, someVerbs.get(0), LessonFragment.ChoiceTextType.DEFINITION_ONLY)
+
+                // Review quiz 2.
+                .startNewPage(R.string.topic_quick_review, review2Body)
+                .addQuiz(someVerbs, someVerbs.get(1), LessonFragment.ChoiceTextType.ENTRY_NAME_ONLY)
+
+                .build();
+      } else {
+        mLessonFragments = new ArrayList<LessonFragment>();
+        LessonFragment summaryFragment =
+            LessonFragment.newInstance(getString(R.string.topic_quick_review), "");
+        summaryFragment.setAsSummaryPage();
+        summaryFragment.setCannotContinue();
+        mLessonFragments.add(summaryFragment);
       }
     }
   }

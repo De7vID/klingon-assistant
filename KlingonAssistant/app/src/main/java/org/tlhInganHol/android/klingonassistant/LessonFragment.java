@@ -19,7 +19,6 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -325,18 +324,6 @@ public class LessonFragment extends EntryFragment {
         && choiceText.charAt(0) == '{'
         && choiceText.charAt(choiceText.length() - 1) == '}') {
       // This is a database entry.
-      String query = choiceText.substring(1, choiceText.length() - 1);
-      Cursor cursor =
-          getActivity()
-              .managedQuery(
-                  Uri.parse(KlingonContentProvider.CONTENT_URI + "/lookup"),
-                  null /* all columns */,
-                  null,
-                  new String[] {query},
-                  null);
-      // Assume cursor.getCount() == 1.
-      KlingonContentProvider.Entry entry =
-          new KlingonContentProvider.Entry(cursor, getActivity().getBaseContext());
       if (mChoiceTextType != ChoiceTextType.DEFINITION_ONLY) {
         ssb.append(choiceText);
       }
@@ -345,12 +332,8 @@ public class LessonFragment extends EntryFragment {
       }
       if (mChoiceTextType != ChoiceTextType.ENTRY_NAME_ONLY) {
         int start = ssb.length();
-        String definition;
-        if (!entry.shouldDisplayGermanDefinition()) {
-          definition = entry.getDefinition();
-        } else {
-          definition = entry.getDefinition_DE();
-        }
+        String entryName = choiceText.substring(1, choiceText.length() - 1);
+        String definition = ((LessonActivity) getActivity()).getDefinition(entryName);
         ssb.append(definition);
         ssb.setSpan(
             new ForegroundColorSpan(0xFFC0C0C0),
@@ -455,13 +438,13 @@ public class LessonFragment extends EntryFragment {
     mChoiceType = ChoiceType.PLAIN_LIST;
   }
 
-  public void addMultipleChoiceSelection(ArrayList<String> choices) {
+  public void addSelection(ArrayList<String> choices) {
     mChoices = choices;
     mChoiceType = ChoiceType.SELECTION;
   }
 
-  public void addQuiz(ArrayList<String> choices, ChoiceTextType choiceTextType) {
-    mCorrectAnswer = choices.get(0);
+  public void addQuiz(ArrayList<String> choices, String correctAnswer, ChoiceTextType choiceTextType) {
+    mCorrectAnswer = correctAnswer;
     mChoiceType = ChoiceType.QUIZ;
     mChoiceTextType = choiceTextType;
 
