@@ -45,7 +45,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
             <TextView
-                    android:id="@+id/lesson_body"
+                    android:id="@+id/lesson_body_top"
                     android:textSize="18sp"
                     android:textColor="?android:textColorSecondary"
                     android:typeface="sans"
@@ -54,6 +54,18 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textIsSelectable="false" />
+            <!-- TODO: Reading and listening section. -->
+            <TextView
+                    android:id="@+id/lesson_body_middle"
+                    android:textSize="18sp"
+                    android:textColor="?android:textColorSecondary"
+                    android:typeface="sans"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textIsSelectable="false"
+                    android:visibility="gone" />
             <!-- For choosing among several options or multiple-choice quizzes. -->
             <RadioGroup
                     android:id="@+id/choices"
@@ -61,10 +73,20 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone" />
-            <!-- For text following other elements, but before the bottom buttons.
+            <TextView
+                    android:id="@+id/lesson_body_bottom"
+                    android:textSize="18sp"
+                    android:textColor="?android:textColorSecondary"
+                    android:typeface="sans"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textIsSelectable="false"
+                    android:visibility="gone" />
+            <!-- Extra TextView to pad the bottom of the viewport.
                  Set layout weight to 1 so it takes up the rest of the viewport. -->
             <TextView
-                    android:id="@+id/lesson_body2"
                     android:textSize="18sp"
                     android:textColor="?android:textColorSecondary"
                     android:typeface="sans"
@@ -79,8 +101,22 @@
               android:gravity="center_vertical"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content" >
-              <!-- The bottom margin is needed so the entry doesn't overlap with
-                   the tab dots. -->
+              <!-- Set the itemIconTint and itemTextColor to white to work around
+                   a bug where the selected item is coloured different.
+                   Unfortunately, this means that when the button is disabled,
+                   it's not visually distinct, so we make it invisible
+                   programmatically. -->
+              <android.support.design.widget.BottomNavigationView
+                      xmlns:android="http://schemas.android.com/apk/res/android"
+                      xmlns:app="http://schemas.android.com/apk/res-auto"
+                      android:id="@+id/special_sentence_navigation"
+                      android:layout_width="match_parent"
+                      android:layout_height="56dp"
+                      android:layout_gravity="start"
+                      android:visibility="gone"
+                      app:itemIconTint="@android:color/white"
+                      app:itemTextColor="@android:color/white"
+                      app:menu="@menu/special_sentence_items" />
               <Button
                       android:id="@+id/action_check_answer"
                       android:padding="15dp"
@@ -90,11 +126,27 @@
                       android:enabled="false"
                       android:visibility="gone" />
               <Button
+                      android:id="@+id/action_go_back_one_section"
+                      android:padding="15dp"
+                      android:layout_width="match_parent"
+                      android:layout_height="56dp"
+                      android:text="@string/button_go_back_one_section"
+                      android:visibility="gone" />
+              <Button
+                      android:id="@+id/action_redo_section"
+                      android:padding="15dp"
+                      android:layout_width="match_parent"
+                      android:layout_height="56dp"
+                      android:text="@string/button_redo_section"
+                      android:visibility="gone" />
+              <!-- The bottom margin is needed so the entry doesn't overlap with
+                   the tab dots. -->
+              <Button
                       android:id="@+id/action_continue"
                       android:padding="15dp"
                       android:layout_width="match_parent"
                       android:layout_height="56dp"
-                      android:layout_marginBottom="30dp"
+                      android:layout_marginBottom="15dp"
                       android:text="@string/button_continue" />
               </LinearLayout>
         </LinearLayout>

@@ -92,7 +92,12 @@
         <activity android:name=".SourcesActivity" />
 
         <!-- Klingon language lessons. -->
-        <activity android:name=".LessonActivity" />
+        <!-- Handle (actually ignore) config changes to prevent weird bugs due to lifecycle changes
+             on selections and quizzes. Also set to "singleTop" mode to prevent the user from
+             starting multiple instances by pressing the FAB button quickly. -->
+        <activity android:name=".LessonActivity"
+                  android:launchMode="singleTop"
+                  android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <!-- Provides search suggestions for words and their definitions. -->
         <provider android:name=".KlingonContentProvider"

@@ -63,6 +63,7 @@ public class Preferences extends AppCompatPreferenceActivity
   // Under construction.
   public static final String KEY_SHOW_FAB_CHECKBOX_PREFERENCE = "show_fab_checkbox_preference";
 
+  // For changing to the Klingon-language UI.
   private CheckBoxPreference mKlingonUICheckBoxPreference;
   private CheckBoxPreference mKlingonFontCheckBoxPreference;
   private static boolean warningActive = false;

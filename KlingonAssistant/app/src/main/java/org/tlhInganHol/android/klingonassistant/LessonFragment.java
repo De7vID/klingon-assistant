@@ -16,16 +16,20 @@
 package org.tlhInganHol.android.klingonassistant;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Intent;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -34,7 +38,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class LessonFragment extends EntryFragment {
 
@@ -46,7 +49,9 @@ public class LessonFragment extends EntryFragment {
 
     void scoreQuiz(boolean correctlyAnswered);
 
-    String getSummary();
+    void goBackOneSection();
+
+    void redoSection();
   }
 
   private Callback mCallback;
@@ -59,7 +64,10 @@ public class LessonFragment extends EntryFragment {
   private static final String STATE_SELECTED_CHOICE = "selected_choice";
   private static final String STATE_ALREADY_ANSWERED = "already_answered";
   private static final String STATE_CLOSING_TEXT = "closing_text";
-  private static final String STATE_IS_SUMMARY = "is_summary";
+  private static final String STATE_IS_SUMMARY_PAGE = "is_summary_page";
+  private static final String STATE_SPECIAL_SENTENCE = "special_sentence";
+  private static final String STATE_CANNOT_GO_BACK = "cannot_GO_BACK";
+  private static final String STATE_CANNOT_CONTINUE = "cannot_continue";
 
   // Choices section.
   private ArrayList<String> mChoices = null;
@@ -98,13 +106,22 @@ public class LessonFragment extends EntryFragment {
   private String mClosingText = null;
 
   // For the summary page.
-  private boolean isSummary = false;
+  private boolean mIsSummaryPage = false;
 
-  public static LessonFragment newInstance(String title, String topic, String body) {
+  // The "special sentence" is a sentence on the summary page which can be searched, shared, or
+  // spoken.
+  private String mSpecialSentence = null;
+
+  // Set to true if there are no more sections before this page.
+  private boolean mCannotGoBack = false;
+
+  // Set to true if there are no more sections after this page.
+  private boolean mCannotContinue = false;
+
+  public static LessonFragment newInstance(String title, String body) {
     LessonFragment lessonFragment = new LessonFragment();
     Bundle args = new Bundle();
     args.putString("title", title);
-    args.putString("topic", topic);
     args.putString("body", body);
     lessonFragment.setArguments(args);
     return lessonFragment;
@@ -123,7 +140,10 @@ public class LessonFragment extends EntryFragment {
       mSelectedChoice = savedInstanceState.getString(STATE_SELECTED_CHOICE);
       mAlreadyAnswered = savedInstanceState.getBoolean(STATE_ALREADY_ANSWERED);
       mClosingText = savedInstanceState.getString(STATE_CLOSING_TEXT);
-      isSummary = savedInstanceState.getBoolean(STATE_IS_SUMMARY);
+      mIsSummaryPage = savedInstanceState.getBoolean(STATE_IS_SUMMARY_PAGE);
+      mSpecialSentence = savedInstanceState.getString(STATE_SPECIAL_SENTENCE);
+      mCannotGoBack = savedInstanceState.getBoolean(STATE_CANNOT_GO_BACK);
+      mCannotContinue = savedInstanceState.getBoolean(STATE_CANNOT_CONTINUE);
     }
 
     ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.lesson, container, false);
@@ -131,39 +151,30 @@ public class LessonFragment extends EntryFragment {
 
     // Set up the title and body text.
     TextView lessonTitle = (TextView) rootView.findViewById(R.id.lesson_title);
-    TextView lessonBody = (TextView) rootView.findViewById(R.id.lesson_body);
+    TextView lessonBodyTop = (TextView) rootView.findViewById(R.id.lesson_body_top);
 
     lessonTitle.invalidate();
-    lessonTitle.setText(getArguments().getString("topic"));
+    lessonTitle.setText(getArguments().getString("title"));
 
-    lessonBody.invalidate();
-    if (!isSummary) {
-      String bodyText = getArguments().getString("body");
-      SpannableStringBuilder ssb = new SpannableStringBuilder(bodyText);
-      processMixedText(ssb, null);
-      // We don't call setMovementMethod on lessonBody, since we disable all
-      // entry links.
-      lessonBody.setText(ssb);
-    } else {
-      // TODO: change buttons, etc.
-      lessonBody.setText(mCallback.getSummary());
-    }
-
-    // Set up the "Continue" button.
-    Button continueButton = (Button) rootView.findViewById(R.id.action_continue);
-    continueButton.setOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
-            mCallback.goToNextPage();
-          }
-        });
+    lessonBodyTop.invalidate();
+    SpannableStringBuilder ssb =
+        new SpannableStringBuilder(Html.fromHtml(getArguments().getString("body")));
+    processMixedText(ssb, null);
+    // We don't call setMovementMethod on lessonBodyTop, since we disable all
+    // entry links.
+    lessonBodyTop.setText(ssb);
 
     // Set up possible additional views.
     setupChoicesGroup(rootView);
 
     // Put additional text after other sections.
     setupClosingText(rootView);
+
+    // If the "special sentence" exists, set up the buttons for it.
+    setupSpecialSentenceButtons(rootView);
+
+    // Set up the "Continue" button (and possible also the "Redo" button).
+    setupContinueButton(rootView);
 
     return rootView;
   }
@@ -182,10 +193,8 @@ public class LessonFragment extends EntryFragment {
     final RadioGroup choicesGroup = (RadioGroup) rootView.findViewById(R.id.choices);
     final Button checkAnswerButton = (Button) rootView.findViewById(R.id.action_check_answer);
     final Button continueButton = (Button) rootView.findViewById(R.id.action_continue);
-    final String CORRECT_STRING =
-        getActivity().getResources().getString(R.string.button_check_answer_correct);
-    final String INCORRECT_STRING =
-        getActivity().getResources().getString(R.string.button_check_answer_incorrect);
+    final String CORRECT_STRING = getActivity().getString(R.string.button_check_answer_correct);
+    final String INCORRECT_STRING = getActivity().getString(R.string.button_check_answer_incorrect);
     if (mChoiceType == ChoiceType.SELECTION || mChoiceType == ChoiceType.QUIZ) {
       // Disable until user selects something.
       continueButton.setEnabled(false);
@@ -226,6 +235,7 @@ public class LessonFragment extends EntryFragment {
                     new View.OnClickListener() {
                       @Override
                       public void onClick(View view) {
+                        continueButton.setEnabled(false);
                         mCallback.commitChoice(choice);
                         mCallback.goToNextPage();
                       }
@@ -233,7 +243,8 @@ public class LessonFragment extends EntryFragment {
               }
             });
       } else if (mChoiceType == ChoiceType.QUIZ) {
-        // This is a QUIZ which hasn't been answered, enable the "Check answer" button when choice is clicked.
+        // This is a QUIZ which hasn't been answered, enable the "Check answer" button when choice
+        // is clicked.
         choiceButton.setOnClickListener(
             new View.OnClickListener() {
               @Override
@@ -244,16 +255,16 @@ public class LessonFragment extends EntryFragment {
                     new View.OnClickListener() {
                       @Override
                       public void onClick(View view) {
-                        final boolean isAnswerCorrect = choice.equals(mCorrectAnswer);
                         checkAnswerButton.setEnabled(false);
-                        for (int i = 0; i < choicesGroup.getChildCount(); i++) {
-                          ((RadioButton) choicesGroup.getChildAt(i)).setEnabled(false);
-                        }
-                        choicesGroup.setEnabled(false);
+                        final boolean isAnswerCorrect = choice.equals(mCorrectAnswer);
                         if (!mAlreadyAnswered) {
                           mCallback.scoreQuiz(isAnswerCorrect);
                           LessonFragment.this.setAlreadyAnswered();
                         }
+                        for (int i = 0; i < choicesGroup.getChildCount(); i++) {
+                          ((RadioButton) choicesGroup.getChildAt(i)).setEnabled(false);
+                        }
+                        choicesGroup.setEnabled(false);
                         if (isAnswerCorrect) {
                           checkAnswerButton.setText(CORRECT_STRING);
                           checkAnswerButton.setBackgroundColor(Color.GREEN);
@@ -266,6 +277,7 @@ public class LessonFragment extends EntryFragment {
                             new View.OnClickListener() {
                               @Override
                               public void onClick(View view) {
+                                continueButton.setEnabled(false);
                                 mCallback.goToNextPage();
                               }
                             });
@@ -317,18 +329,6 @@ public class LessonFragment extends EntryFragment {
         && choiceText.charAt(0) == '{'
         && choiceText.charAt(choiceText.length() - 1) == '}') {
       // This is a database entry.
-      String query = choiceText.substring(1, choiceText.length() - 1);
-      Cursor cursor =
-          getActivity()
-              .managedQuery(
-                  Uri.parse(KlingonContentProvider.CONTENT_URI + "/lookup"),
-                  null /* all columns */,
-                  null,
-                  new String[] {query},
-                  null);
-      // Assume cursor.getCount() == 1.
-      KlingonContentProvider.Entry entry =
-          new KlingonContentProvider.Entry(cursor, getActivity().getBaseContext());
       if (mChoiceTextType != ChoiceTextType.DEFINITION_ONLY) {
         ssb.append(choiceText);
       }
@@ -337,12 +337,8 @@ public class LessonFragment extends EntryFragment {
       }
       if (mChoiceTextType != ChoiceTextType.ENTRY_NAME_ONLY) {
         int start = ssb.length();
-        String definition;
-        if (!entry.shouldDisplayGermanDefinition()) {
-          definition = entry.getDefinition();
-        } else {
-          definition = entry.getDefinition_DE();
-        }
+        String query = choiceText.substring(1, choiceText.length() - 1);
+        String definition = ((LessonActivity) getActivity()).getDefinition(query);
         ssb.append(definition);
         ssb.setSpan(
             new ForegroundColorSpan(0xFFC0C0C0),
@@ -357,13 +353,96 @@ public class LessonFragment extends EntryFragment {
 
   private void setupClosingText(View rootView) {
     if (mClosingText != null) {
-      TextView lessonBody2 = (TextView) rootView.findViewById(R.id.lesson_body2);
-      lessonBody2.invalidate();
+      TextView lessonBodyBottom = (TextView) rootView.findViewById(R.id.lesson_body_bottom);
+      lessonBodyBottom.setVisibility(View.VISIBLE);
+      lessonBodyBottom.invalidate();
       SpannableStringBuilder closingText = new SpannableStringBuilder(mClosingText);
       processMixedText(closingText, null);
-      // We don't call setMovementMethod on lessonBody2, since we disable all
+      // We don't call setMovementMethod on lessonBodyBottom, since we disable all
       // entry links.
-      lessonBody2.setText(closingText);
+      lessonBodyBottom.setText(closingText);
+    }
+  }
+
+  private void setupSpecialSentenceButtons(View rootView) {
+    if (mSpecialSentence != null) {
+      BottomNavigationView specialSentenceNavView =
+          (BottomNavigationView) rootView.findViewById(R.id.special_sentence_navigation);
+      specialSentenceNavView.setVisibility(View.VISIBLE);
+      specialSentenceNavView.setOnNavigationItemSelectedListener(
+          new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+              Intent intent;
+              switch (item.getItemId()) {
+                case R.id.action_search:
+                  intent = new Intent(getActivity(), KlingonAssistant.class);
+                  intent.setAction(Intent.ACTION_SEARCH);
+                  intent.putExtra(SearchManager.QUERY, mSpecialSentence);
+                  getActivity().startActivity(intent);
+                  break;
+                case R.id.action_share:
+                  intent = new Intent(Intent.ACTION_SEND);
+                  intent.putExtra(
+                      Intent.EXTRA_TITLE, getResources().getString(R.string.share_popup_title));
+                  intent.setType("text/plain");
+                  String subject = "{" + mSpecialSentence + "}";
+                  intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+                  intent.putExtra(
+                      Intent.EXTRA_TEXT,
+                      subject + "\n\n" + getResources().getString(R.string.shared_from));
+                  getActivity().startActivity(intent);
+                  break;
+                case R.id.action_speak:
+                  ((LessonActivity) getActivity()).speakSentence(mSpecialSentence);
+                  break;
+              }
+              return false;
+            }
+          });
+    }
+  }
+
+  private void setupContinueButton(View rootView) {
+    final Button continueButton = (Button) rootView.findViewById(R.id.action_continue);
+    if (mCannotContinue) {
+      continueButton.setEnabled(false);
+    } else {
+      continueButton.setOnClickListener(
+          new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              continueButton.setEnabled(false);
+              mCallback.goToNextPage();
+            }
+          });
+    }
+    if (mIsSummaryPage) {
+      if (!mCannotGoBack) {
+        final Button goBackButton = (Button) rootView.findViewById(R.id.action_go_back_one_section);
+        goBackButton.setVisibility(View.VISIBLE);
+        goBackButton.setOnClickListener(
+            new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                goBackButton.setEnabled(false);
+                mCallback.goBackOneSection();
+              }
+            });
+      }
+
+      // TODO: Change this text for last page of lesson or unit.
+      continueButton.setText(getActivity().getString(R.string.button_next_section));
+      final Button redoSectionButton = (Button) rootView.findViewById(R.id.action_redo_section);
+      redoSectionButton.setVisibility(View.VISIBLE);
+      redoSectionButton.setOnClickListener(
+          new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              redoSectionButton.setEnabled(false);
+              mCallback.redoSection();
+            }
+          });
     }
   }
 
@@ -378,13 +457,14 @@ public class LessonFragment extends EntryFragment {
     mChoiceType = ChoiceType.PLAIN_LIST;
   }
 
-  public void addMultipleChoiceSelection(ArrayList<String> choices) {
+  public void addSelection(ArrayList<String> choices) {
     mChoices = choices;
     mChoiceType = ChoiceType.SELECTION;
   }
 
-  public void addQuiz(ArrayList<String> choices, ChoiceTextType choiceTextType) {
-    mCorrectAnswer = choices.get(0);
+  public void addQuiz(
+      ArrayList<String> choices, String correctAnswer, ChoiceTextType choiceTextType) {
+    mCorrectAnswer = correctAnswer;
     mChoiceType = ChoiceType.QUIZ;
     mChoiceTextType = choiceTextType;
 
@@ -397,8 +477,25 @@ public class LessonFragment extends EntryFragment {
     mClosingText = closingText;
   }
 
-  public void setSummary() {
-    isSummary = true;
+  // This is called to set this page as a summary page, not a regular lesson.
+  public void setAsSummaryPage() {
+    mIsSummaryPage = true;
+  }
+
+  // This is called to set the "special sentence" on a summary page, which can
+  // be searched, shared, or spoken.
+  public void setSpecialSentence(String specialSentence) {
+    mSpecialSentence = specialSentence;
+  }
+
+  // This is called on the very first section to leave the "Go back one section" button invisible.
+  public void setCannotGoBack() {
+    mCannotGoBack = true;
+  }
+
+  // This is called on the very last section to disable the "Continue" button.
+  public void setCannotContinue() {
+    mCannotContinue = true;
   }
 
   @Override
@@ -412,6 +509,9 @@ public class LessonFragment extends EntryFragment {
     savedInstanceState.putString(STATE_SELECTED_CHOICE, mSelectedChoice);
     savedInstanceState.putBoolean(STATE_ALREADY_ANSWERED, mAlreadyAnswered);
     savedInstanceState.putString(STATE_CLOSING_TEXT, mClosingText);
-    savedInstanceState.putBoolean(STATE_IS_SUMMARY, isSummary);
+    savedInstanceState.putBoolean(STATE_IS_SUMMARY_PAGE, mIsSummaryPage);
+    savedInstanceState.putString(STATE_SPECIAL_SENTENCE, mSpecialSentence);
+    savedInstanceState.putBoolean(STATE_CANNOT_GO_BACK, mCannotGoBack);
+    savedInstanceState.putBoolean(STATE_CANNOT_CONTINUE, mCannotContinue);
   }
 }

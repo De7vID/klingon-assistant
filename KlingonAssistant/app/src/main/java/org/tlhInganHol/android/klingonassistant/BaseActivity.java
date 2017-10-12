@@ -553,7 +553,7 @@ public class BaseActivity extends AppCompatActivity
   public boolean onOptionsItemSelected(MenuItem item) {
     // noinspection SimplifiableIfStatement
     switch (item.getItemId()) {
-      case R.id.search:
+      case R.id.action_search:
         onSearchRequested();
         return true;
       case android.R.id.home:

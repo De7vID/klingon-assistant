@@ -20,15 +20,69 @@
   xmlns:tools="http://schemas.android.com/tools"
   tools:ignore="MissingTranslation">
 
-  <string name="lesson_header">Unit %1$d, Lesson %2$d</string>
+  <!-- Header for Unit, Lesson, and Section. -->
+  <string name="lesson_header">Unit %1$d, Lesson %2$d.%3$d</string>
 
-  <string name="topic_introduction">Under construction</string>
-  <string name="body_introduction">This is a test.\n
-\nThis is a {verb:v:nolink}. This is a {noun:n:nolink}. This is a reference to {The Klingon Dictionary:src}.\n
-\nTo continue, press the "next" button below.</string>
+  <!-- Unit 1, Lesson 1.1 -->
+  <string name="topic_introduction">Welcome!</string>
+  <string name="body_introduction"><![CDATA[This course is an introduction to the Klingon language created by Dr. Marc Okrand for {Star Trek:src} and used in the films and TV series, most recently {Discovery:src}. It is assumed that you are in possession of {The Klingon Dictionary:src}, preferably the 1992 edition which includes an Addendum. In addition to most of the known vocabulary, this book also contains a largely complete description of the grammar. If you don\'t have it, go and purchase it now!<br/>
+<br/>
+Other works by Dr. Okrand, such as {The Klingon Way:src} and {Klingon for the Galactic Traveler:src}, are also highly recommended. If you want to hear the sounds of spoken Klingon, the audiotapes {Conversational Klingon:src} and {Power Klingon:src} are essential. For more advanced students, additional clarifications on grammar and more vocabulary may be found in {HolQeD:src}, the journal of the Klingon Language Institute. The KLI also maintains a list of vocabulary revealed or expanded upon after the publication of {KGT:src}.<br/>
+<br/>
+The {Star Trek:src} films which have a fair amount of spoken Klingon are {Star Trek III:src}, {Star Trek V:src}, and {Star Trek VI:src}. The series {Discovery:src} also has a large amount of spoken Klingon dialogue. (Dr. Okrand did not work on {Discovery:src}, but its dialogue was translated by expert speakers Robyn Stewart and Alan Anderson. Klingon subtitles for the show were written by Klingon teacher Lieven Litaer.)<br/>
+<br/>
+Click <b>Continue</b> when you are ready to begin.]]></string>
 
   <string name="topic_basic_sentence">The Basic Sentence</string>
-  <string name="body_basic_sentence">The basic Klingon sentence has only a verb...</string>
-  <string name="body_basic_sentence2">Some additional text.</string>
+  <string name="body_basic_sentence_1"><![CDATA[The Klingon culture is a direct one, so let\'s get right down to business.<br/>
+<br/>
+The most basic Klingon sentence consists of just the verb. Here are some Klingon verbs:]]></string>
+  <string name="body_basic_sentence_2"><![CDATA[A verb by itself means that he/she/it is or they are performing the action described by that verb. For example, {Qong:sen} means \"he/she/it sleeps\" or \"they sleep\".]]></string>
+  <string name="body_basic_sentence_3"><![CDATA[Now you try it. Pick a verb:]]></string>
 
+  <string name="topic_your_first_sentence">Your first sentence</string>
+  <string name="body_your_first_sentence"><![CDATA[Your first Klingon sentence is:<br/>
+<br/>
+%1$s<br/>
+<br/>
+This means \"%2$s\".]]></string>
+  <string name="translation_your_first_sentence_1">he/she/it sleeps, they sleep</string>
+  <string name="translation_your_first_sentence_2">he/she/it eats, they eat</string>
+  <string name="translation_your_first_sentence_3">he/she/it attacks, they attack</string>
+  <string name="translation_your_first_sentence_4">he/she/it sees, they see</string>
+  <string name="translation_your_first_sentence_5">he/she/it understands, they understand</string>
+  <string-array name="translation_your_first_sentence">
+    <item>@string/translation_your_first_sentence_1</item>
+    <item>@string/translation_your_first_sentence_2</item>
+    <item>@string/translation_your_first_sentence_3</item>
+    <item>@string/translation_your_first_sentence_4</item>
+    <item>@string/translation_your_first_sentence_5</item>
+  </string-array>
+
+  <!-- Unit 1, Lesson 1.2 -->
+  <string name="topic_quick_review">A Quick Review</string>
+  <string name="body_basic_sentence_review_1"><![CDATA[Let\'s have a quick review. What does %1$s mean?]]></string>
+  <string name="body_basic_sentence_review_2"><![CDATA[And which of the following means \"%1$s\"?]]></string>
+
+  <string name="topic_a_few_nouns">A Few Nouns</string>
+  <string name="body_a_few_nouns"><![CDATA[Okay, now that we\'ve seen some verbs, let\'s look at some nouns.<br/>
+<br/>
+Here are some nouns for people:]]></string>
+
+  <string name="topic_somebody_does_something">Somebody does something</string>
+  <string name="body_somebody_does_something_1"><![CDATA[As you may recall, a verb by itself just means that he/she/it is or they are performing the action described by the verb. For example, {HIv:sen} means \"he/she/it attacks\" or \"they attack\". To say that the Klingon attacks, you put the word for Klingon after the verb, like this:<br/>
+<br/>
+{HIv tlhIngan:sen} \"the Klingon attacks\".<br/>
+<br/>
+This can also mean \"a Klingon attacks\".<br/>
+<br/>
+Now you try it. Pick a verb:]]></string>
+  <string name="body_somebody_does_something_2"><![CDATA[Good. Now pick a noun:]]></string>
+
+  <string name="topic_your_second_sentence">Your second sentence</string>
+  <string name="body_your_second_sentence"><![CDATA[Your second Klingon sentence is:<br/>
+<br/>
+%1$s<br/>
+<br/>
+This means that the %2$s \"%3$s\" is performing the action described by %4$s \"%5$s\".]]></string>
 </resources>
