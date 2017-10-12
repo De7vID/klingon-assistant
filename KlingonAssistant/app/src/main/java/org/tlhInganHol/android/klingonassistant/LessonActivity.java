@@ -34,15 +34,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.LinearLayout;
-import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-public class LessonActivity extends AppCompatActivity implements LessonFragment.Callback, TextToSpeech.OnInitListener {
+public class LessonActivity extends AppCompatActivity
+    implements LessonFragment.Callback, TextToSpeech.OnInitListener {
   private static final String TAG = "LessonActivity";
 
   // TTS:
@@ -174,7 +175,9 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
     // Add a quiz.
     public LessonBuilder addQuiz(
-        ArrayList<String> entries, String correctAnswer, LessonFragment.ChoiceTextType choiceTextType) {
+        ArrayList<String> entries,
+        String correctAnswer,
+        LessonFragment.ChoiceTextType choiceTextType) {
       // TODO: Allow "none/all of the above" options.
       getCurrentLesson().addQuiz(entries, correctAnswer, choiceTextType);
       return this;
@@ -344,18 +347,22 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     // Log.d(TAG, "getSummary(): " + getSummary());
   }
 
-  // Given an entry name such as "Qong:v", return its definition, e.g., "sleep".
-  protected String getDefinition(String entryName) {
+  // Given query such as "Qong:v", return its definition, e.g., "sleep".
+  protected String getDefinition(String query) {
+    // Log.d(TAG, "getDefinition called with query: " + query);
     Cursor cursor =
-            managedQuery(
-                Uri.parse(KlingonContentProvider.CONTENT_URI + "/lookup"),
-                null /* all columns */,
-                null,
-                new String[] {entryName},
-                null);
-    // Assume cursor.getCount() == 1.
-    KlingonContentProvider.Entry entry =
-        new KlingonContentProvider.Entry(cursor, this);
+        managedQuery(
+            Uri.parse(KlingonContentProvider.CONTENT_URI + "/lookup"),
+            null /* all columns */,
+            null,
+            new String[] {query},
+            null);
+    // This count should always be 1.
+    // Log.d(TAG, "cursor.getCount(): " + cursor.getCount());
+    if (cursor.getCount() < 1) {
+      return "";
+    }
+    KlingonContentProvider.Entry entry = new KlingonContentProvider.Entry(cursor, this);
     String definition;
     if (!entry.shouldDisplayGermanDefinition()) {
       definition = entry.getDefinition();
@@ -363,6 +370,19 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       definition = entry.getDefinition_DE();
     }
     return definition;
+  }
+
+  // Remove the outer "{}" from a query. For example, given "{Qong:v}", return "Qong:v}. If alsoStripPos is true, also remove the part of speech, e.g., return "Qong".
+  private String stripBrackets(String query, boolean alsoStripPos) {
+    if (query.length() > 2 && query.charAt(0) == '{' && query.charAt(query.length() - 1) == '}') {
+      int colonLoc = query.indexOf(':');
+      if (alsoStripPos && colonLoc != -1) {
+        return query.substring(1, colonLoc);
+      } else {
+        return query.substring(1, query.length() - 1);
+      }
+    }
+    return query;
   }
 
   // private String getSummary() {
@@ -502,7 +522,8 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     // The Basic Sentence
     private void Unit_1_Lesson_1_1() {
       ArrayList<String> someVerbs =
-          new ArrayList<String>(Arrays.asList("{Qong:v}", "{Sop:v}", "{HIv:v}", "{legh:v}", "{yaj:v}"));
+          new ArrayList<String>(
+              Arrays.asList("{Qong:v}", "{Sop:v}", "{HIv:v}", "{legh:v}", "{yaj:v}"));
 
       if (!mShowSummary) {
         mLessonFragments =
@@ -518,7 +539,6 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
                 // Ask user to choose one.
                 .startNewPage(R.string.topic_basic_sentence, R.string.body_basic_sentence_3)
                 .addSelection(someVerbs)
-
                 .build();
       } else {
         mLessonFragments = new ArrayList<LessonFragment>();
@@ -532,7 +552,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
           }
         }
         // Strip "{" from front and ":v}" from end.
-        String specialSentence = verb.substring(1, verb.length() - 3);
+        String specialSentence = stripBrackets(verb, true);
         String summaryBody =
             getString(
                 R.string.body_your_first_sentence,
@@ -550,11 +570,19 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     // Unit 1, Lesson 1.2
     // The Subject
     private void Unit_1_Lesson_1_2() {
-      ArrayList<String> someVerbs = new ArrayList<String>(Arrays.asList("{Qong:v}", "{Sop:v}", "{HIv:v}", "{legh:v}", "{yaj:v}"));
-      ArrayList<String> someNouns = new ArrayList<String>(Arrays.asList("{tlhIngan:n}", "{tera'ngan:n}", "{SuvwI':n}", "{jagh:n}", "{HoD:v}"));
+      ArrayList<String> someVerbs =
+          new ArrayList<String>(
+              Arrays.asList("{Qong:v}", "{Sop:v}", "{HIv:v}", "{legh:v}", "{yaj:v}"));
+      ArrayList<String> someNouns =
+          new ArrayList<String>(
+              Arrays.asList("{tlhIngan:n}", "{tera'ngan:n}", "{SuvwI':n}", "{jagh:n}", "{HoD:n}"));
       Collections.shuffle(someVerbs);
-      String review1Body = getString(R.string.body_basic_sentence_review_1, new Object[] {someVerbs.get(0)});
-      String review2Body = getString(R.string.body_basic_sentence_review_2, new Object[] {getDefinition(someVerbs.get(1).substring(1, someVerbs.get(1).length() - 1))});
+      String review1Body =
+          getString(R.string.body_basic_sentence_review_1, new Object[] {someVerbs.get(0)});
+      String review2Body =
+          getString(
+              R.string.body_basic_sentence_review_2,
+              new Object[] {getDefinition(stripBrackets(someVerbs.get(1), false))});
 
       if (!mShowSummary) {
         mLessonFragments =
@@ -570,22 +598,36 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
                 // Show user the nouns.
                 .startNewPage(R.string.topic_a_few_nouns, R.string.body_a_few_nouns)
                 .addPlainList(someNouns)
-                .addClosingText(R.string.body_basic_sentence_2)
 
                 // Ask user to choose a verb.
-                .startNewPage(R.string.topic_somebody_does_something, R.string.body_somebody_does_something_1)
+                .startNewPage(
+                    R.string.topic_somebody_does_something, R.string.body_somebody_does_something_1)
                 .addSelection(someVerbs)
 
                 // Ask user to choose noun.
-                .startNewPage(R.string.topic_somebody_does_something, R.string.body_somebody_does_something_1)
+                .startNewPage(
+                    R.string.topic_somebody_does_something, R.string.body_somebody_does_something_2)
                 .addSelection(someNouns)
-
                 .build();
       } else {
         mLessonFragments = new ArrayList<LessonFragment>();
+        String verb = mSelectedChoices.get(0);
+        String noun = mSelectedChoices.get(1);
+        String specialSentence = stripBrackets(verb, true) + " " + stripBrackets(noun, true);
+        String summaryBody =
+            getString(
+                R.string.body_your_second_sentence,
+                new Object[] {
+                  "{" + specialSentence + ".:sen}",
+                  noun,
+                  getDefinition(stripBrackets(noun, false)),
+                  verb,
+                  getDefinition(stripBrackets(verb, false))
+                });
         LessonFragment summaryFragment =
-            LessonFragment.newInstance(getString(R.string.topic_quick_review), "");
+            LessonFragment.newInstance(getString(R.string.topic_your_second_sentence), summaryBody);
         summaryFragment.setAsSummaryPage();
+        summaryFragment.setSpecialSentence(specialSentence);
         summaryFragment.setCannotContinue();
         mLessonFragments.add(summaryFragment);
       }
