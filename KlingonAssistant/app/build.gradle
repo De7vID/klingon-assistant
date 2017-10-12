@@ -55,4 +55,10 @@ task updateDatabase(type: Exec) {
     commandLine './write_db.sh'
 }
 
+task checkAudioFiles(type: Exec) {
+    workingDir '../../scripts'
+    commandLine './check_audio_files.pl'
+}
+
 preBuild.dependsOn 'updateDatabase'
+preBuild.dependsOn 'checkAudioFiles'
