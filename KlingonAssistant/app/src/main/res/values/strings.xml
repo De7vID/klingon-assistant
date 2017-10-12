@@ -202,6 +202,7 @@
     <string name="button_check_answer_correct">Correct\!</string>
     <string name="button_check_answer_incorrect">Incorrect\!</string>
     <string name="button_continue">Continue</string>
+    <string name="button_go_back_one_section">Go back to previous section</string>
     <string name="button_redo_section">Do this section again</string>
     <string name="button_next_section">Continue to next section</string>
     <string name="button_next_lesson">Continue to next lesson</string>

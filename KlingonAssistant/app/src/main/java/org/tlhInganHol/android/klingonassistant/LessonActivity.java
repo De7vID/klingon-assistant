@@ -273,8 +273,8 @@ public class LessonActivity extends AppCompatActivity
       mPager.setCurrentItem(currentItem + 1);
     } else if (mShowSummary) {
       // We are on a summary page, so go to next section.
-      mShowSummary = false;
       mSectionNumber++;
+      clearScores();
       saveProgress();
       reloadLessonActivity();
     } else {
@@ -290,13 +290,29 @@ public class LessonActivity extends AppCompatActivity
   }
 
   @Override
+  public void goBackOneSection() {
+    if (mSectionNumber != 1) {
+      mSectionNumber--;
+    }
+    clearScores();
+    saveProgress();
+    reloadLessonActivity();
+  }
+
+  @Override
   public void redoSection() {
+    clearScores();
+    saveProgress();
+    reloadLessonActivity();
+  }
+
+  // This is called between sections to clear the scores and user's choices.
+  // It should be called before saveProgress() if moving between sections.
+  private void clearScores() {
     mShowSummary = false;
     mCorrectlyAnswered = 0;
     mTotalQuestions = 0;
     mSelectedChoices = new ArrayList<String>();
-    saveProgress();
-    reloadLessonActivity();
   }
 
   private void saveProgress() {
@@ -562,6 +578,7 @@ public class LessonActivity extends AppCompatActivity
             LessonFragment.newInstance(getString(R.string.topic_your_first_sentence), summaryBody);
         summaryFragment.setAsSummaryPage();
         summaryFragment.setSpecialSentence(specialSentence);
+        summaryFragment.setCannotGoBack();
         mLessonFragments.add(summaryFragment);
         // TODO: Show progress tree for lesson 2 onwards.
       }
@@ -613,6 +630,9 @@ public class LessonActivity extends AppCompatActivity
         mLessonFragments = new ArrayList<LessonFragment>();
         String verb = mSelectedChoices.get(0);
         String noun = mSelectedChoices.get(1);
+        // Log.d(TAG, "mSelectedChoices: " + mSelectedChoices);
+        // Log.d(TAG, "verb: " + verb);
+        // Log.d(TAG, "noun: " + noun);
         String specialSentence = stripBrackets(verb, true) + " " + stripBrackets(noun, true);
         String summaryBody =
             getString(

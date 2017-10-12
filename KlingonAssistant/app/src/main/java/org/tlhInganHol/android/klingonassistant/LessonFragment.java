@@ -49,6 +49,8 @@ public class LessonFragment extends EntryFragment {
 
     void scoreQuiz(boolean correctlyAnswered);
 
+    void goBackOneSection();
+
     void redoSection();
   }
 
@@ -64,6 +66,7 @@ public class LessonFragment extends EntryFragment {
   private static final String STATE_CLOSING_TEXT = "closing_text";
   private static final String STATE_IS_SUMMARY_PAGE = "is_summary_page";
   private static final String STATE_SPECIAL_SENTENCE = "special_sentence";
+  private static final String STATE_CANNOT_GO_BACK = "cannot_GO_BACK";
   private static final String STATE_CANNOT_CONTINUE = "cannot_continue";
 
   // Choices section.
@@ -109,7 +112,10 @@ public class LessonFragment extends EntryFragment {
   // spoken.
   private String mSpecialSentence = null;
 
-  // Set to true if there are no more lessons after this page.
+  // Set to true if there are no more sections before this page.
+  private boolean mCannotGoBack = false;
+
+  // Set to true if there are no more sections after this page.
   private boolean mCannotContinue = false;
 
   public static LessonFragment newInstance(String title, String body) {
@@ -136,6 +142,7 @@ public class LessonFragment extends EntryFragment {
       mClosingText = savedInstanceState.getString(STATE_CLOSING_TEXT);
       mIsSummaryPage = savedInstanceState.getBoolean(STATE_IS_SUMMARY_PAGE);
       mSpecialSentence = savedInstanceState.getString(STATE_SPECIAL_SENTENCE);
+      mCannotGoBack = savedInstanceState.getBoolean(STATE_CANNOT_GO_BACK);
       mCannotContinue = savedInstanceState.getBoolean(STATE_CANNOT_CONTINUE);
     }
 
@@ -248,12 +255,12 @@ public class LessonFragment extends EntryFragment {
                     new View.OnClickListener() {
                       @Override
                       public void onClick(View view) {
+                        checkAnswerButton.setEnabled(false);
                         final boolean isAnswerCorrect = choice.equals(mCorrectAnswer);
                         if (!mAlreadyAnswered) {
                           mCallback.scoreQuiz(isAnswerCorrect);
                           LessonFragment.this.setAlreadyAnswered();
                         }
-                        checkAnswerButton.setEnabled(false);
                         for (int i = 0; i < choicesGroup.getChildCount(); i++) {
                           ((RadioButton) choicesGroup.getChildAt(i)).setEnabled(false);
                         }
@@ -411,6 +418,19 @@ public class LessonFragment extends EntryFragment {
           });
     }
     if (mIsSummaryPage) {
+      if (!mCannotGoBack) {
+        final Button goBackButton = (Button) rootView.findViewById(R.id.action_go_back_one_section);
+        goBackButton.setVisibility(View.VISIBLE);
+        goBackButton.setOnClickListener(
+            new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                goBackButton.setEnabled(false);
+                mCallback.goBackOneSection();
+              }
+            });
+      }
+
       // TODO: Change this text for last page of lesson or unit.
       continueButton.setText(getActivity().getString(R.string.button_next_section));
       final Button redoSectionButton = (Button) rootView.findViewById(R.id.action_redo_section);
@@ -468,7 +488,12 @@ public class LessonFragment extends EntryFragment {
     mSpecialSentence = specialSentence;
   }
 
-  // This is called on the very last lesson to disable the "Continue" button.
+  // This is called on the very first section to leave the "Go back one section" button invisible.
+  public void setCannotGoBack() {
+    mCannotGoBack = true;
+  }
+
+  // This is called on the very last section to disable the "Continue" button.
   public void setCannotContinue() {
     mCannotContinue = true;
   }
@@ -486,6 +511,7 @@ public class LessonFragment extends EntryFragment {
     savedInstanceState.putString(STATE_CLOSING_TEXT, mClosingText);
     savedInstanceState.putBoolean(STATE_IS_SUMMARY_PAGE, mIsSummaryPage);
     savedInstanceState.putString(STATE_SPECIAL_SENTENCE, mSpecialSentence);
+    savedInstanceState.putBoolean(STATE_CANNOT_GO_BACK, mCannotGoBack);
     savedInstanceState.putBoolean(STATE_CANNOT_CONTINUE, mCannotContinue);
   }
 }
