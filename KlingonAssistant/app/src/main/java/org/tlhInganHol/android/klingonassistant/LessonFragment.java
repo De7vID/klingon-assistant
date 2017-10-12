@@ -20,7 +20,6 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -30,7 +29,6 @@ import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -332,8 +330,8 @@ public class LessonFragment extends EntryFragment {
       }
       if (mChoiceTextType != ChoiceTextType.ENTRY_NAME_ONLY) {
         int start = ssb.length();
-        String entryName = choiceText.substring(1, choiceText.length() - 1);
-        String definition = ((LessonActivity) getActivity()).getDefinition(entryName);
+        String query = choiceText.substring(1, choiceText.length() - 1);
+        String definition = ((LessonActivity) getActivity()).getDefinition(query);
         ssb.append(definition);
         ssb.setSpan(
             new ForegroundColorSpan(0xFFC0C0C0),
@@ -384,7 +382,8 @@ public class LessonFragment extends EntryFragment {
                   String subject = "{" + mSpecialSentence + "}";
                   intent.putExtra(Intent.EXTRA_SUBJECT, subject);
                   intent.putExtra(
-                      Intent.EXTRA_TEXT, subject + "\n\n" + getResources().getString(R.string.shared_from));
+                      Intent.EXTRA_TEXT,
+                      subject + "\n\n" + getResources().getString(R.string.shared_from));
                   getActivity().startActivity(intent);
                   break;
                 case R.id.action_speak:
@@ -443,7 +442,8 @@ public class LessonFragment extends EntryFragment {
     mChoiceType = ChoiceType.SELECTION;
   }
 
-  public void addQuiz(ArrayList<String> choices, String correctAnswer, ChoiceTextType choiceTextType) {
+  public void addQuiz(
+      ArrayList<String> choices, String correctAnswer, ChoiceTextType choiceTextType) {
     mCorrectAnswer = correctAnswer;
     mChoiceType = ChoiceType.QUIZ;
     mChoiceTextType = choiceTextType;
