@@ -551,6 +551,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     // The Subject
     private void Unit_1_Lesson_1_2() {
       ArrayList<String> someVerbs = new ArrayList<String>(Arrays.asList("{Qong:v}", "{Sop:v}", "{HIv:v}", "{legh:v}", "{yaj:v}"));
+      ArrayList<String> someNouns = new ArrayList<String>(Arrays.asList("{tlhIngan:n}", "{tera'ngan:n}", "{SuvwI':n}", "{jagh:n}", "{HoD:v}"));
       Collections.shuffle(someVerbs);
       String review1Body = getString(R.string.body_basic_sentence_review_1, new Object[] {someVerbs.get(0)});
       String review2Body = getString(R.string.body_basic_sentence_review_2, new Object[] {getDefinition(someVerbs.get(1).substring(1, someVerbs.get(1).length() - 1))});
@@ -565,6 +566,19 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
                 // Review quiz 2.
                 .startNewPage(R.string.topic_quick_review, review2Body)
                 .addQuiz(someVerbs, someVerbs.get(1), LessonFragment.ChoiceTextType.ENTRY_NAME_ONLY)
+
+                // Show user the nouns.
+                .startNewPage(R.string.topic_a_few_nouns, R.string.body_a_few_nouns)
+                .addPlainList(someNouns)
+                .addClosingText(R.string.body_basic_sentence_2)
+
+                // Ask user to choose a verb.
+                .startNewPage(R.string.topic_somebody_does_something, R.string.body_somebody_does_something_1)
+                .addSelection(someVerbs)
+
+                // Ask user to choose noun.
+                .startNewPage(R.string.topic_somebody_does_something, R.string.body_somebody_does_something_1)
+                .addSelection(someNouns)
 
                 .build();
       } else {

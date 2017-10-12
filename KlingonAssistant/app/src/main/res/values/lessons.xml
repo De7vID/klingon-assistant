@@ -63,4 +63,16 @@ This means \"%2$s\".]]></string>
   <string name="topic_quick_review">A Quick Review</string>
   <string name="body_basic_sentence_review_1"><![CDATA[Let\'s have a quick review. What does %1$s mean?]]></string>
   <string name="body_basic_sentence_review_2"><![CDATA[And which of the following means \"%1$s\"?]]></string>
+
+  <string name="topic_a_few_nouns">A Few Nouns</string>
+  <string name="body_a_few_nouns"><![CDATA[Okay, now that we\'ve seen some verbs, let\'s look at some nouns.<br/>
+<br/>
+Here are some nouns for people:]]></string>
+
+  <string name="topic_somebody_does_something">Somebody does something</string>
+  <string name="body_somebody_does_something_1"><![CDATA[As you may recall, a verb by itself just means that he/she/it is or they are performing the action described by the verb. For example, {HIv:sen} means \"he/she/it attacks\" or \"they attack\". To say that the Klingon attacks, you put the word for Klingon after the verb, like this: {HIv tlhIngan:sen} \"the Klingon attacks\". This can also mean \"a Klingon attacks\".<br/>
+<br/>
+Now you try it. Pick a verb:]]></string>
+  <string name="body_somebody_does_something_2"><![CDATA[Good. Now pick a noun:]]></string>
+
 </resources>
