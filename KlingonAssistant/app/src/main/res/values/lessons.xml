@@ -20,7 +20,8 @@
   xmlns:tools="http://schemas.android.com/tools"
   tools:ignore="MissingTranslation">
 
-  <string name="lesson_header">Unit %1$d, Lesson %2$d</string>
+  <!-- Header for Unit, Lesson, and Section. -->
+  <string name="lesson_header">Unit %1$d, Lesson %2$d.%3$d</string>
 
   <!-- Unit 1, Lesson 1 -->
   <string name="topic_introduction">Welcome!</string>

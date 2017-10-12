@@ -57,11 +57,13 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
   // There is a summary page associated with each lesson.
   private int mUnitNumber = 1;
   private int mLessonNumber = 1;
+  private int mSectionNumber = 1;
   private boolean mShowSummary = false;
 
   // Keys for saving lesson progress.
   public static final String KEY_UNIT_NUMBER = "unit_number";
   public static final String KEY_LESSON_NUMBER = "lesson_number";
+  public static final String KEY_SECTION_NUMBER = "section_number";
   public static final String KEY_SHOW_SUMMARY = "show_summary";
 
   // For keeping a summary of user's choices and quiz answers.
@@ -272,7 +274,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
   }
 
   @Override
-  public void redoThisLesson() {
+  public void redoSection() {
     mShowSummary = false;
     mCorrectlyAnswered = 0;
     mTotalQuestions = 0;
@@ -286,6 +288,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
         PreferenceManager.getDefaultSharedPreferences(this).edit();
     sharedPrefsEd.putInt(KEY_UNIT_NUMBER, mUnitNumber);
     sharedPrefsEd.putInt(KEY_LESSON_NUMBER, mLessonNumber);
+    sharedPrefsEd.putInt(KEY_SECTION_NUMBER, mSectionNumber);
     sharedPrefsEd.putBoolean(KEY_SHOW_SUMMARY, mShowSummary);
     sharedPrefsEd.putInt(KEY_CORRECTLY_ANSWERED, mCorrectlyAnswered);
     sharedPrefsEd.putInt(KEY_TOTAL_QUESTIONS, mTotalQuestions);
@@ -389,18 +392,13 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       restoreProgress(activity);
 
       // TODO: Switch on unit and lesson numbers here.
-      String header = getHeader(1, 1);
+      String header = getHeader(mUnitNumber, mLessonNumber, mSectionNumber);
       activity.setHeader(header);
 
       switch (mUnitNumber) {
         case 1:
         default:
-          switch (mLessonNumber) {
-            case 1:
-            default:
-              Unit_1_Lesson_1();
-              break;
-          }
+          Unit_1(mLessonNumber, mSectionNumber);
           break;
       }
     }
@@ -409,6 +407,7 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
       SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(activity);
       mUnitNumber = sharedPrefs.getInt(KEY_UNIT_NUMBER, /* default */ 1);
       mLessonNumber = sharedPrefs.getInt(KEY_LESSON_NUMBER, /* default */ 1);
+      mSectionNumber = sharedPrefs.getInt(KEY_SECTION_NUMBER, /* default */ 1);
       mShowSummary = sharedPrefs.getBoolean(KEY_SHOW_SUMMARY, /* default */ false);
       mCorrectlyAnswered = sharedPrefs.getInt(KEY_CORRECTLY_ANSWERED, 0);
       mTotalQuestions = sharedPrefs.getInt(KEY_TOTAL_QUESTIONS, 0);
@@ -429,8 +428,8 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     }
 
     // Helper method to get the header for the toolbar.
-    private String getHeader(int unit, int lesson) {
-      return String.format(getResources().getString(R.string.lesson_header), unit, lesson);
+    private String getHeader(int unit, int lesson, int section) {
+      return String.format(getResources().getString(R.string.lesson_header), unit, lesson, section);
     }
 
     @Override
@@ -444,7 +443,27 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
     }
 
     // The layout of all the lessons are defined below.
-    private void Unit_1_Lesson_1() {
+    private void Unit_1(int lesson, int section) {
+      switch (lesson) {
+        case 1:
+        default:
+          Unit_1_Lesson_1(section);
+          break;
+      }
+    }
+
+    private void Unit_1_Lesson_1(int section) {
+      switch (section) {
+        case 1:
+        default:
+          Unit_1_Lesson_1_1();
+          break;
+      }
+    }
+
+    // Unit 1, Lesson 1.1
+    // The Basic Sentence
+    private void Unit_1_Lesson_1_1() {
       ArrayList someVerbs =
           new ArrayList(Arrays.asList("{Qong:v}", "{Sop:v}", "{HIv:v}", "{legh:v}", "{yaj:v}"));
       // ArrayList choiceList2 = new ArrayList(Arrays.asList("{Doch:n}", "{taj:n}", "{vIqraq:n}"));

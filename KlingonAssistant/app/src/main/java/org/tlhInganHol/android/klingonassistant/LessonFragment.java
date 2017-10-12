@@ -52,7 +52,7 @@ public class LessonFragment extends EntryFragment {
 
     void scoreQuiz(boolean correctlyAnswered);
 
-    void redoThisLesson();
+    void redoSection();
   }
 
   private Callback mCallback;
@@ -381,12 +381,6 @@ public class LessonFragment extends EntryFragment {
       BottomNavigationView specialSentenceNavView =
           (BottomNavigationView) rootView.findViewById(R.id.special_sentence_navigation);
       specialSentenceNavView.setVisibility(View.VISIBLE);
-      Menu specialSentenceNavMenu = specialSentenceNavView.getMenu();
-      MenuItem searchButton = (MenuItem) specialSentenceNavMenu.findItem(R.id.action_search);
-      MenuItem shareButton = (MenuItem) specialSentenceNavMenu.findItem(R.id.action_share);
-      MenuItem speakButton = (MenuItem) specialSentenceNavMenu.findItem(R.id.action_speak);
-      // Work around the button selected bug.
-      searchButton.setChecked(false);
       specialSentenceNavView.setOnNavigationItemSelectedListener(
           new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -435,15 +429,16 @@ public class LessonFragment extends EntryFragment {
           });
     }
     if (mIsSummaryPage) {
-      continueButton.setText(getActivity().getString(R.string.button_next_lesson));
-      final Button redoButton = (Button) rootView.findViewById(R.id.action_redo);
-      redoButton.setVisibility(View.VISIBLE);
-      redoButton.setOnClickListener(
+      // TODO: Change this text for last page of lesson or unit.
+      continueButton.setText(getActivity().getString(R.string.button_next_section));
+      final Button redoSectionButton = (Button) rootView.findViewById(R.id.action_redo_section);
+      redoSectionButton.setVisibility(View.VISIBLE);
+      redoSectionButton.setOnClickListener(
           new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              redoButton.setEnabled(false);
-              mCallback.redoThisLesson();
+              redoSectionButton.setEnabled(false);
+              mCallback.redoSection();
             }
           });
     }
