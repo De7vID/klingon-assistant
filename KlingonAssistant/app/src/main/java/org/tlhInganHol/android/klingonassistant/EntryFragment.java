@@ -93,14 +93,6 @@ public class EntryFragment extends Fragment {
     BottomNavigationView bottomNavView =
         (BottomNavigationView) rootView.findViewById(R.id.bottom_navigation);
     Menu bottomNavMenu = bottomNavView.getMenu();
-
-    // Work around a bug where one of the buttons is selected, and is in a different state,
-    // which displays as a different colour and font size. We override the colour in entry.xml,
-    // and select the middle button here by unchecking it so that the font difference isn't so
-    // noticeable.
-    MenuItem randomButton = (MenuItem) bottomNavMenu.findItem(R.id.action_random);
-    randomButton.setChecked(false);
-
     for (int i = 1; i <= MAX_ENTRY_ID_DIFF; i++) {
       Intent entryIntent = getEntryByIdIntent(entryId - i);
       if (entryIntent != null) {

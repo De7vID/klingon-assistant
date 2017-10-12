@@ -126,11 +126,11 @@
                       android:enabled="false"
                       android:visibility="gone" />
               <Button
-                      android:id="@+id/action_redo"
+                      android:id="@+id/action_redo_section"
                       android:padding="15dp"
                       android:layout_width="match_parent"
                       android:layout_height="56dp"
-                      android:text="@string/button_redo"
+                      android:text="@string/button_redo_section"
                       android:visibility="gone" />
               <!-- The bottom margin is needed so the entry doesn't overlap with
                    the tab dots. -->
