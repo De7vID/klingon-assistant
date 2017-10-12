@@ -386,7 +386,7 @@ public class LessonFragment extends EntryFragment {
       MenuItem shareButton = (MenuItem) specialSentenceNavMenu.findItem(R.id.action_share);
       MenuItem speakButton = (MenuItem) specialSentenceNavMenu.findItem(R.id.action_speak);
       // Work around the button selected bug.
-      shareButton.setChecked(false);
+      searchButton.setChecked(false);
       specialSentenceNavView.setOnNavigationItemSelectedListener(
           new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
