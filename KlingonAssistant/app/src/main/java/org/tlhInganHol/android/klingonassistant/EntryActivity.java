@@ -82,7 +82,7 @@ public class EntryActivity extends BaseActivity
         new TextToSpeech(
             this,
             this, // TextToSpeech.OnInitListener
-            "org.tlhInganHol.android.klingonttsengine"); // Requires API 14.
+            "org.tlhInganHol.android.klingonttsengine");
 
     setDrawerContentView(R.layout.entry_swipe);
 
@@ -199,7 +199,7 @@ public class EntryActivity extends BaseActivity
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
-    mShareButton = menu.findItem(R.id.share);
+    mShareButton = menu.findItem(R.id.action_share);
     mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(mShareButton);
 
     if (mShareActionProvider != null && mShareEntryIntent != null) {
@@ -210,7 +210,7 @@ public class EntryActivity extends BaseActivity
 
     // TTS:
     // The button is disabled in the layout. It should only be enabled in EntryActivity.
-    mSpeakButton = menu.findItem(R.id.speak);
+    mSpeakButton = menu.findItem(R.id.action_speak);
     // if (ttsInitialized) {
     //   // Log.d(TAG, "enabling TTS button in onCreateOptionsMenu");
     mSpeakButton.setVisible(true);
@@ -245,7 +245,7 @@ public class EntryActivity extends BaseActivity
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if (item.getItemId() == R.id.speak) {
+    if (item.getItemId() == R.id.action_speak) {
       // TTS:
       if (!ttsInitialized) {
         // The TTS engine is not installed (or disabled). Send user to Google Play Store or other
@@ -269,6 +269,7 @@ public class EntryActivity extends BaseActivity
 
   // TTS:
   // Implements TextToSpeech.OnInitListener.
+  @Override
   public void onInit(int status) {
     // status can be either TextToSpeech.SUCCESS or TextToSpeech.ERROR.
     if (status == TextToSpeech.SUCCESS) {

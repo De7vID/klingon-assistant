@@ -97,7 +97,7 @@ public class KlingonAssistant extends BaseActivity {
   //     mShowcaseViewOptions.hideOnClickOutside = false;
 
   //     // Use ShowcaseView to run the tutorial.
-  //     final ActionItemTarget searchTarget = new ActionItemTarget(this, R.id.search);
+  //     final ActionItemTarget searchTarget = new ActionItemTarget(this, R.id.action_search);
   //     final ActionItemTarget socialTarget = new ActionItemTarget(this, R.id.social_network);
   //     final ActionViewTarget homeTarget = new ActionViewTarget(this, ActionViewTarget.Type.HOME);
   //     final ActionViewTarget overflowTarget = new ActionViewTarget(this,

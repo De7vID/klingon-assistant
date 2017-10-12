@@ -12,8 +12,8 @@ android {
         // We are targeting only Marshmallow and above.
         minSdkVersion 23
         targetSdkVersion 26
-        versionCode 411
-        versionName "2017.10.09c"
+        versionCode 415
+        versionName "2017.10.12b"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -55,4 +55,10 @@ task updateDatabase(type: Exec) {
     commandLine './write_db.sh'
 }
 
+task checkAudioFiles(type: Exec) {
+    workingDir '../../scripts'
+    commandLine './check_audio_files.pl'
+}
+
 preBuild.dependsOn 'updateDatabase'
+preBuild.dependsOn 'checkAudioFiles'
