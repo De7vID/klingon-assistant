@@ -126,6 +126,13 @@
                       android:enabled="false"
                       android:visibility="gone" />
               <Button
+                      android:id="@+id/action_go_back_one_section"
+                      android:padding="15dp"
+                      android:layout_width="match_parent"
+                      android:layout_height="56dp"
+                      android:text="@string/button_go_back_one_section"
+                      android:visibility="gone" />
+              <Button
                       android:id="@+id/action_redo_section"
                       android:padding="15dp"
                       android:layout_width="match_parent"
