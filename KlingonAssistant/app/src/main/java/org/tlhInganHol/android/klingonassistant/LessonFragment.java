@@ -411,6 +411,7 @@ public class LessonFragment extends EntryFragment {
                   getActivity().startActivity(intent);
                   break;
                 case R.id.action_speak:
+                  ((LessonActivity) getActivity()).speakSentence(mSpecialSentence);
                   break;
               }
               return false;

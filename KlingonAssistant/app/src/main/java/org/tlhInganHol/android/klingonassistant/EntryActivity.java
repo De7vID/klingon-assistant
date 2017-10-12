@@ -82,7 +82,7 @@ public class EntryActivity extends BaseActivity
         new TextToSpeech(
             this,
             this, // TextToSpeech.OnInitListener
-            "org.tlhInganHol.android.klingonttsengine"); // Requires API 14.
+            "org.tlhInganHol.android.klingonttsengine");
 
     setDrawerContentView(R.layout.entry_swipe);
 
@@ -269,6 +269,7 @@ public class EntryActivity extends BaseActivity
 
   // TTS:
   // Implements TextToSpeech.OnInitListener.
+  @Override
   public void onInit(int status) {
     // status can be either TextToSpeech.SUCCESS or TextToSpeech.ERROR.
     if (status == TextToSpeech.SUCCESS) {

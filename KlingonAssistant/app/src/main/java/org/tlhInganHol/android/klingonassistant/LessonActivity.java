@@ -20,8 +20,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.speech.tts.TextToSpeech;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -29,16 +31,24 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-public class LessonActivity extends AppCompatActivity implements LessonFragment.Callback {
+public class LessonActivity extends AppCompatActivity implements LessonFragment.Callback, TextToSpeech.OnInitListener {
   private static final String TAG = "LessonActivity";
 
+  // TTS:
+  // All TTS operations are identical to the ones in EntryActivity.
+  private TextToSpeech mTts = null;
+  private boolean ttsInitialized = false;
+
+  // For going between lesson pages.
   private LessonViewPager mPager;
   private PagerAdapter mPagerAdapter;
   private LinearLayout mTabStrip;
@@ -67,6 +77,14 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    // TTS:
+    clearTTS();
+    mTts =
+        new TextToSpeech(
+            this,
+            this, // TextToSpeech.OnInitListener
+            "org.tlhInganHol.android.klingonttsengine");
 
     if (savedInstanceState != null) {
       mCorrectlyAnswered = savedInstanceState.getInt(KEY_CORRECTLY_ANSWERED);
@@ -161,6 +179,77 @@ public class LessonActivity extends AppCompatActivity implements LessonFragment.
 
     public List<LessonFragment> build() {
       return mLessonFragments;
+    }
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+
+    // TTS:
+    clearTTS();
+    mTts =
+        new TextToSpeech(
+            this,
+            this, // TextToSpeech.OnInitListener
+            "org.tlhInganHol.android.klingonttsengine"); // Requires API 14.
+  }
+
+  private void clearTTS() {
+    if (mTts != null) {
+      mTts.stop();
+      mTts.shutdown();
+    }
+  }
+
+  @Override
+  protected void onDestroy() {
+    // TTS:
+    clearTTS();
+    super.onDestroy();
+  }
+
+  public void speakSentence(String sentence) {
+    if (!ttsInitialized) {
+      try {
+        launchExternal("market://details?id=org.tlhInganHol.android.klingonttsengine");
+      } catch (android.content.ActivityNotFoundException e) {
+        // Fall back to browser.
+        launchExternal(
+            "https://play.google.com/store/apps/details?id=org.tlhInganHol.android.klingonttsengine");
+      }
+    } else {
+      mTts.speak(sentence, TextToSpeech.QUEUE_FLUSH, null);
+    }
+  }
+
+  // Method to launch an external app or web site.
+  // See identical method in BaseActivity.
+  private void launchExternal(String externalUrl) {
+    Intent intent = new Intent(Intent.ACTION_VIEW);
+    // Set NEW_TASK so the external app or web site is independent.
+    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    intent.setData(Uri.parse(externalUrl));
+    startActivity(intent);
+  }
+
+  // TTS:
+  // Implements TextToSpeech.OnInitListener.
+  // See comments in EntryActivity.
+  @Override
+  public void onInit(int status) {
+    if (status == TextToSpeech.SUCCESS) {
+      int result = mTts.setLanguage(new Locale("tlh", "", ""));
+      if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+        // Lanuage data is missing or the language is not supported.
+        Log.e(TAG, "Language is not available.");
+      } else {
+        // The TTS engine has been successfully initialized.
+        ttsInitialized = true;
+      }
+    } else {
+      // Initialization failed.
+      Log.e(TAG, "Could not initialize TextToSpeech.");
     }
   }
 
