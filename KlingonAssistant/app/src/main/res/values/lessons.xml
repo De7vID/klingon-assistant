@@ -23,7 +23,7 @@
   <!-- Header for Unit, Lesson, and Section. -->
   <string name="lesson_header">Unit %1$d, Lesson %2$d.%3$d</string>
 
-  <!-- Unit 1, Lesson 1 -->
+  <!-- Unit 1, Lesson 1.1 -->
   <string name="topic_introduction">Welcome!</string>
   <string name="body_introduction"><![CDATA[This course is an introduction to the Klingon language created by Dr. Marc Okrand for {Star Trek:src} and used in the films and TV series, most recently {Discovery:src}. It is assumed that you are in possession of {The Klingon Dictionary:src}, preferably the 1992 edition which includes an Addendum. In addition to most of the known vocabulary, this book also contains a largely complete description of the grammar. If you don\'t have it, go and purchase it now!<br/>
 <br/>
@@ -59,4 +59,8 @@ This means \"%2$s\".]]></string>
     <item>@string/translation_your_first_sentence_5</item>
   </string-array>
 
+  <!-- Unit 1, Lesson 1.2 -->
+  <string name="topic_quick_review">A Quick Review</string>
+  <string name="body_basic_sentence_review_1"><![CDATA[Let\'s have a quick review. What does %1$s mean?]]></string>
+  <string name="body_basic_sentence_review_2"><![CDATA[And which of the following means \"%1$s\"?]]></string>
 </resources>
