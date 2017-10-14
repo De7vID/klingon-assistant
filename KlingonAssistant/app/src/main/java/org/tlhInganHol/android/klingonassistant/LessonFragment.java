@@ -346,8 +346,11 @@ public class LessonFragment extends EntryFragment {
             start + definition.length(),
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
       }
-      ssb.setSpan(new RelativeSizeSpan(1.2f), 0, ssb.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    } else {
+      // This isn't a database entry, so just display it as plain text.
+      ssb.append(choiceText);
     }
+    ssb.setSpan(new RelativeSizeSpan(1.2f), 0, ssb.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     return ssb;
   }
 
@@ -484,6 +487,7 @@ public class LessonFragment extends EntryFragment {
 
   // This is called to set the "special sentence" on a summary page, which can
   // be searched, shared, or spoken.
+  // TODO: Accept more parameters such as components for search or additional notes for share.
   public void setSpecialSentence(String specialSentence) {
     mSpecialSentence = specialSentence;
   }
