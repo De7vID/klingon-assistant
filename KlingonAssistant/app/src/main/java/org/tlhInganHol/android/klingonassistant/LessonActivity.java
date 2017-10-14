@@ -364,8 +364,9 @@ public class LessonActivity extends AppCompatActivity
   }
 
   // Given query such as "Qong:v", return its definition, e.g., "sleep".
-  protected String getDefinition(String query) {
+  protected String getDefinition(String bracketedQuery) {
     // Log.d(TAG, "getDefinition called with query: " + query);
+    String query = stripBrackets(bracketedQuery, false);
     Cursor cursor =
         managedQuery(
             Uri.parse(KlingonContentProvider.CONTENT_URI + "/lookup"),
@@ -577,6 +578,7 @@ public class LessonActivity extends AppCompatActivity
         LessonFragment summaryFragment =
             LessonFragment.newInstance(getString(R.string.topic_your_first_sentence), summaryBody);
         summaryFragment.setAsSummaryPage();
+        // TODO: Call with sentence components.
         summaryFragment.setSpecialSentence(specialSentence);
         summaryFragment.setCannotGoBack();
         mLessonFragments.add(summaryFragment);
@@ -599,7 +601,7 @@ public class LessonActivity extends AppCompatActivity
       String review2Body =
           getString(
               R.string.body_basic_sentence_review_2,
-              new Object[] {getDefinition(stripBrackets(someVerbs.get(1), false))});
+              new Object[] {getDefinition(someVerbs.get(1))});
 
       if (!mShowSummary) {
         mLessonFragments =
@@ -640,13 +642,16 @@ public class LessonActivity extends AppCompatActivity
                 new Object[] {
                   "{" + specialSentence + ".:sen}",
                   noun,
-                  getDefinition(stripBrackets(noun, false)),
+                  getDefinition(noun),
                   verb,
-                  getDefinition(stripBrackets(verb, false))
+                  getDefinition(verb),
+                  mCorrectlyAnswered,
+                  mTotalQuestions
                 });
         LessonFragment summaryFragment =
             LessonFragment.newInstance(getString(R.string.topic_your_second_sentence), summaryBody);
         summaryFragment.setAsSummaryPage();
+        // TODO: Call with sentence components.
         summaryFragment.setSpecialSentence(specialSentence);
         summaryFragment.setCannotContinue();
         mLessonFragments.add(summaryFragment);
