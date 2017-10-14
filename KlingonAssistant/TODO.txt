@@ -7,3 +7,7 @@ German:
 grep -c "definition_de\"><" *
 ä ü ö ß Ü
 
+record sounds:
+{peS}, {tIw}, {tutlh}
+
+
