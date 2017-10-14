@@ -86,10 +86,21 @@ Now you try it. Pick a verb:]]></string>
 <br/>
 This means that the %2$s <i>%3$s</i> is performing the action described by %4$s <i>%5$s</i>.<br/>
 <br/>
-You answered %6$d out of %7$d review questions correctly in this section.]]></string>
+Also, you answered %6$d out of %7$d review questions correctly in this section.]]></string>
 
   <!-- Unit 1, Lesson 1.3 -->
-  <string name="topic_another_quick_review">Another Quick Review</string>
+  <string name="translation_review_1_1_3_1">The Terran sleeps</string>
+  <string name="translation_review_1_1_3_2">The warrior eats</string>
+  <string name="translation_review_1_1_3_3">The enemy attacks</string>
+  <string name="translation_review_1_1_3_4">The captain sees</string>
+  <string name="translation_review_1_1_3_5">The Klingon understands</string>
+  <string-array name="translation_review_1_1_3">
+    <item>@string/translation_review_1_1_3_1</item>
+    <item>@string/translation_review_1_1_3_2</item>
+    <item>@string/translation_review_1_1_3_3</item>
+    <item>@string/translation_review_1_1_3_4</item>
+    <item>@string/translation_review_1_1_3_5</item>
+  </string-array>
 
   <string name="topic_ovs">The Klingon attacks the enemy</string>
   <string name="body_ovs"><![CDATA[In the previous section, ]]></string>

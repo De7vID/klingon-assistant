@@ -39,6 +39,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -532,6 +533,9 @@ public class LessonActivity extends AppCompatActivity
         case 2:
           Unit_1_Lesson_1_2();
           break;
+        case 3:
+          Unit_1_Lesson_1_3();
+          break;
       }
     }
 
@@ -653,9 +657,82 @@ public class LessonActivity extends AppCompatActivity
         summaryFragment.setAsSummaryPage();
         // TODO: Call with sentence components.
         summaryFragment.setSpecialSentence(specialSentence);
+        mLessonFragments.add(summaryFragment);
+      }
+    }
+
+    // Unit 1, Lesson 1.3
+    private void Unit_1_Lesson_1_3() {
+      ArrayList<String> someSentences = new ArrayList<String>(Arrays.asList(
+          "{Qong tera'ngan:sen}",
+          "{Sop SuvwI':sen}",
+          "{HIv jagh:sen}",
+          "{legh HoD:sen}",
+          "{yaj tlhIngan:sen}"));
+      ArrayList<String> translations = new ArrayList<String>(Arrays.asList(
+          getResources().getStringArray(R.array.translation_review_1_1_3)));
+      Random random = new Random();
+      int r1 = random.nextInt(5);
+      int r2 = random.nextInt(4);
+      if (r2 >= r1) {
+        r2++;
+      }
+      String review1Body =
+          getString(R.string.body_basic_sentence_review_1, new Object[] {someSentences.get(r1)});
+      String review2Body =
+          getString(R.string.body_basic_sentence_review_2, new Object[] {translations.get(r2)});
+
+      if (!mShowSummary) {
+        mLessonFragments =
+            new LessonBuilder()
+                // Review quiz 1.
+                .startNewPage(R.string.topic_quick_review, review1Body)
+                .addQuiz(translations, translations.get(r1), LessonFragment.ChoiceTextType.ENTRY_NAME_ONLY)
+
+                // Review quiz 2.
+                .startNewPage(R.string.topic_quick_review, review2Body)
+                .addQuiz(someSentences, someSentences.get(r2), LessonFragment.ChoiceTextType.ENTRY_NAME_ONLY)
+
+                // // Show user the nouns.
+                // .startNewPage(R.string.topic_a_few_nouns, R.string.body_a_few_nouns)
+                // .addPlainList(someNouns)
+
+                // // Ask user to choose a verb.
+                // .startNewPage(
+                //     R.string.topic_somebody_does_something, R.string.body_somebody_does_something_1)
+                // .addSelection(someVerbs)
+
+                // // Ask user to choose noun.
+                // .startNewPage(
+                //     R.string.topic_somebody_does_something, R.string.body_somebody_does_something_2)
+                // .addSelection(someNouns)
+                .build();
+      } else {
+        mLessonFragments = new ArrayList<LessonFragment>();
+        // String verb = mSelectedChoices.get(0);
+        // String noun = mSelectedChoices.get(1);
+        // String specialSentence = stripBrackets(verb, true) + " " + stripBrackets(noun, true);
+        // String summaryBody =
+        //     getString(
+        //         R.string.body_your_second_sentence,
+        //         new Object[] {
+        //           "{" + specialSentence + ".:sen}",
+        //           noun,
+        //           getDefinition(noun),
+        //           verb,
+        //           getDefinition(verb),
+        //           mCorrectlyAnswered,
+        //           mTotalQuestions
+        //         });
+        LessonFragment summaryFragment =
+            LessonFragment.newInstance(getString(R.string.topic_your_second_sentence), "");
+        summaryFragment.setAsSummaryPage();
+        // TODO: Call with sentence components.
+        // summaryFragment.setSpecialSentence(specialSentence);
         summaryFragment.setCannotContinue();
         mLessonFragments.add(summaryFragment);
       }
     }
+
   }
 }
