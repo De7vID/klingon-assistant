@@ -472,7 +472,7 @@ public class LessonFragment extends EntryFragment {
     mChoiceTextType = choiceTextType;
 
     // Shuffle has to be done on a copy to preserve the original.
-    mChoices = new ArrayList(choices);
+    mChoices = new ArrayList<String>(choices);
     Collections.shuffle(mChoices);
   }
 

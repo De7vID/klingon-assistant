@@ -62,3 +62,9 @@ task checkAudioFiles(type: Exec) {
 
 preBuild.dependsOn 'updateDatabase'
 preBuild.dependsOn 'checkAudioFiles'
+
+// allprojects {
+//     tasks.withType(JavaCompile) {
+//         options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+//     }
+// }
