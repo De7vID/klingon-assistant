@@ -104,4 +104,9 @@ Also, you answered %6$d out of %7$d review questions correctly in this section.]
 
   <string name="topic_ovs">The Klingon attacks the enemy</string>
   <string name="body_ovs"><![CDATA[In the previous section, ]]></string>
+
+  <string name="topic_simple_prefixes">I study, we learn</string>
+  <string name="body_simple_prefixes"><![CDATA[In the previous section, you learned that a verb by itself means "he/she/it does something" or "they do something". To say "I do something" or "you do something", you have to add a prefix to the verb.<br/>
+<br/>
+In English, you change the ending of a verb to indicate ]]></string>
 </resources>
