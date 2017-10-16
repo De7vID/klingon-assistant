@@ -390,7 +390,8 @@ public class LessonActivity extends AppCompatActivity
     return definition;
   }
 
-  // Remove the outer "{}" from a query. For example, given "{Qong:v}", return "Qong:v}. If alsoStripPos is true, also remove the part of speech, e.g., return "Qong".
+  // Remove the outer "{}" from a query. For example, given "{Qong:v}", return "Qong:v}. If
+  // alsoStripPos is true, also remove the part of speech, e.g., return "Qong".
   private String stripBrackets(String query, boolean alsoStripPos) {
     if (query.length() > 2 && query.charAt(0) == '{' && query.charAt(query.length() - 1) == '}') {
       int colonLoc = query.indexOf(':');
@@ -663,14 +664,25 @@ public class LessonActivity extends AppCompatActivity
 
     // Unit 1, Lesson 1.3
     private void Unit_1_Lesson_1_3() {
-      ArrayList<String> someSentences = new ArrayList<String>(Arrays.asList(
-          "{Qong tera'ngan:sen}",
-          "{Sop SuvwI':sen}",
-          "{HIv jagh:sen}",
-          "{legh HoD:sen}",
-          "{yaj tlhIngan:sen}"));
-      ArrayList<String> translations = new ArrayList<String>(Arrays.asList(
-          getResources().getStringArray(R.array.translation_review_1_1_3)));
+      ArrayList<String> someSentences =
+          new ArrayList<String>(
+              Arrays.asList(
+                  "{Qong tera'ngan:sen}",
+                  "{Sop SuvwI':sen}",
+                  "{HIv jagh:sen}",
+                  "{legh HoD:sen}",
+                  "{yaj tlhIngan:sen}"));
+      ArrayList<String> translations =
+          new ArrayList<String>(
+              Arrays.asList(getResources().getStringArray(R.array.translation_review_1_1_3)));
+      ArrayList<String> simplePrefixes =
+          new ArrayList<String>(Arrays.asList("{jI-:v}", "{bI-:v}", "{ma-:v}", "{Su-:v}"));
+      ArrayList<String> quiz1 =
+          new ArrayList<String>(
+              Arrays.asList("{jIHaD:sen}", "{bIHaD:sen}", "{maHaD:sen}", "{SuHaD:sen}"));
+      ArrayList<String> quiz2 =
+          new ArrayList<String>(
+              Arrays.asList("{jIghoj:sen}", "{bIghoj:sen}", "{maghoj:sen}", "{Sughoj:sen}"));
       Random random = new Random();
       int r1 = random.nextInt(5);
       int r2 = random.nextInt(4);
@@ -687,52 +699,43 @@ public class LessonActivity extends AppCompatActivity
             new LessonBuilder()
                 // Review quiz 1.
                 .startNewPage(R.string.topic_quick_review, review1Body)
-                .addQuiz(translations, translations.get(r1), LessonFragment.ChoiceTextType.ENTRY_NAME_ONLY)
+                .addQuiz(
+                    translations,
+                    translations.get(r1),
+                    LessonFragment.ChoiceTextType.ENTRY_NAME_ONLY)
 
                 // Review quiz 2.
                 .startNewPage(R.string.topic_quick_review, review2Body)
-                .addQuiz(someSentences, someSentences.get(r2), LessonFragment.ChoiceTextType.ENTRY_NAME_ONLY)
+                .addQuiz(
+                    someSentences,
+                    someSentences.get(r2),
+                    LessonFragment.ChoiceTextType.ENTRY_NAME_ONLY)
 
-                // // Show user the nouns.
-                // .startNewPage(R.string.topic_a_few_nouns, R.string.body_a_few_nouns)
-                // .addPlainList(someNouns)
+                // Show user the simple prefixes.
+                .startNewPage(R.string.topic_simple_prefixes, R.string.body_simple_prefixes_1)
+                .addPlainList(simplePrefixes)
+                .addClosingText(R.string.body_simple_prefixes_2)
 
-                // // Ask user to choose a verb.
-                // .startNewPage(
-                //     R.string.topic_somebody_does_something, R.string.body_somebody_does_something_1)
-                // .addSelection(someVerbs)
+                // Quiz 1.
+                .startNewPage(R.string.topic_simple_prefixes, R.string.body_simple_prefixes_3)
+                .addQuiz(quiz1, quiz1.get(0), LessonFragment.ChoiceTextType.ENTRY_NAME_ONLY)
 
-                // // Ask user to choose noun.
-                // .startNewPage(
-                //     R.string.topic_somebody_does_something, R.string.body_somebody_does_something_2)
-                // .addSelection(someNouns)
+                // Quiz 2.
+                .startNewPage(R.string.topic_simple_prefixes, R.string.body_simple_prefixes_4)
+                .addQuiz(quiz2, quiz2.get(2), LessonFragment.ChoiceTextType.ENTRY_NAME_ONLY)
                 .build();
       } else {
         mLessonFragments = new ArrayList<LessonFragment>();
-        // String verb = mSelectedChoices.get(0);
-        // String noun = mSelectedChoices.get(1);
-        // String specialSentence = stripBrackets(verb, true) + " " + stripBrackets(noun, true);
-        // String summaryBody =
-        //     getString(
-        //         R.string.body_your_second_sentence,
-        //         new Object[] {
-        //           "{" + specialSentence + ".:sen}",
-        //           noun,
-        //           getDefinition(noun),
-        //           verb,
-        //           getDefinition(verb),
-        //           mCorrectlyAnswered,
-        //           mTotalQuestions
-        //         });
+        String summaryBody =
+            getString(
+                R.string.body_simple_prefixes_summary,
+                new Object[] {mCorrectlyAnswered, mTotalQuestions});
         LessonFragment summaryFragment =
-            LessonFragment.newInstance(getString(R.string.topic_your_second_sentence), "");
+            LessonFragment.newInstance(getString(R.string.topic_simple_prefixes), summaryBody);
         summaryFragment.setAsSummaryPage();
-        // TODO: Call with sentence components.
-        // summaryFragment.setSpecialSentence(specialSentence);
         summaryFragment.setCannotContinue();
         mLessonFragments.add(summaryFragment);
       }
     }
-
   }
 }
