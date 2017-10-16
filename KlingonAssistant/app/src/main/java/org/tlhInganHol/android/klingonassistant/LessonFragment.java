@@ -359,7 +359,7 @@ public class LessonFragment extends EntryFragment {
       TextView lessonBodyBottom = (TextView) rootView.findViewById(R.id.lesson_body_bottom);
       lessonBodyBottom.setVisibility(View.VISIBLE);
       lessonBodyBottom.invalidate();
-      SpannableStringBuilder closingText = new SpannableStringBuilder(mClosingText);
+      SpannableStringBuilder closingText = new SpannableStringBuilder(Html.fromHtml(mClosingText));
       processMixedText(closingText, null);
       // We don't call setMovementMethod on lessonBodyBottom, since we disable all
       // entry links.
