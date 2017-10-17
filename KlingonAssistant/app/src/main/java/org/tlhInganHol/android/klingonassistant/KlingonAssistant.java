@@ -17,6 +17,8 @@
 package org.tlhInganHol.android.klingonassistant;
 
 import android.app.SearchManager;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -37,6 +39,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TwoLineListItem;
+import java.util.concurrent.TimeUnit;
+import org.tlhInganHol.android.klingonassistant.service.KwotdService;
 
 // TUTORIAL:
 // import com.espian.showcaseview.ShowcaseView;
@@ -49,6 +53,9 @@ import android.widget.TwoLineListItem;
  */
 public class KlingonAssistant extends BaseActivity {
   private static final String TAG = "KlingonAssistant";
+
+  // Job ID for the KwotdService job. Just has to be unique.
+  private static final int KWOTD_SERVICE_JOB_ID = 0;
 
   // Whether to include the tutorial or not. If false, the code should be stripped out of the
   // binary.
@@ -82,6 +89,21 @@ public class KlingonAssistant extends BaseActivity {
 
     mTextView = (TextView) findViewById(R.id.text);
     mListView = (ListView) findViewById(R.id.list);
+
+    if (sharedPrefs.getBoolean(Preferences.KEY_KWOTD_CHECKBOX_PREFERENCE, /* default */ false)) {
+      // TODO: Check if service is already running.
+      JobInfo.Builder builder =
+          new JobInfo.Builder(KWOTD_SERVICE_JOB_ID, new ComponentName(this, KwotdService.class));
+      // builder.setMinimumLatency(1000);
+      // builder.setOverrideDeadline(10000);
+      builder.setPeriodic(TimeUnit.HOURS.toMillis(24));
+      builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+      builder.setRequiresDeviceIdle(false);
+      builder.setRequiresCharging(false);
+      Log.d(TAG, "Scheduling KwotdService job");
+      JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+      scheduler.schedule(builder.build());
+    }
 
     handleIntent(getIntent());
   }

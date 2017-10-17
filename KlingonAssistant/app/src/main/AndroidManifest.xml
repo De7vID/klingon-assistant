@@ -108,5 +108,11 @@
         <meta-data android:name="android.app.default_searchable"
                    android:value=".KlingonAssistant" />
 
+        <!-- Service to fetch the Klingon Word of the Day from kag.org servers. -->
+        <service
+            android:name=".service.KwotdService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="true"/>
+
     </application>
 </manifest>
