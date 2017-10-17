@@ -160,8 +160,8 @@
       <string name="under_construction_preferences">Under construction</string>
         <string name="show_fab_preference_title">Unsupported features</string>
         <string name="show_fab_preference_summary">Don\'t check this if you\'re not a beta tester.</string>
-        <string name="kwotd_preference_title">KWOTD</string>
-        <string name="kwotd_preference_summary">Synchronise Klingon Word of the Day.</string>
+        <string name="kwotd_preference_title">Klingon Word of the Day (KWOTD)</string>
+        <string name="kwotd_preference_summary">Fetch KWOTD from hol.kag.org servers and notify when new word is available. This requires Internet access and uses network data.</string>
 
     <string name="warning">Warning</string>
     <string name="change_ui_language_warning">Changing the UI language may not completely take effect until this application is restarted.\n\nDo you wish to continue?</string>
@@ -230,6 +230,9 @@
     <string name="tutorial_7_title">Qapla\'! (Success!)</string>
     <string name="tutorial_7_msg">For advanced users, there are more settings under the Preferences menu.</string>
     -->
+
+    <!-- KWOTD notification. -->
+    <string name="kwotd_footer"><![CDATA[Klingon Word of the Day brought to you by <b>Hol \'ampaS</b>]]></string>
 
     <!-- From the generated app, can probably delete. -->
     <string name="navigation_drawer_open">Open navigation drawer</string>

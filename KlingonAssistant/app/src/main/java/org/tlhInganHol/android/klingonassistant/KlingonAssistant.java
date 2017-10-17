@@ -90,19 +90,35 @@ public class KlingonAssistant extends BaseActivity {
     mTextView = (TextView) findViewById(R.id.text);
     mListView = (ListView) findViewById(R.id.list);
 
+    // Schedule the KWOTD service if it hasn't already been started.
     if (sharedPrefs.getBoolean(Preferences.KEY_KWOTD_CHECKBOX_PREFERENCE, /* default */ false)) {
-      // TODO: Check if service is already running.
-      JobInfo.Builder builder =
-          new JobInfo.Builder(KWOTD_SERVICE_JOB_ID, new ComponentName(this, KwotdService.class));
-      // builder.setMinimumLatency(1000);
-      // builder.setOverrideDeadline(10000);
-      builder.setPeriodic(TimeUnit.HOURS.toMillis(24));
-      builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
-      builder.setRequiresDeviceIdle(false);
-      builder.setRequiresCharging(false);
-      Log.d(TAG, "Scheduling KwotdService job");
+
+      // Check if service is already running.
       JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-      scheduler.schedule(builder.build());
+      boolean jobAlreadyExists = false;
+      for (JobInfo jobInfo : scheduler.getAllPendingJobs()) {
+        if (jobInfo.getId() == KWOTD_SERVICE_JOB_ID) {
+          // Log.d(TAG, "KWOTD job already exists.");
+          jobAlreadyExists = true;
+          break;
+        }
+      }
+
+      // Start job.
+      if (!jobAlreadyExists) {
+        // Set the job to run every 24 hours, during a window with network connectivity, and
+        // exponentially back off if it fails with a delay of 1 hour. (Note that Android caps the
+        // backoff at 5 hours, so this will retry at 1 hour, 2 hours, and 4 hours.)
+        JobInfo.Builder builder =
+            new JobInfo.Builder(KWOTD_SERVICE_JOB_ID, new ComponentName(this, KwotdService.class));
+        builder.setPeriodic(TimeUnit.HOURS.toMillis(24));
+        builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+        builder.setBackoffCriteria(TimeUnit.HOURS.toMillis(1), JobInfo.BACKOFF_POLICY_EXPONENTIAL);
+        builder.setRequiresCharging(false);
+        builder.setPersisted(true);
+        Log.d(TAG, "Scheduling KwotdService job");
+        scheduler.schedule(builder.build());
+      }
     }
 
     handleIntent(getIntent());
