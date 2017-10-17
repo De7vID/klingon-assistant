@@ -160,6 +160,8 @@
       <string name="under_construction_preferences">Under construction</string>
         <string name="show_fab_preference_title">Unsupported features</string>
         <string name="show_fab_preference_summary">Don\'t check this if you\'re not a beta tester.</string>
+        <string name="kwotd_preference_title">KWOTD</string>
+        <string name="kwotd_preference_summary">Synchronise Klingon Word of the Day.</string>
 
     <string name="warning">Warning</string>
     <string name="change_ui_language_warning">Changing the UI language may not completely take effect until this application is restarted.\n\nDo you wish to continue?</string>
