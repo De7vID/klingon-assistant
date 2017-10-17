@@ -25,6 +25,13 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import org.json.JSONObject;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import java.lang.Exception;
+import java.io.IOException;
+import java.net.URL;
+import android.os.AsyncTask;
 
 public class KwotdService extends JobService {
     private static final String TAG = "KwotdService";
@@ -44,15 +51,16 @@ public class KwotdService extends JobService {
     @Override
     public boolean onStartJob(final JobParameters params) {
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        handler.post(new Runnable() {
             @Override
             public void run() {
-                // TODO: Do stuff.
+                // Do stuff in a new task.
+                new KwotdTask().execute();
 
                 // Release the wake lock.
                 jobFinished(params, false);
             }
-        }, 1000);
+        });
         Log.i(TAG, "on start job: " + params.getJobId());
 
         // Return true to hold the wake lock.
@@ -65,5 +73,39 @@ public class KwotdService extends JobService {
 
         // Return false to drop the job.
         return false;
+    }
+
+    private class KwotdTask extends AsyncTask<Void, Void, Void> {
+        private static final String KWOTD_JSON_URL = "http://hol.kag.org/alexa.php?KWOTD=1";
+
+        @Override
+        protected Void doInBackground(Void... params) {
+          BufferedReader bufferedReader = null;
+          try {
+            URL url = new URL(KWOTD_JSON_URL);
+            bufferedReader = new BufferedReader(new InputStreamReader(url.openConnection().getInputStream()));
+            StringBuffer sb = new StringBuffer();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+              sb.append(line);
+            }
+            JSONObject object = new JSONObject(sb.toString());
+
+            // TODO: Do stuff.
+            Log.i(TAG, object.toString());
+          } catch(Exception e) {
+            e.printStackTrace();
+          }
+          finally {
+            if (bufferedReader != null) {
+              try {
+                bufferedReader.close();
+              } catch (IOException e) {
+                e.printStackTrace();
+              }
+            }
+          }
+          return null;
+        }
     }
 }
