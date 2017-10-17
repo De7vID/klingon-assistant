@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 De'vID jonpIn (David Yonge-Mallo)
+ * Copyright (C) 2017 De'vID jonpIn (David Yonge-Mallo)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,6 +39,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -364,8 +365,9 @@ public class LessonActivity extends AppCompatActivity
   }
 
   // Given query such as "Qong:v", return its definition, e.g., "sleep".
-  protected String getDefinition(String query) {
+  protected String getDefinition(String bracketedQuery) {
     // Log.d(TAG, "getDefinition called with query: " + query);
+    String query = stripBrackets(bracketedQuery, false);
     Cursor cursor =
         managedQuery(
             Uri.parse(KlingonContentProvider.CONTENT_URI + "/lookup"),
@@ -388,7 +390,8 @@ public class LessonActivity extends AppCompatActivity
     return definition;
   }
 
-  // Remove the outer "{}" from a query. For example, given "{Qong:v}", return "Qong:v}. If alsoStripPos is true, also remove the part of speech, e.g., return "Qong".
+  // Remove the outer "{}" from a query. For example, given "{Qong:v}", return "Qong:v}. If
+  // alsoStripPos is true, also remove the part of speech, e.g., return "Qong".
   private String stripBrackets(String query, boolean alsoStripPos) {
     if (query.length() > 2 && query.charAt(0) == '{' && query.charAt(query.length() - 1) == '}') {
       int colonLoc = query.indexOf(':');
@@ -531,6 +534,9 @@ public class LessonActivity extends AppCompatActivity
         case 2:
           Unit_1_Lesson_1_2();
           break;
+        case 3:
+          Unit_1_Lesson_1_3();
+          break;
       }
     }
 
@@ -577,6 +583,7 @@ public class LessonActivity extends AppCompatActivity
         LessonFragment summaryFragment =
             LessonFragment.newInstance(getString(R.string.topic_your_first_sentence), summaryBody);
         summaryFragment.setAsSummaryPage();
+        // TODO: Call with sentence components.
         summaryFragment.setSpecialSentence(specialSentence);
         summaryFragment.setCannotGoBack();
         mLessonFragments.add(summaryFragment);
@@ -599,7 +606,7 @@ public class LessonActivity extends AppCompatActivity
       String review2Body =
           getString(
               R.string.body_basic_sentence_review_2,
-              new Object[] {getDefinition(stripBrackets(someVerbs.get(1), false))});
+              new Object[] {getDefinition(someVerbs.get(1))});
 
       if (!mShowSummary) {
         mLessonFragments =
@@ -640,14 +647,92 @@ public class LessonActivity extends AppCompatActivity
                 new Object[] {
                   "{" + specialSentence + ".:sen}",
                   noun,
-                  getDefinition(stripBrackets(noun, false)),
+                  getDefinition(noun),
                   verb,
-                  getDefinition(stripBrackets(verb, false))
+                  getDefinition(verb),
+                  mCorrectlyAnswered,
+                  mTotalQuestions
                 });
         LessonFragment summaryFragment =
             LessonFragment.newInstance(getString(R.string.topic_your_second_sentence), summaryBody);
         summaryFragment.setAsSummaryPage();
+        // TODO: Call with sentence components.
         summaryFragment.setSpecialSentence(specialSentence);
+        mLessonFragments.add(summaryFragment);
+      }
+    }
+
+    // Unit 1, Lesson 1.3
+    private void Unit_1_Lesson_1_3() {
+      ArrayList<String> someSentences =
+          new ArrayList<String>(
+              Arrays.asList(
+                  "{Qong tera'ngan:sen}",
+                  "{Sop SuvwI':sen}",
+                  "{HIv jagh:sen}",
+                  "{legh HoD:sen}",
+                  "{yaj tlhIngan:sen}"));
+      ArrayList<String> translations =
+          new ArrayList<String>(
+              Arrays.asList(getResources().getStringArray(R.array.translation_review_1_1_3)));
+      ArrayList<String> simplePrefixes =
+          new ArrayList<String>(Arrays.asList("{jI-:v}", "{bI-:v}", "{ma-:v}", "{Su-:v}"));
+      ArrayList<String> quiz1 =
+          new ArrayList<String>(
+              Arrays.asList("{jIHaD:sen}", "{bIHaD:sen}", "{maHaD:sen}", "{SuHaD:sen}"));
+      ArrayList<String> quiz2 =
+          new ArrayList<String>(
+              Arrays.asList("{jIghoj:sen}", "{bIghoj:sen}", "{maghoj:sen}", "{Sughoj:sen}"));
+      Random random = new Random();
+      int r1 = random.nextInt(5);
+      int r2 = random.nextInt(4);
+      if (r2 >= r1) {
+        r2++;
+      }
+      String review1Body =
+          getString(R.string.body_basic_sentence_review_1, new Object[] {someSentences.get(r1)});
+      String review2Body =
+          getString(R.string.body_basic_sentence_review_2, new Object[] {translations.get(r2)});
+
+      if (!mShowSummary) {
+        mLessonFragments =
+            new LessonBuilder()
+                // Review quiz 1.
+                .startNewPage(R.string.topic_quick_review, review1Body)
+                .addQuiz(
+                    translations,
+                    translations.get(r1),
+                    LessonFragment.ChoiceTextType.ENTRY_NAME_ONLY)
+
+                // Review quiz 2.
+                .startNewPage(R.string.topic_quick_review, review2Body)
+                .addQuiz(
+                    someSentences,
+                    someSentences.get(r2),
+                    LessonFragment.ChoiceTextType.ENTRY_NAME_ONLY)
+
+                // Show user the simple prefixes.
+                .startNewPage(R.string.topic_simple_prefixes, R.string.body_simple_prefixes_1)
+                .addPlainList(simplePrefixes)
+                .addClosingText(R.string.body_simple_prefixes_2)
+
+                // Quiz 1.
+                .startNewPage(R.string.topic_simple_prefixes, R.string.body_simple_prefixes_3)
+                .addQuiz(quiz1, quiz1.get(0), LessonFragment.ChoiceTextType.ENTRY_NAME_ONLY)
+
+                // Quiz 2.
+                .startNewPage(R.string.topic_simple_prefixes, R.string.body_simple_prefixes_4)
+                .addQuiz(quiz2, quiz2.get(2), LessonFragment.ChoiceTextType.ENTRY_NAME_ONLY)
+                .build();
+      } else {
+        mLessonFragments = new ArrayList<LessonFragment>();
+        String summaryBody =
+            getString(
+                R.string.body_simple_prefixes_summary,
+                new Object[] {mCorrectlyAnswered, mTotalQuestions});
+        LessonFragment summaryFragment =
+            LessonFragment.newInstance(getString(R.string.topic_simple_prefixes), summaryBody);
+        summaryFragment.setAsSummaryPage();
         summaryFragment.setCannotContinue();
         mLessonFragments.add(summaryFragment);
       }

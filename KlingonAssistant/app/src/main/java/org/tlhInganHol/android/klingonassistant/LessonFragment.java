@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 De'vID jonpIn (David Yonge-Mallo)
+ * Copyright (C) 2017 De'vID jonpIn (David Yonge-Mallo)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -346,8 +346,11 @@ public class LessonFragment extends EntryFragment {
             start + definition.length(),
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
       }
-      ssb.setSpan(new RelativeSizeSpan(1.2f), 0, ssb.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    } else {
+      // This isn't a database entry, so just display it as plain text.
+      ssb.append(choiceText);
     }
+    ssb.setSpan(new RelativeSizeSpan(1.2f), 0, ssb.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     return ssb;
   }
 
@@ -356,7 +359,7 @@ public class LessonFragment extends EntryFragment {
       TextView lessonBodyBottom = (TextView) rootView.findViewById(R.id.lesson_body_bottom);
       lessonBodyBottom.setVisibility(View.VISIBLE);
       lessonBodyBottom.invalidate();
-      SpannableStringBuilder closingText = new SpannableStringBuilder(mClosingText);
+      SpannableStringBuilder closingText = new SpannableStringBuilder(Html.fromHtml(mClosingText));
       processMixedText(closingText, null);
       // We don't call setMovementMethod on lessonBodyBottom, since we disable all
       // entry links.
@@ -469,7 +472,7 @@ public class LessonFragment extends EntryFragment {
     mChoiceTextType = choiceTextType;
 
     // Shuffle has to be done on a copy to preserve the original.
-    mChoices = new ArrayList(choices);
+    mChoices = new ArrayList<String>(choices);
     Collections.shuffle(mChoices);
   }
 
@@ -484,6 +487,7 @@ public class LessonFragment extends EntryFragment {
 
   // This is called to set the "special sentence" on a summary page, which can
   // be searched, shared, or spoken.
+  // TODO: Accept more parameters such as components for search or additional notes for share.
   public void setSpecialSentence(String specialSentence) {
     mSpecialSentence = specialSentence;
   }
