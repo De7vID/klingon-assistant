@@ -37,7 +37,7 @@ Click <b>Continue</b> when you are ready to begin.]]></string>
   <string name="body_basic_sentence_1"><![CDATA[The Klingon culture is a direct one, so let\'s get right down to business.<br/>
 <br/>
 The most basic Klingon sentence consists of just the verb. Here are some Klingon verbs:]]></string>
-  <string name="body_basic_sentence_2"><![CDATA[A verb by itself means that he/she/it is or they are performing the action described by that verb. For example, {Qong:sen} means \"he/she/it sleeps\" or \"they sleep\".]]></string>
+  <string name="body_basic_sentence_2"><![CDATA[A verb by itself means that he/she/it is or they are performing the action described by that verb. For example, {Qong:sen} means <i>he/she/it sleeps</i> or <i>they sleep</i>.]]></string>
   <string name="body_basic_sentence_3"><![CDATA[Now you try it. Pick a verb:]]></string>
 
   <string name="topic_your_first_sentence">Your first sentence</string>
@@ -45,7 +45,7 @@ The most basic Klingon sentence consists of just the verb. Here are some Klingon
 <br/>
 %1$s<br/>
 <br/>
-This means \"%2$s\".]]></string>
+This means <i>%2$s</i>.]]></string>
   <string name="translation_your_first_sentence_1">he/she/it sleeps, they sleep</string>
   <string name="translation_your_first_sentence_2">he/she/it eats, they eat</string>
   <string name="translation_your_first_sentence_3">he/she/it attacks, they attack</string>
@@ -62,27 +62,63 @@ This means \"%2$s\".]]></string>
   <!-- Unit 1, Lesson 1.2 -->
   <string name="topic_quick_review">A Quick Review</string>
   <string name="body_basic_sentence_review_1"><![CDATA[Let\'s have a quick review. What does %1$s mean?]]></string>
-  <string name="body_basic_sentence_review_2"><![CDATA[And which of the following means \"%1$s\"?]]></string>
+  <string name="body_basic_sentence_review_2"><![CDATA[And which of the following means <i>%1$s</i>?]]></string>
 
   <string name="topic_a_few_nouns">A Few Nouns</string>
   <string name="body_a_few_nouns"><![CDATA[Okay, now that we\'ve seen some verbs, let\'s look at some nouns.<br/>
 <br/>
-Here are some nouns for people:]]></string>
+Here are some nouns for different kinds of people:]]></string>
 
-  <string name="topic_somebody_does_something">Somebody does something</string>
-  <string name="body_somebody_does_something_1"><![CDATA[As you may recall, a verb by itself just means that he/she/it is or they are performing the action described by the verb. For example, {HIv:sen} means \"he/she/it attacks\" or \"they attack\". To say that the Klingon attacks, you put the word for Klingon after the verb, like this:<br/>
+  <string name="topic_somebody_does_something">The Klingon attacks</string>
+  <string name="body_somebody_does_something_1"><![CDATA[As you may recall from the previous section, a verb by itself just means that he/she/it is or they are performing the action described by the verb. For example, {HIv:sen} means <i>he/she/it attacks</i> or <i>they attack</i>. To say that the Klingon attacks, put the word for Klingon after the verb, like this:<br/>
 <br/>
-{HIv tlhIngan:sen} \"the Klingon attacks\".<br/>
+{HIv tlhIngan:sen} <i>the Klingon attacks</i>.<br/>
 <br/>
-This can also mean \"a Klingon attacks\".<br/>
+Klingon does not have articles (a, the), so this can also mean <i>a Klingon attacks</i>.<br/>
 <br/>
 Now you try it. Pick a verb:]]></string>
   <string name="body_somebody_does_something_2"><![CDATA[Good. Now pick a noun:]]></string>
 
   <string name="topic_your_second_sentence">Your second sentence</string>
-  <string name="body_your_second_sentence"><![CDATA[Your second Klingon sentence is:<br/>
+  <string name="body_your_second_sentence"><![CDATA[Good! Your second Klingon sentence is:<br/>
 <br/>
 %1$s<br/>
 <br/>
-This means that the %2$s \"%3$s\" is performing the action described by %4$s \"%5$s\".]]></string>
+This means that the %2$s <i>%3$s</i> is performing the action described by %4$s <i>%5$s</i>.<br/>
+<br/>
+Also, you answered %6$d out of %7$d review questions correctly in this section.]]></string>
+
+  <!-- Unit 1, Lesson 1.3 -->
+  <string name="translation_review_1_1_3_1">The Terran sleeps</string>
+  <string name="translation_review_1_1_3_2">The warrior eats</string>
+  <string name="translation_review_1_1_3_3">The enemy attacks</string>
+  <string name="translation_review_1_1_3_4">The captain sees</string>
+  <string name="translation_review_1_1_3_5">The Klingon understands</string>
+  <string-array name="translation_review_1_1_3">
+    <item>@string/translation_review_1_1_3_1</item>
+    <item>@string/translation_review_1_1_3_2</item>
+    <item>@string/translation_review_1_1_3_3</item>
+    <item>@string/translation_review_1_1_3_4</item>
+    <item>@string/translation_review_1_1_3_5</item>
+  </string-array>
+
+  <string name="topic_simple_prefixes">I study, we learn</string>
+  <string name="body_simple_prefixes_1"><![CDATA[In the previous section, you learned that a verb by itself means <i>he/she/it does something</i> or <i>they do something</i>. To say <i>I do something</i> or <i>you do something</i>, you have to change the verb slightly.<br/>
+<br/>
+In English, you change the ending of a verb to indicate who is doing something: <i>I sleep</i>, <i>you sleep</i>, but <i>he/she/it sleep<u>s</u></i>. In Klingon, you change the beginning of the verb by adding a prefix. The prefix indicates both who or what is doing something (the subject), and if applicable, to whom or what the action is being done (the object).<br/>
+<br/>
+Here are four prefixes which are used when there is no object.]]></string>
+  <string name="body_simple_prefixes_2"><![CDATA[For example, when combined with the verb {Qong:v} <i>sleep</i>, we get {jIQong:sen} <i>I sleep</i>, {bIQong:sen} <i>you sleep</i>, {maQong:sen} <i>we sleep</i>, and {SuQong:sen} <i>you (plural) sleep</i>.<br/>
+<br/>
+Following the convention used in {TKD:src}, we will write the absence of a prefix as {0:v:suff} when we need to present it alongside non-empty prefixes. As you learned earlier, the absence of a prefix is used to indicate that the subject is <i>he/she/it</i> or <i>they</i> and the object is <i>none</i>.]]></string>
+
+  <string name="body_simple_prefixes_3"><![CDATA[Have you been paying attention? Which of the following means <i>I study</i>?]]></string>
+  <string name="body_simple_prefixes_4"><![CDATA[And which of the following means <i>We learn</i>?]]></string>
+  <string name="body_simple_prefixes_summary"><![CDATA[You answered %1$d out of %2$d questions correctly in this section.<br/>
+<br/>
+You also learned (or should have learned) the verbs {HaD:v} <i>study</i> and {ghoj:v} <i>learn</i>.]]></string>
+
+  <string name="topic_ovs">The Klingon attacks the enemy</string>
+  <string name="body_ovs"><![CDATA[In the previous section, ]]></string>
+
 </resources>
