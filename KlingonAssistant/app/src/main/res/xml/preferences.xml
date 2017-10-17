@@ -108,6 +108,12 @@
                 android:title="@string/show_additional_information_preference_title"
                 android:summary="@string/show_additional_information_preference_summary"
                 android:defaultValue="true" />
+
+        <CheckBoxPreference
+                android:key="kwotd_checkbox_preference"
+                android:title="@string/kwotd_preference_title"
+                android:summary="@string/kwotd_preference_summary"
+                android:defaultValue="false" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -117,12 +123,6 @@
                 android:key="show_fab_checkbox_preference"
                 android:title="@string/show_fab_preference_title"
                 android:summary="@string/show_fab_preference_summary"
-                android:defaultValue="false" />
-
-        <CheckBoxPreference
-                android:key="kwotd_checkbox_preference"
-                android:title="@string/kwotd_preference_title"
-                android:summary="@string/kwotd_preference_summary"
                 android:defaultValue="false" />
     </PreferenceCategory>
 
