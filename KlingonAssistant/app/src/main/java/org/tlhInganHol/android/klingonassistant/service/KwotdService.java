@@ -43,16 +43,16 @@ public class KwotdService extends JobService {
 
     @Override
     public boolean onStartJob(final JobParameters params) {
-        // Handler handler = new Handler();
-        // handler.postDelayed(new Runnable() {
-        //     @Override
-        //     public void run() {
-        //         // TODO: Do stuff.
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // TODO: Do stuff.
 
-        //         // Release the wake lock.
-        //         jobFinished(params, false);
-        //     }
-        // }, duration);
+                // Release the wake lock.
+                jobFinished(params, false);
+            }
+        }, 1000);
         Log.i(TAG, "on start job: " + params.getJobId());
 
         // Return true to hold the wake lock.
