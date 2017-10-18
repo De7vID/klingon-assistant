@@ -312,6 +312,8 @@ public class KwotdService extends JobService {
                   .setContentText(notificationText)
                   .setStyle(new NotificationCompat.BigTextStyle().bigText(notificationTextLong))
                   .setChannelId(NOTIFICATION_CHANNEL_ID)
+                  // Show on lock screen.
+                  .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                   .setAutoCancel(true);
           PendingIntent pendingIntent =
               PendingIntent.getActivity(
