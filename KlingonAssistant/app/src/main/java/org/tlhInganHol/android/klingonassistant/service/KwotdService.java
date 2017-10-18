@@ -55,6 +55,11 @@ public class KwotdService extends JobService {
   // Key for storing the previously retrieved data from hol.kag.org.
   private static final String KEY_KWORD_DATA = "kwotd_data";
 
+  // Key for indicating whether this is a "one-off" job. If set to true, the
+  // saved value of the previously retrieved data will be ignored and the newly
+  // fetched data will always be used.
+  public static final String KEY_IS_ONE_OFF_JOB = "restart_kwotd_job";
+
   // Pattern to extract the RSS.
   private static final Pattern KWOTD_RSS_PATTERN =
       Pattern.compile("Klingon word: (.*)\\nPart of speech: (.*)\\nDefinition: (.*)\\n");
@@ -77,15 +82,10 @@ public class KwotdService extends JobService {
   @Override
   public boolean onStartJob(final JobParameters params) {
     mParams = params;
-    // Handler handler = new Handler();
-    // handler.post(
-    //     new Runnable() {
-    //       @Override
-    //       public void run() {
+
     // Start an async task to fetch the KWOTD.
     new KwotdTask().execute();
-    //       }
-    //     });
+
     Log.d(TAG, "on start job: " + params.getJobId());
 
     // Return true to hold the wake lock. This is released by the async task.
@@ -121,9 +121,15 @@ public class KwotdService extends JobService {
 
     @Override
     protected Void doInBackground(Void... params) {
-      SharedPreferences sharedPrefs =
-          PreferenceManager.getDefaultSharedPreferences(KwotdService.this);
-      String kwotdData = sharedPrefs.getString(KEY_KWORD_DATA, /* default */ null);
+      boolean isOneOffJob = mParams.getExtras().getBoolean(KEY_IS_ONE_OFF_JOB);
+      String kwotdData = null;
+      if (!isOneOffJob) {
+        // If this is not a one-off job, then retrieve the previously fetched
+        // data for comparison to the newly fetched data.
+        SharedPreferences sharedPrefs =
+            PreferenceManager.getDefaultSharedPreferences(KwotdService.this);
+        kwotdData = sharedPrefs.getString(KEY_KWORD_DATA, /* default */ null);
+      }
 
       // Set to false if job runs successfully to completion.
       boolean rescheduleJob = true;
@@ -286,7 +292,7 @@ public class KwotdService extends JobService {
 
           NotificationCompat.Builder builder =
               new NotificationCompat.Builder(KwotdService.this)
-                  .setSmallIcon(R.drawable.ic_kwotd)
+                  .setSmallIcon(R.drawable.ic_kwotd_notification)
                   .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_ka))
                   .setContentTitle(notificationTitle)
                   .setContentText(notificationText)

@@ -27,6 +27,7 @@ import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.TextUtils;
@@ -54,8 +55,9 @@ import org.tlhInganHol.android.klingonassistant.service.KwotdService;
 public class KlingonAssistant extends BaseActivity {
   private static final String TAG = "KlingonAssistant";
 
-  // Job ID for the KwotdService job. Just has to be unique.
-  private static final int KWOTD_SERVICE_JOB_ID = 0;
+  // Job ID for the KwotdService jobs. Just has to be unique.
+  private static final int KWOTD_SERVICE_PERSISTED_JOB_ID = 0;
+  private static final int KWOTD_SERVICE_ONE_OFF_JOB_ID = 1;
 
   // Whether to include the tutorial or not. If false, the code should be stripped out of the
   // binary.
@@ -92,36 +94,57 @@ public class KlingonAssistant extends BaseActivity {
 
     // Schedule the KWOTD service if it hasn't already been started.
     if (sharedPrefs.getBoolean(Preferences.KEY_KWOTD_CHECKBOX_PREFERENCE, /* default */ false)) {
+      runKwotdServiceJob(/* isOneOffJob */ false);
+    }
 
-      // Check if service is already running.
-      JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+    handleIntent(getIntent());
+  }
+
+  // Helper method to run the KWOTD service job. If isOneOffJob is set to true,
+  // this will trigger a job immediately which runs only once. Otherwise, this
+  // will schedule a job to run once every 24 hours, if one hasn't already been
+  // scheduled.
+  private void runKwotdServiceJob(boolean isOneOffJob) {
       boolean jobAlreadyExists = false;
-      for (JobInfo jobInfo : scheduler.getAllPendingJobs()) {
-        if (jobInfo.getId() == KWOTD_SERVICE_JOB_ID) {
-          // Log.d(TAG, "KWOTD job already exists.");
-          jobAlreadyExists = true;
-          break;
+      JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+      if (!isOneOffJob) {
+        // Check if persisted job is already running.
+        for (JobInfo jobInfo : scheduler.getAllPendingJobs()) {
+          if (jobInfo.getId() == KWOTD_SERVICE_PERSISTED_JOB_ID) {
+            // Log.d(TAG, "KWOTD job already exists.");
+            jobAlreadyExists = true;
+            break;
+          }
         }
       }
 
       // Start job.
       if (!jobAlreadyExists) {
-        // Set the job to run every 24 hours, during a window with network connectivity, and
-        // exponentially back off if it fails with a delay of 1 hour. (Note that Android caps the
-        // backoff at 5 hours, so this will retry at 1 hour, 2 hours, and 4 hours.)
-        JobInfo.Builder builder =
-            new JobInfo.Builder(KWOTD_SERVICE_JOB_ID, new ComponentName(this, KwotdService.class));
-        builder.setPeriodic(TimeUnit.HOURS.toMillis(24));
-        builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
-        builder.setBackoffCriteria(TimeUnit.HOURS.toMillis(1), JobInfo.BACKOFF_POLICY_EXPONENTIAL);
-        builder.setRequiresCharging(false);
-        builder.setPersisted(true);
+        JobInfo.Builder builder;
+
+        if (isOneOffJob) {
+          builder = new JobInfo.Builder(KWOTD_SERVICE_ONE_OFF_JOB_ID, new ComponentName(this, KwotdService.class));
+          builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+        } else {
+          // Set the job to run every 24 hours, during a window with network connectivity, and
+          // exponentially back off if it fails with a delay of 1 hour. (Note that Android caps the
+          // backoff at 5 hours, so this will retry at 1 hour, 2 hours, and 4 hours.)
+          builder = new JobInfo.Builder(KWOTD_SERVICE_PERSISTED_JOB_ID, new ComponentName(this, KwotdService.class));
+          builder.setPeriodic(TimeUnit.HOURS.toMillis(24));
+          builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+          builder.setBackoffCriteria(TimeUnit.HOURS.toMillis(1), JobInfo.BACKOFF_POLICY_EXPONENTIAL);
+          builder.setRequiresCharging(false);
+          builder.setPersisted(true);
+        }
+
+        // Pass custom params to job.
+        PersistableBundle extras = new PersistableBundle();
+        extras.putBoolean(KwotdService.KEY_IS_ONE_OFF_JOB, isOneOffJob);
+        builder.setExtras(extras);
+
         Log.d(TAG, "Scheduling KwotdService job");
         scheduler.schedule(builder.build());
       }
-    }
-
-    handleIntent(getIntent());
   }
 
   // private void setupTutorial() {
