@@ -29,6 +29,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.text.Html;
@@ -296,13 +297,6 @@ public class KwotdService extends JobService {
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
           }
 
-          NotificationChannel channel =
-              new NotificationChannel(
-                  NOTIFICATION_CHANNEL_ID,
-                  NOTIFICATION_CHANNEL_NAME,
-                  NotificationManager.IMPORTANCE_LOW);
-          channel.enableLights(true);
-          channel.setLightColor(Color.RED);
           NotificationCompat.Builder builder =
               new NotificationCompat.Builder(KwotdService.this)
                   .setSmallIcon(R.drawable.ic_kwotd_notification)
@@ -310,7 +304,6 @@ public class KwotdService extends JobService {
                   .setContentTitle(notificationTitle)
                   .setContentText(notificationText)
                   .setStyle(new NotificationCompat.BigTextStyle().bigText(notificationTextLong))
-                  .setChannelId(NOTIFICATION_CHANNEL_ID)
                   // Show on lock screen.
                   .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                   .setAutoCancel(true);
@@ -320,7 +313,19 @@ public class KwotdService extends JobService {
           builder.setContentIntent(pendingIntent);
           NotificationManager manager =
               (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-          manager.createNotificationChannel(channel);
+
+          // A notification channel is both needed and only supported on Android 8.0 (API 26) and up.
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel =
+                new NotificationChannel(
+                    NOTIFICATION_CHANNEL_ID,
+                    NOTIFICATION_CHANNEL_NAME,
+                    NotificationManager.IMPORTANCE_LOW);
+            channel.enableLights(true);
+            channel.setLightColor(Color.RED);
+            builder = builder.setChannelId(NOTIFICATION_CHANNEL_ID);
+            manager.createNotificationChannel(channel);
+          }
           manager.notify(NOTIFICATION_ID, builder.build());
 
           // Success, so no need to reschedule.
