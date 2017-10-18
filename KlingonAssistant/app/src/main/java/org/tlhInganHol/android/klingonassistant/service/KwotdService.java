@@ -116,9 +116,8 @@ public class KwotdService extends JobService {
     // Notification needs a unique ID.
     private static final int NOTIFICATION_ID = 0;
 
-    // Identifiers for the KWOTD notification channel.
+    // Identifier for the KWOTD notification channel.
     private static final String NOTIFICATION_CHANNEL_ID = "kwotd_channel_id";
-    private static final String NOTIFICATION_CHANNEL_NAME = "Klingon Word of the Day";
 
     // Set to true to use the "Alexa" JSON feed, otherwise use the RSS feed.
     private static final boolean USE_JSON = true;
@@ -315,11 +314,12 @@ public class KwotdService extends JobService {
               (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
           // A notification channel is both needed and only supported on Android 8.0 (API 26) and up.
+          String notificationChannelName = resources.getString(R.string.kwotd_notification_channel_name);
           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel =
                 new NotificationChannel(
                     NOTIFICATION_CHANNEL_ID,
-                    NOTIFICATION_CHANNEL_NAME,
+                    notificationChannelName,
                     NotificationManager.IMPORTANCE_LOW);
             channel.enableLights(true);
             channel.setLightColor(Color.RED);
