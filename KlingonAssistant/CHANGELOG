@@ -1,6 +1,6 @@
 CHANGELOG
 
-2017-10-17: Added KWOTD functionality. Changes to font family for prefix charts.
+2017-10-17: Added KWOTD functionality. Changes to font family for prefix charts. Fix colour span bug (again).
 2017-10-12: Added even more lesson functionality.
 2017-10-10: Fix for multi-user database issue (#385) on devices with API 19+.
 2017-10-09: Added more lesson functionality.
