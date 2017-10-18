@@ -63,6 +63,7 @@
     <string name="no_results"><![CDATA[No results found for &lt;<b>%s</b>&gt;.]]></string>
 
     <!-- Other menu items. -->
+    <string name="menu_kwotd">Fetch KWOTD</string>
     <string name="menu_about">boQwI\' - Help</string>
     <string name="menu_preferences">Preferences</string>
     <string name="menu_reference">Reference</string>
