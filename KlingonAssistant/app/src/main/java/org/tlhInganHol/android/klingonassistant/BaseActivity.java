@@ -35,8 +35,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -186,10 +188,10 @@ public class BaseActivity extends AppCompatActivity
       if (subMenu != null && subMenu.size() > 0) {
         for (int j = 0; j < subMenu.size(); j++) {
           MenuItem subMenuItem = subMenu.getItem(j);
-          applyTypefaceToMenuItem(subMenuItem, false);
+          applyTypefaceToMenuItem(subMenuItem, /* enlarge */ false);
         }
       }
-      applyTypefaceToMenuItem(menuItem, true);
+      applyTypefaceToMenuItem(menuItem, /* enlarge */ true);
     }
 
     View headerView = navigationView.getHeaderView(0);
@@ -222,40 +224,64 @@ public class BaseActivity extends AppCompatActivity
             Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false);
     Typeface klingonTypeface = KlingonAssistant.getKlingonFontTypeface(getBaseContext());
     String title = menuItem.getTitle().toString();
-    SpannableString spannableString;
+    SpannableString spannableTitle;
     if (useKlingonFont) {
-      spannableString =
-          new SpannableString(KlingonContentProvider.convertStringToKlingonFont(title));
-      spannableString.setSpan(
+      String klingonTitle = KlingonContentProvider.convertStringToKlingonFont(title);
+      if (menuItem.getItemId() == R.id.about) {
+        // This replacement doesn't get made in convertStringToKlingonFont
+        // because it has nothing to do with the usual Klingon sentences which
+        // need to be displayed and is really only used for the "about" menu
+        // item.
+        klingonTitle = klingonTitle.replaceAll("-", "▶");
+      }
+      spannableTitle = new SpannableString(klingonTitle);
+      spannableTitle.setSpan(
           new KlingonTypefaceSpan("", klingonTypeface),
           0,
-          spannableString.length(),
+          spannableTitle.length(),
           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     } else {
-      spannableString = new SpannableString(title);
+      spannableTitle = new SpannableString(title);
       if (useKlingonUI) {
         // If the UI is in Klingon (Latin), use a serif typeface.
-        spannableString.setSpan(
+        spannableTitle.setSpan(
             new TypefaceSpan("serif"),
             0,
-            spannableString.length(),
+            spannableTitle.length(),
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+      }
+      if (menuItem.getItemId() == R.id.about) {
+        // For the "{boQwI'} - Help" menu item, display the app name in bold serif.
+        String appName = getBaseContext().getResources().getString(R.string.app_name);
+        int loc = spannableTitle.toString().indexOf(appName);
+        if (loc != -1) {
+          spannableTitle.setSpan(
+              new StyleSpan(android.graphics.Typeface.BOLD),
+              loc,
+              loc + appName.length(),
+              Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | Spanned.SPAN_INTERMEDIATE);
+          spannableTitle.setSpan(
+              new TypefaceSpan("serif"),
+              loc,
+              loc + appName.length(),
+              Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
       }
     }
     if (enlarge) {
-      spannableString.setSpan(
+      spannableTitle.setSpan(
           new RelativeSizeSpan(1.2f),
           0,
-          spannableString.length(),
+          spannableTitle.length(),
           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
       int accent = getResources().getColor(R.color.colorAccent);
-      spannableString.setSpan(
+      spannableTitle.setSpan(
           new ForegroundColorSpan(accent),
           0,
-          spannableString.length(),
+          spannableTitle.length(),
           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
-    menuItem.setTitle(spannableString);
+    menuItem.setTitle(spannableTitle);
   }
 
   @Override
@@ -264,7 +290,7 @@ public class BaseActivity extends AppCompatActivity
     inflater.inflate(R.menu.options_menu, menu);
     for (int i = 0; i < menu.size(); i++) {
       MenuItem menuItem = menu.getItem(i);
-      applyTypefaceToMenuItem(menuItem, false);
+      applyTypefaceToMenuItem(menuItem, /* enlarge */ false);
     }
     return true;
   }
