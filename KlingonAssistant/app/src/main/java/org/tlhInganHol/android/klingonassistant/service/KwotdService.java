@@ -318,8 +318,13 @@ public class KwotdService extends JobService {
       } catch (Exception e) {
         Log.e(TAG, "Failed to read KWOTD from KAG server.", e);
       } finally {
+        if (isOneOffJob && rescheduleJob) {
+          // TODO: One-off job failed, make a toast to inform the user.
+        }
+
         // Release the wakelock, and indicate whether rescheduling the job is needed.
         Log.d(TAG, "jobFinished called with rescheduleJob: " + rescheduleJob);
+
         KwotdService.this.jobFinished(mParams, rescheduleJob);
       }
 

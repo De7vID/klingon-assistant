@@ -17,6 +17,10 @@
 package org.tlhInganHol.android.klingonassistant;
 
 import android.app.SearchManager;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -24,6 +28,7 @@ import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -40,6 +45,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,6 +54,8 @@ import android.view.SubMenu;
 import android.view.View;
 import android.widget.TextView;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+import org.tlhInganHol.android.klingonassistant.service.KwotdService;
 
 // import android.support.design.widget.Snackbar;
 
@@ -78,6 +86,10 @@ public class BaseActivity extends AppCompatActivity
   private static final String QUERY_FOR_LYRICS = "*:sen:lyr";
   private static final String QUERY_FOR_BEGINNERS_CONVERSATION = "*:sen:bc";
   private static final String QUERY_FOR_JOKES = "*:sen:joke";
+
+  // Job ID for the KwotdService jobs. Just has to be unique.
+  private static final int KWOTD_SERVICE_PERSISTED_JOB_ID = 0;
+  private static final int KWOTD_SERVICE_ONE_OFF_JOB_ID = 1;
 
   // References to UI components.
   private DrawerLayout mDrawer = null;
@@ -133,6 +145,11 @@ public class BaseActivity extends AppCompatActivity
         klingonAppName.length(),
         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     getSupportActionBar().setTitle(klingonAppName);
+
+    // KWOTD:
+    if (sharedPrefs.getBoolean(Preferences.KEY_KWOTD_CHECKBOX_PREFERENCE, /* default */ false)) {
+      // TODO: Make button visible.
+    }
 
     // FAB:
     if (sharedPrefs.getBoolean(Preferences.KEY_SHOW_FAB_CHECKBOX_PREFERENCE, /* default */ false)) {
@@ -573,6 +590,9 @@ public class BaseActivity extends AppCompatActivity
           requestTranslation();
           break;
           */
+      case R.id.action_kwotd:
+        runKwotdServiceJob(/* isOneOffJob */ true);
+        return true;
       case R.id.about:
         // Show "About" screen.
         displayHelp(QUERY_FOR_ABOUT);
@@ -585,6 +605,57 @@ public class BaseActivity extends AppCompatActivity
     }
 
     return super.onOptionsItemSelected(item);
+  }
+
+  // Helper method to run the KWOTD service job. If isOneOffJob is set to true,
+  // this will trigger a job immediately which runs only once. Otherwise, this
+  // will schedule a job to run once every 24 hours, if one hasn't already been
+  // scheduled.
+  protected void runKwotdServiceJob(boolean isOneOffJob) {
+    boolean jobAlreadyExists = false;
+    JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+    if (!isOneOffJob) {
+      // Check if persisted job is already running.
+      for (JobInfo jobInfo : scheduler.getAllPendingJobs()) {
+        if (jobInfo.getId() == KWOTD_SERVICE_PERSISTED_JOB_ID) {
+          // Log.d(TAG, "KWOTD job already exists.");
+          jobAlreadyExists = true;
+          break;
+        }
+      }
+    }
+
+    // Start job.
+    if (!jobAlreadyExists) {
+      JobInfo.Builder builder;
+
+      if (isOneOffJob) {
+        builder =
+            new JobInfo.Builder(
+                KWOTD_SERVICE_ONE_OFF_JOB_ID, new ComponentName(this, KwotdService.class));
+        builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+      } else {
+        // Set the job to run every 24 hours, during a window with network connectivity, and
+        // exponentially back off if it fails with a delay of 1 hour. (Note that Android caps the
+        // backoff at 5 hours, so this will retry at 1 hour, 2 hours, and 4 hours.)
+        builder =
+            new JobInfo.Builder(
+                KWOTD_SERVICE_PERSISTED_JOB_ID, new ComponentName(this, KwotdService.class));
+        builder.setPeriodic(TimeUnit.HOURS.toMillis(24));
+        builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+        builder.setBackoffCriteria(TimeUnit.HOURS.toMillis(1), JobInfo.BACKOFF_POLICY_EXPONENTIAL);
+        builder.setRequiresCharging(false);
+        builder.setPersisted(true);
+      }
+
+      // Pass custom params to job.
+      PersistableBundle extras = new PersistableBundle();
+      extras.putBoolean(KwotdService.KEY_IS_ONE_OFF_JOB, isOneOffJob);
+      builder.setExtras(extras);
+
+      Log.d(TAG, "Scheduling KwotdService job");
+      scheduler.schedule(builder.build());
+    }
   }
 
   // Collapse slide-out menu if "Back" key is pressed and it's open.
