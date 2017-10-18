@@ -234,7 +234,7 @@
 
     <!-- KWOTD notification. -->
     <string name="kwotd_footer"><![CDATA[Klingon Word of the Day brought to you by <b>Hol \'ampaS</b>]]></string>
-    <string name="kwotd_requires_internet">The KWOTD will be fetched when an Internet connection is available.</string>
+    <string name="kwotd_requires_internet">KWOTD will be fetched when an Internet connection is available.</string>
     <string name="kwotd_fetching">Fetching KWTOD from KAG server...</string>
     <string name="kwotd_one_off_job_failed">Failed to fetch KWOTD from KAG server.</string>
 
