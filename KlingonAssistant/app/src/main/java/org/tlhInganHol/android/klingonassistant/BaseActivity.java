@@ -149,11 +149,6 @@ public class BaseActivity extends AppCompatActivity
         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     getSupportActionBar().setTitle(klingonAppName);
 
-    // KWOTD:
-    if (sharedPrefs.getBoolean(Preferences.KEY_KWOTD_CHECKBOX_PREFERENCE, /* default */ false)) {
-      // TODO: Make button visible.
-    }
-
     // FAB:
     if (sharedPrefs.getBoolean(Preferences.KEY_SHOW_FAB_CHECKBOX_PREFERENCE, /* default */ false)) {
       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
