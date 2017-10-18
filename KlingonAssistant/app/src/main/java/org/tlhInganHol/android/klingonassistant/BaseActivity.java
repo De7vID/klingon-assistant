@@ -58,9 +58,6 @@ public class BaseActivity extends AppCompatActivity
   // This must uniquely identify the {boQwI'} entry.
   protected static final String QUERY_FOR_ABOUT = "boQwI':n";
 
-  private static final String STATE_ACTIVE_POSITION =
-      "org.tlhInganHol.android.klingonassistant.activePosition";
-
   // Help pages.
   private static final String QUERY_FOR_PRONUNCIATION = "QIch:n";
   private static final String QUERY_FOR_PREFIXES = "moHaq:n";
@@ -82,11 +79,6 @@ public class BaseActivity extends AppCompatActivity
   private static final String QUERY_FOR_BEGINNERS_CONVERSATION = "*:sen:bc";
   private static final String QUERY_FOR_JOKES = "*:sen:joke";
 
-  // protected SlideMenuAdapter mAdapter;
-  // protected ListView mList;
-
-  private int mActivePosition = 0;
-
   // References to UI components.
   private DrawerLayout mDrawer = null;
 
@@ -105,10 +97,6 @@ public class BaseActivity extends AppCompatActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    // if (savedInstanceState != null) {
-    //   mActivePosition = savedInstanceState.getInt(STATE_ACTIVE_POSITION);
-    // }
 
     // Override for Klingon language.
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -552,28 +540,6 @@ public class BaseActivity extends AppCompatActivity
 
     startActivity(intent);
   }
-
-  // private AdapterView.OnItemClickListener mItemClickListener =
-  //     new AdapterView.OnItemClickListener() {
-  //       @Override
-  //       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-  //         mActivePosition = position;
-  //         mDrawer.setActiveView(view, position);
-  //         mAdapter.setActivePosition(position);
-  //         onSlideMenuItemClicked(position, (SlideMenuItem) mAdapter.getItem(position));
-  //       }
-  //     };
-
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    outState.putInt(STATE_ACTIVE_POSITION, mActivePosition);
-  }
-
-  // @Override
-  // public void onActiveViewChanged(View v) {
-  //   mDrawer.setActiveView(v, mActivePosition);
-  // }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
