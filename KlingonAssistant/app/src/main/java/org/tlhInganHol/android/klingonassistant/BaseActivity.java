@@ -17,13 +17,20 @@
 package org.tlhInganHol.android.klingonassistant;
 
 import android.app.SearchManager;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -35,9 +42,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -45,7 +55,10 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+import org.tlhInganHol.android.klingonassistant.service.KwotdService;
 
 // import android.support.design.widget.Snackbar;
 
@@ -55,9 +68,6 @@ public class BaseActivity extends AppCompatActivity
 
   // This must uniquely identify the {boQwI'} entry.
   protected static final String QUERY_FOR_ABOUT = "boQwI':n";
-
-  private static final String STATE_ACTIVE_POSITION =
-      "org.tlhInganHol.android.klingonassistant.activePosition";
 
   // Help pages.
   private static final String QUERY_FOR_PRONUNCIATION = "QIch:n";
@@ -80,10 +90,9 @@ public class BaseActivity extends AppCompatActivity
   private static final String QUERY_FOR_BEGINNERS_CONVERSATION = "*:sen:bc";
   private static final String QUERY_FOR_JOKES = "*:sen:joke";
 
-  // protected SlideMenuAdapter mAdapter;
-  // protected ListView mList;
-
-  private int mActivePosition = 0;
+  // Job ID for the KwotdService jobs. Just has to be unique.
+  private static final int KWOTD_SERVICE_PERSISTED_JOB_ID = 0;
+  private static final int KWOTD_SERVICE_ONE_OFF_JOB_ID = 1;
 
   // References to UI components.
   private DrawerLayout mDrawer = null;
@@ -103,10 +112,6 @@ public class BaseActivity extends AppCompatActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    // if (savedInstanceState != null) {
-    //   mActivePosition = savedInstanceState.getInt(STATE_ACTIVE_POSITION);
-    // }
 
     // Override for Klingon language.
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -186,10 +191,10 @@ public class BaseActivity extends AppCompatActivity
       if (subMenu != null && subMenu.size() > 0) {
         for (int j = 0; j < subMenu.size(); j++) {
           MenuItem subMenuItem = subMenu.getItem(j);
-          applyTypefaceToMenuItem(subMenuItem, false);
+          applyTypefaceToMenuItem(subMenuItem, /* enlarge */ false);
         }
       }
-      applyTypefaceToMenuItem(menuItem, true);
+      applyTypefaceToMenuItem(menuItem, /* enlarge */ true);
     }
 
     View headerView = navigationView.getHeaderView(0);
@@ -207,9 +212,26 @@ public class BaseActivity extends AppCompatActivity
     //   drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
     // }
 
+    // Schedule the KWOTD service if it hasn't already been started.
+    if (sharedPrefs.getBoolean(Preferences.KEY_KWOTD_CHECKBOX_PREFERENCE, /* default */ false)) {
+      runKwotdServiceJob(/* isOneOffJob */ false);
+    }
+
     // Activate type-to-search for local search. Typing will automatically
     // start a search of the database.
     setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+
+    // Schedule the KWOTD service if it hasn't already been started. It's necessary to do this here
+    // because the setting might have changed in Preferences.
+    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+    if (sharedPrefs.getBoolean(Preferences.KEY_KWOTD_CHECKBOX_PREFERENCE, /* default */ false)) {
+      runKwotdServiceJob(/* isOneOffJob */ false);
+    }
   }
 
   private void applyTypefaceToMenuItem(MenuItem menuItem, boolean enlarge) {
@@ -222,40 +244,64 @@ public class BaseActivity extends AppCompatActivity
             Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false);
     Typeface klingonTypeface = KlingonAssistant.getKlingonFontTypeface(getBaseContext());
     String title = menuItem.getTitle().toString();
-    SpannableString spannableString;
+    SpannableString spannableTitle;
     if (useKlingonFont) {
-      spannableString =
-          new SpannableString(KlingonContentProvider.convertStringToKlingonFont(title));
-      spannableString.setSpan(
+      String klingonTitle = KlingonContentProvider.convertStringToKlingonFont(title);
+      if (menuItem.getItemId() == R.id.about) {
+        // This replacement doesn't get made in convertStringToKlingonFont
+        // because it has nothing to do with the usual Klingon sentences which
+        // need to be displayed and is really only used for the "about" menu
+        // item.
+        klingonTitle = klingonTitle.replaceAll("-", "▶");
+      }
+      spannableTitle = new SpannableString(klingonTitle);
+      spannableTitle.setSpan(
           new KlingonTypefaceSpan("", klingonTypeface),
           0,
-          spannableString.length(),
+          spannableTitle.length(),
           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     } else {
-      spannableString = new SpannableString(title);
+      spannableTitle = new SpannableString(title);
       if (useKlingonUI) {
         // If the UI is in Klingon (Latin), use a serif typeface.
-        spannableString.setSpan(
+        spannableTitle.setSpan(
             new TypefaceSpan("serif"),
             0,
-            spannableString.length(),
+            spannableTitle.length(),
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+      }
+      if (menuItem.getItemId() == R.id.about) {
+        // For the "{boQwI'} - Help" menu item, display the app name in bold serif.
+        String appName = getBaseContext().getResources().getString(R.string.app_name);
+        int loc = spannableTitle.toString().indexOf(appName);
+        if (loc != -1) {
+          spannableTitle.setSpan(
+              new StyleSpan(android.graphics.Typeface.BOLD),
+              loc,
+              loc + appName.length(),
+              Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | Spanned.SPAN_INTERMEDIATE);
+          spannableTitle.setSpan(
+              new TypefaceSpan("serif"),
+              loc,
+              loc + appName.length(),
+              Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
       }
     }
     if (enlarge) {
-      spannableString.setSpan(
+      spannableTitle.setSpan(
           new RelativeSizeSpan(1.2f),
           0,
-          spannableString.length(),
+          spannableTitle.length(),
           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
       int accent = getResources().getColor(R.color.colorAccent);
-      spannableString.setSpan(
+      spannableTitle.setSpan(
           new ForegroundColorSpan(accent),
           0,
-          spannableString.length(),
+          spannableTitle.length(),
           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
-    menuItem.setTitle(spannableString);
+    menuItem.setTitle(spannableTitle);
   }
 
   @Override
@@ -264,7 +310,7 @@ public class BaseActivity extends AppCompatActivity
     inflater.inflate(R.menu.options_menu, menu);
     for (int i = 0; i < menu.size(); i++) {
       MenuItem menuItem = menu.getItem(i);
-      applyTypefaceToMenuItem(menuItem, false);
+      applyTypefaceToMenuItem(menuItem, /* enlarge */ false);
     }
     return true;
   }
@@ -527,28 +573,6 @@ public class BaseActivity extends AppCompatActivity
     startActivity(intent);
   }
 
-  // private AdapterView.OnItemClickListener mItemClickListener =
-  //     new AdapterView.OnItemClickListener() {
-  //       @Override
-  //       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-  //         mActivePosition = position;
-  //         mDrawer.setActiveView(view, position);
-  //         mAdapter.setActivePosition(position);
-  //         onSlideMenuItemClicked(position, (SlideMenuItem) mAdapter.getItem(position));
-  //       }
-  //     };
-
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    outState.putInt(STATE_ACTIVE_POSITION, mActivePosition);
-  }
-
-  // @Override
-  // public void onActiveViewChanged(View v) {
-  //   mDrawer.setActiveView(v, mActivePosition);
-  // }
-
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     // noinspection SimplifiableIfStatement
@@ -581,6 +605,9 @@ public class BaseActivity extends AppCompatActivity
           requestTranslation();
           break;
           */
+      case R.id.action_kwotd:
+        runKwotdServiceJob(/* isOneOffJob */ true);
+        return true;
       case R.id.about:
         // Show "About" screen.
         displayHelp(QUERY_FOR_ABOUT);
@@ -593,6 +620,77 @@ public class BaseActivity extends AppCompatActivity
     }
 
     return super.onOptionsItemSelected(item);
+  }
+
+  // Helper method to run the KWOTD service job. If isOneOffJob is set to true,
+  // this will trigger a job immediately which runs only once. Otherwise, this
+  // will schedule a job to run once every 24 hours, if one hasn't already been
+  // scheduled.
+  protected void runKwotdServiceJob(boolean isOneOffJob) {
+    boolean jobAlreadyExists = false;
+    JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+    if (!isOneOffJob) {
+      // Check if persisted job is already running.
+      for (JobInfo jobInfo : scheduler.getAllPendingJobs()) {
+        if (jobInfo.getId() == KWOTD_SERVICE_PERSISTED_JOB_ID) {
+          // Log.d(TAG, "KWOTD job already exists.");
+          jobAlreadyExists = true;
+          break;
+        }
+      }
+    }
+
+    // Start job.
+    if (!jobAlreadyExists) {
+      JobInfo.Builder builder;
+
+      if (isOneOffJob) {
+        // A one-off request to the KWOTD server needs Internet access.
+        ConnectivityManager cm =
+            (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (activeNetwork == null || !activeNetwork.isConnectedOrConnecting()) {
+          // Inform the user the fetch will happen when there is an Internet connection.
+          Toast.makeText(
+                  this,
+                  getResources().getString(R.string.kwotd_requires_internet),
+                  Toast.LENGTH_LONG)
+              .show();
+        } else {
+          // Inform the user operation is under way.
+          Toast.makeText(this, getResources().getString(R.string.kwotd_fetching), Toast.LENGTH_SHORT)
+              .show();
+        }
+
+        // Either way, schedule the job for when Internet access is available.
+        builder =
+            new JobInfo.Builder(
+                KWOTD_SERVICE_ONE_OFF_JOB_ID, new ComponentName(this, KwotdService.class));
+        builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+
+      } else {
+        // Set the job to run every 24 hours, during a window with network connectivity, and
+        // exponentially back off if it fails with a delay of 1 hour. (Note that Android caps the
+        // backoff at 5 hours, so this will retry at 1 hour, 2 hours, and 4 hours, before it
+        // gives up.)
+        builder =
+            new JobInfo.Builder(
+                KWOTD_SERVICE_PERSISTED_JOB_ID, new ComponentName(this, KwotdService.class));
+        builder.setPeriodic(TimeUnit.HOURS.toMillis(24));
+        builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+        builder.setBackoffCriteria(TimeUnit.HOURS.toMillis(1), JobInfo.BACKOFF_POLICY_EXPONENTIAL);
+        builder.setRequiresCharging(false);
+        builder.setPersisted(true);
+      }
+
+      // Pass custom params to job.
+      PersistableBundle extras = new PersistableBundle();
+      extras.putBoolean(KwotdService.KEY_IS_ONE_OFF_JOB, isOneOffJob);
+      builder.setExtras(extras);
+
+      Log.d(TAG, "Scheduling KwotdService job, isOneOffJob: " + isOneOffJob);
+      scheduler.schedule(builder.build());
+    }
   }
 
   // Collapse slide-out menu if "Back" key is pressed and it's open.

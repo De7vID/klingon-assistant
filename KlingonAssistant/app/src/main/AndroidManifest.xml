@@ -20,6 +20,11 @@
     package="org.tlhInganHol.android.klingonassistant"
         android:installLocation="auto">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BIND_JOB_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <supports-screens android:resizeable="true"
                   android:smallScreens="true"
                   android:normalScreens="true"
@@ -107,6 +112,12 @@
         <!-- Points to searchable activity so the whole app can invoke search. -->
         <meta-data android:name="android.app.default_searchable"
                    android:value=".KlingonAssistant" />
+
+        <!-- Service to fetch the Klingon Word of the Day from kag.org servers. -->
+        <service
+            android:name=".service.KwotdService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="true"/>
 
     </application>
 </manifest>
