@@ -231,6 +231,10 @@ public class BaseActivity extends AppCompatActivity
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     if (sharedPrefs.getBoolean(Preferences.KEY_KWOTD_CHECKBOX_PREFERENCE, /* default */ false)) {
       runKwotdServiceJob(/* isOneOffJob */ false);
+    } else {
+      // If the preference is unchecked, cancel the persisted job.
+      JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+      scheduler.cancel(KWOTD_SERVICE_PERSISTED_JOB_ID);
     }
   }
 

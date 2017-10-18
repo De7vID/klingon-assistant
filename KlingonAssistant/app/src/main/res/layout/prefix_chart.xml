@@ -57,10 +57,10 @@
             <TableRow>
                 <TextView android:text="I " android:textSize="18sp" android:textStyle="italic" />
                 <TextView android:text="jI- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
-                <TextView android:text="- " android:textSize="18sp" />
+                <TextView android:text="- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="qa- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="vI- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
-                <TextView android:text="- " android:textSize="18sp" />
+                <TextView android:text="- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="Sa- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="vI- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
             </TableRow>
@@ -70,33 +70,33 @@
                 <TextView android:text="you " android:textSize="18sp" android:textStyle="italic" />
                 <TextView android:text="bI- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="cho- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
-                <TextView android:text="- " android:textSize="18sp" />
+                <TextView android:text="- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="Da- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="ju- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
-                <TextView android:text="- " android:textSize="18sp" />
+                <TextView android:text="- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="Da- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
             </TableRow>
 
             <!-- Subject: he/she/it -->
             <TableRow>
                 <TextView android:text="he/she/it " android:textSize="18sp" android:textStyle="italic" />
-                <TextView android:text="0 " android:textSize="18sp" />
+                <TextView android:text="0 " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="mu- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="Du- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
-                <TextView android:text="0 " android:textSize="18sp" />
+                <TextView android:text="0 " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="nu- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="lI- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
-                <TextView android:text="0 " android:textSize="18sp" />
+                <TextView android:text="0 " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
             </TableRow>
 
             <!-- Subject: we -->
             <TableRow>
                 <TextView android:text="we " android:textSize="18sp" android:textStyle="italic" />
                 <TextView android:text="ma- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
-                <TextView android:text="- " android:textSize="18sp" />
+                <TextView android:text="- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="pI- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="wI- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
-                <TextView android:text="- " android:textSize="18sp" />
+                <TextView android:text="- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="re- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="DI- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
             </TableRow>
@@ -106,23 +106,23 @@
                 <TextView android:text="you (pl) " android:textSize="18sp" android:textStyle="italic" />
                 <TextView android:text="Su- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="tu- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
-                <TextView android:text="- " android:textSize="18sp" />
+                <TextView android:text="- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="bo- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="che- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
-                <TextView android:text="- " android:textSize="18sp" />
+                <TextView android:text="- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="bo- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
             </TableRow>
 
             <!-- Subject: they -->
             <TableRow>
                 <TextView android:text="they " android:textSize="18sp" android:textStyle="italic" />
-                <TextView android:text="0 " android:textSize="18sp" />
+                <TextView android:text="0 " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="mu- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="nI- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="lu- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="nu- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="lI- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
-                <TextView android:text="0 " android:textSize="18sp" />
+                <TextView android:text="0 " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
             </TableRow>
 
             <!-- Separator for imperative prefixes. -->
@@ -135,10 +135,10 @@
                 <TextView android:text="you (imp) " android:textSize="18sp" android:textStyle="italic" />
                 <TextView android:text="yI- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="HI- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
-                <TextView android:text="- " android:textSize="18sp" />
+                <TextView android:text="- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="yI- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="gho- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
-                <TextView android:text="- " android:textSize="18sp" />
+                <TextView android:text="- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="tI- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
             </TableRow>
 
@@ -147,10 +147,10 @@
                 <TextView android:text="you (imp, pl) " android:textSize="18sp" android:textStyle="italic" />
                 <TextView android:text="pe- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="HI- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
-                <TextView android:text="- " android:textSize="18sp" />
+                <TextView android:text="- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="yI- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="gho- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
-                <TextView android:text="- " android:textSize="18sp" />
+                <TextView android:text="- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
                 <TextView android:text="tI- " android:textSize="18sp" android:textStyle="bold" android:fontFamily="serif" />
             </TableRow>
         </TableLayout>
