@@ -31,13 +31,7 @@ public class PrefixChartActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-    boolean useKlingonUI =
-        sharedPrefs.getBoolean(Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false);
-    if (useKlingonUI) {
-      setDrawerContentView(R.layout.prefix_chart_tlh);
-    } else {
-      setDrawerContentView(R.layout.prefix_chart);
-    }
+    setDrawerContentView(R.layout.prefix_chart);
 
     Resources resources = getResources();
     TextView entryTitle = (TextView) findViewById(R.id.entry_title);

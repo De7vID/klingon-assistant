@@ -72,13 +72,7 @@ public class KlingonAssistant extends BaseActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-    // if (sharedPrefs.getBoolean(
-    //     Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false)) {
-    //   setDrawerContentView(R.layout.main_tlh);
-    // } else {
     setDrawerContentView(R.layout.main);
-    // }
 
     mTextView = (TextView) findViewById(R.id.text);
     mListView = (ListView) findViewById(R.id.list);
