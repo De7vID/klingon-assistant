@@ -116,7 +116,7 @@ Following the convention used in {TKD:src}, we will write the absence of a prefi
   <string name="body_simple_prefixes_4"><![CDATA[And which of the following means <i>We learn</i>?]]></string>
   <string name="body_simple_prefixes_summary"><![CDATA[You answered %1$d out of %2$d questions correctly in this section.<br/>
 <br/>
-You also learned (or should have learned) the verbs {HaD:v} <i>study</i> and {ghoj:v} <i>learn</i>.]]></string>
+You were also introduced to the verbs {HaD:v} <i>study</i> and {ghoj:v} <i>learn</i>.]]></string>
 
   <string name="topic_ovs">The Klingon attacks the enemy</string>
   <string name="body_ovs"><![CDATA[In the previous section, ]]></string>
