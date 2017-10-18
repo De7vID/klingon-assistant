@@ -189,4 +189,6 @@
     <string name="tutorial_7_title">Qapla\'! (Erfolg!)</string>
     <string name="tutorial_7_msg">Fortgeschrittene Nutzer finden weitere Optionen im Einstellungs-Menü.</string>
     -->
+
+    <string name="kwotd_notification_channel_name">Klingonisch Wort der Tages</string>
 </resources>

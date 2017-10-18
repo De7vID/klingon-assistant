@@ -237,6 +237,7 @@
     <string name="kwotd_requires_internet">KWOTD will be fetched when an Internet connection is available.</string>
     <string name="kwotd_fetching">Fetching KWTOD from KAG server...</string>
     <string name="kwotd_one_off_job_failed">Failed to fetch KWOTD from KAG server.</string>
+    <string name="kwotd_notification_channel_name">Klingon Word of the Day</string>
 
     <!-- From the generated app, can probably delete. -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
