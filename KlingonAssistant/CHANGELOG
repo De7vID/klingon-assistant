@@ -1,9 +1,10 @@
 CHANGELOG
 
-2017-10-12: Add more lesson functionality.
+2017-10-17: Added KWOTD functionality.
+2017-10-12: Added even more lesson functionality.
 2017-10-10: Fix for multi-user database issue (#385) on devices with API 19+.
-2017-10-09: Add more lesson functionality.
-2017-10-05: Add lesson activity (hidden under preferences).
+2017-10-09: Added more lesson functionality.
+2017-10-05: Added lesson activity (hidden under preferences).
 2017-10-01: Handle swipe to move between search results; put verb before verb stem in results
 2017-09-25: Add opening monologue of DSC, make misc. edits related to DSC
 2017-09-24: Fix tablet layout bug, make database IDs sequential without gaps, misc lint fixes
