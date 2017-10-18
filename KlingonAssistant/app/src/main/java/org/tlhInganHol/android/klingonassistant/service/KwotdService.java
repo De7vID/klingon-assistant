@@ -16,6 +16,7 @@
 
 package org.tlhInganHol.android.klingonassistant.service;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.job.JobParameters;
@@ -25,6 +26,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -112,6 +114,10 @@ public class KwotdService extends JobService {
 
     // Notification needs a unique ID.
     private static final int NOTIFICATION_ID = 0;
+
+    // Identifiers for the KWOTD notification channel.
+    private static final String NOTIFICATION_CHANNEL_ID = "kwotd_channel_id";
+    private static final String NOTIFICATION_CHANNEL_NAME = "KWOTD notification channel";
 
     // Set to true to use the "Alexa" JSON feed, otherwise use the RSS feed.
     private static final boolean USE_JSON = true;
@@ -290,6 +296,10 @@ public class KwotdService extends JobService {
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
           }
 
+          NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
+              NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_LOW);
+          channel.enableLights(true);
+          channel.setLightColor(Color.RED);
           NotificationCompat.Builder builder =
               new NotificationCompat.Builder(KwotdService.this)
                   .setSmallIcon(R.drawable.ic_kwotd_notification)
@@ -297,6 +307,7 @@ public class KwotdService extends JobService {
                   .setContentTitle(notificationTitle)
                   .setContentText(notificationText)
                   .setStyle(new NotificationCompat.BigTextStyle().bigText(notificationTextLong))
+                  .setChannelId(NOTIFICATION_CHANNEL_ID)
                   .setAutoCancel(true);
           PendingIntent pendingIntent =
               PendingIntent.getActivity(
@@ -304,6 +315,7 @@ public class KwotdService extends JobService {
           builder.setContentIntent(pendingIntent);
           NotificationManager manager =
               (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+          manager.createNotificationChannel(channel);
           manager.notify(NOTIFICATION_ID, builder.build());
 
           // Success, so no need to reschedule.
