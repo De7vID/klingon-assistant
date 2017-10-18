@@ -29,6 +29,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.text.Html;
@@ -37,7 +38,6 @@ import android.text.Spanned;
 import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
 import android.util.Log;
-import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -297,13 +297,6 @@ public class KwotdService extends JobService {
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
           }
 
-          NotificationChannel channel =
-              new NotificationChannel(
-                  NOTIFICATION_CHANNEL_ID,
-                  NOTIFICATION_CHANNEL_NAME,
-                  NotificationManager.IMPORTANCE_LOW);
-          channel.enableLights(true);
-          channel.setLightColor(Color.RED);
           NotificationCompat.Builder builder =
               new NotificationCompat.Builder(KwotdService.this)
                   .setSmallIcon(R.drawable.ic_kwotd_notification)
@@ -311,7 +304,8 @@ public class KwotdService extends JobService {
                   .setContentTitle(notificationTitle)
                   .setContentText(notificationText)
                   .setStyle(new NotificationCompat.BigTextStyle().bigText(notificationTextLong))
-                  .setChannelId(NOTIFICATION_CHANNEL_ID)
+                  // Show on lock screen.
+                  .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                   .setAutoCancel(true);
           PendingIntent pendingIntent =
               PendingIntent.getActivity(
@@ -319,7 +313,19 @@ public class KwotdService extends JobService {
           builder.setContentIntent(pendingIntent);
           NotificationManager manager =
               (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-          manager.createNotificationChannel(channel);
+
+          // A notification channel is both needed and only supported on Android 8.0 (API 26) and up.
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel =
+                new NotificationChannel(
+                    NOTIFICATION_CHANNEL_ID,
+                    NOTIFICATION_CHANNEL_NAME,
+                    NotificationManager.IMPORTANCE_LOW);
+            channel.enableLights(true);
+            channel.setLightColor(Color.RED);
+            builder = builder.setChannelId(NOTIFICATION_CHANNEL_ID);
+            manager.createNotificationChannel(channel);
+          }
           manager.notify(NOTIFICATION_ID, builder.build());
 
           // Success, so no need to reschedule.
@@ -334,15 +340,6 @@ public class KwotdService extends JobService {
       } catch (Exception e) {
         Log.e(TAG, "Failed to read KWOTD from KAG server.", e);
       } finally {
-        if (isOneOffJob && rescheduleJob) {
-          // One-off job failed, make a toast to inform the user.
-          Toast.makeText(
-                  KwotdService.this,
-                  resources.getString(R.string.kwotd_one_off_job_failed),
-                  Toast.LENGTH_LONG)
-              .show();
-        }
-
         // Release the wakelock, and indicate whether rescheduling the job is needed.
         Log.d(TAG, "jobFinished called with rescheduleJob: " + rescheduleJob);
 

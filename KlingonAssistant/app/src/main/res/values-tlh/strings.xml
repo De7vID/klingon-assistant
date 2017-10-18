@@ -63,6 +63,7 @@
     <string name="no_results"><![CDATA[&lt;<b>%s</b>&gt; Sambe\'lu\'.]]></string>
 
     <!-- Other menu items. -->
+    <string name="menu_kwotd">DaHjaj mu\'</string>
     <string name="menu_about">boQwI\' - QaH</string>
     <string name="menu_preferences">DuH DamaSbogh</string>
     <string name="menu_reference">De\' lI\'</string>
