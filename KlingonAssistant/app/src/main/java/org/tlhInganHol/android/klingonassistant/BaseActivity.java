@@ -26,6 +26,8 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -53,6 +55,7 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import org.tlhInganHol.android.klingonassistant.service.KwotdService;
@@ -214,9 +217,26 @@ public class BaseActivity extends AppCompatActivity
     //   drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
     // }
 
+    // Schedule the KWOTD service if it hasn't already been started.
+    if (sharedPrefs.getBoolean(Preferences.KEY_KWOTD_CHECKBOX_PREFERENCE, /* default */ false)) {
+      runKwotdServiceJob(/* isOneOffJob */ false);
+    }
+
     // Activate type-to-search for local search. Typing will automatically
     // start a search of the database.
     setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+
+    // Schedule the KWOTD service if it hasn't already been started. It's necessary to do this here
+    // because the setting might have changed in Preferences.
+    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+    if (sharedPrefs.getBoolean(Preferences.KEY_KWOTD_CHECKBOX_PREFERENCE, /* default */ false)) {
+      runKwotdServiceJob(/* isOneOffJob */ false);
+    }
   }
 
   private void applyTypefaceToMenuItem(MenuItem menuItem, boolean enlarge) {
@@ -630,14 +650,34 @@ public class BaseActivity extends AppCompatActivity
       JobInfo.Builder builder;
 
       if (isOneOffJob) {
+        // A one-off request to the KWOTD server needs Internet access.
+        ConnectivityManager cm =
+            (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (activeNetwork == null || !activeNetwork.isConnectedOrConnecting()) {
+          // Inform the user the fetch will happen when there is an Internet connection.
+          Toast.makeText(
+                  this,
+                  getResources().getString(R.string.kwotd_requires_internet),
+                  Toast.LENGTH_LONG)
+              .show();
+        } else {
+          // Inform the user operation is under way.
+          Toast.makeText(this, getResources().getString(R.string.kwotd_fetching), Toast.LENGTH_SHORT)
+              .show();
+        }
+
+        // Either way, schedule the job for when Internet access is available.
         builder =
             new JobInfo.Builder(
                 KWOTD_SERVICE_ONE_OFF_JOB_ID, new ComponentName(this, KwotdService.class));
         builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+
       } else {
         // Set the job to run every 24 hours, during a window with network connectivity, and
         // exponentially back off if it fails with a delay of 1 hour. (Note that Android caps the
-        // backoff at 5 hours, so this will retry at 1 hour, 2 hours, and 4 hours.)
+        // backoff at 5 hours, so this will retry at 1 hour, 2 hours, and 4 hours, before it
+        // gives up.)
         builder =
             new JobInfo.Builder(
                 KWOTD_SERVICE_PERSISTED_JOB_ID, new ComponentName(this, KwotdService.class));
@@ -653,7 +693,7 @@ public class BaseActivity extends AppCompatActivity
       extras.putBoolean(KwotdService.KEY_IS_ONE_OFF_JOB, isOneOffJob);
       builder.setExtras(extras);
 
-      Log.d(TAG, "Scheduling KwotdService job");
+      Log.d(TAG, "Scheduling KwotdService job, isOneOffJob: " + isOneOffJob);
       scheduler.schedule(builder.build());
     }
   }

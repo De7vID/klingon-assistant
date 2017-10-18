@@ -83,11 +83,6 @@ public class KlingonAssistant extends BaseActivity {
     mTextView = (TextView) findViewById(R.id.text);
     mListView = (ListView) findViewById(R.id.list);
 
-    // Schedule the KWOTD service if it hasn't already been started.
-    if (sharedPrefs.getBoolean(Preferences.KEY_KWOTD_CHECKBOX_PREFERENCE, /* default */ false)) {
-      runKwotdServiceJob(/* isOneOffJob */ false);
-    }
-
     handleIntent(getIntent());
   }
 
