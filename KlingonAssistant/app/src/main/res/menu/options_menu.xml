@@ -42,12 +42,10 @@
           app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
           android:visible="false" />
 
-    <!--
     <item android:id="@+id/action_kwotd"
           android:title="@string/menu_kwotd"
           android:icon="@drawable/ic_menu_kwotd"
           android:visible="false" />
-          -->
 
     <item android:id="@+id/about"
           android:title="@string/menu_about"
