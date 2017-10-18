@@ -37,7 +37,6 @@ import android.text.Spanned;
 import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
 import android.util.Log;
-import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -336,15 +335,6 @@ public class KwotdService extends JobService {
       } catch (Exception e) {
         Log.e(TAG, "Failed to read KWOTD from KAG server.", e);
       } finally {
-        if (isOneOffJob && rescheduleJob) {
-          // One-off job failed, make a toast to inform the user.
-          Toast.makeText(
-                  KwotdService.this,
-                  resources.getString(R.string.kwotd_one_off_job_failed),
-                  Toast.LENGTH_LONG)
-              .show();
-        }
-
         // Release the wakelock, and indicate whether rescheduling the job is needed.
         Log.d(TAG, "jobFinished called with rescheduleJob: " + rescheduleJob);
 
