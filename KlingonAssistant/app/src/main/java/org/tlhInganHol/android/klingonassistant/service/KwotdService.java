@@ -116,6 +116,9 @@ public class KwotdService extends JobService {
     // Set to true to use the "Alexa" JSON feed, otherwise use the RSS feed.
     private static final boolean USE_JSON = true;
 
+    // The name of {Hol 'ampaS}.
+    private static final String KAG_LANGUAGE_ACADEMY_NAME = "Hol 'ampaS";
+
     @Override
     protected Void doInBackground(Void... params) {
       SharedPreferences sharedPrefs =
@@ -270,6 +273,16 @@ public class KwotdService extends JobService {
                       entry.getFormattedDefinition(/* html */ true)
                           + "<br/><br/>"
                           + resources.getString(R.string.kwotd_footer)));
+
+          int loc = notificationTextLong.toString().indexOf(KAG_LANGUAGE_ACADEMY_NAME);
+          if (loc != -1) {
+            // Note that this is already bolded in the xml, so just need to apply the serif.
+            notificationTextLong.setSpan(
+                new TypefaceSpan("serif"),
+                loc,
+                loc + KAG_LANGUAGE_ACADEMY_NAME.length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+          }
 
           NotificationCompat.Builder builder =
               new NotificationCompat.Builder(KwotdService.this)
