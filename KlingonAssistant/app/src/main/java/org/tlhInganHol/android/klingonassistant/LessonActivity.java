@@ -747,6 +747,8 @@ public class LessonActivity extends AppCompatActivity
         summaryFragment.setAsSummaryPage();
         summaryFragment.setCannotContinue();
         mLessonFragments.add(summaryFragment);
+        // Hack since there's no difference here between the lesson and summary pages.
+        mShowSummary = true;
     }
   }
 }
