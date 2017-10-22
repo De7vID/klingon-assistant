@@ -476,13 +476,21 @@ public class EntryFragment extends Fragment {
         // Link to view launcher.
         ssb.setSpan(viewLauncher, m.start(), end, INTERMEDIATE_FLAGS);
       }
-      // Set the colour last, so it's not overridden by other spans. We remove
-      // existing ForegroundColorSpans to work around a bug in Android 6 (API
-      // 23) and 7 (API 24 and 25). See: https://github.com/De7vID/klingon-assistant/issues/190
-      ForegroundColorSpan[] oldSpans = ssb.getSpans(m.start(), end, ForegroundColorSpan.class);
-      for (ForegroundColorSpan span : oldSpans) {
-        ssb.removeSpan(span);
-      }
+      // Set the colour last, so it's not overridden by other spans.
+      // There is a bug in Android 6 (API 23) and 7 (API 24 and 25) which
+      // messes up the sort order of the ForegroundColorSpans.
+      // See: https://github.com/De7vID/klingon-assistant/issues/190
+      // It used to be possible to work around this by removing existing
+      // ForegroundColorSpans first, but this is broken on the Google Pixel
+      // devices (and possibly others) because the user's highlighting is
+      // implemented using a ForegroundColorSpan. Removing this span causes
+      // a call to setSpan(-1, -1) which causes an IndexOutOfBoundsException.
+      // The work-around also does not work when running on Chromebook (version 
+      // 61.0.3163.120). Commenting out the work-around.
+      // ForegroundColorSpan[] oldSpans = ssb.getSpans(m.start(), end, ForegroundColorSpan.class);
+      // for (ForegroundColorSpan span : oldSpans) {
+      //   ssb.removeSpan(span);
+      // }
       ssb.setSpan(new ForegroundColorSpan(linkedEntry.getTextColor()), m.start(), end, FINAL_FLAGS);
       String linkedPos = linkedEntry.getBracketedPartOfSpeech(/* isHtml */ false);
       if (!linkedPos.equals("") && linkedPos.length() > 1) {

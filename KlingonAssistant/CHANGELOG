@@ -1,5 +1,6 @@
 CHANGELOG
 
+2017-10-20: Roll back colour span bug fix, as it causes a crash on some devices.
 2017-10-17: Added KWOTD functionality. Changes to font family for prefix charts. Fix colour span bug (again).
 2017-10-12: Added even more lesson functionality.
 2017-10-10: Fix for multi-user database issue (#385) on devices with API 19+.
