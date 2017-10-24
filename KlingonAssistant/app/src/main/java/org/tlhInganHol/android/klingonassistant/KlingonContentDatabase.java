@@ -758,7 +758,7 @@ public class KlingonContentDatabase {
 
     boolean stemAdded = false;
     if (exactMatchesCursor != null && exactMatchesCursor.getCount() != 0) {
-      // Log.d(TAG, "found stem = " + complexWord.stem());
+      Log.d(TAG, "found stem = " + complexWord.stem());
 
       // Add all exact matches for stem.
       exactMatchesCursor.moveToFirst();
@@ -771,8 +771,7 @@ public class KlingonContentDatabase {
         if (filterEntry.isSatisfiedBy(resultEntry)
             && !resultEntry.isArchaic()
             && !resultEntry.isHypothetical()) {
-          // Log.d(TAG, "adding: " + resultEntry.getEntryName() + " (" +
-          // resultEntry.getPartOfSpeech() + ")");
+          Log.d(TAG, "adding: " + resultEntry.getEntryName() + " (" + resultEntry.getPartOfSpeech() + ")");
 
           // If this is a bare word, prevent duplicates.
           Integer intId = Integer.valueOf(resultEntry.getId());
@@ -781,7 +780,7 @@ public class KlingonContentDatabase {
             // TODO: Don't add prefix to pronoun.
             String prefix = complexWord.getVerbPrefix();
             if (!prefix.equals("") && !prefixAdded) {
-              // Log.d(TAG, "verb prefix = " + prefix);
+              Log.d(TAG, "verb prefix = " + prefix);
               KlingonContentProvider.Entry prefixFilterEntry =
                   new KlingonContentProvider.Entry(prefix + ":v:pref", mContext);
               addExactMatch(prefix, prefixFilterEntry, resultsCursor, /* indent */ false);
@@ -789,10 +788,7 @@ public class KlingonContentDatabase {
             }
             Object[] exactMatchObject = complexWordCursorRow(resultEntry, complexWord, prefixAdded);
 
-            /*
-             * if (BuildConfig.DEBUG) { Log.d(TAG, "addComplexWordToResults: " +
-             * resultEntry.getEntryName()); }
-             */
+            Log.d(TAG, "addComplexWordToResults: " + resultEntry.getEntryName());
             resultsCursor.addRow(exactMatchObject);
             stemAdded = true;
             if (complexWord.isBareWord()) {
@@ -845,7 +841,7 @@ public class KlingonContentDatabase {
       for (int j = 0; j < verbSuffixes.length; j++) {
         // Check verb suffix of the current type.
         if (!verbSuffixes[j].equals("")) {
-          // Log.d(TAG, "verb suffix = " + verbSuffixes[j]);
+          Log.d(TAG, "verb suffix = " + verbSuffixes[j]);
           filterEntry = new KlingonContentProvider.Entry(verbSuffixes[j] + ":v:suff", mContext);
           addExactMatch(verbSuffixes[j], filterEntry, resultsCursor, /* indent */ true);
         }
@@ -853,6 +849,7 @@ public class KlingonContentDatabase {
         // Check for the true rovers.
         String[] rovers = complexWord.getRovers(j);
         for (String rover : rovers) {
+          Log.d(TAG, "rover = " + rover);
           filterEntry = new KlingonContentProvider.Entry(rover + ":v:suff", mContext);
           addExactMatch(rover, filterEntry, resultsCursor, /* indent */ true);
         }
@@ -862,7 +859,7 @@ public class KlingonContentDatabase {
       String[] nounSuffixes = complexWord.getNounSuffixes();
       for (int j = 0; j < nounSuffixes.length; j++) {
         if (!nounSuffixes[j].equals("")) {
-          // Log.d(TAG, "noun suffix = " + nounSuffixes[j]);
+          Log.d(TAG, "noun suffix = " + nounSuffixes[j]);
           filterEntry = new KlingonContentProvider.Entry(nounSuffixes[j] + ":n:suff", mContext);
           addExactMatch(nounSuffixes[j], filterEntry, resultsCursor, /* indent */ true);
         }
