@@ -767,8 +767,7 @@ public class KlingonContentDatabase {
         KlingonContentProvider.Entry resultEntry =
             new KlingonContentProvider.Entry(exactMatchesCursor, mContext);
         // An archaic or hypothetical word or phrase, even if it's an exact match, will never be
-        // part of a complex word.
-        // However, allow slang, regional, and extended canon.
+        // part of a complex word. However, allow slang, regional, and extended canon.
         if (filterEntry.isSatisfiedBy(resultEntry)
             && !resultEntry.isArchaic()
             && !resultEntry.isHypothetical()) {
@@ -779,6 +778,7 @@ public class KlingonContentDatabase {
           Integer intId = Integer.valueOf(resultEntry.getId());
           if (!complexWord.isBareWord() || !resultsSet.contains(intId) || !isLenient) {
             // Add the verb prefix if one exists, before the verb stem itself.
+            // TODO: Don't add prefix to pronoun.
             String prefix = complexWord.getVerbPrefix();
             if (!prefix.equals("") && !prefixAdded) {
               // Log.d(TAG, "verb prefix = " + prefix);
@@ -878,6 +878,8 @@ public class KlingonContentDatabase {
     return new Object[] {
       entry.getId(),
       complexWord.getVerbPrefixString() + entry.getEntryName() + complexWord.getSuffixesString(),
+      // This works only because all verbs are tagged with transitivity information, so we know the
+      // POS looks like "v:t" which we turn into "v:t,indent".
       entry.getPartOfSpeech() + (indent ? ",indent" : ""),
       entry.getDefinition(),
       entry.getSynonyms(),
