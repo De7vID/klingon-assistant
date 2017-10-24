@@ -662,7 +662,8 @@ public class BaseActivity extends AppCompatActivity
               .show();
         } else {
           // Inform the user operation is under way.
-          Toast.makeText(this, getResources().getString(R.string.kwotd_fetching), Toast.LENGTH_SHORT)
+          Toast.makeText(
+                  this, getResources().getString(R.string.kwotd_fetching), Toast.LENGTH_SHORT)
               .show();
         }
 

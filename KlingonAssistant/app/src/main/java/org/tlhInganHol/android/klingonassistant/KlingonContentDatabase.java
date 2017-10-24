@@ -759,6 +759,7 @@ public class KlingonContentDatabase {
     boolean stemAdded = false;
     if (exactMatchesCursor != null && exactMatchesCursor.getCount() != 0) {
       Log.d(TAG, "found stem = " + complexWord.stem());
+      String prefix = complexWord.getVerbPrefix();
 
       // Add all exact matches for stem.
       exactMatchesCursor.moveToFirst();
@@ -767,18 +768,20 @@ public class KlingonContentDatabase {
         KlingonContentProvider.Entry resultEntry =
             new KlingonContentProvider.Entry(exactMatchesCursor, mContext);
         // An archaic or hypothetical word or phrase, even if it's an exact match, will never be
-        // part of a complex word. However, allow slang, regional, and extended canon.
+        // part of a complex word. However, allow slang, regional, and extended canon. Also,
+        // verbs are satisfied by pronouns, but we exclude a pronoun if there is a prefix.
         if (filterEntry.isSatisfiedBy(resultEntry)
             && !resultEntry.isArchaic()
-            && !resultEntry.isHypothetical()) {
-          Log.d(TAG, "adding: " + resultEntry.getEntryName() + " (" + resultEntry.getPartOfSpeech() + ")");
+            && !resultEntry.isHypothetical()
+            && !(resultEntry.isPronoun() && !prefix.equals(""))) {
+          Log.d(
+              TAG,
+              "adding: " + resultEntry.getEntryName() + " (" + resultEntry.getPartOfSpeech() + ")");
 
           // If this is a bare word, prevent duplicates.
           Integer intId = Integer.valueOf(resultEntry.getId());
           if (!complexWord.isBareWord() || !resultsSet.contains(intId) || !isLenient) {
             // Add the verb prefix if one exists, before the verb stem itself.
-            // TODO: Don't add prefix to pronoun.
-            String prefix = complexWord.getVerbPrefix();
             if (!prefix.equals("") && !prefixAdded) {
               Log.d(TAG, "verb prefix = " + prefix);
               KlingonContentProvider.Entry prefixFilterEntry =
@@ -788,7 +791,9 @@ public class KlingonContentDatabase {
             }
             Object[] exactMatchObject = complexWordCursorRow(resultEntry, complexWord, prefixAdded);
 
-            Log.d(TAG, "addComplexWordToResults: " + resultEntry.getEntryName());
+            if (BuildConfig.DEBUG) {
+              Log.d(TAG, "addComplexWordToResults: " + resultEntry.getEntryName());
+            }
             resultsCursor.addRow(exactMatchObject);
             stemAdded = true;
             if (complexWord.isBareWord()) {
