@@ -528,7 +528,6 @@ public class LessonActivity extends AppCompatActivity
     private void Unit_1_Lesson_1() {
       switch (mSectionNumber) {
         case 1:
-        default:
           Unit_1_Lesson_1_1();
           break;
         case 2:
@@ -537,6 +536,8 @@ public class LessonActivity extends AppCompatActivity
         case 3:
           Unit_1_Lesson_1_3();
           break;
+        default:
+          Under_Construction();
       }
     }
 
@@ -733,9 +734,22 @@ public class LessonActivity extends AppCompatActivity
         LessonFragment summaryFragment =
             LessonFragment.newInstance(getString(R.string.topic_simple_prefixes), summaryBody);
         summaryFragment.setAsSummaryPage();
-        summaryFragment.setCannotContinue();
         mLessonFragments.add(summaryFragment);
       }
+    }
+
+    // Placeholder for when there are no more lessons.
+    private void Under_Construction() {
+      mLessonFragments = new ArrayList<LessonFragment>();
+      LessonFragment summaryFragment =
+          LessonFragment.newInstance(
+              getString(R.string.topic_last_lesson_placeholder),
+              getString(R.string.body_last_lesson_placeholder));
+      summaryFragment.setAsSummaryPage();
+      summaryFragment.setCannotContinue();
+      mLessonFragments.add(summaryFragment);
+      // Hack since there's no difference here between the lesson and summary pages.
+      mShowSummary = true;
     }
   }
 }

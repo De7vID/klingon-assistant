@@ -477,16 +477,15 @@ public class EntryFragment extends Fragment {
         ssb.setSpan(viewLauncher, m.start(), end, INTERMEDIATE_FLAGS);
       }
       // Set the colour last, so it's not overridden by other spans.
-      // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      //   // Work around a bug in Android 6.0.
-      //   //
-      // http://stackoverflow.com/questions/34631851/multiple-foregroundcolorspan-on-editable-issue-on-android-6-0
-      //   ForegroundColorSpan[] oldSpans = ssb.getSpans(m.start(), end,
-      // ForegroundColorSpan.class);
-      //   for (ForegroundColorSpan span : oldSpans) {
-      //     ssb.removeSpan(span);
-      //   }
-      // }
+      // There is a bug in Android 6 (API 23) and 7 (API 24 and 25) which
+      // messes up the sort order of the ForegroundColorSpans.
+      // See: https://github.com/De7vID/klingon-assistant/issues/190
+      // The work-around does not work when running on Chromebook (version
+      // 61.0.3163.120).
+      ForegroundColorSpan[] oldSpans = ssb.getSpans(m.start(), end, ForegroundColorSpan.class);
+      for (ForegroundColorSpan span : oldSpans) {
+        ssb.removeSpan(span);
+      }
       ssb.setSpan(new ForegroundColorSpan(linkedEntry.getTextColor()), m.start(), end, FINAL_FLAGS);
       String linkedPos = linkedEntry.getBracketedPartOfSpeech(/* isHtml */ false);
       if (!linkedPos.equals("") && linkedPos.length() > 1) {

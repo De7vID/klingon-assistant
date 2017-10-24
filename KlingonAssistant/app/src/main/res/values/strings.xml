@@ -161,8 +161,8 @@
       <string name="under_construction_preferences">Under construction</string>
         <string name="show_fab_preference_title">Unsupported features</string>
         <string name="show_fab_preference_summary">Don\'t check this if you\'re not a beta tester.</string>
-        <string name="kwotd_preference_title">Klingon Word of the Day (KWOTD) notification</string>
-        <string name="kwotd_preference_summary">Notify when new KWOTD is available from hol.kag.org server. This requires Internet access.</string>
+        <string name="kwotd_preference_title">KWOTD notification</string>
+        <string name="kwotd_preference_summary">Notify when new Klingon Word of the Day (KWOTD) is available from hol.kag.org server. This requires Internet access.</string>
 
     <string name="warning">Warning</string>
     <string name="change_ui_language_warning">Changing the UI language may not completely take effect until this application is restarted.\n\nDo you wish to continue?</string>
@@ -235,8 +235,9 @@
     <!-- KWOTD notification. -->
     <string name="kwotd_footer"><![CDATA[Klingon Word of the Day brought to you by <b>Hol \'ampaS</b>]]></string>
     <string name="kwotd_requires_internet">KWOTD will be fetched when an Internet connection is available.</string>
-    <string name="kwotd_fetching">Fetching KWTOD from KAG server...</string>
+    <string name="kwotd_fetching">Fetching KWOTD from KAG server...</string>
     <string name="kwotd_one_off_job_failed">Failed to fetch KWOTD from KAG server.</string>
+    <string name="kwotd_notification_channel_name">Klingon Word of the Day</string>
 
     <!-- From the generated app, can probably delete. -->
     <string name="navigation_drawer_open">Open navigation drawer</string>

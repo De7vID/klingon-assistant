@@ -23,13 +23,16 @@
         android:layout_height="fill_parent"
         android:padding="5dp">
     <!-- Entry must be serif, to distinguish capital-I from lowercase-l. -->
+    <!-- Setting textIsSelectable="true" can lead to a crash on some devices,
+         notably the Google Pixel. For now, set it in both places below to false.
+         See: https://github.com/De7vID/klingon-assistant/issues/399 -->
     <TextView
             android:id="@+id/entry_title"
             android:textSize="35sp"
             android:textColor="?android:textColorPrimary"
             android:fontFamily="serif"
             android:paddingBottom="5dp"
-            android:textIsSelectable="true"
+            android:textIsSelectable="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     <!-- Definition can default to sans (embedded Klingon must be serif). -->
@@ -52,7 +55,7 @@
                     android:paddingBottom="5dp"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textIsSelectable="true"
+                    android:textIsSelectable="false"
                     android:layout_weight="1.0" />
             <LinearLayout
               android:gravity="center_vertical"

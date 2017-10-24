@@ -61,6 +61,7 @@
     <string name="no_results"><![CDATA[Kein Ergebnis für &lt;<b>%s</b>&gt;.]]></string>
 
     <!-- Other menu items. -->
+    <string name="menu_kwotd">KWDT abrufen</string>
     <string name="menu_about">boQwI\' - Hilfe</string>
     <string name="menu_preferences">Einstellungen</string>
     <string name="menu_reference">Allgemein</string>
@@ -140,6 +141,8 @@
         <string name="show_transitivity_preference_summary">Eine \"beste Vermutung\" anzeigen, ob ein Verb ein Objekt haben kann.</string>
         <string name="show_additional_information_preference_title">Zusatzinfos</string>
         <string name="show_additional_information_preference_summary">Hintergrundinfos wie Wortspiele, Fehler, usw. anzeigen</string>
+        <string name="kwotd_preference_title">KWDT Benachrichtigungen</string>
+        <string name="kwotd_preference_summary">Informieren sobald ein neues Klingonisches Wort des Tages (KWDT) vom hol.kag.org Server verfügbar ist. Internetzugang erforderlich.</string>
 
     <string name="warning">Warnung</string>
     <string name="change_ui_language_warning">Die Änderungen der Sprachauswahl sind eventuell erst nach dem Neustart der Anwendung sichtbar.\n\nFortfahren?</string>
@@ -189,4 +192,11 @@
     <string name="tutorial_7_title">Qapla\'! (Erfolg!)</string>
     <string name="tutorial_7_msg">Fortgeschrittene Nutzer finden weitere Optionen im Einstellungs-Menü.</string>
     -->
+
+    <!-- KWOTD notification, or KWDT as it is abbreviated in German. -->
+    <string name="kwotd_footer"><![CDATA[Das klingonisches Wort des Tages wird durch <b>Hol \'ampaS</b> bereitgestellt.]]></string>
+    <string name="kwotd_requires_internet">KWDT wird abgerufen sobald eine Internetverbindung verfügbar ist.</string>
+    <string name="kwotd_fetching">KWDT wird vom KAG-Server abgerufen...</string>
+    <string name="kwotd_one_off_job_failed">Abrufen des KWDT vom KAG-Server fehlgeschlagen.</string>
+    <string name="kwotd_notification_channel_name">Klingonisches Wort des Tages</string>
 </resources>
