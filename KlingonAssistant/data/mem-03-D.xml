@@ -174,8 +174,8 @@ When used with {-lu':v}, this prefix means "Someone (indefinite subject) does so
       <column name="definition_de"></column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
-      <column name="see_also"></column>
-      <column name="notes">This is the House (see {tuq:n}) of {DennaS:n:name}.</column>
+      <column name="see_also">{tuq:n}</column>
+      <column name="notes">This is the House of {DennaS:n:name}.</column>
       <column name="notes_de"></column>
       <column name="hidden_notes"></column>
       <column name="components"></column>
@@ -692,7 +692,7 @@ As a time element, {DaHjaj:n} precedes any adverbials.[1, sec. 6.7]</column>
       <column name="see_also"></column>
       <column name="notes"></column>
       <column name="notes_de"></column>
-      <column name="hidden_notes">On {TKD p.172:src}, "I'm lost" is given as {jIHtaHbogh naDev vISovbe'.:sen:nolink}  On {PK:src}, "I'm lost" is given in both regular and clipped Klingon versions, the latter of which is {DaqwIj Sovbe'.:sen:nolink}</column>
+      <column name="hidden_notes">On {TKD p.172:src}, "I'm lost" is given as {jIHtaHbogh naDev vISovbe'.:sen:nolink} On {PK:src}, "I'm lost" is given in both regular and clipped Klingon versions, the latter of which is {DaqwIj Sovbe'.:sen:nolink}</column>
       <column name="components"></column>
       <column name="examples"></column>
       <column name="examples_de"></column>
@@ -2909,7 +2909,7 @@ Coincidentally or not, this words sounds similar to {DI vI':n:nolink} "it accumu
       <column name="synonyms"></column>
       <column name="antonyms"></column>
       <column name="see_also"></column>
-      <column name="notes">This line was cut from {Star Trek V:src}</column>
+      <column name="notes">This line was cut from {Star Trek V:src}.</column>
       <column name="notes_de"></column>
       <column name="hidden_notes"></column>
       <column name="components">{DIvI':n}, {Se':n}, {wI-:v}, {'Ij:v}, {-taH:v}, {-vIS:v}, {DaH:adv}, {ngoqDe':n}, {wI-:v}, {Hev:v}, {-ta':v}</column>
@@ -3645,7 +3645,7 @@ Watch a lesson on this joke: {YouTube video:url:http://www.youtube.com/v/HciuEJS
       <!-- Checked on: 2012.11.29. -->
       <column name="_id">10601</column>
       <column name="entry_name">Dor</column>
-      <column name="part_of_speech">v:1,t</column>
+      <column name="part_of_speech">v:1,t_c</column>
       <column name="definition">escort</column>
       <column name="definition_de">eskortieren, begleiten</column>
       <column name="synonyms"></column>
@@ -3666,7 +3666,7 @@ Watch a lesson on this joke: {YouTube video:url:http://www.youtube.com/v/HciuEJS
       <!-- Checked on: 2012.11.29. -->
       <column name="_id">10602</column>
       <column name="entry_name">Dor</column>
-      <column name="part_of_speech">v:2,i</column>
+      <column name="part_of_speech">v:2,i_c</column>
       <column name="definition">end (of a period of time)</column>
       <column name="definition_de">enden, zu ende gehen</column>
       <column name="synonyms"></column>
