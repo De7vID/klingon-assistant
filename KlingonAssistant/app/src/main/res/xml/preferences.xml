@@ -113,7 +113,7 @@
                 android:key="kwotd_checkbox_preference"
                 android:title="@string/kwotd_preference_title"
                 android:summary="@string/kwotd_preference_summary"
-                android:defaultValue="false" />
+                android:defaultValue="true" />
     </PreferenceCategory>
 
     <PreferenceCategory
