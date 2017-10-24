@@ -213,7 +213,7 @@ public class BaseActivity extends AppCompatActivity
     // }
 
     // Schedule the KWOTD service if it hasn't already been started.
-    if (sharedPrefs.getBoolean(Preferences.KEY_KWOTD_CHECKBOX_PREFERENCE, /* default */ false)) {
+    if (sharedPrefs.getBoolean(Preferences.KEY_KWOTD_CHECKBOX_PREFERENCE, /* default */ true)) {
       runKwotdServiceJob(/* isOneOffJob */ false);
     }
 
@@ -229,7 +229,7 @@ public class BaseActivity extends AppCompatActivity
     // Schedule the KWOTD service if it hasn't already been started. It's necessary to do this here
     // because the setting might have changed in Preferences.
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-    if (sharedPrefs.getBoolean(Preferences.KEY_KWOTD_CHECKBOX_PREFERENCE, /* default */ false)) {
+    if (sharedPrefs.getBoolean(Preferences.KEY_KWOTD_CHECKBOX_PREFERENCE, /* default */ true)) {
       runKwotdServiceJob(/* isOneOffJob */ false);
     } else {
       // If the preference is unchecked, cancel the persisted job.
@@ -316,6 +316,14 @@ public class BaseActivity extends AppCompatActivity
       MenuItem menuItem = menu.getItem(i);
       applyTypefaceToMenuItem(menuItem, /* enlarge */ false);
     }
+
+    // If showing FAB, also show "Fetch KWOTD" button.
+    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+    if (sharedPrefs.getBoolean(Preferences.KEY_SHOW_FAB_CHECKBOX_PREFERENCE, /* default */ false)) {
+      MenuItem kwotdButton = menu.findItem(R.id.action_kwotd);
+      kwotdButton.setVisible(true);
+    }
+
     return true;
   }
 
@@ -662,7 +670,8 @@ public class BaseActivity extends AppCompatActivity
               .show();
         } else {
           // Inform the user operation is under way.
-          Toast.makeText(this, getResources().getString(R.string.kwotd_fetching), Toast.LENGTH_SHORT)
+          Toast.makeText(
+                  this, getResources().getString(R.string.kwotd_fetching), Toast.LENGTH_SHORT)
               .show();
         }
 

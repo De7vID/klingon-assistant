@@ -31,6 +31,8 @@ Other works by Dr. Okrand, such as {The Klingon Way:src} and {Klingon for the Ga
 <br/>
 The {Star Trek:src} films which have a fair amount of spoken Klingon are {Star Trek III:src}, {Star Trek V:src}, and {Star Trek VI:src}. The series {Discovery:src} also has a large amount of spoken Klingon dialogue. (Dr. Okrand did not work on {Discovery:src}, but its dialogue was translated by expert speakers Robyn Stewart and Alan Anderson. Klingon subtitles for the show were written by Klingon teacher Lieven Litaer.)<br/>
 <br/>
+One final word of warning: Do <b><i>not</i></b> rely on machine translation for Klingon. Software which can automatically translate between Klingon and another language does not exist. The only thing which can translate Klingon is a person who is competent in the language.<br/>
+<br/>
 Click <b>Continue</b> when you are ready to begin.]]></string>
 
   <string name="topic_basic_sentence">The Basic Sentence</string>
@@ -121,4 +123,7 @@ You were also introduced to the verbs {HaD:v} <i>study</i> and {ghoj:v} <i>learn
   <string name="topic_ovs">The Klingon attacks the enemy</string>
   <string name="body_ovs"><![CDATA[In the previous section, ]]></string>
 
+  <!-- Placeholder for when there are no more lessons. -->
+  <string name="topic_last_lesson_placeholder">Under construction</string>
+  <string name="body_last_lesson_placeholder"><![CDATA[]]>You\'ve reached the end of these lessons, for now. Check back later for more.</string>
 </resources>
