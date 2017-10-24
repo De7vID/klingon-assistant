@@ -24,10 +24,8 @@
         android:padding="5dp">
     <!-- Entry must be serif, to distinguish capital-I from lowercase-l. -->
     <!-- Setting textIsSelectable="true" can lead to a crash on some devices,
-         notably the Google Pixel. This is apparently triggered by selecting
-         text starting at position 0, then deselecting. However, we leave
-         the text as selectable in the entry page as it's a useful feature,
-         and the crash only happens in an edge case. -->
+         notably the Google Pixel. For now, set it in both places below to false.
+         See: https://github.com/De7vID/klingon-assistant/issues/399 -->
     <TextView
             android:id="@+id/entry_title"
             android:textSize="35sp"
