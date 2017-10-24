@@ -177,7 +177,7 @@ public class KlingonContentProvider extends ContentProvider {
 
   private Object[] formatEntryForSearchResults(Cursor cursor) {
     // Format the search results for display here. These are the two-line dropdown results from the
-    // search box. We fully indent suffixes, but only half-indent verbs.
+    // search box. We fully indent suffixes, but only half-indent verbs when they have a prefix.
     Entry entry = new Entry(cursor, getContext());
     int entryId = entry.getId();
     String indent1 = entry.isIndented() ? (entry.isVerb() ? "  " : "    ") : "";
