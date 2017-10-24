@@ -740,15 +740,16 @@ public class LessonActivity extends AppCompatActivity
 
     // Placeholder for when there are no more lessons.
     private void Under_Construction() {
-        mLessonFragments = new ArrayList<LessonFragment>();
-        LessonFragment summaryFragment =
-            LessonFragment.newInstance(getString(R.string.topic_last_lesson_placeholder),
-                getString(R.string.body_last_lesson_placeholder));
-        summaryFragment.setAsSummaryPage();
-        summaryFragment.setCannotContinue();
-        mLessonFragments.add(summaryFragment);
-        // Hack since there's no difference here between the lesson and summary pages.
-        mShowSummary = true;
+      mLessonFragments = new ArrayList<LessonFragment>();
+      LessonFragment summaryFragment =
+          LessonFragment.newInstance(
+              getString(R.string.topic_last_lesson_placeholder),
+              getString(R.string.body_last_lesson_placeholder));
+      summaryFragment.setAsSummaryPage();
+      summaryFragment.setCannotContinue();
+      mLessonFragments.add(summaryFragment);
+      // Hack since there's no difference here between the lesson and summary pages.
+      mShowSummary = true;
     }
   }
 }

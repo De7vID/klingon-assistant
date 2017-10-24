@@ -1470,7 +1470,7 @@ public class KlingonContentProvider extends ContentProvider {
 
     // Called on a query entry, determines if the query is satisfied by the candidate entry.
     public boolean isSatisfiedBy(Entry candidate) {
-      // Log.d(TAG, "isSatisfiedBy candidate: " + candidate.getEntryName());
+      Log.d(TAG, "\nisSatisfiedBy candidate: " + candidate.getEntryName());
 
       // Determine whether entry name matches exactly.
       boolean isExactMatchForEntryName = mEntryName.equals(candidate.getEntryName());
@@ -1480,24 +1480,27 @@ public class KlingonContentProvider extends ContentProvider {
       if (!basePartOfSpeechIsUnknown()) {
         // Base part of speech is known, so match exact entry name as
         // well as base part of speech.
+        Log.d(TAG, "isExactMatchForEntryName: " + isExactMatchForEntryName);
         if (!isExactMatchForEntryName) {
           return false;
         }
         // The parts of speech must match, except when: we're looking for a verb, in which
-        // case a pronoun will satisfy the requirement; or we're looking for a noun, in which
-        // case the question words {nuq} and {'Iv} are accepted. This is because we want to
-        // allow constructions like {ghaHtaH}, and those two question words can take the place
-        // of the nouns they are asking about.
+        // case a pronoun will satisfy the requirement; or we're looking for a noun, in which case
+        // the question words {nuq} and {'Iv} are accepted. We have these exceptions because we want
+        // to allow constructions like {ghaHtaH} and for those two question words to take the place
+        // of the nouns they are asking about. Note that entries knows nothing about affixes, so
+        // it's up to the caller to exclude, e.g., prefixes on pronouns.
         // TODO: Remove redundant {nuq} + {-Daq}.
-        // Log.d(TAG, "isExactMatchForEntryName: " + isExactMatchForEntryName);
-        // Log.d(TAG, "mBasePartOfSpeech: " + mBasePartOfSpeech);
-        // Log.d(TAG, "candidate.getBasePartOfSpeech: " + candidate.getBasePartOfSpeech());
-        // Log.d(TAG, "candidate.getEntryName: " + candidate.getEntryName());
+        Log.d(TAG, "mBasePartOfSpeech: " + mBasePartOfSpeech);
+        Log.d(TAG, "candidate.getBasePartOfSpeech: " + candidate.getBasePartOfSpeech());
+        Log.d(TAG, "candidate.getEntryName: " + candidate.getEntryName());
+        boolean candidateIsPronounActingAsVerb = (mBasePartOfSpeech == BasePartOfSpeechEnum.VERB
+            && candidate.isPronoun());
+        boolean candidateIsQuestionWordActingAsNoun =
+            (mBasePartOfSpeech == BasePartOfSpeechEnum.NOUN &&
+            (candidate.getEntryName().equals("nuq") || candidate.getEntryName().equals("'Iv")));
         if (mBasePartOfSpeech != candidate.getBasePartOfSpeech()) {
-          if (!(mBasePartOfSpeech == BasePartOfSpeechEnum.VERB && candidate.isPronoun())
-              && !(mBasePartOfSpeech == BasePartOfSpeechEnum.NOUN
-                  && (candidate.getEntryName().equals("nuq")
-                      || candidate.getEntryName().equals("'Iv")))) {
+          if (!candidateIsPronounActingAsVerb && !candidateIsQuestionWordActingAsNoun) {
             return false;
           }
         }
@@ -1515,8 +1518,8 @@ public class KlingonContentProvider extends ContentProvider {
           return false;
         }
       }
-      // Log.d(TAG, "Exact name match for entry name: " + candidate.getEntryName());
-      // Log.d(TAG, "Part of speech satisfied for: " + candidate.getEntryName());
+      Log.d(TAG, "Exact name match for entry name: " + candidate.getEntryName());
+      Log.d(TAG, "Part of speech satisfied for: " + candidate.getEntryName());
 
       // If the homophone number is given, it must match.
       if (mHomophoneNumber != -1 && mHomophoneNumber != candidate.getHomophoneNumber()) {
@@ -1546,7 +1549,11 @@ public class KlingonContentProvider extends ContentProvider {
       // }
 
       // TODO: Test a bunch of other things here.
-      Log.d(TAG, "Candidate passed: " + candidate.getEntryName());
+      Log.d(
+          TAG,
+          "Candidate passed: "
+              + candidate.getEntryName()
+              + candidate.getBracketedPartOfSpeech(/* html */ false));
       return true;
     }
   }
@@ -2214,7 +2221,7 @@ public class KlingonContentProvider extends ContentProvider {
             TAG, "addSelf called on " + mUnparsedPart + " with suffix level " + mSuffixLevel + ".");
         return;
       }
-      // Log.d(TAG, "Found: " + this.toString());
+      Log.d(TAG, "Found: " + this.toString());
 
       // Determine if this is a number. Assume that a number is of the form
       // "digit[modifier][suffix]",
