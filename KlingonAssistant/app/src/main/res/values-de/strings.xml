@@ -194,7 +194,7 @@
     -->
 
     <!-- KWOTD notification, or KWDT as it is abbreviated in German. -->
-    <string name="kwotd_footer"><![CDATA[Das klingonisches Wort des Tages wird durch <b>Hol \'ampaS</b> bereitgestellt.]]></string>
+    <string name="kwotd_footer"><![CDATA[Das klingonische Wort des Tages wird durch <b>Hol \'ampaS</b> bereitgestellt.]]></string>
     <string name="kwotd_requires_internet">KWDT wird abgerufen sobald eine Internetverbindung verfügbar ist.</string>
     <string name="kwotd_fetching">KWDT wird vom KAG-Server abgerufen...</string>
     <string name="kwotd_one_off_job_failed">Abrufen des KWDT vom KAG-Server fehlgeschlagen.</string>
