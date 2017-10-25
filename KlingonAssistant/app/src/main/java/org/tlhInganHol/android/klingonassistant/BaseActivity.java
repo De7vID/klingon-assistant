@@ -243,9 +243,7 @@ public class BaseActivity extends AppCompatActivity
         PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     boolean useKlingonUI =
         sharedPrefs.getBoolean(Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false);
-    boolean useKlingonFont =
-        sharedPrefs.getBoolean(
-            Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false);
+    boolean useKlingonFont = Preferences.useKlingonFont(getBaseContext());
     Typeface klingonTypeface = KlingonAssistant.getKlingonFontTypeface(getBaseContext());
     String title = menuItem.getTitle().toString();
     SpannableString spannableTitle;

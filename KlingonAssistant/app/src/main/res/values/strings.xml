@@ -140,7 +140,7 @@
         <string name="klingon_ui_preference_title">Klingon UI</string>
         <string name="klingon_ui_preference_summary">Use {tlhIngan Hol} for the user interface language.</string>
         <string name="klingon_font_preference_title">{pIqaD}</string>
-        <string name="klingon_font_preference_summary">Display Klingon text using {pIqaD}.</string>
+        <string name="klingon_font_preference_summary">Whether to display Klingon text using {pIqaD}.</string>
         <string name="show_german_definitions_preference_title">Show German definitions</string>
         <string name="show_german_definitions_preference_summary">Display German translations of the definitions.</string>
         <string name="search_german_definitions_preference_title">Search German definitions</string>
@@ -166,6 +166,11 @@
 
     <string name="warning">Warning</string>
     <string name="change_ui_language_warning">Changing the UI language may not completely take effect until this application is restarted.\n\nDo you wish to continue?</string>
+
+    <!-- Display choices for Klingon UI. -->
+    <string name="font_latin">Latin transcription</string>
+    <string name="font_tng">\"The Next Generation\" style {pIqaD}</string>
+    <string name="font_dsc">\"Discovery\" style {pIqaD}</string>
 
     <!-- Metadata labels and descriptions. -->
     <string name="label_see_alt_entry">See</string>

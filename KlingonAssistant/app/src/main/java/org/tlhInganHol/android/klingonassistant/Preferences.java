@@ -17,12 +17,14 @@
 package org.tlhInganHol.android.klingonassistant;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -39,8 +41,7 @@ public class Preferences extends AppCompatPreferenceActivity
 
   // Language preferences.
   public static final String KEY_KLINGON_UI_CHECKBOX_PREFERENCE = "klingon_ui_checkbox_preference";
-  public static final String KEY_KLINGON_FONT_CHECKBOX_PREFERENCE =
-      "klingon_font_checkbox_preference";
+  public static final String KEY_KLINGON_FONT_LIST_PREFERENCE = "klingon_font_list_preference";
   private static final String KEY_LANGUAGE_DEFAULT_ALREADY_SET = "language_default_already_set";
   public static final String KEY_SHOW_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE =
       "show_german_definitions_checkbox_preference";
@@ -66,7 +67,7 @@ public class Preferences extends AppCompatPreferenceActivity
 
   // For changing to the Klingon-language UI.
   private CheckBoxPreference mKlingonUICheckBoxPreference;
-  private CheckBoxPreference mKlingonFontCheckBoxPreference;
+  private ListPreference mKlingonFontListPreference;
   private static boolean warningActive = false;
 
   // @TargetApi(Build.VERSION_CODES.N)
@@ -78,6 +79,21 @@ public class Preferences extends AppCompatPreferenceActivity
     locale = Resources.getSystem().getConfiguration().locale;
     // }
     return locale.getLanguage().equals(Locale.GERMAN.getLanguage());
+  }
+
+  // Whether a Klingon font should be used. Note that this returns false if the "Klingon UI"
+  // checkbox is unchecked, since the font is Latin in that case.
+  public static boolean useKlingonFont(Context context) {
+    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+    String value = sharedPrefs.getString(KEY_KLINGON_FONT_LIST_PREFERENCE, /* default */ "LATIN");
+    return value.equals("TNG") || value.equals("DSC");
+  }
+
+  // Whether the DSC font should be used instead of the TNG one.
+  public static boolean useDSCKlingonFont(Context context) {
+    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+    String value = sharedPrefs.getString(KEY_KLINGON_FONT_LIST_PREFERENCE, /* default */ "LATIN");
+    return value.equals("DSC");
   }
 
   @Override
@@ -149,9 +165,8 @@ public class Preferences extends AppCompatPreferenceActivity
     mKlingonUICheckBoxPreference =
         (CheckBoxPreference)
             getPreferenceScreen().findPreference(KEY_KLINGON_UI_CHECKBOX_PREFERENCE);
-    mKlingonFontCheckBoxPreference =
-        (CheckBoxPreference)
-            getPreferenceScreen().findPreference(KEY_KLINGON_FONT_CHECKBOX_PREFERENCE);
+    mKlingonFontListPreference =
+        (ListPreference) getPreferenceScreen().findPreference(KEY_KLINGON_FONT_LIST_PREFERENCE);
   }
 
   @Override
@@ -185,8 +200,8 @@ public class Preferences extends AppCompatPreferenceActivity
 
                     // If the Klingon font preference is set, unset it if the user's UI
                     // language is unset.
-                    if (!newValue && mKlingonFontCheckBoxPreference != null) {
-                      mKlingonFontCheckBoxPreference.setChecked(false);
+                    if (!newValue && mKlingonFontListPreference != null) {
+                      mKlingonFontListPreference.setValue("LATIN");
                     }
                   }
                 })

@@ -147,9 +147,7 @@ public class EntryFragment extends Fragment {
 
     // Set the entry's name (along with info like "slang", formatted in HTML).
     entryTitle.invalidate();
-    boolean useKlingonFont =
-        sharedPrefs.getBoolean(
-            Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false);
+    boolean useKlingonFont = Preferences.useKlingonFont(getActivity().getBaseContext());
     Typeface klingonTypeface =
         KlingonAssistant.getKlingonFontTypeface(getActivity().getBaseContext());
     if (useKlingonFont) {
@@ -374,11 +372,7 @@ public class EntryFragment extends Fragment {
   // Helper function to process text that includes Klingon text.
   protected void processMixedText(SpannableStringBuilder ssb, KlingonContentProvider.Entry entry) {
     float smallTextScale = (float) 0.8;
-    SharedPreferences sharedPrefs =
-        PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
-    boolean useKlingonFont =
-        sharedPrefs.getBoolean(
-            Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false);
+    boolean useKlingonFont = Preferences.useKlingonFont(getActivity().getBaseContext());
     Typeface klingonTypeface =
         KlingonAssistant.getKlingonFontTypeface(getActivity().getBaseContext());
 
