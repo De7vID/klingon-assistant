@@ -57,8 +57,9 @@ public class KlingonAssistant extends BaseActivity {
   // Preference key for whether to show help.
   public static final String KEY_SHOW_HELP = "show_help";
 
-  // This holds the {pIqaD} typeface.
-  private static Typeface mKlingonFontTypeface = null;
+  // These holds the {pIqaD} typefaces.
+  private static Typeface mTNGKlingonFontTypeface = null;
+  private static Typeface mDSCKlingonFontTypeface = null;
 
   // The two main views in app's main screen.
   private TextView mTextView;
@@ -257,10 +258,19 @@ public class KlingonAssistant extends BaseActivity {
   }
 
   public static Typeface getKlingonFontTypeface(Context context) {
-    if (mKlingonFontTypeface == null) {
-      mKlingonFontTypeface = Typeface.createFromAsset(context.getAssets(), "fonts/pIqaD.ttf");
+    if (Preferences.useDSCKlingonFont(context)) {
+      if (mDSCKlingonFontTypeface == null) {
+        mDSCKlingonFontTypeface =
+            Typeface.createFromAsset(context.getAssets(), "fonts/DSC-pIqaD.ttf");
+      }
+      return mDSCKlingonFontTypeface;
+    } else {
+      if (mTNGKlingonFontTypeface == null) {
+        mTNGKlingonFontTypeface =
+            Typeface.createFromAsset(context.getAssets(), "fonts/TNG-pIqaD.ttf");
+      }
+      return mTNGKlingonFontTypeface;
     }
-    return mKlingonFontTypeface;
   }
 
   // Launch an entry activity with the entry's info.
@@ -341,8 +351,7 @@ public class KlingonAssistant extends BaseActivity {
 
       SharedPreferences sharedPrefs =
           PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-      if (!sharedPrefs.getBoolean(
-          Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false)) {
+      if (!Preferences.useKlingonFont(getBaseContext())) {
         // Use serif for the entry, so capital-I and lowercase-l are distinguishable.
         view.getText1().setTypeface(Typeface.SERIF);
         view.getText1()

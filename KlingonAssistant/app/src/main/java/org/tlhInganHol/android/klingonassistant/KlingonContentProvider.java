@@ -1494,11 +1494,12 @@ public class KlingonContentProvider extends ContentProvider {
         Log.d(TAG, "mBasePartOfSpeech: " + mBasePartOfSpeech);
         Log.d(TAG, "candidate.getBasePartOfSpeech: " + candidate.getBasePartOfSpeech());
         Log.d(TAG, "candidate.getEntryName: " + candidate.getEntryName());
-        boolean candidateIsPronounActingAsVerb = (mBasePartOfSpeech == BasePartOfSpeechEnum.VERB
-            && candidate.isPronoun());
+        boolean candidateIsPronounActingAsVerb =
+            (mBasePartOfSpeech == BasePartOfSpeechEnum.VERB && candidate.isPronoun());
         boolean candidateIsQuestionWordActingAsNoun =
-            (mBasePartOfSpeech == BasePartOfSpeechEnum.NOUN &&
-            (candidate.getEntryName().equals("nuq") || candidate.getEntryName().equals("'Iv")));
+            (mBasePartOfSpeech == BasePartOfSpeechEnum.NOUN
+                && (candidate.getEntryName().equals("nuq")
+                    || candidate.getEntryName().equals("'Iv")));
         if (mBasePartOfSpeech != candidate.getBasePartOfSpeech()) {
           if (!candidateIsPronounActingAsVerb && !candidateIsQuestionWordActingAsNoun) {
             return false;
