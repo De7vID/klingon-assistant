@@ -113,16 +113,8 @@ public class BaseActivity extends AppCompatActivity
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    // Override for Klingon language.
-    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-    if (sharedPrefs.getBoolean(
-        Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false)) {
-      Configuration configuration = getBaseContext().getResources().getConfiguration();
-      configuration.locale = new Locale("tlh", "CAN");
-      getBaseContext()
-          .getResources()
-          .updateConfiguration(configuration, getBaseContext().getResources().getDisplayMetrics());
-    }
+    // Change locale to Klingon if Klingon UI option is set.
+    updateLocaleConfiguration();
 
     setContentView(R.layout.activity_base);
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -150,6 +142,7 @@ public class BaseActivity extends AppCompatActivity
     getSupportActionBar().setTitle(klingonAppName);
 
     // FAB:
+    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     if (sharedPrefs.getBoolean(Preferences.KEY_SHOW_FAB_CHECKBOX_PREFERENCE, /* default */ false)) {
       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
       fab.setVisibility(View.VISIBLE);
@@ -226,6 +219,9 @@ public class BaseActivity extends AppCompatActivity
   protected void onResume() {
     super.onResume();
 
+    // Change locale to Klingon if Klingon UI option is set.
+    updateLocaleConfiguration();
+
     // Schedule the KWOTD service if it hasn't already been started. It's necessary to do this here
     // because the setting might have changed in Preferences.
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -238,18 +234,29 @@ public class BaseActivity extends AppCompatActivity
     }
   }
 
+  private void updateLocaleConfiguration() {
+    // Override for Klingon language.
+    Locale locale;
+    if (Preferences.useKlingonUI(getBaseContext())) {
+      locale = new Locale("tlh", "CAN");
+    } else {
+      locale = KlingonAssistant.getSystemLocale();
+    }
+    Configuration configuration = getBaseContext().getResources().getConfiguration();
+    configuration.locale = locale;
+    getBaseContext()
+        .getResources()
+        .updateConfiguration(configuration, getBaseContext().getResources().getDisplayMetrics());
+  }
+
   private void applyTypefaceToMenuItem(MenuItem menuItem, boolean enlarge) {
-    final SharedPreferences sharedPrefs =
-        PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-    boolean useKlingonUI =
-        sharedPrefs.getBoolean(Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false);
-    boolean useKlingonFont =
-        sharedPrefs.getBoolean(
-            Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false);
+    boolean useKlingonUI = Preferences.useKlingonUI(getBaseContext());
+    boolean useKlingonFont = Preferences.useKlingonFont(getBaseContext());
     Typeface klingonTypeface = KlingonAssistant.getKlingonFontTypeface(getBaseContext());
     String title = menuItem.getTitle().toString();
     SpannableString spannableTitle;
-    if (useKlingonFont) {
+    if (useKlingonUI && useKlingonFont) {
+      // The UI is displayed in Klingon, in a Klingon font.
       String klingonTitle = KlingonContentProvider.convertStringToKlingonFont(title);
       if (menuItem.getItemId() == R.id.about) {
         // This replacement doesn't get made in convertStringToKlingonFont
@@ -267,7 +274,7 @@ public class BaseActivity extends AppCompatActivity
     } else {
       spannableTitle = new SpannableString(title);
       if (useKlingonUI) {
-        // If the UI is in Klingon (Latin), use a serif typeface.
+        // The UI is in Klingon (but in Latin script), use a serif typeface.
         spannableTitle.setSpan(
             new TypefaceSpan("serif"),
             0,

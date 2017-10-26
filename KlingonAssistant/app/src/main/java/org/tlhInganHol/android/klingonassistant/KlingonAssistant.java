@@ -16,14 +16,17 @@
 
 package org.tlhInganHol.android.klingonassistant;
 
+import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
@@ -37,6 +40,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TwoLineListItem;
+import java.util.Locale;
 
 // TUTORIAL:
 // import com.espian.showcaseview.ShowcaseView;
@@ -57,8 +61,9 @@ public class KlingonAssistant extends BaseActivity {
   // Preference key for whether to show help.
   public static final String KEY_SHOW_HELP = "show_help";
 
-  // This holds the {pIqaD} typeface.
-  private static Typeface mKlingonFontTypeface = null;
+  // These holds the {pIqaD} typefaces.
+  private static Typeface mTNGKlingonFontTypeface = null;
+  private static Typeface mDSCKlingonFontTypeface = null;
 
   // The two main views in app's main screen.
   private TextView mTextView;
@@ -257,10 +262,30 @@ public class KlingonAssistant extends BaseActivity {
   }
 
   public static Typeface getKlingonFontTypeface(Context context) {
-    if (mKlingonFontTypeface == null) {
-      mKlingonFontTypeface = Typeface.createFromAsset(context.getAssets(), "fonts/pIqaD.ttf");
+    if (Preferences.useDSCKlingonFont(context)) {
+      if (mDSCKlingonFontTypeface == null) {
+        mDSCKlingonFontTypeface =
+            Typeface.createFromAsset(context.getAssets(), "fonts/DSC-pIqaD.ttf");
+      }
+      return mDSCKlingonFontTypeface;
+    } else {
+      if (mTNGKlingonFontTypeface == null) {
+        mTNGKlingonFontTypeface =
+            Typeface.createFromAsset(context.getAssets(), "fonts/TNG-pIqaD.ttf");
+      }
+      return mTNGKlingonFontTypeface;
     }
-    return mKlingonFontTypeface;
+  }
+
+  @TargetApi(Build.VERSION_CODES.N)
+  public static Locale getSystemLocale() {
+    Locale locale;
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+      locale = Resources.getSystem().getConfiguration().getLocales().get(0);
+    } else {
+      locale = Resources.getSystem().getConfiguration().locale;
+    }
+    return locale;
   }
 
   // Launch an entry activity with the entry's info.
@@ -341,16 +366,15 @@ public class KlingonAssistant extends BaseActivity {
 
       SharedPreferences sharedPrefs =
           PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-      if (!sharedPrefs.getBoolean(
-          Preferences.KEY_KLINGON_FONT_CHECKBOX_PREFERENCE, /* default */ false)) {
+      if (Preferences.useKlingonFont(getBaseContext())) {
+        // Preference is set to display this in {pIqaD}!
+        view.getText1().setTypeface(KlingonAssistant.getKlingonFontTypeface(getBaseContext()));
+        view.getText1().setText(Html.fromHtml(indent1 + entry.getEntryNameInKlingonFont()));
+      } else {
         // Use serif for the entry, so capital-I and lowercase-l are distinguishable.
         view.getText1().setTypeface(Typeface.SERIF);
         view.getText1()
             .setText(Html.fromHtml(indent1 + entry.getFormattedEntryName(/* isHtml */ true)));
-      } else {
-        // Preference is set to display this in {pIqaD}!
-        view.getText1().setTypeface(KlingonAssistant.getKlingonFontTypeface(getBaseContext()));
-        view.getText1().setText(Html.fromHtml(indent1 + entry.getEntryNameInKlingonFont()));
       }
       view.getText1().setTextSize(22);
 

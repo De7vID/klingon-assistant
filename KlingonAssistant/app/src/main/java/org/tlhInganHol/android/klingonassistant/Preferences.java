@@ -17,10 +17,11 @@
 package org.tlhInganHol.android.klingonassistant;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.res.Resources;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceManager;
@@ -38,9 +39,8 @@ public class Preferences extends AppCompatPreferenceActivity
   // "run_tutorial_checkbox_preference";
 
   // Language preferences.
-  public static final String KEY_KLINGON_UI_CHECKBOX_PREFERENCE = "klingon_ui_checkbox_preference";
-  public static final String KEY_KLINGON_FONT_CHECKBOX_PREFERENCE =
-      "klingon_font_checkbox_preference";
+  private static final String KEY_KLINGON_UI_CHECKBOX_PREFERENCE = "klingon_ui_checkbox_preference";
+  private static final String KEY_KLINGON_FONT_LIST_PREFERENCE = "klingon_font_list_preference";
   private static final String KEY_LANGUAGE_DEFAULT_ALREADY_SET = "language_default_already_set";
   public static final String KEY_SHOW_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE =
       "show_german_definitions_checkbox_preference";
@@ -66,23 +66,40 @@ public class Preferences extends AppCompatPreferenceActivity
 
   // For changing to the Klingon-language UI.
   private CheckBoxPreference mKlingonUICheckBoxPreference;
-  private CheckBoxPreference mKlingonFontCheckBoxPreference;
   private static boolean warningActive = false;
 
-  // @TargetApi(Build.VERSION_CODES.N)
   public static boolean shouldPreferGerman() {
-    Locale locale;
-    // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-    //   locale = Resources.getSystem().getConfiguration().getLocales().get(0);
-    // } else {
-    locale = Resources.getSystem().getConfiguration().locale;
-    // }
+    Locale locale = KlingonAssistant.getSystemLocale();
     return locale.getLanguage().equals(Locale.GERMAN.getLanguage());
+  }
+
+  // Whether the UI (menus, hints, etc.) should be displayed in Klingon.
+  public static boolean useKlingonUI(Context context) {
+    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+    return sharedPrefs.getBoolean(
+        Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false);
+  }
+
+  // Whether a Klingon font should be used when display Klingon text.
+  public static boolean useKlingonFont(Context context) {
+    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+    String value = sharedPrefs.getString(KEY_KLINGON_FONT_LIST_PREFERENCE, /* default */ "LATIN");
+    return value.equals("TNG") || value.equals("DSC");
+  }
+
+  // Whether the DSC font should be used instead of the TNG one.
+  public static boolean useDSCKlingonFont(Context context) {
+    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+    String value = sharedPrefs.getString(KEY_KLINGON_FONT_LIST_PREFERENCE, /* default */ "LATIN");
+    return value.equals("DSC");
   }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    // Change locale to Klingon if Klingon UI option is set.
+    updateLocaleConfiguration();
 
     // Set up the toolbar for an AppCompatPreferenceActivity.
     setupActionBar();
@@ -116,6 +133,16 @@ public class Preferences extends AppCompatPreferenceActivity
     // }
   }
 
+  private void updateLocaleConfiguration() {
+    // Always restore system (non-Klingon) locale here.
+    Locale locale = KlingonAssistant.getSystemLocale();
+    Configuration configuration = getBaseContext().getResources().getConfiguration();
+    configuration.locale = locale;
+    getBaseContext()
+        .getResources()
+        .updateConfiguration(configuration, getBaseContext().getResources().getDisplayMetrics());
+  }
+
   private void setupActionBar() {
     // This only works in ICS (API 14) and up.
     ViewGroup root =
@@ -142,6 +169,9 @@ public class Preferences extends AppCompatPreferenceActivity
   protected void onResume() {
     super.onResume();
 
+    // Change locale to Klingon if Klingon UI option is set.
+    updateLocaleConfiguration();
+
     // Set up a listener whenever a key changes.
     getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
@@ -149,9 +179,6 @@ public class Preferences extends AppCompatPreferenceActivity
     mKlingonUICheckBoxPreference =
         (CheckBoxPreference)
             getPreferenceScreen().findPreference(KEY_KLINGON_UI_CHECKBOX_PREFERENCE);
-    mKlingonFontCheckBoxPreference =
-        (CheckBoxPreference)
-            getPreferenceScreen().findPreference(KEY_KLINGON_FONT_CHECKBOX_PREFERENCE);
   }
 
   @Override
@@ -164,11 +191,10 @@ public class Preferences extends AppCompatPreferenceActivity
 
   @Override
   public void onSharedPreferenceChanged(final SharedPreferences sharedPrefs, final String key) {
-
-    if (key.equals(KEY_KLINGON_UI_CHECKBOX_PREFERENCE)) {
-      final boolean newValue = sharedPrefs.getBoolean(key, /* default */ false);
+    if (key.equals(KEY_KLINGON_FONT_LIST_PREFERENCE)
+        || key.equals(KEY_KLINGON_UI_CHECKBOX_PREFERENCE)) {
       if (!warningActive) {
-        // User has changed the UI language, display a warning.
+        // User has changed the Klingon font option or UI language, display a warning.
         warningActive = true;
         new AlertDialog.Builder(this)
             .setIcon(R.drawable.alert_dialog_icon)
@@ -182,24 +208,6 @@ public class Preferences extends AppCompatPreferenceActivity
                   public void onClick(DialogInterface dialog, int whichButton) {
                     // User clicked OK.
                     warningActive = false;
-
-                    // If the Klingon font preference is set, unset it if the user's UI
-                    // language is unset.
-                    if (!newValue && mKlingonFontCheckBoxPreference != null) {
-                      mKlingonFontCheckBoxPreference.setChecked(false);
-                    }
-                  }
-                })
-            .setNegativeButton(
-                android.R.string.no,
-                new DialogInterface.OnClickListener() {
-                  @Override
-                  public void onClick(DialogInterface dialog, int whichButton) {
-                    if (mKlingonUICheckBoxPreference != null) {
-                      // User clicked Cancel, reset preference to previous value.
-                      mKlingonUICheckBoxPreference.setChecked(!newValue);
-                      warningActive = false;
-                    }
                   }
                 })
             .show();
