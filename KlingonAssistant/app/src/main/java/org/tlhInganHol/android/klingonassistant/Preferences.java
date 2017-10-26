@@ -21,9 +21,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
-import android.preference.ListPreference;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -98,6 +98,9 @@ public class Preferences extends AppCompatPreferenceActivity
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
+    // Change locale to Klingon if Klingon UI option is set.
+    updateLocaleConfiguration();
+
     // Set up the toolbar for an AppCompatPreferenceActivity.
     setupActionBar();
 
@@ -130,6 +133,16 @@ public class Preferences extends AppCompatPreferenceActivity
     // }
   }
 
+  private void updateLocaleConfiguration() {
+    // Always restore system (non-Klingon) locale here.
+    Locale locale = KlingonAssistant.getSystemLocale();
+    Configuration configuration = getBaseContext().getResources().getConfiguration();
+    configuration.locale = locale;
+    getBaseContext()
+        .getResources()
+        .updateConfiguration(configuration, getBaseContext().getResources().getDisplayMetrics());
+  }
+
   private void setupActionBar() {
     // This only works in ICS (API 14) and up.
     ViewGroup root =
@@ -155,6 +168,9 @@ public class Preferences extends AppCompatPreferenceActivity
   @Override
   protected void onResume() {
     super.onResume();
+
+    // Change locale to Klingon if Klingon UI option is set.
+    updateLocaleConfiguration();
 
     // Set up a listener whenever a key changes.
     getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
