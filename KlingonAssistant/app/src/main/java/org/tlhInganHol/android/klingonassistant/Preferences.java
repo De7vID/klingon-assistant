@@ -175,9 +175,8 @@ public class Preferences extends AppCompatPreferenceActivity
 
   @Override
   public void onSharedPreferenceChanged(final SharedPreferences sharedPrefs, final String key) {
-    if (key.equals(KEY_KLINGON_UI_CHECKBOX_PREFERENCE)) {
-      final boolean newValue =
-          sharedPrefs.getBoolean(KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false);
+    if (key.equals(KEY_KLINGON_FONT_LIST_PREFERENCE)
+        || key.equals(KEY_KLINGON_UI_CHECKBOX_PREFERENCE)) {
       if (!warningActive) {
         // User has changed the Klingon font option or UI language, display a warning.
         warningActive = true;
@@ -193,18 +192,6 @@ public class Preferences extends AppCompatPreferenceActivity
                   public void onClick(DialogInterface dialog, int whichButton) {
                     // User clicked OK.
                     warningActive = false;
-                  }
-                })
-            .setNegativeButton(
-                android.R.string.no,
-                new DialogInterface.OnClickListener() {
-                  @Override
-                  public void onClick(DialogInterface dialog, int whichButton) {
-                    if (mKlingonUICheckBoxPreference != null) {
-                      // User clicked Cancel, reset preference to previous value.
-                      mKlingonUICheckBoxPreference.setChecked(!newValue);
-                      warningActive = false;
-                    }
                   }
                 })
             .show();
