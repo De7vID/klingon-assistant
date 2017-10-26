@@ -115,14 +115,18 @@ public class BaseActivity extends AppCompatActivity
 
     // Override for Klingon language.
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+    Locale locale;
     if (sharedPrefs.getBoolean(
         Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false)) {
-      Configuration configuration = getBaseContext().getResources().getConfiguration();
-      configuration.locale = new Locale("tlh", "CAN");
-      getBaseContext()
-          .getResources()
-          .updateConfiguration(configuration, getBaseContext().getResources().getDisplayMetrics());
+      locale = new Locale("tlh", "CAN");
+    } else {
+      locale = KlingonAssistant.getSystemLocale();
     }
+    Configuration configuration = getBaseContext().getResources().getConfiguration();
+    configuration.locale = locale;
+    getBaseContext()
+        .getResources()
+        .updateConfiguration(configuration, getBaseContext().getResources().getDisplayMetrics());
 
     setContentView(R.layout.activity_base);
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

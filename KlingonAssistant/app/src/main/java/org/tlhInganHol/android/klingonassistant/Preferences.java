@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
@@ -67,24 +66,18 @@ public class Preferences extends AppCompatPreferenceActivity
 
   // For changing to the Klingon-language UI.
   private CheckBoxPreference mKlingonUICheckBoxPreference;
-  private ListPreference mKlingonFontListPreference;
   private static boolean warningActive = false;
 
-  // @TargetApi(Build.VERSION_CODES.N)
   public static boolean shouldPreferGerman() {
-    Locale locale;
-    // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-    //   locale = Resources.getSystem().getConfiguration().getLocales().get(0);
-    // } else {
-    locale = Resources.getSystem().getConfiguration().locale;
-    // }
+    Locale locale = KlingonAssistant.getSystemLocale();
     return locale.getLanguage().equals(Locale.GERMAN.getLanguage());
   }
 
   // Whether the UI (menus, hints, etc.) should be displayed in Klingon.
   public static boolean useKlingonUI(Context context) {
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-    return sharedPrefs.getBoolean(Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false);
+    return sharedPrefs.getBoolean(
+        Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false);
   }
 
   // Whether a Klingon font should be used when display Klingon text.
@@ -170,8 +163,6 @@ public class Preferences extends AppCompatPreferenceActivity
     mKlingonUICheckBoxPreference =
         (CheckBoxPreference)
             getPreferenceScreen().findPreference(KEY_KLINGON_UI_CHECKBOX_PREFERENCE);
-    mKlingonFontListPreference =
-        (ListPreference) getPreferenceScreen().findPreference(KEY_KLINGON_FONT_LIST_PREFERENCE);
   }
 
   @Override
@@ -184,9 +175,9 @@ public class Preferences extends AppCompatPreferenceActivity
 
   @Override
   public void onSharedPreferenceChanged(final SharedPreferences sharedPrefs, final String key) {
-
     if (key.equals(KEY_KLINGON_UI_CHECKBOX_PREFERENCE)) {
-      final boolean newValue = sharedPrefs.getBoolean(KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false);
+      final boolean newValue =
+          sharedPrefs.getBoolean(KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false);
       if (!warningActive) {
         // User has changed the Klingon font option or UI language, display a warning.
         warningActive = true;
