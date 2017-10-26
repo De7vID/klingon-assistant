@@ -16,14 +16,17 @@
 
 package org.tlhInganHol.android.klingonassistant;
 
+import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
@@ -37,6 +40,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TwoLineListItem;
+import java.util.Locale;
 
 // TUTORIAL:
 // import com.espian.showcaseview.ShowcaseView;
@@ -271,6 +275,17 @@ public class KlingonAssistant extends BaseActivity {
       }
       return mTNGKlingonFontTypeface;
     }
+  }
+
+  @TargetApi(Build.VERSION_CODES.N)
+  public static Locale getSystemLocale() {
+    Locale locale;
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+      locale = Resources.getSystem().getConfiguration().getLocales().get(0);
+    } else {
+      locale = Resources.getSystem().getConfiguration().locale;
+    }
+    return locale;
   }
 
   // Launch an entry activity with the entry's info.
