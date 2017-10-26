@@ -35,21 +35,18 @@
 
     <PreferenceCategory
             android:title="@string/language_preferences">
-
-        <CheckBoxPreference
-                android:key="klingon_ui_checkbox_preference"
-                android:title="@string/klingon_ui_preference_title"
-                android:summary="@string/klingon_ui_preference_summary"
-                android:defaultValue="false" />
         <ListPreference
                 android:key="klingon_font_list_preference"
-                android:dependency="klingon_ui_checkbox_preference"
-                android:layout="?android:attr/preferenceLayoutChild"
                 android:title="@string/klingon_font_preference_title"
                 android:summary="@string/klingon_font_preference_summary"
                 android:defaultValue="LATIN"
                 android:entries="@array/klingonFontChoicesArray"
                 android:entryValues="@array/klingonFontChoicesValues" />
+        <CheckBoxPreference
+                android:key="klingon_ui_checkbox_preference"
+                android:title="@string/klingon_ui_preference_title"
+                android:summary="@string/klingon_ui_preference_summary"
+                android:defaultValue="false" />
         <!--
         <CheckBoxPreference
                 android:key="klingon_font_checkbox_preference"

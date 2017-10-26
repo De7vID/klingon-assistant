@@ -351,15 +351,15 @@ public class KlingonAssistant extends BaseActivity {
 
       SharedPreferences sharedPrefs =
           PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-      if (!Preferences.useKlingonFont(getBaseContext())) {
+      if (Preferences.useKlingonFont(getBaseContext())) {
+        // Preference is set to display this in {pIqaD}!
+        view.getText1().setTypeface(KlingonAssistant.getKlingonFontTypeface(getBaseContext()));
+        view.getText1().setText(Html.fromHtml(indent1 + entry.getEntryNameInKlingonFont()));
+      } else {
         // Use serif for the entry, so capital-I and lowercase-l are distinguishable.
         view.getText1().setTypeface(Typeface.SERIF);
         view.getText1()
             .setText(Html.fromHtml(indent1 + entry.getFormattedEntryName(/* isHtml */ true)));
-      } else {
-        // Preference is set to display this in {pIqaD}!
-        view.getText1().setTypeface(KlingonAssistant.getKlingonFontTypeface(getBaseContext()));
-        view.getText1().setText(Html.fromHtml(indent1 + entry.getEntryNameInKlingonFont()));
       }
       view.getText1().setTextSize(22);
 

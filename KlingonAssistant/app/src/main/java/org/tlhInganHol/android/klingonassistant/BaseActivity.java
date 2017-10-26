@@ -239,15 +239,13 @@ public class BaseActivity extends AppCompatActivity
   }
 
   private void applyTypefaceToMenuItem(MenuItem menuItem, boolean enlarge) {
-    final SharedPreferences sharedPrefs =
-        PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-    boolean useKlingonUI =
-        sharedPrefs.getBoolean(Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false);
+    boolean useKlingonUI = Preferences.useKlingonUI(getBaseContext());
     boolean useKlingonFont = Preferences.useKlingonFont(getBaseContext());
     Typeface klingonTypeface = KlingonAssistant.getKlingonFontTypeface(getBaseContext());
     String title = menuItem.getTitle().toString();
     SpannableString spannableTitle;
-    if (useKlingonFont) {
+    if (useKlingonUI && useKlingonFont) {
+      // The UI is displayed in Klingon, in a Klingon font.
       String klingonTitle = KlingonContentProvider.convertStringToKlingonFont(title);
       if (menuItem.getItemId() == R.id.about) {
         // This replacement doesn't get made in convertStringToKlingonFont
@@ -265,7 +263,7 @@ public class BaseActivity extends AppCompatActivity
     } else {
       spannableTitle = new SpannableString(title);
       if (useKlingonUI) {
-        // If the UI is in Klingon (Latin), use a serif typeface.
+        // The UI is in Klingon (but in Latin script), use a serif typeface.
         spannableTitle.setSpan(
             new TypefaceSpan("serif"),
             0,

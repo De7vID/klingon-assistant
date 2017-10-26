@@ -81,8 +81,13 @@ public class Preferences extends AppCompatPreferenceActivity
     return locale.getLanguage().equals(Locale.GERMAN.getLanguage());
   }
 
-  // Whether a Klingon font should be used. Note that this returns false if the "Klingon UI"
-  // checkbox is unchecked, since the font is Latin in that case.
+  // Whether the UI (menus, hints, etc.) should be displayed in Klingon.
+  public static boolean useKlingonUI(Context context) {
+    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+    return sharedPrefs.getBoolean(Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false);
+  }
+
+  // Whether a Klingon font should be used when display Klingon text.
   public static boolean useKlingonFont(Context context) {
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
     String value = sharedPrefs.getString(KEY_KLINGON_FONT_LIST_PREFERENCE, /* default */ "LATIN");
@@ -181,9 +186,9 @@ public class Preferences extends AppCompatPreferenceActivity
   public void onSharedPreferenceChanged(final SharedPreferences sharedPrefs, final String key) {
 
     if (key.equals(KEY_KLINGON_UI_CHECKBOX_PREFERENCE)) {
-      final boolean newValue = sharedPrefs.getBoolean(key, /* default */ false);
+      final boolean newValue = sharedPrefs.getBoolean(KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false);
       if (!warningActive) {
-        // User has changed the UI language, display a warning.
+        // User has changed the Klingon font option or UI language, display a warning.
         warningActive = true;
         new AlertDialog.Builder(this)
             .setIcon(R.drawable.alert_dialog_icon)
@@ -197,12 +202,6 @@ public class Preferences extends AppCompatPreferenceActivity
                   public void onClick(DialogInterface dialog, int whichButton) {
                     // User clicked OK.
                     warningActive = false;
-
-                    // If the Klingon font preference is set, unset it if the user's UI
-                    // language is unset.
-                    if (!newValue && mKlingonFontListPreference != null) {
-                      mKlingonFontListPreference.setValue("LATIN");
-                    }
                   }
                 })
             .setNegativeButton(
