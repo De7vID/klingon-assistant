@@ -313,8 +313,10 @@ public class KwotdService extends JobService {
           NotificationManager manager =
               (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-          // A notification channel is both needed and only supported on Android 8.0 (API 26) and up.
-          String notificationChannelName = resources.getString(R.string.kwotd_notification_channel_name);
+          // A notification channel is both needed and only supported on Android 8.0 (API 26) and
+          // up.
+          String notificationChannelName =
+              resources.getString(R.string.kwotd_notification_channel_name);
           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel =
                 new NotificationChannel(

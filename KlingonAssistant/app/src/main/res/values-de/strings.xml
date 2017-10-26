@@ -120,10 +120,10 @@
         <string name="run_tutorial_preference_summary">Beginne das Tutorial beim nächsten Start der Anwendung (benötigt Android 4.1+).</string>
       -->
       <string name="language_preferences">Spracheinstellungen</string>
-        <string name="klingon_ui_preference_title">Klingonische Menüs</string>
-        <string name="klingon_ui_preference_summary">Benutzeroberfläche auf Klingonisch anzeigen.</string>
         <string name="klingon_font_preference_title">{pIqaD}</string>
         <string name="klingon_font_preference_summary">Klingonische Schriftzeichen anzeigen.</string>
+        <string name="klingon_ui_preference_title">Klingonische Menüs</string>
+        <string name="klingon_ui_preference_summary">Benutzeroberfläche auf Klingonisch anzeigen.</string>
         <string name="show_german_definitions_preference_title">Deutsche Definitionen</string>
         <string name="show_german_definitions_preference_summary">Deutsche Übersetzungen anzeigen.</string>
         <string name="search_german_definitions_preference_title">Deutsche Suche</string>
@@ -145,7 +145,12 @@
         <string name="kwotd_preference_summary">Informieren sobald ein neues Klingonisches Wort des Tages (KWDT) vom hol.kag.org Server verfügbar ist. Internetzugang erforderlich.</string>
 
     <string name="warning">Warnung</string>
-    <string name="change_ui_language_warning">Die Änderungen der Sprachauswahl sind eventuell erst nach dem Neustart der Anwendung sichtbar.\n\nFortfahren?</string>
+    <string name="change_ui_language_warning">Die Änderungen der Sprachauswahl sind eventuell erst nach dem Neustart der Anwendung sichtbar.</string>
+
+    <!-- Display choices for Klingon UI. -->
+    <string name="font_latin">Lateinische Transkription</string>
+    <string name="font_tng">\"The Next Generation\" {pIqaD} Schriftart</string>
+    <string name="font_dsc">\"Discovery\" {pIqaD} Schriftart</string>
 
     <!-- Metadata labels and descriptions. -->
     <string name="label_see_alt_entry">Siehe</string>
@@ -194,7 +199,7 @@
     -->
 
     <!-- KWOTD notification, or KWDT as it is abbreviated in German. -->
-    <string name="kwotd_footer"><![CDATA[Das klingonisches Wort des Tages wird durch <b>Hol \'ampaS</b> bereitgestellt.]]></string>
+    <string name="kwotd_footer"><![CDATA[Das klingonische Wort des Tages wird durch <b>Hol \'ampaS</b> bereitgestellt.]]></string>
     <string name="kwotd_requires_internet">KWDT wird abgerufen sobald eine Internetverbindung verfügbar ist.</string>
     <string name="kwotd_fetching">KWDT wird vom KAG-Server abgerufen...</string>
     <string name="kwotd_one_off_job_failed">Abrufen des KWDT vom KAG-Server fehlgeschlagen.</string>

@@ -1307,10 +1307,6 @@ public class KlingonContentProvider extends ContentProvider {
     }
 
     public String getSentenceType() {
-      SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-      boolean useKlingonUI =
-          sharedPrefs.getBoolean(
-              Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false);
       if (mSentenceType == SentenceType.EMPIRE_UNION_DAY) {
         return mContext.getResources().getString(R.string.empire_union_day);
       } else if (mSentenceType == SentenceType.CURSE_WARFARE) {
@@ -1494,11 +1490,12 @@ public class KlingonContentProvider extends ContentProvider {
         Log.d(TAG, "mBasePartOfSpeech: " + mBasePartOfSpeech);
         Log.d(TAG, "candidate.getBasePartOfSpeech: " + candidate.getBasePartOfSpeech());
         Log.d(TAG, "candidate.getEntryName: " + candidate.getEntryName());
-        boolean candidateIsPronounActingAsVerb = (mBasePartOfSpeech == BasePartOfSpeechEnum.VERB
-            && candidate.isPronoun());
+        boolean candidateIsPronounActingAsVerb =
+            (mBasePartOfSpeech == BasePartOfSpeechEnum.VERB && candidate.isPronoun());
         boolean candidateIsQuestionWordActingAsNoun =
-            (mBasePartOfSpeech == BasePartOfSpeechEnum.NOUN &&
-            (candidate.getEntryName().equals("nuq") || candidate.getEntryName().equals("'Iv")));
+            (mBasePartOfSpeech == BasePartOfSpeechEnum.NOUN
+                && (candidate.getEntryName().equals("nuq")
+                    || candidate.getEntryName().equals("'Iv")));
         if (mBasePartOfSpeech != candidate.getBasePartOfSpeech()) {
           if (!candidateIsPronounActingAsVerb && !candidateIsQuestionWordActingAsNoun) {
             return false;
