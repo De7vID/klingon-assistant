@@ -38,7 +38,8 @@ public class PrefixChartActivity extends BaseActivity {
 
     // Set the title.
     entryTitle.invalidate();
-    if (Preferences.useKlingonFont(getBaseContext())) {
+    if (Preferences.useKlingonUI(getBaseContext())
+        && Preferences.useKlingonFont(getBaseContext())) {
       // Klingon (in {pIqaD}).
       entryTitle.setTypeface(KlingonAssistant.getKlingonFontTypeface(getBaseContext()));
       entryTitle.setText(
