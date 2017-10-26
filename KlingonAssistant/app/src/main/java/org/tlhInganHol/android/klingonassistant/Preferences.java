@@ -39,8 +39,8 @@ public class Preferences extends AppCompatPreferenceActivity
   // "run_tutorial_checkbox_preference";
 
   // Language preferences.
-  public static final String KEY_KLINGON_UI_CHECKBOX_PREFERENCE = "klingon_ui_checkbox_preference";
-  public static final String KEY_KLINGON_FONT_LIST_PREFERENCE = "klingon_font_list_preference";
+  private static final String KEY_KLINGON_UI_CHECKBOX_PREFERENCE = "klingon_ui_checkbox_preference";
+  private static final String KEY_KLINGON_FONT_LIST_PREFERENCE = "klingon_font_list_preference";
   private static final String KEY_LANGUAGE_DEFAULT_ALREADY_SET = "language_default_already_set";
   public static final String KEY_SHOW_GERMAN_DEFINITIONS_CHECKBOX_PREFERENCE =
       "show_german_definitions_checkbox_preference";

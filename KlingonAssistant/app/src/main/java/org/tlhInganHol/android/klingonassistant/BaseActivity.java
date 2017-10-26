@@ -113,20 +113,8 @@ public class BaseActivity extends AppCompatActivity
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    // Override for Klingon language.
-    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-    Locale locale;
-    if (sharedPrefs.getBoolean(
-        Preferences.KEY_KLINGON_UI_CHECKBOX_PREFERENCE, /* default */ false)) {
-      locale = new Locale("tlh", "CAN");
-    } else {
-      locale = KlingonAssistant.getSystemLocale();
-    }
-    Configuration configuration = getBaseContext().getResources().getConfiguration();
-    configuration.locale = locale;
-    getBaseContext()
-        .getResources()
-        .updateConfiguration(configuration, getBaseContext().getResources().getDisplayMetrics());
+    // Change locale to Klingon if Klingon UI option is set.
+    updateLocaleConfiguration();
 
     setContentView(R.layout.activity_base);
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -154,6 +142,7 @@ public class BaseActivity extends AppCompatActivity
     getSupportActionBar().setTitle(klingonAppName);
 
     // FAB:
+    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     if (sharedPrefs.getBoolean(Preferences.KEY_SHOW_FAB_CHECKBOX_PREFERENCE, /* default */ false)) {
       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
       fab.setVisibility(View.VISIBLE);
@@ -230,6 +219,9 @@ public class BaseActivity extends AppCompatActivity
   protected void onResume() {
     super.onResume();
 
+    // Change locale to Klingon if Klingon UI option is set.
+    updateLocaleConfiguration();
+
     // Schedule the KWOTD service if it hasn't already been started. It's necessary to do this here
     // because the setting might have changed in Preferences.
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -240,6 +232,21 @@ public class BaseActivity extends AppCompatActivity
       JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
       scheduler.cancel(KWOTD_SERVICE_PERSISTED_JOB_ID);
     }
+  }
+
+  private void updateLocaleConfiguration() {
+    // Override for Klingon language.
+    Locale locale;
+    if (Preferences.useKlingonUI(getBaseContext())) {
+      locale = new Locale("tlh", "CAN");
+    } else {
+      locale = KlingonAssistant.getSystemLocale();
+    }
+    Configuration configuration = getBaseContext().getResources().getConfiguration();
+    configuration.locale = locale;
+    getBaseContext()
+        .getResources()
+        .updateConfiguration(configuration, getBaseContext().getResources().getDisplayMetrics());
   }
 
   private void applyTypefaceToMenuItem(MenuItem menuItem, boolean enlarge) {
