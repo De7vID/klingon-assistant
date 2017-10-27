@@ -22,10 +22,17 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.StyleSpan;
+import android.text.style.TypefaceSpan;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -64,8 +71,8 @@ public class Preferences extends AppCompatPreferenceActivity
   public static final String KEY_SHOW_FAB_CHECKBOX_PREFERENCE = "show_fab_checkbox_preference";
   public static final String KEY_KWOTD_CHECKBOX_PREFERENCE = "kwotd_checkbox_preference";
 
-  // For changing to the Klingon-language UI.
-  private CheckBoxPreference mKlingonUICheckBoxPreference;
+  // Keep track of whether the warning active is already currently displayed.
+  // TODO: Is this still necessary?
   private static boolean mWarningActive = false;
 
   public static boolean shouldPreferGerman() {
@@ -98,14 +105,40 @@ public class Preferences extends AppCompatPreferenceActivity
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    // Change locale to Klingon if Klingon UI option is set.
-    updateLocaleConfiguration();
+    // Restore system (non-Klingon) locale.
+    restoreLocaleConfiguration();
 
     // Set up the toolbar for an AppCompatPreferenceActivity.
     setupActionBar();
 
     // Load the preferences from an XML resource.
     addPreferencesFromResource(R.xml.preferences);
+
+    // Get a reference to the {pIqaD} list preference, and apply the display option to it.
+    ListPreference klingonFontListPreference =
+        (ListPreference) getPreferenceScreen().findPreference(KEY_KLINGON_FONT_LIST_PREFERENCE);
+    String title = klingonFontListPreference.getTitle().toString();
+    SpannableString ssb;
+    if (!useKlingonFont(getBaseContext())) {
+      // Display in bold serif.
+      ssb = new SpannableString(title);
+      ssb.setSpan(
+          new StyleSpan(android.graphics.Typeface.BOLD),
+          0,
+          ssb.length(),
+          Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | Spanned.SPAN_INTERMEDIATE);
+      ssb.setSpan(new TypefaceSpan("serif"), 0, ssb.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    } else {
+      String klingonTitle = KlingonContentProvider.convertStringToKlingonFont(title);
+      ssb = new SpannableString(klingonTitle);
+      Typeface klingonTypeface = KlingonAssistant.getKlingonFontTypeface(getBaseContext());
+      ssb.setSpan(
+          new KlingonTypefaceSpan("", klingonTypeface),
+          0,
+          ssb.length(),
+          Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
+    klingonFontListPreference.setTitle(ssb);
 
     // Set the defaults for the German options based on the user's language, if it hasn't been
     // already set.
@@ -133,7 +166,7 @@ public class Preferences extends AppCompatPreferenceActivity
     // }
   }
 
-  private void updateLocaleConfiguration() {
+  private void restoreLocaleConfiguration() {
     // Always restore system (non-Klingon) locale here.
     Locale locale = KlingonAssistant.getSystemLocale();
     Configuration configuration = getBaseContext().getResources().getConfiguration();
@@ -169,16 +202,11 @@ public class Preferences extends AppCompatPreferenceActivity
   protected void onResume() {
     super.onResume();
 
-    // Change locale to Klingon if Klingon UI option is set.
-    updateLocaleConfiguration();
+    // Restore system (non-Klingon) locale.
+    restoreLocaleConfiguration();
 
     // Set up a listener whenever a key changes.
     getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-
-    // Get a reference to the "use Klingon UI" checkbox and the "use Klingon font" checkbox.
-    mKlingonUICheckBoxPreference =
-        (CheckBoxPreference)
-            getPreferenceScreen().findPreference(KEY_KLINGON_UI_CHECKBOX_PREFERENCE);
   }
 
   @Override
