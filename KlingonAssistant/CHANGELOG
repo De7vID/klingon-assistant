@@ -1,6 +1,6 @@
 CHANGELOG
 
-2017-10-25: Add DSC font. Fix locale issues.
+2017-10-25: Add DSC font. Fix locale issues. Improve Preferences activity.
 2017-10-24: Turn off copy and paste in entry. Hide KWOTD menu, and automatically start KWOTD job.
 2017-10-20: Determined that ForegroundColorSpan fix is not cause of crash on Pixel, etc.
 2017-10-17: Added KWOTD functionality. Changes to font family for prefix charts. Fix colour span bug (again).
