@@ -66,7 +66,7 @@ public class Preferences extends AppCompatPreferenceActivity
 
   // For changing to the Klingon-language UI.
   private CheckBoxPreference mKlingonUICheckBoxPreference;
-  private static boolean warningActive = false;
+  private static boolean mWarningActive = false;
 
   public static boolean shouldPreferGerman() {
     Locale locale = KlingonAssistant.getSystemLocale();
@@ -193,9 +193,9 @@ public class Preferences extends AppCompatPreferenceActivity
   public void onSharedPreferenceChanged(final SharedPreferences sharedPrefs, final String key) {
     if (key.equals(KEY_KLINGON_FONT_LIST_PREFERENCE)
         || key.equals(KEY_KLINGON_UI_CHECKBOX_PREFERENCE)) {
-      if (!warningActive) {
+      if (!mWarningActive) {
         // User has changed the Klingon font option or UI language, display a warning.
-        warningActive = true;
+        mWarningActive = true;
         new AlertDialog.Builder(this)
             .setIcon(R.drawable.alert_dialog_icon)
             .setTitle(R.string.warning)
@@ -207,7 +207,7 @@ public class Preferences extends AppCompatPreferenceActivity
                   @Override
                   public void onClick(DialogInterface dialog, int whichButton) {
                     // User clicked OK.
-                    warningActive = false;
+                    mWarningActive = false;
                   }
                 })
             .show();
