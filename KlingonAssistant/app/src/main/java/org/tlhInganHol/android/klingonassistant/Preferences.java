@@ -71,10 +71,7 @@ public class Preferences extends AppCompatPreferenceActivity
   public static final String KEY_SHOW_FAB_CHECKBOX_PREFERENCE = "show_fab_checkbox_preference";
   public static final String KEY_KWOTD_CHECKBOX_PREFERENCE = "kwotd_checkbox_preference";
 
-  // Keep track of whether the warning active is already currently displayed.
-  // TODO: Is this still necessary?
-  private static boolean mWarningActive = false;
-
+  // Detect if the system language is German.
   public static boolean shouldPreferGerman() {
     Locale locale = KlingonAssistant.getSystemLocale();
     return locale.getLanguage().equals(Locale.GERMAN.getLanguage());
@@ -221,25 +218,22 @@ public class Preferences extends AppCompatPreferenceActivity
   public void onSharedPreferenceChanged(final SharedPreferences sharedPrefs, final String key) {
     if (key.equals(KEY_KLINGON_FONT_LIST_PREFERENCE)
         || key.equals(KEY_KLINGON_UI_CHECKBOX_PREFERENCE)) {
-      if (!mWarningActive) {
-        // User has changed the Klingon font option or UI language, display a warning.
-        mWarningActive = true;
-        new AlertDialog.Builder(this)
-            .setIcon(R.drawable.alert_dialog_icon)
-            .setTitle(R.string.warning)
-            .setMessage(R.string.change_ui_language_warning)
-            .setCancelable(false) // Can't be canceled with the BACK key.
-            .setPositiveButton(
-                android.R.string.yes,
-                new DialogInterface.OnClickListener() {
-                  @Override
-                  public void onClick(DialogInterface dialog, int whichButton) {
-                    // User clicked OK.
-                    mWarningActive = false;
-                  }
-                })
-            .show();
-      }
+      // User has changed the Klingon font option or UI language, display a warning.
+      new AlertDialog.Builder(this)
+          .setIcon(R.drawable.alert_dialog_icon)
+          .setTitle(R.string.warning)
+          .setMessage(R.string.change_ui_language_warning)
+          .setCancelable(false) // Can't be canceled with the BACK key.
+          .setPositiveButton(
+              android.R.string.yes,
+              new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int whichButton) {
+                  // Since the display options have changed, everything needs to be redrawn.
+                  recreate();
+                }
+              })
+          .show();
     }
   }
 }
