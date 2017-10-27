@@ -147,10 +147,10 @@
     <string name="warning">Warnung</string>
     <string name="change_ui_language_warning">Die Änderungen der Sprachauswahl sind eventuell erst nach dem Neustart der Anwendung sichtbar.</string>
 
-    <!-- Display choices for Klingon UI. -->
-    <string name="font_latin">Lateinische Transkription</string>
-    <string name="font_tng">\"The Next Generation\" {pIqaD} Schriftart</string>
-    <string name="font_dsc">\"Discovery\" {pIqaD} Schriftart</string>
+    <!-- Choices for showing Klingon text using {pIqaD}. -->
+    <string name="font_latin">Aus</string>
+    <string name="font_tng">TNG {pIqaD}</string>
+    <string name="font_dsc">DSC {pIqaD}</string>
 
     <!-- Metadata labels and descriptions. -->
     <string name="label_see_alt_entry">Siehe</string>
