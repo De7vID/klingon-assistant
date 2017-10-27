@@ -120,7 +120,7 @@
         <string name="run_tutorial_preference_summary">Beginne das Tutorial beim nächsten Start der Anwendung (benötigt Android 4.1+).</string>
       -->
       <string name="language_preferences">Spracheinstellungen</string>
-        <string name="klingon_font_preference_title">{pIqaD}</string>
+        <string name="klingon_font_preference_title">pIqaD</string>
         <string name="klingon_font_preference_summary">Klingonische Schriftzeichen anzeigen.</string>
         <string name="klingon_ui_preference_title">Klingonische Menüs</string>
         <string name="klingon_ui_preference_summary">Benutzeroberfläche auf Klingonisch anzeigen.</string>

@@ -443,12 +443,15 @@ public class EntryFragment extends Fragment {
           klingonEntryName = linkedEntry.getEntryNameInKlingonFont();
           replaceWithKlingonFontText = true;
         } else if (Preferences.useKlingonUI(getActivity().getBaseContext())) {
-          // This is a category, and the option to use Klingon UI is set, so this will be in Klingon.
+          // This is a category, and the option to use Klingon UI is set, so this will be in
+          // Klingon.
           // Display it in Klingon font.
-          klingonEntryName = KlingonContentProvider.convertStringToKlingonFont(entry.getSentenceType());
+          klingonEntryName =
+              KlingonContentProvider.convertStringToKlingonFont(entry.getSentenceType());
           replaceWithKlingonFontText = true;
         } else {
-          // This is a category, but the option to use Klingon UI is not set, so this will be in the system language.
+          // This is a category, but the option to use Klingon UI is not set, so this will be in the
+          // system language.
           // Leave it alone.
           replaceWithKlingonFontText = false;
         }
@@ -456,7 +459,8 @@ public class EntryFragment extends Fragment {
           ssb.delete(m.start(), end);
           ssb.insert(m.start(), klingonEntryName);
           end = m.start() + klingonEntryName.length();
-          ssb.setSpan(new KlingonTypefaceSpan("", klingonTypeface), m.start(), end, maybeFinalFlags);
+          ssb.setSpan(
+              new KlingonTypefaceSpan("", klingonTypeface), m.start(), end, maybeFinalFlags);
         }
       } else {
         // Klingon is in bold serif.
