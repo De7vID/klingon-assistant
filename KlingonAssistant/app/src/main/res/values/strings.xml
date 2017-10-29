@@ -137,7 +137,7 @@
         <string name="run_tutorial_preference_summary">Run through the tutorial the next time this app starts (requires Android 4.1+).</string>
       -->
       <string name="language_preferences">Language preferences</string>
-        <string name="klingon_font_preference_title">{pIqaD}</string>
+        <string name="klingon_font_preference_title">pIqaD</string>
         <string name="klingon_font_preference_summary">Whether to display Klingon text using {pIqaD}.</string>
         <string name="klingon_ui_preference_title">Klingon UI</string>
         <string name="klingon_ui_preference_summary">Use {tlhIngan Hol} for the user interface language.</string>
@@ -167,10 +167,10 @@
     <string name="warning">Warning</string>
     <string name="change_ui_language_warning">Changing the UI language may not completely take effect until this application is restarted.</string>
 
-    <!-- Display choices for Klingon UI. -->
-    <string name="font_latin">Latin transcription</string>
-    <string name="font_tng">\"The Next Generation\" style {pIqaD}</string>
-    <string name="font_dsc">\"Discovery\" style {pIqaD}</string>
+    <!-- Choices for showing Klingon text using {pIqaD}. -->
+    <string name="font_latin">Off</string>
+    <string name="font_tng">TNG {pIqaD}</string>
+    <string name="font_dsc">DSC {pIqaD}</string>
 
     <!-- Metadata labels and descriptions. -->
     <string name="label_see_alt_entry">See</string>
