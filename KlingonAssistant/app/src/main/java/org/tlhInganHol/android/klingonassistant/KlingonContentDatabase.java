@@ -39,6 +39,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Random;
 
 /**
  * Contains logic to return specific entries from the database, and load the database table when it
@@ -100,7 +101,13 @@ public class KlingonContentDatabase {
 
   // This should be kept in sync with the version number in the database
   // entry {boQwI':n}.
-  private static final int DATABASE_VERSION = 201710260;
+  private static final int DATABASE_VERSION = 201710262;
+
+  // These are automatically updated by renumber.py in the data directory, and correspond to
+  // the IDs of the first entry and one past the ID of the last non-hypothetical,
+  // non-extended-canon entry in the database, respectively.
+  private static final int ID_OF_FIRST_ENTRY = 10000;
+  private static final int ID_OF_FIRST_EXTRA_ENTRY = 14253;
 
   private final KlingonDatabaseOpenHelper mDatabaseOpenHelper;
   private static final HashMap<String, String> mColumnMap = buildColumnMap();
@@ -953,15 +960,9 @@ public class KlingonContentDatabase {
 
   /** Returns a cursor containing a random entry. */
   public Cursor getRandomEntry(String[] columns) {
-    // TODO: This is very inefficient.
-    Cursor cursor =
-        mDatabaseOpenHelper
-            .getReadableDatabase()
-            .query(true, FTS_VIRTUAL_TABLE, columns, null, null, null, null, "RANDOM()", "1");
-    if (cursor != null) {
-      cursor.moveToFirst();
-    }
-    return cursor;
+    int randomId =
+        new Random().nextInt(ID_OF_FIRST_EXTRA_ENTRY - ID_OF_FIRST_ENTRY) + ID_OF_FIRST_ENTRY;
+    return getEntryById(Integer.toString(randomId), ALL_KEYS);
   }
 
   /**
