@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 /*
-** Copyright (C) 2018 De'vID jonpIn (David Yonge-Mallo)
+** Copyright (C) 2017 De'vID jonpIn (David Yonge-Mallo)
 **
 ** Licensed under the Apache License, Version 2.0 (the "License");
 ** you may not use this file except in compliance with the License.
@@ -120,8 +120,9 @@ Following the convention used in {TKD:src}, we will write the absence of a prefi
 <br/>
 You were also introduced to the verbs {HaD:v} <i>study</i> and {ghoj:v} <i>learn</i>.]]></string>
 
+  <!-- Unit 1, Lesson 1.4 -->
   <string name="topic_ovs">The Klingon attacks the enemy</string>
-  <string name="body_ovs"><![CDATA[In the previous section, ]]></string>
+  <string name="body_ovs"><![CDATA[Now you\'ve learned to say <i>I attack</i>, <i>you attack</i>, <i>he/she/it attacks</i>, and <i>they attack</i>,]]></string>
 
   <!-- Placeholder for when there are no more lessons. -->
   <string name="topic_last_lesson_placeholder">Under construction</string>
