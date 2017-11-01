@@ -128,9 +128,9 @@
             android:title="@string/under_construction_preferences">
 
         <CheckBoxPreference
-                android:key="show_fab_checkbox_preference"
-                android:title="@string/show_fab_preference_title"
-                android:summary="@string/show_fab_preference_summary"
+                android:key="show_unsupported_features_checkbox_preference"
+                android:title="@string/show_unsupported_features_preference_title"
+                android:summary="@string/show_unsupported_features_preference_summary"
                 android:defaultValue="false" />
     </PreferenceCategory>
 

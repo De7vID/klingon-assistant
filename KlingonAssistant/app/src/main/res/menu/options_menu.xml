@@ -42,7 +42,13 @@
           app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
           android:visible="false" />
 
-    <!-- This is hidden unless the FAB button is also shown. -->
+    <!-- This is hidden unless the "unsupported features" option has been selected. -->
+    <item android:id="@+id/action_lessons"
+          android:title="@string/menu_lessons"
+          android:icon="@drawable/ic_menu_lessons"
+          android:visible="false" />
+
+    <!-- This is hidden unless the "unsupported features" option has been selected. -->
     <item android:id="@+id/action_kwotd"
           android:title="@string/menu_kwotd"
           android:icon="@drawable/ic_menu_kwotd"
