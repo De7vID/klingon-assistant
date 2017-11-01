@@ -143,7 +143,8 @@ public class BaseActivity extends AppCompatActivity
 
     // FAB:
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-    if (sharedPrefs.getBoolean(Preferences.KEY_SHOW_FAB_CHECKBOX_PREFERENCE, /* default */ false)) {
+    if (sharedPrefs.getBoolean(Preferences.KEY_SHOW_UNSUPPORTED_FEATURES_CHECKBOX_PREFERENCE,
+          /* default */ false)) {
       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
       fab.setVisibility(View.VISIBLE);
       fab.setOnClickListener(
@@ -324,9 +325,10 @@ public class BaseActivity extends AppCompatActivity
       applyTypefaceToMenuItem(menuItem, /* enlarge */ false);
     }
 
-    // If showing FAB, also show "Fetch KWOTD" button.
+    // Show "Fetch KWOTD" button if "unsupported features" option is selected.
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-    if (sharedPrefs.getBoolean(Preferences.KEY_SHOW_FAB_CHECKBOX_PREFERENCE, /* default */ false)) {
+    if (sharedPrefs.getBoolean(Preferences.KEY_SHOW_UNSUPPORTED_FEATURES_CHECKBOX_PREFERENCE,
+          /* default */ false)) {
       MenuItem kwotdButton = menu.findItem(R.id.action_kwotd);
       kwotdButton.setVisible(true);
     }

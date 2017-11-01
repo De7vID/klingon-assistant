@@ -25,6 +25,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:visibility="invisible"
-        app:srcCompat="@drawable/ic_lesson" />
+        app:srcCompat="@drawable/ic_menu_lessons" />
 
 </android.support.design.widget.CoordinatorLayout>

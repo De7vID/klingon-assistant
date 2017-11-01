@@ -68,7 +68,8 @@ public class Preferences extends AppCompatPreferenceActivity
       "show_additional_information_checkbox_preference";
 
   // Under construction.
-  public static final String KEY_SHOW_FAB_CHECKBOX_PREFERENCE = "show_fab_checkbox_preference";
+  public static final String KEY_SHOW_UNSUPPORTED_FEATURES_CHECKBOX_PREFERENCE =
+      "show_unsupported_features_checkbox_preference";
   public static final String KEY_KWOTD_CHECKBOX_PREFERENCE = "kwotd_checkbox_preference";
 
   // Detect if the system language is German.
