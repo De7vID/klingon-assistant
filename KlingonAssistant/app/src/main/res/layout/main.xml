@@ -19,8 +19,8 @@
 <!-- Layout for KlingonAssistant. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <!-- Text can default to sans (embedded Klingon must be serif). -->
     <TextView
             android:id="@+id/text"
@@ -29,12 +29,12 @@
             android:text="@string/search_instructions"
             android:fontFamily="serif"
             android:background="@android:drawable/title_bar"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     <!-- Font in a ListView must be set in the adapter -->
     <ListView
             android:id="@+id/list"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
 </LinearLayout>
