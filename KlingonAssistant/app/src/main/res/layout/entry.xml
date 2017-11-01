@@ -19,8 +19,8 @@
 <!-- Layout for EntryFragment. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:padding="5dp">
     <!-- Entry must be serif, to distinguish capital-I from lowercase-l. -->
     <!-- Setting textIsSelectable="true" can lead to a crash on some devices,
@@ -38,13 +38,13 @@
     <!-- Definition can default to sans (embedded Klingon must be serif). -->
     <ScrollView
             android:id="@+id/scroller"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:scrollbars="vertical"
             android:fillViewport="true">
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
                     android:id="@+id/entry_body"
@@ -53,13 +53,13 @@
                     android:fontFamily="sans"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textIsSelectable="false"
                     android:layout_weight="1.0" />
             <LinearLayout
               android:gravity="center_vertical"
-              android:layout_width="fill_parent"
+              android:layout_width="match_parent"
               android:layout_height="wrap_content" >
               <!-- The bottom margin is needed so the entry doesn't overlap with
                    the tab dots or floating action button. -->
