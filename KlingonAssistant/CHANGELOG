@@ -1,5 +1,6 @@
 CHANGELOG
 
+2017-10-31: More unconfirmed DSC words. Remove FAB, adjust UI spacing.
 2017-10-29: Exclude extra section from random button.
 2017-10-25: Add DSC font. Fix locale issues. Improve Preferences activity.
 2017-10-24: Turn off copy and paste in entry. Hide KWOTD menu, and automatically start KWOTD job.

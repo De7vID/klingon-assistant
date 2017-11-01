@@ -101,7 +101,7 @@ public class KlingonContentDatabase {
 
   // This should be kept in sync with the version number in the database
   // entry {boQwI':n}.
-  private static final int DATABASE_VERSION = 201710262;
+  private static final int DATABASE_VERSION = 201710301;
 
   // These are automatically updated by renumber.py in the data directory, and correspond to
   // the IDs of the first entry and one past the ID of the last non-hypothetical,

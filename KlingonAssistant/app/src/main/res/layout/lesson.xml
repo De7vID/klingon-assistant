@@ -20,8 +20,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:padding="5dp">
     <!-- Entry must be serif, to distinguish capital-I from lowercase-l. -->
     <TextView
@@ -36,13 +36,13 @@
     <!-- Definition can default to sans (embedded Klingon must be serif). -->
     <ScrollView
             android:id="@+id/scroller"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:scrollbars="vertical"
             android:fillViewport="true">
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
                     android:id="@+id/lesson_body_top"
@@ -51,7 +51,7 @@
                     android:fontFamily="sans"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textIsSelectable="false" />
             <!-- TODO: Reading and listening section. -->
@@ -62,14 +62,14 @@
                     android:fontFamily="sans"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textIsSelectable="false"
                     android:visibility="gone" />
             <!-- For choosing among several options or multiple-choice quizzes. -->
             <RadioGroup
                     android:id="@+id/choices"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone" />
@@ -80,7 +80,7 @@
                     android:fontFamily="sans"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textIsSelectable="false"
                     android:visibility="gone" />
@@ -92,14 +92,14 @@
                     android:fontFamily="sans"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textIsSelectable="false"
                     android:layout_weight="1.0" />
             <LinearLayout
               android:orientation="vertical"
               android:gravity="center_vertical"
-              android:layout_width="fill_parent"
+              android:layout_width="match_parent"
               android:layout_height="wrap_content" >
               <!-- Set the itemIconTint and itemTextColor to white to work around
                    a bug where the selected item is coloured different.
