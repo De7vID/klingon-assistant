@@ -63,6 +63,7 @@
     <string name="no_results"><![CDATA[No results found for &lt;<b>%s</b>&gt;.]]></string>
 
     <!-- Other menu items. -->
+    <string name="menu_lessons">Lessons</string>
     <string name="menu_kwotd">Fetch KWOTD</string>
     <string name="menu_about">boQwI\' - Help</string>
     <string name="menu_preferences">Preferences</string>
@@ -159,8 +160,8 @@
         <string name="show_additional_information_preference_title">Show additional information</string>
         <string name="show_additional_information_preference_summary">Display detailed notes on puns, jokes, errors, etc.</string>
       <string name="under_construction_preferences">Under construction</string>
-        <string name="show_fab_preference_title">Unsupported features</string>
-        <string name="show_fab_preference_summary">Don\'t check this if you\'re not a beta tester.</string>
+        <string name="show_unsupported_features_preference_title">Unsupported features</string>
+        <string name="show_unsupported_features_preference_summary">Don\'t check this if you\'re not a beta tester.</string>
         <string name="kwotd_preference_title">KWOTD notification</string>
         <string name="kwotd_preference_summary">Notify when new Klingon Word of the Day (KWOTD) is available from hol.kag.org server. This requires Internet access.</string>
 
