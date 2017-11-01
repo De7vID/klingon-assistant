@@ -140,28 +140,29 @@ public class BaseActivity extends AppCompatActivity
         klingonAppName.length(),
         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     getSupportActionBar().setTitle(klingonAppName);
+    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
     // FAB:
-    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-    if (sharedPrefs.getBoolean(Preferences.KEY_SHOW_UNSUPPORTED_FEATURES_CHECKBOX_PREFERENCE,
-          /* default */ false)) {
-      FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-      fab.setVisibility(View.VISIBLE);
-      fab.setOnClickListener(
-          new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-              // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-              //     .setAction("Action", null)
-              //     .show();
-              // displaySearchResults("This button doesn't work yet!:sen@@wej:adv, Qap:v:2, leQ:n,
-              // -vam:n");
+    // TODO: Use this to display a "sentence maker".
+    // if (sharedPrefs.getBoolean(Preferences.KEY_SHOW_UNSUPPORTED_FEATURES_CHECKBOX_PREFERENCE,
+    //       /* default */ false)) {
+    //   FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+    //   fab.setVisibility(View.VISIBLE);
+    //   fab.setOnClickListener(
+    //       new View.OnClickListener() {
+    //         @Override
+    //         public void onClick(View view) {
+    //           // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+    //           //     .setAction("Action", null)
+    //           //     .show();
+    //           // displaySearchResults("This button doesn't work yet!:sen@@wej:adv, Qap:v:2, leQ:n,
+    //           // -vam:n");
 
-              Intent intent = new Intent(getBaseContext(), LessonActivity.class);
-              startActivity(intent);
-            }
-          });
-    }
+    //           Intent intent = new Intent(getBaseContext(), LessonActivity.class);
+    //           startActivity(intent);
+    //         }
+    //       });
+    // }
 
     mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     if (mDrawer != null) {
@@ -325,10 +326,13 @@ public class BaseActivity extends AppCompatActivity
       applyTypefaceToMenuItem(menuItem, /* enlarge */ false);
     }
 
-    // Show "Fetch KWOTD" button if "unsupported features" option is selected.
+    // Show "Lessons" and "Fetch KWOTD" buttons if "unsupported features" option is selected.
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     if (sharedPrefs.getBoolean(Preferences.KEY_SHOW_UNSUPPORTED_FEATURES_CHECKBOX_PREFERENCE,
           /* default */ false)) {
+      MenuItem lessonsButton = menu.findItem(R.id.action_lessons);
+      lessonsButton.setVisible(true);
+
       MenuItem kwotdButton = menu.findItem(R.id.action_kwotd);
       kwotdButton.setVisible(true);
     }
@@ -626,6 +630,9 @@ public class BaseActivity extends AppCompatActivity
           requestTranslation();
           break;
           */
+      case R.id.action_lessons:
+        startActivity(new Intent(this, LessonActivity.class));
+        return true;
       case R.id.action_kwotd:
         runKwotdServiceJob(/* isOneOffJob */ true);
         return true;
