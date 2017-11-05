@@ -1,5 +1,6 @@
 CHANGELOG
 
+2017-11-05: If KWOTD fails to match entry in db, treat as search.
 2017-10-31: More unconfirmed DSC words. Remove FAB, adjust UI spacing.
 2017-10-29: Exclude extra section from random button.
 2017-10-25: Add DSC font. Fix locale issues. Improve Preferences activity.
