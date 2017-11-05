@@ -24,8 +24,6 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
@@ -39,8 +37,6 @@ import android.text.style.SuperscriptSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -48,13 +44,6 @@ import java.util.regex.Matcher;
 
 public class EntryFragment extends Fragment {
   private String mEntryName = null;
-
-  // Intents for the bottom navigation buttons.
-  // Note that the renumber.py script ensures that the IDs of adjacent entries
-  // are consecutive across the entire database.
-  private Intent mPreviousEntryIntent = null;
-  private Intent mNextEntryIntent = null;
-  private static final int MAX_ENTRY_ID_DIFF = 5;
 
   private static final int INTERMEDIATE_FLAGS =
       Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | Spanned.SPAN_INTERMEDIATE;
@@ -88,53 +77,6 @@ public class EntryFragment extends Fragment {
     final KlingonContentProvider.Entry entry =
         new KlingonContentProvider.Entry(cursor, getActivity().getBaseContext());
     int entryId = entry.getId();
-
-    // Set up the bottom navigation buttons.
-    BottomNavigationView bottomNavView =
-        (BottomNavigationView) rootView.findViewById(R.id.bottom_navigation);
-    Menu bottomNavMenu = bottomNavView.getMenu();
-    for (int i = 1; i <= MAX_ENTRY_ID_DIFF; i++) {
-      Intent entryIntent = getEntryByIdIntent(entryId - i);
-      if (entryIntent != null) {
-        mPreviousEntryIntent = entryIntent;
-        break;
-      }
-    }
-    if (mPreviousEntryIntent == null) {
-      MenuItem previousButton = (MenuItem) bottomNavMenu.findItem(R.id.action_previous);
-      previousButton.setEnabled(false);
-      bottomNavView.findViewById(R.id.action_previous).setVisibility(View.INVISIBLE);
-    }
-    for (int i = 1; i <= MAX_ENTRY_ID_DIFF; i++) {
-      Intent entryIntent = getEntryByIdIntent(entryId + i);
-      if (entryIntent != null) {
-        mNextEntryIntent = entryIntent;
-        break;
-      }
-    }
-    if (mNextEntryIntent == null) {
-      MenuItem nextButton = (MenuItem) bottomNavMenu.findItem(R.id.action_next);
-      nextButton.setEnabled(false);
-      bottomNavView.findViewById(R.id.action_next).setVisibility(View.INVISIBLE);
-    }
-    bottomNavView.setOnNavigationItemSelectedListener(
-        new BottomNavigationView.OnNavigationItemSelectedListener() {
-          @Override
-          public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-              case R.id.action_previous:
-                goToPreviousEntry();
-                break;
-              case R.id.action_random:
-                goToRandomEntry();
-                break;
-              case R.id.action_next:
-                goToNextEntry();
-                break;
-            }
-            return false;
-          }
-        });
 
     // Handle alternative spellings here.
     if (entry.isAlternativeSpelling()) {
@@ -518,52 +460,6 @@ public class EntryFragment extends Fragment {
       // Rinse and repeat.
       mixedText = ssb.toString();
       m = KlingonContentProvider.Entry.ENTRY_PATTERN.matcher(mixedText);
-    }
-  }
-
-  private Intent getEntryByIdIntent(int entryId) {
-    Cursor cursor;
-    cursor =
-        getActivity()
-            .managedQuery(
-                Uri.parse(KlingonContentProvider.CONTENT_URI + "/get_entry_by_id/" + entryId),
-                null /* all columns */,
-                null,
-                null,
-                null);
-    if (cursor.getCount() == 1) {
-      Uri uri =
-          Uri.parse(
-              KlingonContentProvider.CONTENT_URI
-                  + "/get_entry_by_id/"
-                  + cursor.getString(KlingonContentDatabase.COLUMN_ID));
-
-      Intent entryIntent = new Intent(getActivity(), EntryActivity.class);
-
-      // Form the URI for the entry.
-      entryIntent.setData(uri);
-
-      return entryIntent;
-    }
-    return null;
-  }
-
-  private void goToPreviousEntry() {
-    if (mPreviousEntryIntent != null) {
-      startActivity(mPreviousEntryIntent);
-    }
-  }
-
-  private void goToRandomEntry() {
-    Uri uri = Uri.parse(KlingonContentProvider.CONTENT_URI + "/get_random_entry");
-    Intent randomEntryIntent = new Intent(getActivity(), EntryActivity.class);
-    randomEntryIntent.setData(uri);
-    startActivity(randomEntryIntent);
-  }
-
-  private void goToNextEntry() {
-    if (mNextEntryIntent != null) {
-      startActivity(mNextEntryIntent);
     }
   }
 

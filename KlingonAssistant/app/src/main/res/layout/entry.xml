@@ -18,6 +18,7 @@
 -->
 <!-- Layout for EntryFragment. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -42,45 +43,18 @@
             android:layout_height="match_parent"
             android:scrollbars="vertical"
             android:fillViewport="true">
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                    android:id="@+id/entry_body"
-                    android:textSize="18sp"
-                    android:textColor="?android:textColorSecondary"
-                    android:fontFamily="sans"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textIsSelectable="false"
-                    android:layout_weight="1.0" />
-            <LinearLayout
-              android:gravity="center_vertical"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content" >
-              <!-- The bottom margin is needed so the entry doesn't overlap with
-                   the tab dots. (TODO: It shouldn't overlap the floating action button,
-                   either.) -->
-              <!-- Set the itemIconTint and itemTextColor to white to work around
-                   a bug where the selected item is coloured different.
-                   Unfortunately, this means that when the button is disabled,
-                   it's not visually distinct, so we make it invisible
-                   programmatically. -->
-              <android.support.design.widget.BottomNavigationView
-                      xmlns:android="http://schemas.android.com/apk/res/android"
-                      xmlns:app="http://schemas.android.com/apk/res-auto"
-                      android:id="@+id/bottom_navigation"
-                      android:layout_width="match_parent"
-                      android:layout_height="56dp"
-                      android:layout_marginBottom="15dp"
-                      android:layout_gravity="start"
-                      app:itemIconTint="@android:color/white"
-                      app:itemTextColor="@android:color/white"
-                      app:menu="@menu/bottom_navigation_items" />
-              </LinearLayout>
-        </LinearLayout>
+        <!-- The bottom padding is needed so the entry doesn't overlap with
+             the tab dots and bottom navigation buttons. -->
+        <TextView
+                android:id="@+id/entry_body"
+                android:textSize="18sp"
+                android:textColor="?android:textColorSecondary"
+                android:fontFamily="sans"
+                android:paddingTop="5dp"
+                android:paddingBottom="76dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textIsSelectable="false"
+                android:layout_weight="1.0" />
     </ScrollView>
 </LinearLayout>
