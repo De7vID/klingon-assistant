@@ -22,6 +22,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -33,6 +35,7 @@ import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -55,6 +58,13 @@ public class EntryActivity extends BaseActivity
   private Intent mShareEntryIntent = null;
   MenuItem mShareButton = null;
   ShareActionProvider mShareActionProvider;
+
+  // Intents for the bottom navigation buttons.
+  // Note that the renumber.py script ensures that the IDs of adjacent entries
+  // are consecutive across the entire database.
+  private Intent mPreviousEntryIntent = null;
+  private Intent mNextEntryIntent = null;
+  private static final int MAX_ENTRY_ID_DIFF = 5;
 
   // TTS:
   /** The {@link TextToSpeech} used for speaking. */
@@ -124,7 +134,10 @@ public class EntryActivity extends BaseActivity
     final KlingonContentProvider.Entry entry =
         new KlingonContentProvider.Entry(cursor, getBaseContext());
     int entryId = entry.getId();
+
+    // Update the entry name, which is used for TTS output. This is also updated in onPageSelected.
     mEntryName = entry.getEntryName();
+
     if (entryIdsList.size() == 1 && entryIdsList.get(0).equals("get_random_entry")) {
       // For a random entry, replace "get_random_entry" with the ID of randomly
       // chosen entry.
@@ -132,8 +145,11 @@ public class EntryActivity extends BaseActivity
       entryIdsList.add(Integer.toString(entryId));
     }
 
-    // Set the share intent.
+    // Set the share intent. This is also done in onPageSelected.
     setShareEntryIntent(entry);
+
+    // Update the bottom navigation buttons. This is also done in onPageSelected.
+    updateBottomNavigationButtons(entryId);
 
     // Instantiate a ViewPager and a PagerAdapter.
     mPager = (ViewPager) findViewById(R.id.entry_pager);
@@ -202,6 +218,7 @@ public class EntryActivity extends BaseActivity
     mShareButton = menu.findItem(R.id.action_share);
     mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(mShareButton);
 
+    // This is also updated in onPageSelected.
     if (mShareActionProvider != null && mShareEntryIntent != null) {
       // Enable "Share" button.
       mShareActionProvider.setShareIntent(mShareEntryIntent);
@@ -349,10 +366,10 @@ public class EntryActivity extends BaseActivity
           new KlingonContentProvider.Entry(cursor, getBaseContext());
       int entryId = entry.getId();
 
-      // Update the entry name (used for TTS output).
+      // Update the entry name (used for TTS output). This is also set in onCreate.
       mEntryName = entry.getEntryName();
 
-      // Update share menu and set the visibility of the share button.
+      // Update share menu and set the visibility of the share button. The intent is also set in onCreate, while the visibility is also set in onCreateOptionsMenu.
       setShareEntryIntent(entry);
       if (mShareActionProvider != null && mShareEntryIntent != null) {
         // Enable "Share" button. Note that mShareButton can be null if the device has been rotated.
@@ -366,9 +383,122 @@ public class EntryActivity extends BaseActivity
           mShareButton.setVisible(false);
         }
       }
+
+      // Update the bottom navigation buttons. This is also done in onCreate.
+      updateBottomNavigationButtons(entryId);
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {}
+  }
+
+  private void updateBottomNavigationButtons(int entryId) {
+    BottomNavigationView bottomNavView =
+        (BottomNavigationView) findViewById(R.id.bottom_navigation);
+    Menu bottomNavMenu = bottomNavView.getMenu();
+
+    // Check for a previous entry.
+    mPreviousEntryIntent = null;
+    for (int i = 1; i <= MAX_ENTRY_ID_DIFF; i++) {
+      Intent entryIntent = getEntryByIdIntent(entryId - i);
+      if (entryIntent != null) {
+        mPreviousEntryIntent = entryIntent;
+        break;
+      }
+    }
+
+    // Update the state of the "Previous" button.
+    MenuItem previousButton = (MenuItem) bottomNavMenu.findItem(R.id.action_previous);
+    if (mPreviousEntryIntent == null) {
+      previousButton.setEnabled(false);
+      bottomNavView.findViewById(R.id.action_previous).setVisibility(View.INVISIBLE);
+    } else {
+      previousButton.setEnabled(true);
+      bottomNavView.findViewById(R.id.action_previous).setVisibility(View.VISIBLE);
+    }
+
+    // Check for a next entry.
+    mNextEntryIntent = null;
+    for (int i = 1; i <= MAX_ENTRY_ID_DIFF; i++) {
+      Intent entryIntent = getEntryByIdIntent(entryId + i);
+      if (entryIntent != null) {
+        mNextEntryIntent = entryIntent;
+        break;
+      }
+    }
+
+    // Update the state of the "Next" button.
+    MenuItem nextButton = (MenuItem) bottomNavMenu.findItem(R.id.action_next);
+    if (mNextEntryIntent == null) {
+      nextButton.setEnabled(false);
+      bottomNavView.findViewById(R.id.action_next).setVisibility(View.INVISIBLE);
+    } else {
+      nextButton.setEnabled(true);
+      bottomNavView.findViewById(R.id.action_next).setVisibility(View.VISIBLE);
+    }
+
+    bottomNavView.setOnNavigationItemSelectedListener(
+        new BottomNavigationView.OnNavigationItemSelectedListener() {
+          @Override
+          public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+              case R.id.action_previous:
+                goToPreviousEntry();
+                break;
+              case R.id.action_random:
+                goToRandomEntry();
+                break;
+              case R.id.action_next:
+                goToNextEntry();
+                break;
+            }
+            return false;
+          }
+        });
+  }
+
+  private Intent getEntryByIdIntent(int entryId) {
+    Cursor cursor;
+    cursor =
+        managedQuery(
+            Uri.parse(KlingonContentProvider.CONTENT_URI + "/get_entry_by_id/" + entryId),
+            null /* all columns */,
+            null,
+            null,
+            null);
+    if (cursor.getCount() == 1) {
+      Uri uri =
+          Uri.parse(
+              KlingonContentProvider.CONTENT_URI
+                  + "/get_entry_by_id/"
+                  + cursor.getString(KlingonContentDatabase.COLUMN_ID));
+
+      Intent entryIntent = new Intent(this, EntryActivity.class);
+
+      // Form the URI for the entry.
+      entryIntent.setData(uri);
+
+      return entryIntent;
+    }
+    return null;
+  }
+
+  private void goToPreviousEntry() {
+    if (mPreviousEntryIntent != null) {
+      startActivity(mPreviousEntryIntent);
+    }
+  }
+
+  private void goToRandomEntry() {
+    Uri uri = Uri.parse(KlingonContentProvider.CONTENT_URI + "/get_random_entry");
+    Intent randomEntryIntent = new Intent(this, EntryActivity.class);
+    randomEntryIntent.setData(uri);
+    startActivity(randomEntryIntent);
+  }
+
+  private void goToNextEntry() {
+    if (mNextEntryIntent != null) {
+      startActivity(mNextEntryIntent);
+    }
   }
 }

@@ -2,4 +2,5 @@
     <color name="colorPrimary">@android:color/holo_red_dark</color>
     <color name="colorPrimaryDark">@android:color/black</color>
     <color name="colorAccent">@android:color/holo_blue_dark</color>
+    <color name="semitransparentBlack">#B0000000</color>
 </resources>
