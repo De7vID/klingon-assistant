@@ -19,6 +19,7 @@ package org.tlhInganHol.android.klingonassistant.service;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.SearchManager;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.content.Intent;
@@ -46,6 +47,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.json.JSONObject;
 import org.tlhInganHol.android.klingonassistant.EntryActivity;
+import org.tlhInganHol.android.klingonassistant.KlingonAssistant;
 import org.tlhInganHol.android.klingonassistant.KlingonContentDatabase;
 import org.tlhInganHol.android.klingonassistant.KlingonContentProvider;
 import org.tlhInganHol.android.klingonassistant.R;
@@ -229,8 +231,9 @@ public class KwotdService extends JobService {
                     null,
                     new String[] {query},
                     null);
+
+        // Multiple matches were returned, pick the best match.
         if (cursor.getCount() > 1) {
-          // Pick the best match.
           boolean matched = false;
           for (int i = 0; i < cursor.getCount(); i++) {
             cursor.moveToPosition(i);
@@ -248,97 +251,101 @@ public class KwotdService extends JobService {
             cursor.moveToFirst();
           }
         }
+
+        Intent entryIntent;
+        KlingonContentProvider.Entry entry;
         if (cursor.getCount() != 0) {
-          // Found a match, trigger a notification.
+          // Found a match in the database.
           Uri uri =
               Uri.parse(
                   KlingonContentProvider.CONTENT_URI
                       + "/get_entry_by_id/"
                       + cursor.getString(KlingonContentDatabase.COLUMN_ID));
-          Intent entryIntent = new Intent(KwotdService.this, EntryActivity.class);
-          KlingonContentProvider.Entry entry =
-              new KlingonContentProvider.Entry(cursor, KwotdService.this);
-
-          // Form the URI for the entry.
+          entryIntent = new Intent(KwotdService.this, EntryActivity.class);
           entryIntent.setData(uri);
 
-          // Create a notification.
-          SpannableStringBuilder notificationTitle =
-              new SpannableStringBuilder(
-                  Html.fromHtml(entry.getFormattedEntryName(/* html */ true)));
-          notificationTitle.setSpan(
-              new StyleSpan(android.graphics.Typeface.BOLD),
-              0,
-              notificationTitle.length(),
-              Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | Spanned.SPAN_INTERMEDIATE);
-          notificationTitle.setSpan(
-              new TypefaceSpan("serif"),
-              0,
-              notificationTitle.length(),
-              Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-          SpannableStringBuilder notificationText =
-              new SpannableStringBuilder(
-                  Html.fromHtml(entry.getFormattedDefinition(/* html */ true)));
-          SpannableStringBuilder notificationTextLong =
-              new SpannableStringBuilder(
-                  Html.fromHtml(
-                      entry.getFormattedDefinition(/* html */ true)
-                          + "<br/><br/>"
-                          + resources.getString(R.string.kwotd_footer)));
-
-          int loc = notificationTextLong.toString().indexOf(KAG_LANGUAGE_ACADEMY_NAME);
-          if (loc != -1) {
-            // Note that this is already bolded in the xml, so just need to apply the serif.
-            notificationTextLong.setSpan(
-                new TypefaceSpan("serif"),
-                loc,
-                loc + KAG_LANGUAGE_ACADEMY_NAME.length(),
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-          }
-
-          NotificationCompat.Builder builder =
-              new NotificationCompat.Builder(KwotdService.this)
-                  .setSmallIcon(R.drawable.ic_kwotd_notification)
-                  .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_ka))
-                  .setContentTitle(notificationTitle)
-                  .setContentText(notificationText)
-                  .setStyle(new NotificationCompat.BigTextStyle().bigText(notificationTextLong))
-                  // Show on lock screen.
-                  .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                  .setAutoCancel(true);
-          PendingIntent pendingIntent =
-              PendingIntent.getActivity(
-                  KwotdService.this, 0, entryIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-          builder.setContentIntent(pendingIntent);
-          NotificationManager manager =
-              (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-          // A notification channel is both needed and only supported on Android 8.0 (API 26) and
-          // up.
-          String notificationChannelName =
-              resources.getString(R.string.kwotd_notification_channel_name);
-          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel =
-                new NotificationChannel(
-                    NOTIFICATION_CHANNEL_ID,
-                    notificationChannelName,
-                    NotificationManager.IMPORTANCE_LOW);
-            channel.enableLights(true);
-            channel.setLightColor(Color.RED);
-            builder = builder.setChannelId(NOTIFICATION_CHANNEL_ID);
-            manager.createNotificationChannel(channel);
-          }
-          manager.notify(NOTIFICATION_ID, builder.build());
-
-          // Success, so no need to reschedule.
-          rescheduleJob = false;
+          entry = new KlingonContentProvider.Entry(cursor, KwotdService.this);
         } else {
-          // In case there is a mismatch between the KWOTD database and ours, rescheduling probably
-          // won't help. But we'll leave rescheduleJob as false anyway, in case the mismatch is due
-          // to some error on the hol.kag.org side.
-          Log.e(TAG, "Failed to find a database match for: " + query);
+          // No match found in the database. Treat the KWOTD as a search, but make a fake
+          // entry to format the entry name and definition.
+          entryIntent = new Intent(KwotdService.this, KlingonAssistant.class);
+          entryIntent.setAction(Intent.ACTION_SEARCH);
+          entryIntent.putExtra(SearchManager.QUERY, kword);
+
+          entry = new KlingonContentProvider.Entry(query, eword, KwotdService.this);
+        }
+        String formattedEntryName =
+            formattedEntryName = entry.getFormattedEntryName(/* html */ true);
+        String formattedDefinition =
+            formattedDefinition = entry.getFormattedDefinition(/* html */ true);
+
+        // Create a notification.
+        SpannableStringBuilder notificationTitle =
+            new SpannableStringBuilder(Html.fromHtml(formattedEntryName));
+        notificationTitle.setSpan(
+            new StyleSpan(android.graphics.Typeface.BOLD),
+            0,
+            notificationTitle.length(),
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE | Spanned.SPAN_INTERMEDIATE);
+        notificationTitle.setSpan(
+            new TypefaceSpan("serif"),
+            0,
+            notificationTitle.length(),
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableStringBuilder notificationText =
+            new SpannableStringBuilder(Html.fromHtml(formattedDefinition));
+        SpannableStringBuilder notificationTextLong =
+            new SpannableStringBuilder(
+                Html.fromHtml(
+                    formattedDefinition
+                        + "<br/><br/>"
+                        + resources.getString(R.string.kwotd_footer)));
+
+        int loc = notificationTextLong.toString().indexOf(KAG_LANGUAGE_ACADEMY_NAME);
+        if (loc != -1) {
+          // Note that this is already bolded in the xml, so just need to apply the serif.
+          notificationTextLong.setSpan(
+              new TypefaceSpan("serif"),
+              loc,
+              loc + KAG_LANGUAGE_ACADEMY_NAME.length(),
+              Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
+        NotificationCompat.Builder builder =
+            new NotificationCompat.Builder(KwotdService.this)
+                .setSmallIcon(R.drawable.ic_kwotd_notification)
+                .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_ka))
+                .setContentTitle(notificationTitle)
+                .setContentText(notificationText)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(notificationTextLong))
+                // Show on lock screen.
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setAutoCancel(true);
+        PendingIntent pendingIntent =
+            PendingIntent.getActivity(
+                KwotdService.this, 0, entryIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pendingIntent);
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        // A notification channel is both needed and only supported on Android 8.0 (API 26) and
+        // up.
+        String notificationChannelName =
+            resources.getString(R.string.kwotd_notification_channel_name);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+          NotificationChannel channel =
+              new NotificationChannel(
+                  NOTIFICATION_CHANNEL_ID,
+                  notificationChannelName,
+                  NotificationManager.IMPORTANCE_LOW);
+          channel.enableLights(true);
+          channel.setLightColor(Color.RED);
+          builder = builder.setChannelId(NOTIFICATION_CHANNEL_ID);
+          manager.createNotificationChannel(channel);
+        }
+        manager.notify(NOTIFICATION_ID, builder.build());
+
+        // Success, so no need to reschedule.
+        rescheduleJob = false;
       } catch (Exception e) {
         Log.e(TAG, "Failed to read KWOTD from KAG server.", e);
       } finally {

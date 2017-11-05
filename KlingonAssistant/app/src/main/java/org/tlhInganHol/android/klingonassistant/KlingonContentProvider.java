@@ -490,12 +490,13 @@ public class KlingonContentProvider extends ContentProvider {
     /**
      * Constructor
      *
-     * <p>This creates an entry based only on the given query. Note that the database is NOT queried
-     * when this constructor is called.
+     * <p>This creates an entry based only on the given query and definition. Note that the database
+     * is NOT queried when this constructor is called. This constructor is used to create a fake
+     * entry for the purpose of displaying KWOTD entries which are not in our database.
      *
      * @param query A query of the form "entryName:basepos:metadata".
      */
-    public Entry(String query, Context context) {
+    public Entry(String query, String definition, Context context) {
       // Log.d(TAG, "Entry constructed from query: \"" + query + "\"");
       mEntryName = query;
       mContext = context;
@@ -514,8 +515,23 @@ public class KlingonContentProvider extends ContentProvider {
         mEntryName = mEntryName.substring(0, colonLoc);
       }
 
+      if (mDefinition != null) {
+        mDefinition = definition;
+      }
+
       // Note: The homophone number may be overwritten by this function call.
       processMetadata();
+    }
+
+    /**
+     * Constructor
+     *
+     * <p>This creates an entry based on the given query. Note that the database is NOT queried when
+     * this constructor is called. This constructor is used to create a fake placeholder entry for
+     * the purpose of querying for a real entry from the database.
+     */
+    public Entry(String query, Context context) {
+      this(query, null, context);
     }
 
     /**
