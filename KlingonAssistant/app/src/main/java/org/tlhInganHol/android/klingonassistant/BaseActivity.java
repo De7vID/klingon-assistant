@@ -328,8 +328,8 @@ public class BaseActivity extends AppCompatActivity
 
     // Show "Lessons" and "Fetch KWOTD" buttons if "unsupported features" option is selected.
     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-    if (sharedPrefs.getBoolean(Preferences.KEY_SHOW_UNSUPPORTED_FEATURES_CHECKBOX_PREFERENCE,
-          /* default */ false)) {
+    if (sharedPrefs.getBoolean(
+        Preferences.KEY_SHOW_UNSUPPORTED_FEATURES_CHECKBOX_PREFERENCE, /* default */ false)) {
       MenuItem lessonsButton = menu.findItem(R.id.action_lessons);
       lessonsButton.setVisible(true);
 
