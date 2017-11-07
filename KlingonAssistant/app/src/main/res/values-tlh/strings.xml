@@ -40,8 +40,8 @@
     <string name="menu_speak">tavam jatlh</string>
 
     <!-- The "Share" button, popup menu, and "shared from" string. -->
-    <string name="menu_share">tavam ngeH</string>
-    <string name="share_popup_title">ngeHwI\'vam lo\':</string>
+    <string name="menu_share">bon</string>
+    <string name="share_popup_title">HevwI\'vamvaD bon:</string>
     <string name="shared_from">Shared from {boQwI\'}.</string>
 
     <!-- The menu entry that sends a request for translation to the G+ Klingon language community. -->
