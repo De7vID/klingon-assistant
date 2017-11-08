@@ -37,7 +37,7 @@
     <string name="menu_search">nej</string>
 
     <!-- The "Speak" button. -->
-    <string name="menu_speak">tavam jatlh</string>
+    <string name="menu_speak">jatlh</string>
 
     <!-- The "Share" button, popup menu, and "shared from" string. -->
     <string name="menu_share">bon</string>
