@@ -271,8 +271,10 @@ public class EntryFragment extends Fragment {
     }
 
     // Format the expanded definition, including linkifying the links to other entries.
+    // We add a newline to the end of the definition because if there is a link on the final line,
+    // its tap target target expands to the bottom of the TextView.
     float smallTextScale = (float) 0.8;
-    SpannableStringBuilder ssb = new SpannableStringBuilder(expandedDefinition);
+    SpannableStringBuilder ssb = new SpannableStringBuilder(expandedDefinition + "\n");
     if (!pos.equals("")) {
       // Italicise the part of speech.
       ssb.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), 0, pos.length(), FINAL_FLAGS);

@@ -51,7 +51,7 @@
                 android:textColor="?android:textColorSecondary"
                 android:fontFamily="sans"
                 android:paddingTop="5dp"
-                android:paddingBottom="76dp"
+                android:paddingBottom="60dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textIsSelectable="false"
