@@ -908,7 +908,7 @@ Watch Gowron say this: {YouTube video:url:http://www.youtube.com/v/kWP0lgIYMBA}<
       <column name="entry_name">batlh malja' DaHuq.</column>
       <column name="part_of_speech">sen:phr</column>
       <column name="definition">You transact business honorably.</column>
-      <column name="definition_de"></column>
+      <column name="definition_de">Sie wickeln Geschäfte ehrenvoll ab.</column>
       <column name="synonyms"></column>
       <column name="antonyms"></column>
       <column name="see_also"></column>
@@ -1114,7 +1114,7 @@ Watch Gowron say this: {YouTube video:url:http://www.youtube.com/v/kWP0lgIYMBA}<
       <column name="see_also">{ngon:v}, {jo':v}</column>
       <column name="notes"></column>
       <column name="notes_de"></column>
-      <column name="hidden_notes"></column>
+      <column name="hidden_notes">"Bazooka" is a brand of bubble gum. {ba'Suq'a' jo':sen@@ba'Suq:n, -'a':n, jo':v} means "he blows a great bubble".</column>
       <column name="components"></column>
       <column name="examples"></column>
       <column name="examples_de"></column>
@@ -1727,7 +1727,7 @@ The {betleH:n:nolink} is also called the {betleH quv:n:nolink}, to differentiate
       <column name="examples_de"></column>
       <column name="search_tags">batleth, bat'telh, sword of honor, sword of honour</column>
       <column name="search_tags_de"></column>
-      <column name="source">[1] {TKDA:src}, [2] {KGT:src}, [3] {SkyBox 8:src}, [4] {s.k 1998.10.20:src}, [5] {paq'batlh:src}</column>
+      <column name="source">[1] {TKDA:src}, [2] {KGT:src}, [3] {SkyBox 8:src}, [4] {s.k 1998.10.20:src}, [5] {paq'batlh p.138-139:src}</column>
     </table>
     <table name="mem">
       <!-- Checked on: 2012.11.18. -->
@@ -2790,7 +2790,7 @@ Watch Gowron say this: {YouTube video:url:http://www.youtube.com/v/NpFDKTzINH8}<
       <column name="examples_de"></column>
       <column name="search_tags">stream</column>
       <column name="search_tags_de"></column>
-      <column name="source">[1] {TKD:src}, [2] {paq'batlh:src}</column>
+      <column name="source">[1] {TKD:src}, [2] {paq'batlh p.76-77:src}</column>
     </table>
     <table name="mem">
       <!-- Checked on: 2015.10.28. -->
@@ -2977,7 +2977,7 @@ Watch Gowron say this: {YouTube video:url:http://www.youtube.com/v/NpFDKTzINH8}<
       <column name="entry_name">bIrmoH</column>
       <column name="part_of_speech">v:t_c,deriv</column>
       <column name="definition">cool (something) down</column>
-      <column name="definition_de"></column>
+      <column name="definition_de">erkalten</column>
       <column name="synonyms"></column>
       <column name="antonyms">{tujmoH:v}</column>
       <column name="see_also"></column>
@@ -4491,7 +4491,7 @@ This word is used in the idioms {bo'Dagh'a' lo':sen} and {bo'DaghHom lo':sen}.</
       <column name="synonyms"></column>
       <column name="antonyms"></column>
       <column name="see_also">{bo:n}, {tel:n}, {neb:n:1}, {pach:n}, {laq:v}, {puv:v}, {ngun:v}, {Saq:v}, {tlhot:v}, {wom:v}</column>
-      <column name="notes">Types of birds include: {borghel:n}, {cha'bIp:n}, {cha'Do':n}, {cha'naS:n}, {cha'par:n}, {cha'qu':n}, {Da'nal:n}, {Da'vI':n}, {jentu':n}, {lIr:n}, {lotlhmoq:n}, {notqa':n}, {parbIng:n}, {qanraD:n}, {qaryoq:n}, {qaryoq'a':n}, {qa'rol:n}, {ramjep:n:2}, {raw':n}, {toQ:n}, {vem'eq:n}, {vIlInHoD:n}, {waqboch:n}, {yatqap:n}, {'uSgheb:n}, and possibly {qISa'ruj:n}.</column>
+      <column name="notes">Types of birds include: {borghel:n}, {cha'bIp:n}, {cha'Do':n}, {cha'naS:n}, {cha'par:n}, {cha'qu':n}, {Da'nal:n}, {Da'vI':n}, {jentu':n}, {lIr:n}, {lotlhmoq:n}, {notqa':n}, {parbIng:n}, {qanraD:n}, {qaryoq:n}, {qaryoq'a':n}, {qa'rol:n}, {ramjep:n:2}, {raw':n}, {toQ:n}, {vem'eq:n}, {vIlInHoD:n}, {waqboch:n}, {yatqap:n}, {'apuStoQ:n}, {'uSgheb:n}, and possibly {qISa'ruj:n}.</column>
       <column name="notes_de">Weitere Vögel sind: {borghel:n}, {cha'bIp:n}, {cha'Do':n}, {cha'naS:n}, {cha'par:n}, {cha'qu':n}, {Da'nal:n}, {Da'vI':n}, {jentu':n}, {lIr:n}, {lotlhmoq:n}, {notqa':n}, {parbIng:n}, {qanraD:n}, {qaryoq:n}, {qaryoq'a':n}, {qa'rol:n}, {ramjep:n:2}, {raw':n}, {toQ:n}, {vem'eq:n}, {vIlInHoD:n}, {waqboch:n}, {yatqap:n}, {'uSgheb:n}, und eventuell auch {qISa'ruj:n}.</column>
       <column name="hidden_notes">The Alfred Hitchcock movie "The Birds" takes place in Bodega Bay.</column>
       <column name="components"></column>
@@ -4541,7 +4541,7 @@ The Story of the Promise states that:
       <column name="examples_de"></column>
       <column name="search_tags"></column>
       <column name="search_tags_de"></column>
-      <column name="source">[1] {Klingon Monopoly:src}, [2] {paq'batlh:src}</column>
+      <column name="source">[1] {Klingon Monopoly:src}</column>
     </table>
     <table name="mem">
       <!-- Checked on: 2016.07.25. -->
