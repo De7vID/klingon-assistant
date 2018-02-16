@@ -245,6 +245,12 @@
     <string name="kwotd_one_off_job_failed">Failed to fetch KWOTD from KAG server.</string>
     <string name="kwotd_notification_channel_name">Klingon Word of the Day</string>
 
+    <!-- Features in development. -->
+    <string name="account_register">Sign up for an account</string>
+    <string name="account_exists">Account already exists</string>
+    <string name="account_login">Log in</string>
+    <string name="account_logout">Log out</string>
+
     <!-- From the generated app, can probably delete. -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
