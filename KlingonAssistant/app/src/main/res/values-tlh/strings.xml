@@ -63,6 +63,7 @@
     <string name="no_results"><![CDATA[&lt;<b>%s</b>&gt; Sambe\'lu\'.]]></string>
 
     <!-- Other menu items. -->
+    <string name="menu_lessons">ghojmeH mIw</string>
     <string name="menu_kwotd">DaHjaj mu\'</string>
     <string name="menu_about">boQwI\' - QaH</string>
     <string name="menu_preferences">DuH DamaSbogh</string>
@@ -72,13 +73,13 @@
     <string name="menu_prefix_chart">moHaq DaH</string>
     <string name="menu_noun_suffixes">DIp mojaq</string>
     <string name="menu_verb_suffixes">wot mojaq</string>
-    <string name="menu_sources">Halmey</string>
+    <string name="menu_sources">nompuqmey</string>
     <string name="menu_phrases">mu\'tlheghmey lI\'</string>
     <string name="menu_lists">tetlhmey</string>
     <string name="menu_media">muchmey</string>
     <string name="menu_social">nugh</string>
     <string name="menu_kli">tlhIngan Hol yejHaD</string>
-    <string name="menu_kli_lessons">Hol paQDI\'norgh</string>
+    <string name="menu_kli_lessons">ghojmeH mIw bonlu\'pu\'bogh</string>
     <string name="menu_kli_questions">yIghel!</string>
     <!--
     <string name="menu_kli_discord">DISqorD</string>
@@ -128,5 +129,19 @@
     <!-- Lists. -->
     <string name="list_names">pongmey</string>
     <string name="list_places">Daqmey</string>
+
+    <!-- Strings for the Preferences settings. -->
+    <string name="klingon_assistant_settings">boQwI\' SeHlaw</string>
+
+    <!-- Bottom navigation menu. -->
+    <string name="menu_previous">vorgh</string>
+    <string name="menu_random">SuD</string>
+    <string name="menu_next">veb</string>
+
+    <!-- Features in development. -->
+    <string name="account_register">mab qI\'</string>
+    <string name="account_exists">mabvam qI\'lu\'ta\'</string>
+    <string name="account_login">ngaQHa\'moH</string>
+    <string name="account_logout">ngaQmoH</string>
 
 </resources>
