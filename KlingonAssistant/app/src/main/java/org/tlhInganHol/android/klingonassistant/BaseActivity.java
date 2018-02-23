@@ -70,7 +70,7 @@ public class BaseActivity extends AppCompatActivity
   protected static final String QUERY_FOR_ABOUT = "boQwI':n";
 
   // Help pages.
-  private static final String QUERY_FOR_PRONUNCIATION = "QIch:n";
+  private static final String QUERY_FOR_PRONUNCIATION = "QIch wab Ho'DoS:n";
   private static final String QUERY_FOR_PREFIXES = "moHaq:n";
   private static final String QUERY_FOR_NOUN_SUFFIXES = "DIp:n";
   private static final String QUERY_FOR_VERB_SUFFIXES = "wot:n";
