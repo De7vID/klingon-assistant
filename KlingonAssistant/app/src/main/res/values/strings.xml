@@ -220,24 +220,6 @@
     <string name="exit_lesson_yes">Yes</string>
     <string name="exit_lesson_no">No</string>
 
-    <!-- Strings for the ShowcaseView tutorial. -->
-    <!--
-    <string name="tutorial_1_title">qavan! (I salute you!)</string>
-    <string name="tutorial_1_msg">This tutorial gives a brief overview of boQwI\'.\n\n* Latest changes *\n2014-12-17: Added words from K.R.A. DeCandido.\n2014-12-02: color-coded parts of speech, bug fixes, show Klingon font in more places.\n2014-11-16: new vocab from qepHom\'a\' 2014.</string>
-    <string name="tutorial_2_title">Search</string>
-    <string name="tutorial_2_msg">Use this to search the database. You can search using Klingon or English.</string>
-    <string name="tutorial_3_title">Resources</string>
-    <string name="tutorial_3_msg">Tap here (or swipe right) to open the resources menu. Here, you\'ll find helpful charts, useful phrases, and links to media.</string>
-    <string name="tutorial_4_title">Social</string>
-    <string name="tutorial_4_msg">Interact with other Klingon learners and speakers on Google+ or Facebook.</string>
-    <string name="tutorial_5_title">Other features</string>
-    <string name="tutorial_5_msg">Use the menu button to access other features.</string>
-    <string name="tutorial_6_title">Even more features</string>
-    <string name="tutorial_6_msg">Want to hear what a Klingon word or phrase sounds like? Use the "speak" button. (Requires Klingon Text-To-Speech engine.)\n\nReading a long text in Klingon (like Hamlet)?</string>
-    <string name="tutorial_7_title">Qapla\'! (Success!)</string>
-    <string name="tutorial_7_msg">For advanced users, there are more settings under the Preferences menu.</string>
-    -->
-
     <!-- KWOTD notification. -->
     <string name="kwotd_footer"><![CDATA[Klingon Word of the Day brought to you by <b>Hol \'ampaS</b>]]></string>
     <string name="kwotd_requires_internet">KWOTD will be fetched when an Internet connection is available.</string>
