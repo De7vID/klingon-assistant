@@ -8,5 +8,8 @@ build/
 captures/
 .externalNativeBuild
 
+# Don't store the binary of the database.
+app/src/main/assets/qawHaq.db
+
 # Unexclude specific jar
 !gradle/wrapper/gradle-wrapper.jar

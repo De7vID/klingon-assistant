@@ -60,7 +60,8 @@ then
 fi
 
 # Create db binary.
-git checkout ../app/src/main/assets/qawHaq.db
+# Note: qawHaq.db was removed from the repository due to size.
+# git checkout ../app/src/main/assets/qawHaq.db
 if [[ -f ../app/src/main/assets/qawHaq.db ]]
 then
     if [[ ! $NONINTERACTIVE ]]
