@@ -180,24 +180,6 @@
     <string name="warning_hypothetical">Achtung: Dieser Eintrag ist hypothetisch. Vorsichtig benutzen!</string>
     <string name="warning_extended_canon">Achtung: Dieses Wort stammt aus erweitertem Kanon. Vorsichtig benutzen!</string>
 
-    <!-- Strings for the ShowcaseView tutorial. -->
-    <!--
-    <string name="tutorial_1_title">qavan! (Ich grüße dir!)</string>
-    <string name="tutorial_1_msg">Dieses Tutorial wird dich kurz durch den boQwI\' leiten.\n\n* neueste Änderungen *\n2014-12-17: Added words from K.R.A. DeCandido.\n2014-12-02: color-coded parts of speech, bug fixes, show Klingon font in more places.\n2014-11-16: new vocab from qepHom\'a\' 2014.</string>
-    <string name="tutorial_2_title">Suche</string>
-    <string name="tutorial_2_msg">Durchsuche die Datenbank auf Englisch oder Klingonisch.</string>
-    <string name="tutorial_3_title">Ressourcen</string>
-    <string name="tutorial_3_msg">Tippe hier um das Resourcen-Menü zu öffen. Dort findest du nützliche Tabellen, Sätze und Links zu verschiedenen Medien.</string>
-    <string name="tutorial_4_title">Soziale Netzwerke</string>
-    <string name="tutorial_4_msg">Kommuniziere mit anderen Klingonisch-Schülern und -Experten in der Google+ Klingonisch-Community.\n\nMöchtest du etwas übersetzen, was nicht in der Datenbank steht? Dann Frage den Klingonischlehrer Lieven L. Litaer.</string>
-    <string name="tutorial_5_title">Andere Funktionen</string>
-    <string name="tutorial_5_msg">Benutze den Menü-Button für weitere Funktionen.</string>
-    <string name="tutorial_6_title">Noch mehr Funktionen</string>
-    <string name="tutorial_6_msg">Willst du hören, wie sich ein Wort anhört? Nutze den "Vorlese"-Button. (benötigt Klingonische Text-To-Speech engine.)\n\nLiest du einen langen Text auf Klingonisch (wie Hamlet)?</string>
-    <string name="tutorial_7_title">Qapla\'! (Erfolg!)</string>
-    <string name="tutorial_7_msg">Fortgeschrittene Nutzer finden weitere Optionen im Einstellungs-Menü.</string>
-    -->
-
     <!-- KWOTD notification, or KWDT as it is abbreviated in German. -->
     <string name="kwotd_footer"><![CDATA[Das klingonische Wort des Tages wird durch <b>Hol \'ampaS</b> bereitgestellt.]]></string>
     <string name="kwotd_requires_internet">KWDT wird abgerufen sobald eine Internetverbindung verfügbar ist.</string>
