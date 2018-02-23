@@ -61,7 +61,7 @@ public class BaseActivity extends ActionBarActivity implements SlideMenuAdapter.
       "org.tlhInganHol.android.klingonassistant.activePosition";
 
   // Help pages.
-  private static final String QUERY_FOR_PRONUNCIATION = "QIch:n";
+  private static final String QUERY_FOR_PRONUNCIATION = "QIch wab Ho'DoS:n";
   private static final String QUERY_FOR_PREFIXES = "moHaq:n";
   private static final String QUERY_FOR_NOUN_SUFFIXES = "DIp:n";
   private static final String QUERY_FOR_VERB_SUFFIXES = "wot:n";
