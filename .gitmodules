@@ -1,3 +1,6 @@
 [submodule "KlingonAssistant/data"]
 	path = KlingonAssistant/data
 	url = https://github.com/De7vID/klingon-assistant-data
+[submodule "KlingonTtsEngine"]
+	path = KlingonTtsEngine
+	url = https://github.com/De7vID/klingon-assistant-tts-android
