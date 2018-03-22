@@ -7,3 +7,6 @@
 [submodule "KlingonAssistant"]
 	path = KlingonAssistant
 	url = https://github.com/De7vID/klingon-assistant-android
+[submodule "qawHaq"]
+	path = qawHaq
+	url = https://github.com/De7vID/qawHaq
