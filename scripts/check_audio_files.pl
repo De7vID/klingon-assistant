@@ -44,7 +44,9 @@ foreach my $e (@{$data->{database}->{mem}})
   $condensed =~ s/tlh/x/g;
   $condensed =~ s/'/z/g;
   $condensed =~ s/Q/k/g;
+  # Convert to lower-case and right trim.
   $condensed = lc $condensed;
+  $condensed =~ s/\s+$//;
 
   # keep stripping syllables off the end
   while ($condensed =~ /(.*)([^aeiou][aeiou][^aeiou]*)/) {
