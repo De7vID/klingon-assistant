@@ -44,7 +44,9 @@ foreach my $e (@{$data->{database}->{mem}})
   $condensed =~ s/tlh/x/g;
   $condensed =~ s/'/z/g;
   $condensed =~ s/Q/k/g;
+  # Convert to lower-case and right trim.
   $condensed = lc $condensed;
+  $condensed =~ s/\s+$//;
 
   # keep stripping syllables off the end
   while ($condensed =~ /(.*)([^aeiou][aeiou][^aeiou]*)/) {
@@ -133,7 +135,7 @@ unless ( $java_file =~ s/(BEGIN: MAIN_SYLLABLE_TO_AUDIO_MAP\n).*(^\s+\/\/ END: M
 $full_syllables_count = keys %full_syllables;
 
 # Write to the Java file.
-write_file $java_file_name, {binmode => ':utf8'}, $java_file;
+write_file $java_file_name, $java_file;
 print "Wrote: ", $front_half_count, " front half syllables, ",
                  $short_syllables_count, " short syllables, and ",
                  $full_syllables_count, " full syllables.\n";
