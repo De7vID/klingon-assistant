@@ -35,12 +35,17 @@ foreach my $e (@{$data->{database}->{mem}})
 {
   # First, save entries which are just full sentences, except for certain special ones.
   if (($e->{part_of_speech} =~ m/^sen:/) && ($e->{definition} !~ m/\.\.\.|\(|\{/)) {
-    print {$GV} $e->{definition}, "=", $e->{entry_name}, "\n";
+    print {$GV} $e->{entry_name}, " = ", $e->{definition}, "\n";
   }
 
   # Next, process verbs.
   if ($e->{part_of_speech} =~ m/^v:/) {
-    print $e->{definition}, "=", $e->{entry_name}, "\n";
+    print {$GV} $e->{entry_name}, " = v. ", $e->{definition}, "\n";
+  }
+
+  # Process nouns.
+  if ($e->{part_of_speech} =~ m/^n:/) {
+    print {$GV} $e->{entry_name}, " = n. ", $e->{definition}, "\n";
   }
 }
 close($GV);
