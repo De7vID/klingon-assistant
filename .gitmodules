@@ -10,3 +10,6 @@
 [submodule "qawHaq"]
 	path = qawHaq
 	url = https://github.com/De7vID/qawHaq
+[submodule "FlingonAssister"]
+	path = FlingonAssister
+	url = https://github.com/dadap/flingon-assister
