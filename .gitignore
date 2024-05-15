@@ -28,5 +28,8 @@ proguard/
 # Included libraries
 *.jar
 
+# Virtual environment (needed for Python scripts)
+.venv
+
 # Keystore
 keystore.properties
