@@ -26,7 +26,7 @@ $data = $xml->XMLin($sm_export, suppressempty => '');
 # print Dumper($sm_export);
 
 # Declare the output files.
-my $generated_verbatim="generated/verbatim.txt";
+my $generated_verbatim="generated/pairs/verbatim.txt";
 my $GV;
 open($GV, '>', $generated_verbatim);
 
